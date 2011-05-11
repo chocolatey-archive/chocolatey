@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<hibernate-configuration  xmlns="urn:nhibernate-configuration-2.2" >
+	<session-factory name="NHibernate.Test">
+		<property name="connection.provider">NHibernate.Test.DebugConnectionProvider, NHibernate.Test</property>
+		<property name="cache.provider_class">NHibernate.Cache.HashtableCacheProvider, NHibernate</property>
+		<property name="connection.driver_class">NHibernate.Driver.SqlClientDriver</property>
+		<property name="connection.connection_string">Server=localhost;initial catalog=nhibernate;User Id=;Password=</property>
+		<property name="query.substitutions">true 1, false 0, yes 1, no 0</property>
+		<property name="dialect">NHibernate.Dialect.MsSql2000Dialect</property>
+	</session-factory>
+</hibernate-configuration>

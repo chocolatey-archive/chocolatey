@@ -1,0 +1,30 @@
+
+**********************************************
+WE'RE SORRY!
+Ruby not installed?
+**********************************************
+
+It appears you do not have Ruby installed.
+This project uses the "Rake" build system from Ruby.
+
+If you *DO* have Ruby installed, please make sure the
+Ruby\bin folder is in your PATH.
+
+If you *DON'T* have Ruby installed then, in order to 
+run "Rake", please perform the following steps:
+
+ 1.) Download and install Ruby 1.8.6 (or later -- 
+     "1.8.6. One-Click installer recommended for Windows)
+
+     - Main Download URL: 
+     http://www.ruby-lang.org/en/downloads/
+
+     - 1.8.6 One-Click installer: 
+     http://rubyforge.org/frs/download.php/29263/ruby186-26.exe
+     (md5: 00540689d1039964bc8d844b2b0c7db6)
+
+
+ 2.) Install the Rake "Gem" and related "Gems" by running 
+     InstallGems.bat in the same folder as this Build.bat file
+
+**********************************************

@@ -1,0 +1,1271 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NHibernate.DomainModel</name>
+    </assembly>
+    <members>
+        <member name="T:NHibernate.DomainModel.NHSpecific.AuditComponent">
+            <summary>
+            Summary description for AuditComponent.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.BasicClass">
+            <summary>
+            Summary description for BasicClass.
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.NHSpecific.BasicClass.ValueOfPrivateField">
+            <summary>
+            
+            </summary>
+            <remarks>
+            NHibernate knows nothing about this Property.  This Property
+            is provided so the Test Fixtures can set and get the value of the
+            field <c>_privateField</c> to make sure that NHibernate is reading
+            and writing the field correctly.
+            </remarks>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.BasicObject">
+            <summary>
+            Used to test how NHibernate handles mappings for type="Object"
+            and type="Any"
+            </summary>
+            <remarks>
+            This class is used in two hbm.xml files.
+            </remarks>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.BasicObjectRef">
+            <summary>
+            Summary description for BasicObject.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.BasicSerializable">
+            <summary>
+            Summary description for BasicSerializable.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.BasicTime">
+            <summary>
+            Summary description for BasicTime.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.Child">
+            <summary>
+            Summary description for Child.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.ClassWithNullColumns">
+            <summary>
+            Summary description for ClassWithNullColumns.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.GetSetHelper">
+            <summary>
+            Test the ability of CodeDOM bytecode provider to generate code that
+            can set a value type from a null.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.InvalidProxyClass">
+            <summary>
+            A class that cannot be used with lazy="true" if proxy validation
+            is enabled.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.LLParent">
+            <summary>
+            Summary description for LLParent.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.LLChild">
+            <summary>
+            Summary description for LLChild.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.LLChildNoAdd">
+            <summary>
+            Summary description for LLChild.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.Node">
+            <summary>
+            Summary description for Node.
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.NHSpecific.Node.AddDestinationNode(NHibernate.DomainModel.NHSpecific.Node)">
+            <summary>
+            This is the only way to hook nodes together right now.
+            </summary>
+            <param name="node">A Node this Node can go to.</param>
+        </member>
+        <member name="P:NHibernate.DomainModel.NHSpecific.Node.PreviousNodes">
+            <summary>
+            The Nodes that lead into this Node.
+            </summary>
+            <remarks>
+            I would not recommend that mapping of set be made public because
+            under the scene they rely on Dictionaries, but this is in here for 
+            testing.
+            
+            Any modifications to the "inverse" side should not be persisted - unless
+            the modifications are also made to the non-inverse side.
+            </remarks>
+        </member>
+        <member name="P:NHibernate.DomainModel.NHSpecific.Node.DestinationNodes">
+            <summary>
+            The Nodes this Node can go To.
+            </summary>
+            <remarks>
+            I would not recommend that mapping of set be made public because
+            under the scene they rely on Dictionaries, but this is in here for 
+            testing.  The DestinationNodes is the Property that controls which 
+            modifications get persisted.
+            </remarks>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.NullableInt32">
+            <summary>
+            A nullable type that wraps an <see cref="T:System.Int32"/> value.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.NullableInt32Type">
+            <summary>
+            A NHibernate <see cref="T:NHibernate.Type.IType"/> for a <see cref="T:NHibernate.DomainModel.NHSpecific.NullableInt32"/>.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.NullableTypesType">
+            <summary>
+            Abstract type used for implementing NHibernate <see cref="T:NHibernate.Type.IType"/>s for 
+            the Nullables library.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.NullInt32UserType">
+            <summary>
+            Converts a value of 0 to a DbNull
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.Optimistic">
+            <summary>
+            Class mapped with optimistic-lock="all"
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.Parent">
+            <summary>
+            Summary description for Parent.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.ParentComparer">
+            <summary>
+            Summary description for ParentComparer.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.SexType">
+            <summary>
+            Summary description for SexType.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.SimpleComponent">
+            <summary>
+            Summary description for SimpleComponent.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.Team">
+            <summary>
+            Summary description for Team.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.NHSpecific.UnsavedType">
+            <summary>
+            Summary description for UnsavedType.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.A">
+            <summary>
+            POCO for A
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.A._id">
+            <summary>
+            Holder for id
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.A._name">
+            <summary>
+            Holder for name
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.A._anotherName">
+            <summary>
+            Holder for anotherName
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.A._forward">
+            <summary>
+            Holder for forward
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.A.#ctor">
+            <summary>
+            Default constructor for class A
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.A.#ctor(System.String)">
+            <summary>
+            Constructor for class A
+            </summary>
+            <param name="name">Initial name value</param>
+        </member>
+        <member name="P:NHibernate.DomainModel.A.Id">
+            <summary>
+            Get/set for id
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.A.Name">
+            <summary>
+            Get/set for name
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.A.AnotherName">
+            <summary>
+            Get/set for anotherName
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Foo">
+            <summary>
+            POJO for Foo
+            </summary>
+            <remark>
+            This class is autogenerated
+            </remark>
+        </member>
+        <member name="M:NHibernate.DomainModel.Foo.#ctor">
+            <summary>
+            Default constructor for class Foo
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Key">
+            <summary>
+            Get/set for key
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Long">
+            <summary>
+            Get/set for long
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Integer">
+            <summary>
+            Get/set for integer
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Float">
+            <summary>
+            Get/set for float
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.X">
+            <summary>
+            Get/set for x
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Date">
+            <summary>
+            Get/set for date
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Timestamp">
+            <summary>
+            Get/set for timestamp
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Boolean">
+            <summary>
+            Get/set for boolean
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Bool">
+            <summary>
+            Get/set for bool
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Null">
+            <summary>
+            Get/set for null
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Short">
+            <summary>
+            Get/set for short
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Char">
+            <summary>
+            Get/set for char
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Zero">
+            <summary>
+            Get/set for zero
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Int">
+            <summary>
+            Get/set for int
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.String">
+            <summary>
+            Get/set for string
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Byte">
+            <summary>
+            Get/set for byte
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.YesNo">
+            <summary>
+            Get/set for yesno
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Status">
+            <summary>
+            Get/set for status
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Locale">
+            <summary>
+            Get/set for locale
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Formula">
+            <summary>
+            Get/set for formula
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Custom">
+            <summary>
+            Get/set for custom
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Version">
+            <summary>
+            Get/set for version
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.TheFoo">
+            <summary>
+            Get/set for foo
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Dependent">
+            <summary>
+            Get/set for dependent
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Foo.Component">
+            <summary>
+            Gets or sets the component
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Abstract.Time">
+            <summary>
+            Gets or sets the _time
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Abstract.Abstracts">
+            <summary>
+            Gets or sets the _abstract
+            </summary> 
+        </member>
+        <member name="T:NHibernate.DomainModel.Assignable">
+            <summary>
+            Summary description for Assignable.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.B">
+            <summary>
+            POJO for B
+            </summary>
+            <remark>
+            This class is autogenerated
+            </remark>
+        </member>
+        <member name="F:NHibernate.DomainModel.B._count">
+            <summary>
+            Holder for count
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.B._map">
+            <summary>
+            Holder for map
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.B.#ctor">
+            <summary>
+            Default constructor for class B
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.B.#ctor(System.String,System.Int32,System.Collections.IDictionary)">
+            <summary>
+            Constructor for class B
+            </summary>
+            <param name="name">Initial name value</param>
+            <param name="count">Initial count value</param>
+            <param name="map">Initial map value</param>
+        </member>
+        <member name="M:NHibernate.DomainModel.B.#ctor(System.Collections.IDictionary)">
+            <summary>
+            Minimal constructor for class B
+            </summary>
+            <param name="map">Initial map value</param>
+        </member>
+        <member name="P:NHibernate.DomainModel.B.Count">
+            <summary>
+            Get/set for count
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.B.Map">
+            <summary>
+            Get/set for map
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Bar.X">
+            <summary>
+            Gets or sets the X
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Bar.BarString">
+            <summary>
+            Gets or sets the _barString
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Bar.BarComponent">
+            <summary>
+            Gets or sets the _barComponent
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Bar.Baz">
+            <summary>
+            Gets or sets the _baz
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Bar.Name">
+            <summary>
+            Gets or sets the _name
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Bar.Object">
+            <summary>
+            Gets or sets the _object
+            </summary> 
+        </member>
+        <member name="T:NHibernate.DomainModel.BasicNameable">
+            <summary>
+            Summary description for BasicNameable.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.INameable">
+            <summary>
+            Summary description for INameable.
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.Baz.#ctor">
+            <summary>
+            Default constructor for class Baz
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.CollectionComponent">
+            <summary>
+            Gets or sets the _collectionComponent
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Code">
+            <summary>
+            Get/set for Code
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Count">
+            <summary>
+            Get/set for count
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Name">
+            <summary>
+            Get/set for name
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Foo">
+            <summary>
+            Get/set for Foo
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.StringList">
+            <summary>
+            Get/set for stringList
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Fees">
+            <summary>
+            Get/set for fees
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Customs">
+            <summary>
+            Get/set for customs
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.TopComponents">
+            <summary>
+            Get/set for topComponents
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.FooToGlarch">
+            <summary>
+            Get/set for fooToGlarch
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.FooComponentToFoo">
+            <summary>
+            Get/set for fooComponentToFoo
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.GlarchToFoo">
+            <summary>
+            Get/set for glarchToFoo
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.StringDateMap">
+            <summary>
+            Get/set for stringDateMap
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.TopGlarchez">
+            <summary>
+            Get/set for topGlarchez
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.CachedMap">
+            <summary>
+            Get/set for cachedMap
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.StringGlarchMap">
+            <summary>
+            Get/set for stringGlarchMap
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.AnyToAny">
+            <summary>
+            Get/set for anyToAny
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.ManyToAny">
+            <summary>
+            Get/set for manyToAny
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.IntArray">
+            <summary>
+            Gets or sets the intArray
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Components">
+            <summary>
+            Gets or sets the _components
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.TimeArray">
+            <summary>
+            Gets or sets the timeArray
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.StringArray">
+            <summary>
+            Gets or sets the stringArray
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.FooArray">
+            <summary>
+            Gets or sets the fooArray
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.FooSet">
+            <summary>
+            Get/set for fooSet
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.StringSet">
+            <summary>
+            Get/set for stringSet
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.TopFoos">
+            <summary>
+            Get/set for topFoos
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.CascadingBars">
+            <summary>
+            Get/set for cascadingBars
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Cached">
+            <summary>
+            Get/set for cached
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Sortablez">
+            <summary>
+            Get/set for sortablez
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Bag">
+            <summary>
+            Get/set for bag
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.FooBag">
+            <summary>
+            Get/set for fooBag
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Bazez">
+            <summary>
+            Get/set for bazez
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.IdFooBag">
+            <summary>
+            Get/set for idFooBag
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.ByteBag">
+            <summary>
+            Get/set for byteBag
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Baz.Parts">
+            <summary>
+            Get/set for parts
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Blobber">
+            <summary>
+            Summary description for Blobber.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.C1">
+            <summary>
+            POJO for C1
+            </summary>
+            <remark>
+            This class is autogenerated
+            </remark>
+        </member>
+        <member name="F:NHibernate.DomainModel.C1._address">
+            <summary>
+            Holder for address
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.C1._d">
+            <summary>
+            Holder for d
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.C1._c2">
+            <summary>
+            Holder for c2
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.C1._c2s">
+            <summary>
+            Holder for c2s
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.C1.#ctor">
+            <summary>
+            Default constructor for class C1
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.C1.#ctor(System.String,System.Int32,System.Collections.IDictionary,System.String,NHibernate.DomainModel.D)">
+            <summary>
+            Constructor for class C1
+            </summary>
+            <param name="name">Initial name value</param>
+            <param name="count">Initial count value</param>
+            <param name="map">Initial map value</param>
+            <param name="address">Initial address value</param>
+            <param name="d">Initial d value</param>
+        </member>
+        <member name="M:NHibernate.DomainModel.C1.#ctor(System.Collections.IDictionary)">
+            <summary>
+            Minimal constructor for class C1
+            </summary>
+            <param name="map">Initial map value</param>
+        </member>
+        <member name="P:NHibernate.DomainModel.C1.Address">
+            <summary>
+            Get/set for address
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.C1.D">
+            <summary>
+            Get/set for d
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.C2">
+            <summary>
+            POJO for C2
+            </summary>
+            <remark>
+            This class is autogenerated
+            </remark>
+        </member>
+        <member name="F:NHibernate.DomainModel.C2._address">
+            <summary>
+            Holder for address
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.C2._c1">
+            <summary>
+            Holder for c1
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.C2._c1s">
+            <summary>
+            Holder for c1s
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.C2.#ctor">
+            <summary>
+            Default constructor for class C2
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.C2.#ctor(System.String,System.Int32,System.Collections.IDictionary,System.String)">
+            <summary>
+            Constructor for class C2
+            </summary>
+            <param name="name">Initial name value</param>
+            <param name="count">Initial count value</param>
+            <param name="map">Initial map value</param>
+            <param name="address">Initial address value</param>
+        </member>
+        <member name="M:NHibernate.DomainModel.C2.#ctor(System.Collections.IDictionary)">
+            <summary>
+            Minimal constructor for class C2
+            </summary>
+            <param name="map">Initial map value</param>
+        </member>
+        <member name="P:NHibernate.DomainModel.C2.Address">
+            <summary>
+            Get/set for address
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Category">
+            <summary>
+            Summary description for Category.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Child">
+            <summary>
+            Summary description for Child.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Circular">
+            <summary>
+            Summary description for Circular.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Component">
+            <summary>
+            Summary description for Component.
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.ComponentCollection._foos">
+            <summary>
+            Holds the _foos
+            </summary> 
+        </member>
+        <member name="F:NHibernate.DomainModel.ComponentCollection._str">
+            <summary>
+            Holds the _str
+            </summary> 
+        </member>
+        <member name="F:NHibernate.DomainModel.ComponentCollection._floats">
+            <summary>
+            Holds the _floats
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.ComponentCollection.Foos">
+            <summary>
+            Gets or sets the _foos
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.ComponentCollection.Str">
+            <summary>
+            Gets or sets the _str
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.ComponentCollection.Floats">
+            <summary>
+            Gets or sets the _floats
+            </summary> 
+        </member>
+        <member name="T:NHibernate.DomainModel.Componentizable">
+            <summary>
+            Summary description for Componentizable.
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.CompositeElement.#ctor">
+            <summary>
+            Default constructor for class CompositeElement
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.CompositeElement.#ctor(System.String,System.String)">
+            <summary>
+            Constructor for class CompositeElement
+            </summary>
+            <param name="foo">Initial foo value</param>
+            <param name="bar">Initial bar value</param>
+        </member>
+        <member name="P:NHibernate.DomainModel.CompositeElement.Foo">
+            <summary>
+            Get/set for foo
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.CompositeElement.Bar">
+            <summary>
+            Get/set for bar
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Contained">
+            <summary>
+            Summary description for Contained.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Custom">
+            <summary>
+            Summary description for Custom.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.CustomPersister">
+            <summary>
+            Summary description for CustomPersister.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.D">
+            <summary>
+            POCO for D
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.D.#ctor">
+            <summary>
+            Default constructor for class D
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.D.#ctor(System.Int64,System.Double)">
+            <summary>
+            Constructor for class D
+            </summary>
+            <param name="id">Initial id value</param>
+            <param name="amount">Initial amount value</param>
+        </member>
+        <member name="M:NHibernate.DomainModel.D.#ctor(System.Int64)">
+            <summary>
+            Minimal constructor for class D
+            </summary>
+            <param name="id">Initial id value</param>
+        </member>
+        <member name="P:NHibernate.DomainModel.D.Id">
+            <summary>
+            Get/set for id
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.D.Amount">
+            <summary>
+            Get/set for Amount
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Detail">
+            <summary>
+            Summary description for Detail.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Down">
+            <summary>
+            Summary description for Down.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Up">
+            <summary>
+            Summary description for Up.
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.Up.Equals(System.Object)">
+            <summary>
+            
+            </summary>
+            <param name="other"></param>
+            <returns></returns>
+            <remarks>This is important, otherwise the Identifier and Instance don't match inside SessionImpl</remarks>
+        </member>
+        <member name="T:NHibernate.DomainModel.E">
+            <summary>
+            POCO for E
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.E.Id">
+            <summary>
+            Get/set for id
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.E.Amount">
+            <summary>
+            Get/set for Amount
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Eye">
+            <summary>
+            Summary description for Eye.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.FooComponent">
+            <summary>
+            POJO for FooComponent
+            </summary>
+            <remark>
+            This class is autogenerated
+            </remark>
+        </member>
+        <member name="F:NHibernate.DomainModel.FooComponent._name">
+            <summary>
+            Holder for name
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.FooComponent._count">
+            <summary>
+            Holder for count
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.FooComponent.#ctor">
+            <summary>
+            Default constructor for class FooComponent
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.FooComponent.#ctor(System.String,System.Int32)">
+            <summary>
+            Constructor for class FooComponent
+            </summary>
+            <param name="name">Initial name value</param>
+            <param name="count">Initial count value</param>
+        </member>
+        <member name="P:NHibernate.DomainModel.FooComponent.Name">
+            <summary>
+            Get/set for name
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.FooComponent.Count">
+            <summary>
+            Get/set for count
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Fumm">
+            <summary>
+            Summary description for Fumm.
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.Next">
+            <summary>
+            Gets or sets the _next
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.Order">
+            <summary>
+            Gets or sets the _order
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.Strings">
+            <summary>
+            Gets or sets the _strings
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.StringSets">
+            <summary>
+            Gets or sets the _stringSets
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.FooComponents">
+            <summary>
+            Gets or sets the _fooComponents
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.ProxyArray">
+            <summary>
+            Gets or sets the _proxyArray
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.ProxySet">
+            <summary>
+            Gets or sets the _proxySet
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.Immutable">
+            <summary>
+            Gets or sets the _immutable
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.DerivedVersion">
+            <summary>
+            Gets or sets the _derivedVersion
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.Any">
+            <summary>
+            Gets or sets the _any
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Glarch.Multiple">
+            <summary>
+            Gets or sets the _multiple
+            </summary> 
+        </member>
+        <member name="T:NHibernate.DomainModel.Holder">
+            <summary>
+            Summary description for Holder.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Immutable">
+            <summary>
+            Summary description for Immutable.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Inner">
+            <summary>
+            Summary description for Inner.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.InnerKey">
+            <summary>
+            Summary description for InnerKey.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Jay">
+            <summary>
+            Summary description for Jay.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Location">
+            <summary>
+            Summary description for Location.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.M">
+            <summary>
+            Summary description for M.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Many">
+            <summary>
+            Summary description for Many.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Master">
+            <summary>
+            Summary description for Master.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Middle">
+            <summary>
+            Summary description for Middle.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.MiddleKey">
+            <summary>
+            Summary description for MiddleKey.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.MoreStuff">
+            <summary>
+            Summary description for MoreStuff.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.N">
+            <summary>
+            Summary description for N.
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.NestingComponent._nested">
+            <summary>
+            Holds the _nested
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.NestingComponent.Nested">
+            <summary>
+            Gets or sets the _nested
+            </summary> 
+        </member>
+        <member name="T:NHibernate.DomainModel.One">
+            <summary>
+            Summary description for One.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Outer">
+            <summary>
+            Summary description for Outer.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.OuterKey">
+            <summary>
+            Summary description for OuterKey.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Parent">
+            <summary>
+            Summary description for Parent.
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.Foo">
+            <summary>
+            Gets or sets the _foo
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.Created">
+            <summary>
+            Gets or sets the _created
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.Deleted">
+            <summary>
+            Gets or sets the _deleted
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.Loaded">
+            <summary>
+            Gets or sets the _loaded
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.Stored">
+            <summary>
+            Gets or sets the _stored
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.Key">
+            <summary>
+            Gets or sets the _key
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.Stuff">
+            <summary>
+            Gets or sets the _stuff
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.Fums">
+            <summary>
+            Gets or sets the _fums (&lt;set&gt;)
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.MoreFums">
+            <summary>
+            Gets or sets the _moreFums
+            </summary> 
+        </member>
+        <member name="P:NHibernate.DomainModel.Qux.ChildKey">
+            <summary>
+            Gets or sets the _childKey
+            </summary> 
+        </member>
+        <member name="T:NHibernate.DomainModel.Result">
+            <summary>
+            Summary description for Result.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Several">
+            <summary>
+            Summary description for Several.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Single">
+            <summary>
+            Summary description for Single.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Sortable">
+            <summary>
+            POJO for Sortable
+            </summary>
+            <remark>
+            This class is autogenerated
+            </remark>
+        </member>
+        <member name="F:NHibernate.DomainModel.Sortable._id">
+            <summary>
+            Holder for id
+            </summary>
+        </member>
+        <member name="F:NHibernate.DomainModel.Sortable._name">
+            <summary>
+            Holder for name
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.Sortable.#ctor">
+            <summary>
+            Default constructor for class Sortable
+            </summary>
+        </member>
+        <member name="M:NHibernate.DomainModel.Sortable.#ctor(System.String)">
+            <summary>
+            Constructor for class Sortable
+            </summary>
+            <param name="name">Initial name value</param>
+        </member>
+        <member name="P:NHibernate.DomainModel.Sortable.id">
+            <summary>
+            Get/set for id
+            </summary>
+        </member>
+        <member name="P:NHibernate.DomainModel.Sortable.name">
+            <summary>
+            Get/set for name
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Stuff">
+            <summary>
+            Summary description for Stuff.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.SubComponent">
+            <summary>
+            Summary description for SubComponent.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.SubDetail">
+            <summary>
+            Summary description for SubDetail.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Vetoer">
+            <summary>
+            Summary description for Vetoer.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.W">
+            <summary>
+            Summary description for W.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.X">
+            <summary>
+            Summary description for X.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Y">
+            <summary>
+            Summary description for Y.
+            </summary>
+        </member>
+        <member name="T:NHibernate.DomainModel.Z">
+            <summary>
+            Summary description for Z.
+            </summary>
+        </member>
+    </members>
+</doc>
