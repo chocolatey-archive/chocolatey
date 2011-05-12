@@ -8,20 +8,20 @@ namespace Chocolatey.Web.Actions.Home
         {
         }
 
-        public HomeOutput Get(HomeInput input)
+        public HomeResponse Get(HomeRequest request)
         {
-            return new HomeOutput();
+            return new HomeResponse();
         }
     }
 
-    public class HomeInput { }
+    public class HomeRequest { }
 
-    public class HomeOutput
+    public class HomeResponse
     {
         public static string Name = "Chocolatey";
     }
     
-    public class Home : FubuPage<HomeOutput>
+    public class Home : FubuPage<HomeResponse>
     {
         
     }

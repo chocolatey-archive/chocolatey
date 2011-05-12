@@ -1,20 +1,11 @@
-<%@ Page Language="C#" inherits="Chocolatey.Web.Actions.Package.List" enableviewstate="false" %>
+<%@ page language="C#" inherits="Chocolatey.Web.Actions.Package.List" masterpagefile="~/Site.Master"
+    enableviewstate="false" %>
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
-
-<script runat="server">
-
-</script>
-
-<html xmlns="http://www.w3.org/1999/xhtml">
-<head runat="server">
-    <title></title>
-</head>
-<body>
-    <form id="html_form" runat="server">
+<asp:content id="header" contentplaceholderid="head" runat="server">
+    <title>Chocolatey Packages, yo!</title>
+</asp:content>
+<asp:content id="main" contentplaceholderid="content" runat="server">
     <div>
-    Yo yo
+        Yo yo, the packages screen
     </div>
-    </form>
-</body>
-</html>
+</asp:content>
