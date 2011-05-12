@@ -57,10 +57,14 @@
     <Compile Include="AppParameters.cs" />
     <Compile Include="Configuration\Booststrapping\ChocolateyCoreRegistry.cs" />
     <Compile Include="Domain\BaseDomainModel.cs" />
+    <Compile Include="Domain\NugetPackageAuthor.cs" />
+    <Compile Include="Domain\NugetPackageDependency.cs" />
+    <Compile Include="Domain\NugetPackageOwner.cs" />
+    <Compile Include="Domain\NugetPackageTag.cs" />
     <Compile Include="Infrastructure\Persistence\AuditEventListener.cs" />
     <Compile Include="Infrastructure\Persistence\IAuditable.cs" />
     <Compile Include="Domain\IDomainModel.cs" />
-    <Compile Include="Domain\NugetNuspec.cs" />
+    <Compile Include="Domain\NugetPackageSpecification.cs" />
     <Compile Include="FileTemplates\NuspecTemplate.cs" />
     <Compile Include="Infrastructure\Persistence\Conventions\PrimaryKeyConvention.cs" />
     <Compile Include="Infrastructure\Persistence\Conventions\StringVarCharConvention.cs" />
@@ -68,7 +72,11 @@
     <Compile Include="Infrastructure\Persistence\NHibernateSessionFactory.cs" />
     <Compile Include="Infrastructure\Persistence\Repository.cs" />
     <Compile Include="Mappings\BaseMap.cs" />
-    <Compile Include="Mappings\NugetNuspecMap.cs" />
+    <Compile Include="Mappings\NugetPackageAuthorMap.cs" />
+    <Compile Include="Mappings\NugetPackageDependencyMap.cs" />
+    <Compile Include="Mappings\NugetPackageOwnerMap.cs" />
+    <Compile Include="Mappings\NugetPackageSpecificationMap.cs" />
+    <Compile Include="Mappings\NugetPackageTagMap.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>

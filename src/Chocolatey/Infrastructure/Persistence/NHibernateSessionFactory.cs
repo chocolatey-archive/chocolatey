@@ -16,9 +16,9 @@ namespace Chocolatey.Infrastructure.Persistence
                              c.FromConnectionStringWithKey(database_config_name)))
                      .Mappings(m =>
                      {
-                         m.FluentMappings.AddFromAssemblyOf<NugetNuspecMap>()
-                            .Conventions.AddFromAssemblyOf<NugetNuspecMap>();
-                         m.HbmMappings.AddFromAssemblyOf<NugetNuspecMap>();
+                         m.FluentMappings.AddFromAssemblyOf<NugetPackageSpecificationMap>()
+                            .Conventions.AddFromAssemblyOf<NugetPackageSpecificationMap>();
+                         m.HbmMappings.AddFromAssemblyOf<NugetPackageSpecificationMap>();
                      })
 
                      .ExposeConfiguration(cfg =>

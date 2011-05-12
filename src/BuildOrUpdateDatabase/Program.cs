@@ -75,7 +75,7 @@
             //Assembly convention_assembly = Assembly.LoadFile(Path.GetFullPath(CONVENTIONS_ASSEMBLY));
 
             //ISessionFactory sf = NHibernateSessionFactory.build_session_factory(db_server, db_name,mapping_assembly,convention_assembly, build_schema);
-            ISessionFactory sf = NHibernateSessionFactory.build_session_factory<NugetNuspecMap, PrimaryKeyConvention>(db_server, db_name, build_schema);
+            ISessionFactory sf = NHibernateSessionFactory.build_session_factory<NugetPackageSpecificationMap, PrimaryKeyConvention>(db_server, db_name, build_schema);
         }
 
         private static void build_schema(Configuration cfg)
@@ -107,7 +107,7 @@
 
         private static void upgrade_database_schema(string db_server, string db_name)
         {
-            ISessionFactory sf = NHibernateSessionFactory.build_session_factory<NugetNuspecMap, PrimaryKeyConvention>(db_server, db_name, update_schema);
+            ISessionFactory sf = NHibernateSessionFactory.build_session_factory<NugetPackageSpecificationMap, PrimaryKeyConvention>(db_server, db_name, update_schema);
         }
 
         public static void update_schema(Configuration cfg)
