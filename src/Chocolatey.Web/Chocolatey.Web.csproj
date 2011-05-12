@@ -86,12 +86,20 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Content Include="Actions\Home\Home.aspx" />
+    <Content Include="Actions\Package\List.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Web.config" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="..\SolutionVersion.cs">
       <Link>Properties\SolutionVersion.cs</Link>
+    </Compile>
+    <Compile Include="Actions\Home\HomeAction.cs">
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Actions\Package\ListAction.cs">
+      <SubType>ASPXCodeBehind</SubType>
     </Compile>
     <Compile Include="Configuration\Bootstrapping\ChocolateyWebCoreRegistry.cs" />
     <Compile Include="Configuration\ChocolateyRegistry.cs" />
