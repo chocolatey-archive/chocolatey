@@ -21,7 +21,6 @@ _ReSharper.*
  
 TestResult.xml
 submit.xml
-SolutionVersion.cs
 
 .fubu-alias
 .fubu-includes
