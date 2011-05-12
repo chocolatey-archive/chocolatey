@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<project name="Settings">
+  <!-- environment settings -->
+  <property name="environment" value="LOCAL" />
+  <!-- servers -->
+  <property name="server.app" value="127.0.0.1" />
+  <property name="server.file" value="127.0.0.1" />
+  <property name="server.msmq" value="localhost" />
+  <property name="server.database" value="(local)" />
+
+  <property name="database.name" value="Chocolatey" />
+  <property name="log.level" value="DEBUG" />
+  <property name="app.user.name" value="__REPLACE__" />
+  <property name="app.user.password" value="__REPLACE__" />
+  <property name="error.emails.to" value="ferventcoder@gmail.com" />
+
+  <!-- base settings -->
+  <property name="project.name" value="chocolatey" overwrite="false" />
+  <property name="repository.path" value="https://github.com/ferventcoder/chocolatey.git" />
+  <property name="folder.app.drop" value="${project.name}" overwrite="false" />
+  <property name="folder.database" value="chocolatey.database" overwrite="false" />
+
+  <!-- database deployment -->
+  <property name="dirs.db" value="..\${folder.database}\chocolatey" />
+  <property name="file.version" value="_BuildInfo.xml" overwrite="false" />
+  <!--property name="file.version" value="somefile.dll" overwrite="false" /-->
+  <property name="connection.string" value="Server=${server.database};Database=chocolatey;Integrated Security=True;" overwrite="false" />
+  <property name="restore.from.path" value="..\${database.name}.bak" overwrite="false" />
+  
+</project>

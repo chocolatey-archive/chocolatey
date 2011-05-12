@@ -51,8 +51,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="..\CommonAssemblyInfo.cs">
-      <Link>Properties\CommonAssemblyInfo.cs</Link>
+    <Compile Include="..\SolutionVersion.cs">
+      <Link>Properties\SolutionVersion.cs</Link>
     </Compile>
     <Compile Include="AppParameters.cs" />
     <Compile Include="Configuration\Booststrapping\ChocolateyCoreRegistry.cs" />
@@ -69,6 +69,7 @@
     <Compile Include="Infrastructure\Persistence\Repository.cs" />
     <Compile Include="Mappings\BaseMap.cs" />
     <Compile Include="Mappings\NugetNuspecMap.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="StringExtensions.cs" />
   </ItemGroup>
   <ItemGroup />
