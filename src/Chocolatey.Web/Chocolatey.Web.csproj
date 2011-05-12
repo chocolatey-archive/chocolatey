@@ -112,6 +112,7 @@
     <ProjectReference Include="..\Chocolatey\Chocolatey.csproj">
       <Project>{FFE4F294-848B-4885-AFD9-803FCEB55519}</Project>
       <Name>Chocolatey</Name>
+      <Private>True</Private>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
