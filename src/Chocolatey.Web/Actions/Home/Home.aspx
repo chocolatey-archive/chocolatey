@@ -1,4 +1,4 @@
-<%@ Page Language="C#" inherits="Chocolatey.Web.Actions.Home.Home" %>
+<%@ Page Language="C#" inherits="Chocolatey.Web.Actions.Home.Home" enableviewstate="false" %>
 <%@ Import Namespace="Chocolatey.Web.Actions.Home" %>
 <%@ Import Namespace="FubuMVC.Core.UI" %>
 <%@ Import Namespace="Chocolatey.Web.Actions.Package" %>
