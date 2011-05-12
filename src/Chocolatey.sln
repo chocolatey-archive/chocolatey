@@ -8,6 +8,14 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chocolatey.Tests", "Chocola
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BuildOrUpdateDatabase", "BuildOrUpdateDatabase\BuildOrUpdateDatabase.csproj", "{C1305F24-71DB-4A49-849F-6D173E34CE43}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chocolatey.Tests.Integration", "Chocolatey.Tests.Integration\Chocolatey.Tests.Integration.csproj", "{36AD3415-41D3-4CF6-BB8E-C9BF8DA744F6}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{FCB88FE4-6AEA-4FD7-85A8-C3BA3A2F25E7}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "database", "database", "{36F356FA-6473-4D20-BD67-566863DE489D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Chocolatey.Database", "..\Chocolatey.Database\Chocolatey.Database.csproj", "{5D8FEAEF-7642-432C-AC22-96BA2D821716}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Build|Any CPU = Build|Any CPU
@@ -39,8 +47,26 @@ Global
 		{C1305F24-71DB-4A49-849F-6D173E34CE43}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C1305F24-71DB-4A49-849F-6D173E34CE43}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C1305F24-71DB-4A49-849F-6D173E34CE43}.Release|Any CPU.Build.0 = Release|Any CPU
+		{36AD3415-41D3-4CF6-BB8E-C9BF8DA744F6}.Build|Any CPU.ActiveCfg = Release|Any CPU
+		{36AD3415-41D3-4CF6-BB8E-C9BF8DA744F6}.Build|Any CPU.Build.0 = Release|Any CPU
+		{36AD3415-41D3-4CF6-BB8E-C9BF8DA744F6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{36AD3415-41D3-4CF6-BB8E-C9BF8DA744F6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{36AD3415-41D3-4CF6-BB8E-C9BF8DA744F6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{36AD3415-41D3-4CF6-BB8E-C9BF8DA744F6}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5D8FEAEF-7642-432C-AC22-96BA2D821716}.Build|Any CPU.ActiveCfg = Release|Any CPU
+		{5D8FEAEF-7642-432C-AC22-96BA2D821716}.Build|Any CPU.Build.0 = Release|Any CPU
+		{5D8FEAEF-7642-432C-AC22-96BA2D821716}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5D8FEAEF-7642-432C-AC22-96BA2D821716}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5D8FEAEF-7642-432C-AC22-96BA2D821716}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5D8FEAEF-7642-432C-AC22-96BA2D821716}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{36AD3415-41D3-4CF6-BB8E-C9BF8DA744F6} = {FCB88FE4-6AEA-4FD7-85A8-C3BA3A2F25E7}
+		{02114887-F177-4178-9824-E2CB8F80F851} = {FCB88FE4-6AEA-4FD7-85A8-C3BA3A2F25E7}
+		{C1305F24-71DB-4A49-849F-6D173E34CE43} = {36F356FA-6473-4D20-BD67-566863DE489D}
+		{5D8FEAEF-7642-432C-AC22-96BA2D821716} = {36F356FA-6473-4D20-BD67-566863DE489D}
 	EndGlobalSection
 EndGlobal

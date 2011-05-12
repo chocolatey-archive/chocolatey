@@ -19,7 +19,7 @@ using System.Security;
 [assembly: AssemblyCompanyAttribute("Fervent Coder Software")]
 [assembly: AssemblyVersionAttribute("0.9.8.1")]
 [assembly: AssemblyFileVersionAttribute("0.9.8.0")]
-[assembly: AssemblyInformationalVersionAttribute("0.9.8.3ab89ef9b0258461d4073b2864dbb80d13f9e104")]
+[assembly: AssemblyInformationalVersionAttribute("0.9.8.b5fd7dbf5fc1548fca702a69abad87e7d61adce4")]
 [assembly: AssemblyTitleAttribute("chocolatey")]
 [assembly: AssemblyProductAttribute("chocolatey")]
 [assembly: AssemblyDescriptionAttribute("chocolatey is like apt-get, but for windows.")]

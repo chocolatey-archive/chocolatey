@@ -37,7 +37,6 @@ namespace Chocolatey.Tests
         }
     }
 
-
     public delegate void MethodThatThrows();
 
     public static class SpecificationExtensions
