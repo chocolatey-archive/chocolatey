@@ -15,25 +15,25 @@ namespace Chocolatey.Web.Actions.Package
         }
 
 
-        public PackageListOutput Get(PackageListInput input)
+        public PackageListResponse Get(PackageListRequest request)
         {
-            var list = _repository.GetAll<NugetPackageSpecification>();
+            var list = _repository.GetAll<NugetPackage>();
 
-            return new PackageListOutput
+            return new PackageListResponse
                        {
                            Packages = list
                        };
         }
     }
 
-    public class PackageListInput {}
+    public class PackageListRequest {}
 
-    public class PackageListOutput
+    public class PackageListResponse
     {
-        public IEnumerable<NugetPackageSpecification> Packages { get; set; }
+        public IEnumerable<NugetPackage> Packages { get; set; }
     }
 
-    public class List : FubuPage<PackageListOutput>
+    public class List : FubuPage<PackageListResponse>
     {
         
     }

@@ -10,6 +10,6 @@
     <div>
         HI!
         <% = HomeResponse.Name %>
-        <% = this.LinkTo(new PackageListInput()).Text("some") %>
+        <% = this.LinkTo(new PackageListRequest()).Text("some") %>
     </div>
 </asp:content>

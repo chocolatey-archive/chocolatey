@@ -43,4 +43,5 @@ namespace Chocolatey.Tests
     }
 
     public class ObservationAttribute : TestAttribute {}
+    public class FactAttribute : TestAttribute {}
 }

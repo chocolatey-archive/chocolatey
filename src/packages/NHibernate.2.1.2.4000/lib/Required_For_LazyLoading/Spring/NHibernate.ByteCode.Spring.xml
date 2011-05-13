@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>NHibernate.ByteCode.Spring</name>
+    </assembly>
+    <members>
+        <member name="T:NHibernate.ByteCode.Spring.ProxyFactory">
+            <summary>
+            A Spring for .NET backed <see cref="T:NHibernate.Proxy.IProxyFactory"/> implementation for creating
+            NHibernate proxies.
+            </summary>
+            <seealso cref="T:NHibernate.ByteCode.Spring.ProxyFactoryFactory"/>
+            <author>Erich Eichinger (Spring.NET Team)</author>
+        </member>
+        <member name="T:NHibernate.ByteCode.Spring.ProxyFactoryFactory">
+            <summary>
+            Creates a Spring for .NET backed <see cref="T:NHibernate.Proxy.IProxyFactory"/> instance.
+            </summary>
+            <author>Erich Eichinger</author>
+        </member>
+    </members>
+</doc>

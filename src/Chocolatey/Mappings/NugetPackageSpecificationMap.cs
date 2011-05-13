@@ -2,7 +2,7 @@ namespace Chocolatey.Mappings
 {
     using Domain;
 
-    public class NugetPackageSpecificationMap : BaseMap<NugetPackageSpecification>
+    public class NugetPackageSpecificationMap : BaseMap<NugetPackage>
     {
         public NugetPackageSpecificationMap()
         {

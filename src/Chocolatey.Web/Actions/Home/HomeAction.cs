@@ -18,7 +18,7 @@ namespace Chocolatey.Web.Actions.Home
 
     public class HomeResponse
     {
-        public static string Name = "Chocolatey";
+        public static string Name = AppParameters.ApplicationName;
     }
     
     public class Home : FubuPage<HomeResponse>

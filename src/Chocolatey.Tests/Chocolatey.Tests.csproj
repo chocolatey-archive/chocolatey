@@ -31,6 +31,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="AutoMapper">
+      <HintPath>..\packages\AutoMapper.1.1.0.118\lib\AutoMapper.dll</HintPath>
+    </Reference>
     <Reference Include="FubuCore">
       <HintPath>..\..\lib\FubuMVC\FubuCore.dll</HintPath>
     </Reference>
@@ -87,6 +90,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Web\Actions\Home\HomeActionSpecs.cs" />
+    <Compile Include="Web\Configuration\ChocolateyAutoMapperWebProfileSpecs.cs" />
     <Compile Include="InteractionContext.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SpecificationExtensions.cs" />

@@ -7,6 +7,8 @@ using FubuMVC.StructureMap;
 
 namespace Chocolatey.Web
 {
+    using AutoMapper;
+
     public class Global : System.Web.HttpApplication
     {
         protected void Application_Start(object sender, EventArgs e)
@@ -15,6 +17,8 @@ namespace Chocolatey.Web
                 .For<ChocolateyRegistry>()
                 .StructureMapObjectFactory(x => x.AddRegistry<ChocolateyWebCoreRegistry>())
                 .Bootstrap(RouteTable.Routes);
+
+            Mapper.AddProfile(new ChocolateyAutoMapperWebProfile());
         }
     }
 }
