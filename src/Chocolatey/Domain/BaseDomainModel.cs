@@ -10,7 +10,7 @@ namespace Chocolatey.Domain
         public virtual long Id
         {
             get { return _id; }
-            private set { _id = value; }
+            set { _id = value; }
         }
 
         public virtual DateTime? EnteredDate { get; set; }

@@ -48,6 +48,7 @@
     <Content Include="Chocolatey\sprocs\usp_GetDate.sql.sample.txt" />
     <Content Include="Chocolatey\sprocs\usp_SelectTimmy.sql.sample.txt" />
     <Content Include="Chocolatey\up\0001_CreateTables_NH.sql" />
+    <Content Include="Chocolatey\up\0002_InsertTestData.sql" />
     <Content Include="Chocolatey\views\vw_Dude.sql.sample.txt" />
   </ItemGroup>
   <ItemGroup>

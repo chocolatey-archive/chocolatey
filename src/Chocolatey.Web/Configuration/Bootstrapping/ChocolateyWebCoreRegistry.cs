@@ -3,6 +3,8 @@ using StructureMap.Configuration.DSL;
 
 namespace Chocolatey.Web.Configuration.Bootstrapping
 {
+    using AutoMapper;
+
     public class ChocolateyWebCoreRegistry : Registry
     {
         public ChocolateyWebCoreRegistry()
@@ -14,6 +16,9 @@ namespace Chocolatey.Web.Configuration.Bootstrapping
                      });
 
             IncludeRegistry<ChocolateyCoreRegistry>();
+
+            Mapper.AddProfile(new ChocolateyAutoMapperWebProfile());
+            For<IMappingEngine>().Singleton().Use(Mapper.Engine);
         }
     }
 }

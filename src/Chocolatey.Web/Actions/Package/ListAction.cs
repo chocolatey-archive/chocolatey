@@ -17,7 +17,7 @@ namespace Chocolatey.Web.Actions.Package
 
         public PackageListResponse Get(PackageListRequest request)
         {
-            var list = _repository.GetAll<NugetPackage>();
+            var list = _repository.Find<NugetPackage>();
 
             return new PackageListResponse
                        {

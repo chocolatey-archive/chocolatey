@@ -1,6 +1,4 @@
-<%@ page language="C#" inherits="Chocolatey.Web.Actions.Home.Home" masterpagefile="~/Site.Master"
-    enableviewstate="false" %>
-
+<%@ page language="C#" inherits="Chocolatey.Web.Actions.Home.Home" masterpagefile="~/Site.Master"  %>
 <%@ import namespace="Chocolatey.Web.Actions.Home" %>
 <%@ import namespace="Chocolatey.Web.Actions.Package" %>
 <asp:content id="header" contentplaceholderid="head" runat="server">

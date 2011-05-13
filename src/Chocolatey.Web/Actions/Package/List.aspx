@@ -1,8 +1,5 @@
-<%@ page language="C#" inherits="Chocolatey.Web.Actions.Package.List" masterpagefile="~/Site.Master"
-    enableviewstate="false" %>
-
+<%@ page language="C#" inherits="Chocolatey.Web.Actions.Package.List" masterpagefile="~/Site.Master" %>
 <%@ import namespace="Chocolatey.Web.Actions.Package" %>
-
 <%@ Import Namespace="Chocolatey.Web.Actions.Package.Edit" %>
 <asp:content id="header" contentplaceholderid="head" runat="server">
     <title>Chocolatey Packages, yo!</title>

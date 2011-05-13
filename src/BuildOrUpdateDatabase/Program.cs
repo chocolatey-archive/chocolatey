@@ -74,7 +74,7 @@
             //Assembly mapping_assembly = Assembly.LoadFile(Path.GetFullPath(MAPPINGS_ASSEMBLY));
             //Assembly convention_assembly = Assembly.LoadFile(Path.GetFullPath(CONVENTIONS_ASSEMBLY));
 
-            //ISessionFactory sf = NHibernateSessionFactory.build_session_factory(db_server, db_name,mapping_assembly,convention_assembly, build_schema);
+            //ISessionFactory sf = NHibernateConfiguration.build_session_factory(db_server, db_name,mapping_assembly,convention_assembly, build_schema);
             ISessionFactory sf = NHibernateSessionFactory.build_session_factory<NugetPackageSpecificationMap, PrimaryKeyConvention>(db_server, db_name, build_schema);
         }
 

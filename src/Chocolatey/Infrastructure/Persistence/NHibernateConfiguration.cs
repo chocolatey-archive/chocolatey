@@ -6,9 +6,9 @@ namespace Chocolatey.Infrastructure.Persistence
     using NHibernate;
     using NHibernate.Event;
 
-    public class NHibernateSessionFactory
+    public class NHibernateConfiguration
     {
-        public static ISessionFactory BuildSessionFactory(string database_config_name)
+        public static FluentConfiguration GetConfiguration(string database_config_name)
         {
             return Fluently.Configure()
                      .Database(MsSqlConfiguration.MsSql2005
@@ -25,8 +25,7 @@ namespace Chocolatey.Infrastructure.Persistence
                      {
                          cfg.SetListener(ListenerType.PreInsert, new AuditEventListener());
                          cfg.SetListener(ListenerType.PreUpdate, new AuditEventListener());
-                     })
-                     .BuildSessionFactory();
+                     });
         }
     }
 }

@@ -90,6 +90,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Repositories\NugetPackageRepositorySpecs.cs" />
     <Compile Include="Web\Actions\Home\HomeActionSpecs.cs" />
     <Compile Include="Web\Configuration\ChocolateyAutoMapperWebProfileSpecs.cs" />
     <Compile Include="InteractionContext.cs" />
@@ -109,6 +110,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Infrastructure\Persistence\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

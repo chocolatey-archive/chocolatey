@@ -62,17 +62,17 @@ namespace Chocolatey.Web.Actions.Package.Edit
         [RouteInput]
         public long Id { get; set; }
 
-        public string NugetPackageNugetId { get; set; }
-        public string NugetPackageName { get; set; }
-        public string NugetPackageVersion { get; set; }
+        public string PackageNugetId { get; set; }
+        public string PackageName { get; set; }
+        public string PackageVersion { get; set; }
         //public IEnumerable<NugetPackageAuthor> Authors { get; set; }
         //public IEnumerable<NugetPackageOwner> Owners { get; set; }
-        public string NugetPackageSummary { get; set; }
-        public string NugetPackageDescription { get; set; }
-        public string NugetPackageProjectUrl { get; set; }
+        public string PackageSummary { get; set; }
+        public string PackageDescription { get; set; }
+        public string PackageProjectUrl { get; set; }
         //public IEnumerable<NugetPackageTag> Tags { get; set; }
-        public string NugetPackageLicenseUrl { get; set; }
-        public string NugetPackageIconUrl { get; set; }
+        public string PackageLicenseUrl { get; set; }
+        public string PackageIconUrl { get; set; }
         //public IEnumerable<NugetPackageDependency> Dependencies { get; set; }
     }
 

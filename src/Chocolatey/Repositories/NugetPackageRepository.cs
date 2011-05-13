@@ -6,7 +6,7 @@ namespace Chocolatey.Repositories
     using System.Linq;
 
     //todo: will this become a generic?
-    public class NugetPackageRepository : ILinqRepository<NugetPackage,long>
+    public class NugetPackageRepository : ILinqRepository<NugetPackage, long>
     {
         private readonly IRepository _repository;
 
@@ -18,14 +18,14 @@ namespace Chocolatey.Repositories
         public NugetPackage FindOrCreate(long id)
         {
             return _repository.Find<NugetPackage>()
-                .Where(p => p.Id == id)
-                .DefaultIfEmpty(new NugetPackage())
-                .FirstOrDefault();
+                        .Where(p => p.Id == id)
+                        .DefaultIfEmpty(new NugetPackage())
+                        .FirstOrDefault();
         }
 
         public void Save(NugetPackage domainObject)
         {
-            _repository.SaveOrUpdate(domainObject);
+            _repository.Add(domainObject);
         }
     }
 }

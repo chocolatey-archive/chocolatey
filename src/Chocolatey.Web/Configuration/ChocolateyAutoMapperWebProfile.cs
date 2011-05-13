@@ -8,7 +8,7 @@ namespace Chocolatey.Web.Configuration
     {
         protected override void Configure()
         {
-            RecognizePrefixes(new[] {"NugetPackage"});
+            RecognizePrefixes(new[] {"Package"});
 
             CreateDomainMap<PackageEditSubmit, NugetPackage>()
                 .ForMember(dest => dest.Authors, opt => opt.Ignore())

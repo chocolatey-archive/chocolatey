@@ -18,7 +18,7 @@ namespace Chocolatey.Web
                 .StructureMapObjectFactory(x => x.AddRegistry<ChocolateyWebCoreRegistry>())
                 .Bootstrap(RouteTable.Routes);
 
-            Mapper.AddProfile(new ChocolateyAutoMapperWebProfile());
+            //Mapper.AddProfile(new ChocolateyAutoMapperWebProfile());
         }
     }
 }

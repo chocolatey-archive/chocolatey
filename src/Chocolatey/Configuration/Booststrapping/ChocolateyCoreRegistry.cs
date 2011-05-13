@@ -16,7 +16,8 @@ namespace Chocolatey.Configuration.Booststrapping
                          x.LookForRegistries();
                       });
 
-            For<IRepository>().Singleton().Use(ctx => new NHibernateRepository(NHibernateSessionFactory.BuildSessionFactory("chocolatey")));
+            IncludeRegistry<NHibernateRegistry>();
+
             For<ILinqRepository<NugetPackage, long>>().Add<NugetPackageRepository>();
         }
     }

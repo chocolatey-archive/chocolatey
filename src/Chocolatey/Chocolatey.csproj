@@ -87,6 +87,7 @@
     <Compile Include="Domain\NugetPackageDependency.cs" />
     <Compile Include="Domain\NugetPackageOwner.cs" />
     <Compile Include="Domain\NugetPackageTag.cs" />
+    <Compile Include="Infrastructure\HttpModules\UnitOfWorkHttpModule.cs" />
     <Compile Include="Infrastructure\Persistence\AuditEventListener.cs" />
     <Compile Include="Infrastructure\Persistence\IAuditable.cs" />
     <Compile Include="Domain\IDomainModel.cs" />
@@ -94,9 +95,13 @@
     <Compile Include="FileTemplates\NuspecTemplate.cs" />
     <Compile Include="Infrastructure\Persistence\Conventions\PrimaryKeyConvention.cs" />
     <Compile Include="Infrastructure\Persistence\Conventions\StringVarCharConvention.cs" />
+    <Compile Include="Infrastructure\Persistence\INHibernateUnitOfWork.cs" />
     <Compile Include="Infrastructure\Persistence\IRepository.cs" />
-    <Compile Include="Infrastructure\Persistence\NHibernateSessionFactory.cs" />
+    <Compile Include="Infrastructure\Persistence\IUnitOfWork.cs" />
+    <Compile Include="Infrastructure\Persistence\NHibernateRegistry.cs" />
+    <Compile Include="Infrastructure\Persistence\NHibernateConfiguration.cs" />
     <Compile Include="Infrastructure\Persistence\NHibernateRepository.cs" />
+    <Compile Include="Infrastructure\Persistence\NHibernateUnitOfWork.cs" />
     <Compile Include="Mappings\BaseMap.cs" />
     <Compile Include="Mappings\NugetPackageAuthorMap.cs" />
     <Compile Include="Mappings\NugetPackageDependencyMap.cs" />
