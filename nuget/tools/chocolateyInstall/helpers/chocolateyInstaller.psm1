@@ -1,3 +1,33 @@
+function Start-ChocolateyProcessAsAdmin {
+param([string] $statements, [string] $exeToRun = 'powershell')
+
+	$wrappedStatements = $statements;
+	if ($exeToRun -eq 'powershell') {
+		$statementsLog = "Running $statements"
+		if (!$statements.EndsWith(';')){$statements = $statements + ';'}
+		$wrappedStatements = "try{write-host $statementsLog;$statements start-sleep 6;}catch{write-error $($_.Exception.Message);start-sleep 8;}"
+	}
+@"
+Elevating Permissions and running $exeToRun $wrappedStatements. This may take awhile, depending on the statements.
+"@ | Write-Host
+	
+  $psi = new-object System.Diagnostics.ProcessStartInfo;
+	$psi.FileName = $exeToRun;
+	if ($wrappedStatements -ne '') {
+		$psi.Arguments = $wrappedStatements;
+	}
+	$psi.Verb = "runas";
+  $psi.WorkingDirectory = get-location;
+ 
+  $s = [System.Diagnostics.Process]::Start($psi);
+  $s.WaitForExit();
+  if ($s.ExitCode -ne 0) {
+		$errorMessage = "[ERROR] Running $exeToRun with $statements was not successful."
+		Write-Error $errorMessage
+		throw $errorMessage
+  }
+}
+
 function Install-ChocolateyPackage {
 <#
 .SYNOPSIS
@@ -51,13 +81,8 @@ param([string] $packageName, [string] $fileType = 'exe',[string] $silentArgs = '
     Get-ChocolateyWebFile $packageName $file $url $url64bit
     Install-ChocolateyInstallPackage $packageName $fileType $silentArgs $file
 		Write-ChocolateySuccess $packageName
-		Start-Sleep 8
 	} catch {
-@"
-Error Occurred: $($_.Exception.Message)
-"@ | Write-Host -ForegroundColor White -BackgroundColor DarkRed
 		Write-ChocolateyFailure $packageName $($_.Exception.Message)
-		Start-Sleep 7
 		throw 
 	}
 }
@@ -106,16 +131,10 @@ param([string] $packageName, [string] $url,[string] $unzipLocation)
 	  
 	  Get-ChocolateyWebFile $packageName $file $url  
 	  Get-ChocolateyUnzip "$file" $unzipLocation
+		
 	  Write-ChocolateySuccess $packageName
-				
-		write-host "$packageName has been unzipped."
-		Start-Sleep 5
 	} catch {
-@"
-Error Occurred: $($_.Exception.Message)
-"@ | Write-Host -ForegroundColor White -BackgroundColor DarkRed
 		Write-ChocolateyFailure $packageName $($_.Exception.Message)
-		Start-Sleep 7
 		throw 
 	}
 }
@@ -220,13 +239,16 @@ $installMessage = "Installing $packageName..."
 	if ($fileType -like 'msi') {
 		$msiArgs = "/i `"$file`"" 
 		if ($silentArgs -ne '') { $msiArgs = "$msiArgs $silentArgs";}
-		Start-Process -FilePath msiexec -ArgumentList $msiArgs -Wait
+		Start-ChocolateyProcessAsAdmin "$msiArgs" 'msiexec'
+		#Start-Process -FilePath msiexec -ArgumentList $msiArgs -Wait
 	}
 	if ($fileType -like 'exe') {
 		if ($silentArgs -ne '') {
-			Start-Process -FilePath $file -ArgumentList $silentArgs -Wait 
+			Start-ChocolateyProcessAsAdmin "$silentArgs" $file
+			#Start-Process -FilePath $file -ArgumentList $silentArgs -Wait 
 		} else {
-			Start-Process -FilePath $file -Wait 
+			Start-ChocolateyProcessAsAdmin '' $file
+			#Start-Process -FilePath $file -Wait 
 		}
 	}
 	
@@ -263,36 +285,120 @@ There is no error handling built into this method.
 param([string] $fileFullPath, [string] $destination)
 
 	Write-Host "Extracting $fileFullPath to $destination..."
+  if (![System.IO.Directory]::Exists($destination)) {[System.IO.Directory]::CreateDirectory($destination)}
+  
 	$shellApplication = new-object -com shell.application 
 	$zipPackage = $shellApplication.NameSpace($fileFullPath) 
 	$destinationFolder = $shellApplication.NameSpace($destination) 
-	$destinationFolder.CopyHere($zipPackage.Items()) 
+	$destinationFolder.CopyHere($zipPackage.Items(),0x10) 
   
   return $destination
 }
 
 function Write-ChocolateySuccess {
 param([string] $packageName)
-	$logFile = Join-Path (Get-Location) 'success.log'
-	#Write-Host "Writing to $logFile"
-@"
-$packageName has finished succesfully! The chocolatey gods have answered your request!
-"@ #| Out-File $logFile
+
+  $chocTempDir = Join-Path $env:TEMP "chocolatey"
+  $tempDir = Join-Path $chocTempDir "$packageName"
+  if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
+  
+  $errorLog = Join-Path $tempDir 'failure.log'
+  try {
+    if ([System.IO.File]::Exists($errorLog)) {[System.IO.File]::Move($errorLog,(Join-Path ($errorLog) '.old'))}
+  } catch {
+    Write-Error "Could not rename `'$errorLog`' to `'$($errorLog).old`': $($_.Exception.Message)"
+  }
+  
+  $logFile = Join-Path $tempDir 'success.log'
+  #Write-Host "Writing to $logFile"
+
+  $successMessage = "$packageName has finished succesfully! The chocolatey gods have answered your request!"
+  $successMessage | Out-File -FilePath $logFile -Force -Append
+  Write-Host $successMessage
+  
+  Start-Sleep 7
 }
 
 function Write-ChocolateyFailure {
 param([string] $packageName,[string] $failureMessage)
-	$logFile = Join-Path (Get-Location) 'failure.log'
-	#Write-Host "Writing to $logFile"
-@" 
-$packageName did not finish successfully. Boo to the chocolatey gods!
+
+  $chocTempDir = Join-Path $env:TEMP "chocolatey"
+  $tempDir = Join-Path $chocTempDir "$packageName"
+  if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
+	$successLog = Join-Path $tempDir 'success.log'
+  try {
+    if ([System.IO.File]::Exists($successLog)) {[System.IO.File]::Move($successLog,(Join-Path ($successLog) '.old'))}
+  } catch {
+    Write-Error "Could not rename `'$successLog`' to `'$($successLog).old`': $($_.Exception.Message)"
+  }
+	
+  $logFile = Join-Path $tempDir 'failure.log'
+  #Write-Host "Writing to $logFile"
+	
+	$errorMessage = "$packageName did not finish successfully. Boo to the chocolatey gods!
 -----------------------
-$failureMessage
------------------------
-"@ #| Out-File $logFile
+[ERROR] $failureMessage
+-----------------------" 
+	$errorMessage | Out-File -FilePath $logFile -Force -Append
+	Write-Error $errorMessage
+	
+	Start-Sleep 8
 }
 
-Export-ModuleMember -Function Install-ChocolateyPackage, Install-ChocolateyZipPackage, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure
+function Install-ChocolateyPath {
+param([string] $pathToInstall,[System.EnvironmentVariableTarget] $pathType = [System.EnvironmentVariableTarget]::User)
+
+  #get the PATH variable
+  $envPath = $env:PATH
+  #$envPath = [Environment]::GetEnvironmentVariable('Path', $pathType)
+  if (!$envPath.ToLower().Contains($pathToInstall.ToLower()))
+  {
+    Write-Host "PATH environment variable does not have $pathToInstall in it. Adding..."
+		$actualPath = [Environment]::GetEnvironmentVariable('Path', $pathType)
+
+    $statementTerminator = ";"
+    #does the path end in ';'?
+    $hasStatementTerminator= $actualPath.EndsWith($statementTerminator)
+    # if the last digit is not ;, then we are adding it
+    If (!$hasStatementTerminator) {$pathToInstall = $statementTerminator + $pathToInstall}
+		if (!$pathToInstall.EndsWith($statementTerminator)) {$pathToInstall = $pathToInstall + $statementTerminator}
+    $actualPath = $actualPath + $pathToInstall
+
+		if ($pathType -eq [System.EnvironmentVariableTarget]::Machine) {
+			$psArgs = "[Environment]::SetEnvironmentVariable('Path',`'$actualPath`', `'$pathType`')"
+			Start-ChocolateyProcessAsAdmin "$psArgs"
+		} else {
+			[Environment]::SetEnvironmentVariable('Path', $actualPath, $pathType)
+		}    
+		
+		#add it to the local path as well so users will be off and running
+		$envPSPath = $env:PATH
+		$env:Path = $envPSPath + $statementTerminator + $pathToInstall
+  }
+}
+
+function Install-ChocolateyDesktopLink {
+param([string] $targetFilePath)
+
+  if (test-path($targetFilePath)) {
+    $desktop = $([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory))
+    $link = Join-Path $desktop "$([System.IO.Path]::GetFileName($targetFilePath)).lnk"
+    $workingDirectory = $([System.IO.Path]::GetDirectoryName($targetFilePath))
+    
+    $wshshell = New-Object -ComObject WScript.Shell
+    $lnk = $wshshell.CreateShortcut($link )
+    $lnk.TargetPath = $targetFilePath
+    $lnk.WorkingDirectory = $workingDirectory
+    $lnk.Save()
+    Write-Host "`'$targetFilePath`' has been linked as a shortcut on your desktop"
+  } else {
+    $errorMessage = "`'$targetFilePath`' does not exist, not able to create a link"
+    Write-Error $errorMessage
+    throw $errorMessage
+  }
+}
+
+Export-ModuleMember -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Install-ChocolateyZipPackage, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink
 
 # http://poshcode.org/417
 ## Get-WebFile (aka wget for PowerShell)
@@ -319,6 +425,8 @@ function Get-WebFile {
    )
    
    $req = [System.Net.HttpWebRequest]::Create($url);
+   #http://stackoverflow.com/questions/518181/too-many-automatic-redirections-were-attempted-error-message-when-using-a-httpw
+   $req.CookieContainer = New-Object System.Net.CookieContainer
    $res = $req.GetResponse();
  
    if($fileName -and !(Split-Path $fileName)) {
