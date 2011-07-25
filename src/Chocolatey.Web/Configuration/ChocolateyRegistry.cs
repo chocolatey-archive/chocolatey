@@ -13,7 +13,7 @@ namespace Chocolatey.Web.Configuration
             Applies.ToThisAssembly();
 
             Actions.IncludeTypesNamed(x => x.EndsWith("Action"));
-
+            
             Routes
                 .IgnoreNamespaceText("Chocolatey.Web.Actions")
                 .IgnoreControllerNamesEntirely()
