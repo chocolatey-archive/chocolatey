@@ -6,7 +6,7 @@ Chocolatey NuGet (like apt-get, but for Windows)
 Apache 2.0 - see docs/legal (just LEGAL in the zip folder)
   
 # INFO
-Please see the [wiki](https://github.com/ferventcoder/chocolatey/wiki)  
+##Please see the [wiki](https://github.com/ferventcoder/chocolatey/wiki)  
   
 # SOURCE REQUIREMENTS  
 * .NET Framework 4.0  
