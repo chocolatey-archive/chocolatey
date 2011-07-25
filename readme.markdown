@@ -1,6 +1,6 @@
 Chocolatey NuGet
 =======
-![Chocolatey Logo](/docs/logo/chocolateyicon.gif "Chocolatey")  
+![Chocolatey Logo](https://github.com/ferventcoder/chocolatey/raw/master/docs/logo/chocolateyicon.gif "Chocolatey")  
   
 # LICENSE
 Apache 2.0 - see docs/legal (just LEGAL in the zip folder)
