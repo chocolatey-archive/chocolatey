@@ -5,12 +5,11 @@ param([string] $statements, [string] $exeToRun = 'powershell')
 
   $wrappedStatements = $statements;
   if ($exeToRun -eq 'powershell') {
-    $statementsLog = "Running $statements"
     
     if (!$statements.EndsWith(';')){$statements = $statements + ';'}
     $importChocolateyHelpers = "";
     Get-ChildItem "$helpersPath" -Filter *.psm1 | ForEach-Object { $importChocolateyHelpers = "& import-module -name  `'$($_.FullName)`';$importChocolateyHelpers" };
-    $wrappedStatements = "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers try{write-host `'$statementsLog`'; $statements start-sleep 6;}catch{write-error `'$statements not sucessful`';start-sleep 8;throw;}`""
+    $wrappedStatements = "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers try{$statements start-sleep 6;}catch{write-error `'That was not sucessful`';start-sleep 8;throw;}`""
   }
 @"
 Elevating Permissions and running $exeToRun $wrappedStatements. This may take awhile, depending on the statements.

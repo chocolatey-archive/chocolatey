@@ -7,7 +7,7 @@ param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=
 
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.5'
+$chocVer = '0.9.8.6'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -251,36 +251,7 @@ $h2
 $h2
 Release Notes
 $h2
-v0.9.1 
- * Shortcut for 'chocolatey install' - 'cinst' now available.
-v0.9.2
- * List command added.	
-v0.9.3 
- * You can now pass -source and -version to install command
-v0.9.4 
- * List command has a filter.
- * Package license acceptance terms notated
-v0.9.5 
- * Helper for native installer added (Install-ChocolateyPackage). Reduces the amount of powershell necessary to download and install a native package to two lines from over 25.
- * Helper outputs progress during download.
- * Dependency runner is complete
-v0.9.6
- * Can execute powershell and chocolatey without having to change execution rights to powershell system wide.
- * New Helper added - Get-ChocolateyWebFile - downloads a file from a url and gives you back the location of the file once complete.
- * New Helper added - Get-ChocolateyZipContents - unzips a file to a directory of your choosing.
- * .1 - Adding in ability to find a dependency when the version doesn't exist.
- * .2 - Addressed a small bug in getting back the file name from the helper
- * .3 - New Helper added Install-ChocolateyZipPackage - this wraps the two upper commands into one smaller command and addresses the file name bug
- * .4 - remove timeout
-v0.9.7
- * New helper added Install-ChocolateyInstallPackage - this was previously part of the download & install and has been broken out.
- * The powershell module is automatically loaded, so packages no longer need to import the module. This means one line chocolateyInstall.ps1 files!
- * Error handling is improved.
- * Silent installer override for msi has been removed to allow for additional arguments that need to be passed.
- * New chocolatey command! Version allows you to see if a package you have installed is the most up to date. Leave out package and it will check for chocolatey itself.
- * .1 - Fixing an introduced bug where the downloader didn't get the file name passed to it.
- * .2 - Fixing an underlying issue with not having silent arguments for exe files. 
- * .3 - Fixing Install-ChocolateyZipPackage so that it works again.
+NOTE: Abbreviated, please see the wiki (https://github.com/ferventcoder/chocolatey/wiki/ReleaseNotes) for the full set of notes.
 v0.9.8
  * Shortcuts have been added: 'cup' for 'chocolatey update', 'cver' for 'chocolatey version', and 'clist' for 'chocolatey list'.
  * Update only runs if newer version detected.
@@ -299,7 +270,9 @@ v0.9.8
  * .4
   - Fixing a small issue with the Install-ChocolateyDesktopLink
  * .5
-  - Improving Run-ChocolateyProcessAsAdmin to allow for running entire functions as administrator by importing helpers to that command if powershell.
+  - Improving Start-ChocolateyProcessAsAdmin to allow for running entire functions as administrator by importing helpers to that command if powershell.
+ * .6
+  - Fixed a bug introduced in Start-ChocolateyProcessAsAdmin as a result of trying to log error messages. 
 $h2
 $h2
 using (var legalese = new LawyerText()) {
