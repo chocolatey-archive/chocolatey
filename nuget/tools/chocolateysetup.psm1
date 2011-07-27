@@ -133,10 +133,10 @@ Creating Chocolatey NuGet folders if they do not already exist.
     Write-Host ''
     #now we update the path
     Write-Host 'PATH environment variable does not have ' $nugetExePath ' in it. Adding.'
-		$userPath = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)
+    $userPath = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)
   
     #does the path end in ';'?
-    $hasStatementTerminator= $userPath.EndsWith($statementTerminator)
+    $hasStatementTerminator = $userPath -ne $null -and $userPath.EndsWith($statementTerminator)
     # if the last digit is not ;, then we are adding it
     If (!$hasStatementTerminator) {$nugetExePath = $statementTerminator + $nugetExePath}
     $userPath = $userPath + $nugetExePath + $statementTerminator

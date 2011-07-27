@@ -7,7 +7,7 @@ param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=
 
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.4'
+$chocVer = '0.9.8.5'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -162,8 +162,8 @@ $h2
     if ($ps1 -notlike '') {
       $ps1FullPath = $ps1.FullName
       $importChocolateyHelpers = "";
-      Get-ChildItem "$nugetChocolateyPath\helpers" -Filter *.psm1 | ForEach-Object { $importChocolateyHelpers = "& import-module -name  $($_.FullName);$importChocolateyHelpers" };
-      Run-ChocolateyProcess powershell "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers . `'$ps1FullPath`'`"" -elevated
+      Get-ChildItem "$nugetChocolateyPath\helpers" -Filter *.psm1 | ForEach-Object { $importChocolateyHelpers = "& import-module -name  `'$($_.FullName)`';$importChocolateyHelpers" };
+      Run-ChocolateyProcess powershell "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers & `'$ps1FullPath`'`"" -elevated
       #testing Start-Process -FilePath "powershell.exe" -ArgumentList " -noexit `"$ps1FullPath`"" -Verb "runas"  -Wait  #-PassThru -UseNewEnvironment #-RedirectStandardError $errorLog -WindowStyle Normal
       
       #detect errors
@@ -293,11 +293,13 @@ v0.9.8
   - NuGet updated to v1.4
   - New chocolatey command! InstallMissing allows you to install a package only if it is not already installed. Shortcut is 'cinstm'.
   - Much of the error handling is improved. There are two new Helpers to call (ChocolateySuccess and Write-ChocolateyFailure).
-	- New Helper! Install-ChocolateyPath - give it a path for out of band items that are not imported to path with chocolatey 
-	- New Helper! Start-ChocolateyProcessAsAdmin - this allows you to run processes as administrator
-	- New Helper! Install-ChocolateyDesktopLink - put shortcuts on the desktop
+  - New Helper! Install-ChocolateyPath - give it a path for out of band items that are not imported to path with chocolatey 
+  - New Helper! Start-ChocolateyProcessAsAdmin - this allows you to run processes as administrator
+  - New Helper! Install-ChocolateyDesktopLink - put shortcuts on the desktop
  * .4
   - Fixing a small issue with the Install-ChocolateyDesktopLink
+ * .5
+  - Improving Run-ChocolateyProcessAsAdmin to allow for running entire functions as administrator by importing helpers to that command if powershell.
 $h2
 $h2
 using (var legalese = new LawyerText()) {

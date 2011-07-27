@@ -1,12 +1,17 @@
+$helpersPath = (Split-Path -parent $MyInvocation.MyCommand.Definition);
+
 function Start-ChocolateyProcessAsAdmin {
 param([string] $statements, [string] $exeToRun = 'powershell')
 
-	$wrappedStatements = $statements;
-	if ($exeToRun -eq 'powershell') {
-		$statementsLog = "Running $statements"
-		if (!$statements.EndsWith(';')){$statements = $statements + ';'}
-		$wrappedStatements = "try{write-host $statementsLog;$statements start-sleep 6;}catch{write-error $($_.Exception.Message);start-sleep 8;}"
-	}
+  $wrappedStatements = $statements;
+  if ($exeToRun -eq 'powershell') {
+    $statementsLog = "Running $statements"
+    
+    if (!$statements.EndsWith(';')){$statements = $statements + ';'}
+    $importChocolateyHelpers = "";
+    Get-ChildItem "$helpersPath" -Filter *.psm1 | ForEach-Object { $importChocolateyHelpers = "& import-module -name  `'$($_.FullName)`';$importChocolateyHelpers" };
+    $wrappedStatements = "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers try{write-host `'$statementsLog`'; $statements start-sleep 6;}catch{write-error `'$statements not sucessful`';start-sleep 8;throw;}`""
+  }
 @"
 Elevating Permissions and running $exeToRun $wrappedStatements. This may take awhile, depending on the statements.
 "@ | Write-Host
@@ -14,7 +19,7 @@ Elevating Permissions and running $exeToRun $wrappedStatements. This may take aw
   $psi = new-object System.Diagnostics.ProcessStartInfo;
 	$psi.FileName = $exeToRun;
 	if ($wrappedStatements -ne '') {
-		$psi.Arguments = $wrappedStatements;
+		$psi.Arguments = "$wrappedStatements";
 	}
 	$psi.Verb = "runas";
   $psi.WorkingDirectory = get-location;
@@ -358,7 +363,7 @@ param([string] $pathToInstall,[System.EnvironmentVariableTarget] $pathType = [Sy
 
     $statementTerminator = ";"
     #does the path end in ';'?
-    $hasStatementTerminator= $actualPath.EndsWith($statementTerminator)
+    $hasStatementTerminator = $actualPath -ne $null -and $actualPath.EndsWith($statementTerminator)
     # if the last digit is not ;, then we are adding it
     If (!$hasStatementTerminator) {$pathToInstall = $statementTerminator + $pathToInstall}
 		if (!$pathToInstall.EndsWith($statementTerminator)) {$pathToInstall = $pathToInstall + $statementTerminator}
