@@ -18,10 +18,10 @@ and it will run your application executable.
 'chocolatey install 7zip [-source source] [-version version]' OR 'cinst 7zip [-source source] [-version version]' 
 - when it finishes you will have installed 7zip on your machine (in your add/remove programs).
 </description>
-    <projectUrl>https://github.com/ferventcoder/nugetpackages</projectUrl>
+    <projectUrl>https://github.com/ferventcoder/chocolatey/wiki</projectUrl>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>nuget apt-get machine repository chocolatey</tags>
-    <iconUrl>https://github.com/ferventcoder/nugetpackages/raw/master/chocolatey/chocolateyicon.gif</iconUrl>
+    <iconUrl>https://github.com/ferventcoder/chocolatey/raw/master/docs/logo/chocolateyicon.gif</iconUrl>
   </metadata>
 </package>
