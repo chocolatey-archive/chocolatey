@@ -364,7 +364,7 @@ param([string] $pathToInstall,[System.EnvironmentVariableTarget] $pathType = [Sy
     #does the path end in ';'?
     $hasStatementTerminator = $actualPath -ne $null -and $actualPath.EndsWith($statementTerminator)
     # if the last digit is not ;, then we are adding it
-    If (!$hasStatementTerminator) {$pathToInstall = $statementTerminator + $pathToInstall}
+    If (!$hasStatementTerminator -and $actualPath -ne $null) {$pathToInstall = $statementTerminator + $pathToInstall}
 		if (!$pathToInstall.EndsWith($statementTerminator)) {$pathToInstall = $pathToInstall + $statementTerminator}
     $actualPath = $actualPath + $pathToInstall
 

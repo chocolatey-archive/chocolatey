@@ -138,7 +138,7 @@ Creating Chocolatey NuGet folders if they do not already exist.
     #does the path end in ';'?
     $hasStatementTerminator = $userPath -ne $null -and $userPath.EndsWith($statementTerminator)
     # if the last digit is not ;, then we are adding it
-    If (!$hasStatementTerminator) {$nugetExePath = $statementTerminator + $nugetExePath}
+    If (!$hasStatementTerminator -and $userPath -ne $null) {$nugetExePath = $statementTerminator + $nugetExePath}
     $userPath = $userPath + $nugetExePath + $statementTerminator
 
     [Environment]::SetEnvironmentVariable('Path', $userPath, [System.EnvironmentVariableTarget]::User)
