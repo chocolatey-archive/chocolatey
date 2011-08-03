@@ -2,6 +2,7 @@
 .hg
 build_output
 code_drop
+_packaged_output
 [Bb]in
 obj
 _ReSharper.*

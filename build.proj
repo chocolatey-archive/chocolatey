@@ -1,0 +1,46 @@
+﻿<Project ToolsVersion="4.0"
+         DefaultTargets="Go"
+         xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <!--Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" /-->
+  <PropertyGroup>
+    <GoDependsOn>PrepareNuGetFiles;Package</GoDependsOn>
+    <Configuration>Release</Configuration>
+    <Platform>Any CPU</Platform>
+    <BuildDirectory>_packaged_output\</BuildDirectory>
+    <BuildPath>$(MSBuildProjectDirectory)\$(BuildDirectory)</BuildPath>
+    <NuGetDirectory>$(MSBuildProjectDirectory)\nuget</NuGetDirectory>
+    <NuGetFilesDirectory>$(MSBuildProjectDirectory)\src</NuGetFilesDirectory>
+  </PropertyGroup>
+
+  <Target Name="Go" DependsOnTargets="$(GoDependsOn)" />
+  
+  <Target Name="PrepareNuGetFiles">
+   <ItemGroup>
+      <NuGetFiles Include="$(NuGetDirectory)\**\*" />
+      <NuGetFilesToPack Include="$(NuGetFilesDirectory)\**\*" />
+    </ItemGroup>
+    <Copy SourceFiles="@(NuGetFiles)"
+      DestinationFiles="@(NuGetFiles->'$(BuildPath)\nuget\%(RecursiveDir)%(Filename)%(Extension)')"
+      Retries="3"
+      RetryDelayMilliseconds="300" 
+      />
+    <Copy SourceFiles="@(NuGetFilesToPack)"
+      DestinationFiles="@(NuGetFilesToPack->'$(BuildPath)\nuget\tools\chocolateyInstall\%(RecursiveDir)%(Filename)%(Extension)')"
+      Retries="3"
+      RetryDelayMilliseconds="300" 
+      />
+  </Target>
+  
+  <Target Name="Package">
+  <ItemGroup>
+      <NuspecFiles Include="$(BuildPath)**\*nuspec" />
+      <FilesToDelete Exclude="$(BuildPath)\**\*.nupkg" Include="$(BuildPath)\**\*" />
+      <DirectoriesToDelete Include="$(BuildPath)\nuget" />
+    </ItemGroup>
+    <Exec Command="nuget pack %(NuspecFiles.FullPath)" WorkingDirectory="$(BuildPath)" />
+          
+    <Delete Files="@(FilesToDelete)" />
+    <RemoveDir Directories="@(DirectoriesToDelete)" />
+  </Target>
+
+</Project>
