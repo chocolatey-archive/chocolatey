@@ -1,2 +1,0 @@
-You don't need all assemblies contained in this folder. 
-Choose only one system between available.
