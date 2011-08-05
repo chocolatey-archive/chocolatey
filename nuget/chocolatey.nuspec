@@ -19,10 +19,10 @@ and it will run your application executable.
 - when it finishes you will have installed 7zip on your machine (in your add/remove programs).  
 || Check out the WIKI in the project URL for all the details of what you can do with chocolatey!
 </description>
-    <projectUrl>https://github.com/ferventcoder/chocolatey/wiki</projectUrl>
+    <projectUrl>https://github.com/chocolatey/chocolatey/wiki</projectUrl>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>nuget apt-get machine repository chocolatey</tags>
-    <iconUrl>https://github.com/ferventcoder/chocolatey/raw/master/docs/logo/chocolateyicon.gif</iconUrl>
+    <iconUrl>https://github.com/chocolatey/chocolatey/raw/master/docs/logo/chocolateyicon.gif</iconUrl>
   </metadata>
 </package>
