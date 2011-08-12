@@ -1,11 +1,14 @@
 Chocolatey has been the thoughts and work of the following people: 
 
-Committers
+Committers & Contributors
 ----------
-Rob Reynolds, Vision, direction and main committer
-Nekresh - Contributing code and ideas on direction
-Chris Ortman - package contributions and thoughts on where to take it
-Svein - suggestions and thoughts on features and packages
+Rob Reynolds (https://github.com/ferventcoder), Vision, direction and main committer
+Nekresh (https://github.com/nekresh) - Contributing code and ideas on direction
+Chris Ortman (https://github.com/chrisortman) - package contributions and thoughts on where to take it
+Svein Arne Ackenhausen (https://github.com/acken) - suggestions and thoughts on features and packages
+Marcel Hoyer - suggestions on making this stuff work without administrative access to a machine
+Jason Jarrett (https://github.com/staxmanade) - contributing code and ideas
+
 
 Other Credits
 -------------
