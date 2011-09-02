@@ -7,7 +7,7 @@ param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=
 
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.6'
+$chocVer = '0.9.8.7'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -123,8 +123,14 @@ NuGet
 $h2
 "@ | Write-Host
 
+  $srcArgs = "/source $source"
+
+  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
+    $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
+  }
+
 	#todo: If package name is non-existent or is set to all, it means we are going to update all currently installed packages.
-  $packageArgs = "install $packageName /outputdirectory `"$nugetLibPath`" /source $source"
+  $packageArgs = "install $packageName /outputdirectory `"$nugetLibPath`" $srcArgs"
   if ($version -notlike '') {
     $packageArgs = $packageArgs + " /version $version";
   }
@@ -272,7 +278,11 @@ v0.9.8
  * .5
   - Improving Start-ChocolateyProcessAsAdmin to allow for running entire functions as administrator by importing helpers to that command if powershell.
  * .6
+
   - Fixed a bug introduced in Start-ChocolateyProcessAsAdmin as a result of trying to log error messages. 
+ * .7
+  - Support for NuGet 1.5 packages.
+  - Proxy support. Thanks Christiaan Baes! 
 $h2
 $h2
 using (var legalese = new LawyerText()) {
