@@ -17,7 +17,7 @@
 # ==============================================================================
 
 # variables
-$url = "http://chocolatey.org/packages/chocolatey/downloadpackage"
+$url = "http://packages.nuget.org/v1/Package/Download/Chocolatey/0.9.8.7"
 $chocTempDir = Join-Path $env:TEMP "chocolatey"
 $tempDir = Join-Path $chocTempDir "chocInstall"
 if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
