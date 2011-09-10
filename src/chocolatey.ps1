@@ -1,13 +1,13 @@
 param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=206669',$version='')#todo:,[switch] $silent)
 # chocolatey
 # Copyright (c) 2011 Rob Reynolds
-# Crediting contributions by Chris Ortman, Nekresh, Staxmanade
+# Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1
 # Big thanks to Keith Dahlby for all the powershell help! 
 # Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
 
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.7'
+$chocVer = '0.9.8.8'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -129,7 +129,6 @@ $h2
     $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
   }
 
-	#todo: If package name is non-existent or is set to all, it means we are going to update all currently installed packages.
   $packageArgs = "install $packageName /outputdirectory `"$nugetLibPath`" $srcArgs"
   if ($version -notlike '') {
     $packageArgs = $packageArgs + " /version $version";
@@ -209,7 +208,7 @@ $h2
       }
     }
     catch {
-      Write-Host 'There are no executables in the package. You may not need this as a #chocolatey #nuget. A vanilla #nuget may suffice.'
+      Write-Host 'There are no executables in the package.'
     }
     Write-Host "$h2"
   }
@@ -236,7 +235,7 @@ param([string] $packageName ='', $source = 'https://go.microsoft.com/fwlink/?Lin
 
 	foreach ($package in $packages) {
 		$versions = Chocolatey-Version $package $source
-		if ($versions -ne $null -and $versions.'found' -lt $versions.'latest') {
+		if ($versions -ne $null -and $versions.'foundCompare' -lt $versions.'latestCompare') {
 			Chocolatey-NuGet $package $source
 		}
 	}
@@ -245,7 +244,10 @@ param([string] $packageName ='', $source = 'https://go.microsoft.com/fwlink/?Lin
 function Chocolatey-Help {
 @"
 $h1
-Chocolatey - Your local machine NuGet repository AKA your local tools repository  AKA apt-get for Windows
+Chocolatey - Your local machine NuGet repository AKA your local tools repository  AKA a kind of apt-get for Windows
+
+'I'm a tools enabler, a global silent installer. I met your mother. Some want to call me apt-get for Windows, I just want to get #chocolatey!'
+
 Version: `'$chocVer'`
 Install Directory: `'$nugetPath`'
 $h1
@@ -254,6 +256,7 @@ $h2
 Known Issues
 $h2
  * There is no automated uninstallation.
+ * See https://github.com/chocolatey/chocolatey/issues
 $h2
 Release Notes
 $h2
@@ -278,11 +281,13 @@ v0.9.8
  * .5
   - Improving Start-ChocolateyProcessAsAdmin to allow for running entire functions as administrator by importing helpers to that command if powershell.
  * .6
-
   - Fixed a bug introduced in Start-ChocolateyProcessAsAdmin as a result of trying to log error messages. 
  * .7
   - Support for NuGet 1.5 packages.
   - Proxy support. Thanks Christiaan Baes! 
+ * .8
+  - Fixed issue with selector in determining a package to update. 
+  - Fixed issue with version comparison.
 $h2
 $h2
 using (var legalese = new LawyerText()) {
@@ -353,23 +358,28 @@ param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?
 
     $versionLatest = Get-Content $logFile | ?{$_ -match "^$package\s+\d+"} | sort $_ -Descending | select -First 1 
     $versionLatest = $versionLatest -replace "$package ", "";
+    $versionLatestCompare = $versionLatest.Split('.') | %{('0' * (5 - $_.Length)) + $_} 
+    $versionLatestCompare = [System.String]::Join('.',$versionLatestCompare)
 
     $versionFound = $chocVer
     if ($packageName -ne 'chocolatey') {
       $versionFound = 'no version'
-      $packageFolder = Get-ChildItem $nugetLibPath | ?{$_.name -match "^$package.*"} | sort name -Descending | select -First 1 
+      $packageFolder = Get-ChildItem $nugetLibPath | ?{$_.name -match "^$package\.\d+"} | sort name -Descending | select -First 1 
 
       if ($packageFolder -notlike '') { 
         #Write-Host $packageFolder
         $versionFound = $packageFolder.Name -replace "$package\."
       }
     }
+    
+    $versionFoundCompare = $versionFound.Split('.') | %{('0' * (5 - $_.Length)) + $_} 
+    $versionFoundCompare = [System.String]::Join('.',$versionFoundCompare)
   
     $verMessage = "The most recent version of $package available from ($source) is $versionLatest. On your machine you have $versionFound installed."
     if ($versionLatest -eq $versionFound) { 
       $verMessage = "You have the latest version of $package ($versionLatest) based on ($source)."
     }
-    if ($versionLatest -lt $versionFound) {
+    if ($versionLatestCompare -lt $versionFoundCompare) {
       $verMessage = "$verMessage You must be smarter than the average bear..."
     }
     if ($versionLatest -eq '') {
@@ -378,7 +388,7 @@ param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?
     Write-Host $verMessage
   }
   
-	$versions = @{latest = $versionLatest; found = $versionFound }
+	$versions = @{latest = $versionLatest; found = $versionFound; latestCompare = $versionLatestCompare; foundCompare = $versionFoundCompare; }
 	return $versions
 }
 
