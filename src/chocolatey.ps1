@@ -7,7 +7,7 @@ param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=
 
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.8'
+$chocVer = '0.9.8.9'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -68,9 +68,15 @@ $h2
 			if ($pkgVersionMatches -ne $null) {
 				$installedPackageVersion = $pkgVersionMatches -replace '\)', '' -replace "'", "" -replace " ", ""
 			}
-			
       
-			if ($installedPackageName -ne '') {
+      if ($installedPackageName -eq '') {
+        $regex = [regex]"`"[.\S]+\s?"
+        $pkgNameMatches = $regex.Matches($line) | select -First 1
+        $installedPackageName = $pkgNameMatches -replace "`"", "" -replace " ", ""
+        $installedPackageVersion = $version
+      }
+			      
+      if ($installedPackageName -ne '') {
         $packageFolder = ''
         if ($installedPackageVersion -ne '') {
           $packageFolder = Join-Path $nugetLibPath "$($installedPackageName).$($installedPackageVersion)" 
@@ -288,6 +294,8 @@ v0.9.8
  * .8
   - Fixed issue with selector in determining a package to update. 
   - Fixed issue with version comparison.
+ * .9
+  - Fixed issue with new version of NuGet no longer giving version information with an already installed package.
 $h2
 $h2
 using (var legalese = new LawyerText()) {
