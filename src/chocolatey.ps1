@@ -7,7 +7,7 @@ param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=
 
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.9'
+$chocVer = '0.9.8.10'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -296,6 +296,8 @@ v0.9.8
   - Fixed issue with version comparison.
  * .9
   - Fixed issue with new version of NuGet no longer giving version information with an already installed package.
+ * .10
+  - New Helper! Install-ChocolateyPowershellCommand - adds a powershell script as a command to your computer. Give it an optional url to download the file if not included.
 $h2
 $h2
 using (var legalese = new LawyerText()) {
