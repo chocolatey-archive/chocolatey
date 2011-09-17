@@ -143,6 +143,32 @@ param([string] $packageName, [string] $url,[string] $unzipLocation)
 	}
 }
 
+function Install-ChocolateyPowershellCommand {
+param([string] $packageName,[string] $psFileFullPath, [string] $url ='')
+
+	try {
+
+    if ($url -ne '') {
+      Get-ChocolateyWebFile $packageName $psFileFullPath $url
+    }
+
+    $nugetPath = $(Split-Path -parent $(Split-Path -parent $helpersPath))
+    $nugetExePath = Join-Path $nuGetPath 'bin'
+    
+    $cmdName = [System.IO.Path]::GetFileNameWithoutExtension($psFileFullPath)
+    $packageBatchFileName = Join-Path $nugetExePath "$($cmdName).bat"
+
+    Write-Host "Adding $packageBatchFileName and pointing it to powershell command $psFileFullPath"
+"@echo off
+powershell -NoProfile -ExecutionPolicy unrestricted -Command ""& `'$psFileFullPath`'  %*"""| Out-File $packageBatchFileName -encoding ASCII 
+ 
+	  Write-ChocolateySuccess $packageName
+	} catch {
+		Write-ChocolateyFailure $packageName $($_.Exception.Message)
+		throw 
+	} 
+}
+
 function Get-ChocolateyWebFile {
 <#
 .SYNOPSIS
@@ -402,7 +428,7 @@ param([string] $targetFilePath)
   }
 }
 
-Export-ModuleMember -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Install-ChocolateyZipPackage, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink
+Export-ModuleMember -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Install-ChocolateyZipPackage, Install-ChocolateyPowershellCommand, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink
 
 # http://poshcode.org/417
 ## Get-WebFile (aka wget for PowerShell)
