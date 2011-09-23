@@ -203,8 +203,7 @@ $h2
 Executable Batch Links
 $h2
 Looking for executables in folder: $packageFolder
-Adding batch files for any executables found to a location on PATH.
-In other words, the executable will be available from ANY command line/powershell prompt.
+Adding batch files for any executables found to a location on PATH. In other words the executable will be available from ANY command line/powershell prompt.
 $h2
 "@ | Write-Host
     try {
