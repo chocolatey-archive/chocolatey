@@ -7,7 +7,7 @@ param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=
 
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.10'
+$chocVer = '0.9.8.11'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -297,6 +297,8 @@ v0.9.8
   - Fixed issue with new version of NuGet no longer giving version information with an already installed package.
  * .10
   - New Helper! Install-ChocolateyPowershellCommand - adds a powershell script as a command to your computer. Give it an optional url to download the file if not included.
+ * .11
+  - Fixing an issue with install missing.
 $h2
 $h2
 using (var legalese = new LawyerText()) {
@@ -381,8 +383,11 @@ param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?
       }
     }
     
-    $versionFoundCompare = $versionFound.Split('.') | %{('0' * (5 - $_.Length)) + $_} 
-    $versionFoundCompare = [System.String]::Join('.',$versionFoundCompare)
+    $versionFoundCompare = ''
+    if ($versionFound -ne 'no version') {
+      $versionFoundCompare = $versionFound.Split('.') | %{('0' * (5 - $_.Length)) + $_} 
+      $versionFoundCompare = [System.String]::Join('.',$versionFoundCompare)
+    }    
   
     $verMessage = "The most recent version of $package available from ($source) is $versionLatest. On your machine you have $versionFound installed."
     if ($versionLatest -eq $versionFound) { 
