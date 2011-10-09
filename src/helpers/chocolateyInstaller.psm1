@@ -428,7 +428,46 @@ param([string] $targetFilePath)
   }
 }
 
-Export-ModuleMember -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Install-ChocolateyZipPackage, Install-ChocolateyPowershellCommand, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink
+function Write-Host {
+param(
+		[Parameter(Position=0,Mandatory=$false,ValueFromPipeline=$true)][object]$Object,
+		[Parameter()][switch] $NoNewLine, 
+		[Parameter(Mandatory=$false)][ConsoleColor] $ForegroundColor, 
+		[Parameter(Mandatory=$false)][ConsoleColor] $BackgroundColor,
+		[Parameter(Mandatory=$false)][Object] $Separator
+)
+
+	$chocoPath = (Split-Path -parent $helpersPath)
+	$chocoInstallLog = Join-Path $chocoPath 'chocolateyPSInstall.log'
+	$Object | Out-File -FilePath $chocoInstallLog -Force -Append
+	
+ 	$oc = Get-Command 'Write-Host' | ?{$_.ModuleName -eq 'Microsoft.PowerShell.Utility'} 
+	#I owe this guy a drink - http://powershell.com/cs/blogs/tobias/archive/2011/08/03/clever-splatting-to-pass-optional-parameters.aspx
+	& $oc @PSBoundParameters
+}
+
+function Write-Error {
+param(
+		[Parameter(Position=0,Mandatory=$true,ValueFromPipeline=$true)][string]$Message='',
+		[Parameter(Mandatory=$false)][System.Management.Automation.ErrorCategory]$Category,
+		[Parameter(Mandatory=$false)][string]$ErrorId,
+		[Parameter(Mandatory=$false)][object]$TargetObject,
+		[Parameter(Mandatory=$false)][string]$CategoryActivity,
+		[Parameter(Mandatory=$false)][string]$CategoryReason,
+		[Parameter(Mandatory=$false)][string]$CategoryTargetName,
+		[Parameter(Mandatory=$false)][string]$CategoryTargetType,
+		[Parameter(Mandatory=$false)][string]$RecommendedAction
+)		
+
+	$chocoPath = (Split-Path -parent $helpersPath)
+	$chocoInstallLog = Join-Path $chocoPath 'chocolateyPSInstall.log'
+	"[ERROR] $Message" | Out-File -FilePath $chocoInstallLog -Force -Append
+
+	$oc = Get-Command 'Write-Error' | ?{$_.ModuleName -eq 'Microsoft.PowerShell.Utility'} 
+	& $oc @PSBoundParameters
+}
+
+Export-ModuleMember -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Install-ChocolateyZipPackage, Install-ChocolateyPowershellCommand, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink, Write-Host, Write-Error
 
 # http://poshcode.org/417
 ## Get-WebFile (aka wget for PowerShell)

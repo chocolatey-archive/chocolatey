@@ -416,6 +416,17 @@ param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=
   }
 }
 
+function Remove-LastPSInstallLog{
+	$chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyPSInstall.log'
+	try {
+    if ([System.IO.File]::Exists($chocoInstallLog)) {[System.IO.File]::Delete($chocoInstallLog)}
+  } catch {
+    Write-Error "Could not delete `'$chocoInstallLog`': $($_.Exception.Message)"
+  }
+}
+
+Remove-LastPSInstallLog
+
 #main entry point
 switch -wildcard ($command) 
 {
