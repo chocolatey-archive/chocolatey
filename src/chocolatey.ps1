@@ -130,7 +130,6 @@ $h2
 "@ | Write-Host
 
   $srcArgs = "/source $source"
-
   if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
     $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
   }
@@ -299,6 +298,7 @@ v0.9.8
   - New Helper! Install-ChocolateyPowershellCommand - adds a powershell script as a command to your computer. Give it an optional url to download the file if not included.
  * .11
   - Fixing an issue with install missing.
+  - Fixing an issue with update not finding packages that only exist on chocolatey.org
 $h2
 $h2
 using (var legalese = new LawyerText()) {
@@ -343,7 +343,12 @@ $h1
 function Chocolatey-List {
   param([string]$selector='', [string]$source='https://go.microsoft.com/fwlink/?LinkID=206669');
   
-  $parameters = "list /source $source"
+  $srcArgs = "/source $source"
+  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
+    $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
+  }
+  
+  $parameters = "list $srcArgs"
   
   if ($selector -ne '') {
 	$parameters = "$parameters ""$selector"""
@@ -362,9 +367,14 @@ param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?
     $packages = $packageFolders -replace "(\.\d{1,})+"|gu 
   }
   
+  $srcArgs = "/source $source"
+  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
+    $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
+  }
+  
   foreach ($package in $packages) {
     $logFile = Join-Path $nugetChocolateyPath 'list.log'
-    Start-Process $nugetExe -ArgumentList "list /source $source ""$package""" -NoNewWindow -Wait -RedirectStandardOutput $logFile
+    Start-Process $nugetExe -ArgumentList "list ""$package"" $srcArgs" -NoNewWindow -Wait -RedirectStandardOutput $logFile
     Start-Sleep 1 #let it finish writing to the config file
 
     $versionLatest = Get-Content $logFile | ?{$_ -match "^$package\s+\d+"} | sort $_ -Descending | select -First 1 
