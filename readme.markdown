@@ -8,9 +8,9 @@ Apache 2.0 - see docs/legal (just LEGAL in the zip folder)
 # INFO
 ##Please see the [wiki](https://github.com/chocolatey/chocolatey/wiki)  
   
-# SOURCE REQUIREMENTS  
+# SOURCE REQUIREMENTS   
 * .NET Framework 4.0  
-* Source control on the command line and in PATH environment variable - git for Git  
+* PowerShell 2.0+  
   
 # CREDITS  
 see docs/legal/CREDITS (just LEGAL/Credits in the zip folder)  
