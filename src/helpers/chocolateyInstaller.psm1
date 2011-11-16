@@ -441,7 +441,7 @@ param(
 	$chocoInstallLog = Join-Path $chocoPath 'chocolateyPSInstall.log'
 	$Object | Out-File -FilePath $chocoInstallLog -Force -Append
 	
- 	$oc = Get-Command 'Write-Host' | ?{$_.ModuleName -eq 'Microsoft.PowerShell.Utility'} 
+ 	$oc = Get-Command 'Write-Host' -Module 'Microsoft.PowerShell.Utility' 
 	#I owe this guy a drink - http://powershell.com/cs/blogs/tobias/archive/2011/08/03/clever-splatting-to-pass-optional-parameters.aspx
 	& $oc @PSBoundParameters
 }
@@ -463,7 +463,7 @@ param(
 	$chocoInstallLog = Join-Path $chocoPath 'chocolateyPSInstall.log'
 	"[ERROR] $Message" | Out-File -FilePath $chocoInstallLog -Force -Append
 
-	$oc = Get-Command 'Write-Error' | ?{$_.ModuleName -eq 'Microsoft.PowerShell.Utility'} 
+ 	$oc = Get-Command 'Write-Error' -Module 'Microsoft.PowerShell.Utility' 
 	& $oc @PSBoundParameters
 }
 
