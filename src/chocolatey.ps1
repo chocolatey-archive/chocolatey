@@ -7,7 +7,7 @@ param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=
 
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.11'
+$chocVer = '0.9.8.12'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -208,7 +208,7 @@ $h2
     try {
       $files = get-childitem $packageFolder -include *.exe -recurse
       foreach ($file in $files) {
-        Generate-BinFile $file.Name.Replace(".exe","") $file.FullName
+        Generate-BinFile $file.Name.Replace(".exe","").Replace(".EXE","") $file.FullName
       }
     }
     catch {
