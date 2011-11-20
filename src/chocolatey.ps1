@@ -171,10 +171,11 @@ $h2
     
     if ($ps1 -notlike '') {
       $ps1FullPath = $ps1.FullName
-      $importChocolateyHelpers = "";
-      Get-ChildItem "$nugetChocolateyPath\helpers" -Filter *.psm1 | ForEach-Object { $importChocolateyHelpers = "& import-module -name  `'$($_.FullName)`';$importChocolateyHelpers" };
-      Run-ChocolateyProcess powershell "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers & `'$ps1FullPath`'`"" -elevated
-      #testing Start-Process -FilePath "powershell.exe" -ArgumentList " -noexit `"$ps1FullPath`"" -Verb "runas"  -Wait  #-PassThru -UseNewEnvironment #-RedirectStandardError $errorLog -WindowStyle Normal
+      & "$ps1FullPath"
+      # $importChocolateyHelpers = "";
+      # Get-ChildItem "$nugetChocolateyPath\helpers" -Filter *.psm1 | ForEach-Object { $importChocolateyHelpers = "& import-module -name  `'$($_.FullName)`';$importChocolateyHelpers" };
+      # Run-ChocolateyProcess powershell "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers & `'$ps1FullPath`'`"" -elevated
+      ##testing Start-Process -FilePath "powershell.exe" -ArgumentList " -noexit `"$ps1FullPath`"" -Verb "runas"  -Wait  #-PassThru -UseNewEnvironment ##-RedirectStandardError $errorLog -WindowStyle Normal
       
       #detect errors
       $chocTempDir = Join-Path $env:TEMP "chocolatey"
@@ -299,6 +300,10 @@ v0.9.8
  * .11
   - Fixing an issue with install missing.
   - Fixing an issue with update not finding packages that only exist on chocolatey.org
+ * .12
+  - Fixed an issue with write-host and write-error overrides
+  - Fixed an issue with getting the full path to powershell
+  - Reduced window pop ups
 $h2
 $h2
 using (var legalese = new LawyerText()) {

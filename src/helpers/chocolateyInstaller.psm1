@@ -5,7 +5,7 @@ param([string] $statements, [string] $exeToRun = 'powershell')
 
   $wrappedStatements = $statements;
   if ($exeToRun -eq 'powershell') {
-    
+    $exeToRun = "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe"
     if (!$statements.EndsWith(';')){$statements = $statements + ';'}
     $importChocolateyHelpers = "";
     Get-ChildItem "$helpersPath" -Filter *.psm1 | ForEach-Object { $importChocolateyHelpers = "& import-module -name  `'$($_.FullName)`';$importChocolateyHelpers" };
