@@ -28,6 +28,8 @@ $nugetChocolateyInstallIfMissingAlias = Join-Path $nugetExePath 'cinstm.bat'
 $nugetChocolateyUpdateAlias = Join-Path $nugetExePath 'cup.bat'
 $nugetChocolateyListAlias = Join-Path $nugetExePath 'clist.bat'
 $nugetChocolateyVersionAlias = Join-Path $nugetExePath 'cver.bat'
+$nugetChocolateyWebPiAlias = Join-Path $nugetExePath 'cwebpi.bat'
+$nugetChocolateyGemAlias = Join-Path $nugetExePath 'cgem.bat'
 
 Write-Host "Creating `'$nugetChocolateyBinFile`' so you can call 'chocolatey' from anywhere."
 "@echo off
@@ -47,6 +49,12 @@ Write-Host "Creating `'$nugetChocolateyListAlias`' so you can call 'chocolatey l
 Write-Host "Creating `'$nugetChocolateyVersionAlias`' so you can call 'chocolatey version' from a shortcut of 'cver'."
 "@echo off
 ""$nugetChocolateyPath\chocolatey.cmd"" version %*" | Out-File $nugetChocolateyVersionAlias -encoding ASCII
+Write-Host "Creating `'$nugetChocolateyWebPiAlias`' so you can call 'chocolatey webpi' from a shortcut of 'cwebpi'."
+"@echo off
+""$nugetChocolateyPath\chocolatey.cmd"" webpi %*" | Out-File $nugetChocolateyWebPiAlias -encoding ASCII
+Write-Host "Creating `'$nugetChocolateyGemAlias`' so you can call 'chocolatey gem' from a shortcut of 'cgem'."
+"@echo off
+""$nugetChocolateyPath\chocolatey.cmd"" gem %*" | Out-File $nugetChocolateyGemAlias -encoding ASCII
 }
 
 function Initialize-Chocolatey {

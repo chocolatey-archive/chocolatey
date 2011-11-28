@@ -7,7 +7,7 @@ param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=
 
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.12'
+$chocVer = '0.9.8.13'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -37,12 +37,28 @@ param([string]$file, [string]$arguments = $args, [switch] $elevated);
   }
 }
 
+function Chocolatey-Install {
+param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669')
+  switch -wildcard ($source) 
+  {
+    "webpi" { Chocolatey-WebPI $packageName; }
+    "ruby" { Chocolatey-RubyGem $packageName $version; }
+    default { Chocolatey-NuGet  $packageName $source $version; }
+  }
+
+}
+
 function Chocolatey-NuGet { 
 param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669')
 
+  $srcArgs = "$source"
+  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
+    $srcArgs = "http://chocolatey.org/api/feeds/ OR $source"
+  }
+
 @"
 $h1
-Chocolatey ($chocVer) is installing $packageName (from $source) to "$nugetLibPath"
+Chocolatey ($chocVer) is installing $packageName (from $srcArgs) to "$nugetLibPath"
 $h1
 Package License Acceptance Terms
 $h2
@@ -106,7 +122,7 @@ $h2
   
 @"
 $h1
-Chocolatey has finished installing $packageName
+Chocolatey has finished installing `'$packageName`' - check log for errors.
 $h1
 "@ | Write-Host
 }
@@ -304,6 +320,9 @@ v0.9.8
   - Fixed an issue with write-host and write-error overrides
   - Fixed an issue with getting the full path to powershell
   - Reduced window pop ups
+ * .13
+  - New Command! WebPI - chocolatey webpi (cwebpi) will install items from Web PI. Alternatively, you can specify -source webpi
+  - New Command! Gem - chocolatey gem (cgem) will install Ruby Gems. Alternatively, you can specify -source ruby
 $h2
 $h2
 using (var legalese = new LawyerText()) {
@@ -325,7 +344,7 @@ $h2
 $h2
 Usage
 $h2
-chocolatey [install packageName [-source source] [-version version]  | installmissing packageName [-source source] | update packageName [-source source] [-version version] | list [packageName] [-source source] | help | version [packageName]]
+chocolatey [install packageName [-source source] [-version version]  | installmissing packageName [-source source] | update packageName [-source source] [-version version] | list [packageName] [-source source] | help | version [packageName] | webpi packageName | gem packageName [-version version]]
 
 example: chocolatey install nunit
 example: chocolatey install nunit -version 2.5.7.10213
@@ -431,8 +450,79 @@ param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=
   }
 }
 
-function Remove-LastPSInstallLog{
-	$chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyPSInstall.log'
+function Chocolatey-WebPI {
+param([string] $packageName)
+  Chocolatey-InstallIfMissing 'webpicommandline'
+  
+@"
+$h1
+Chocolatey ($chocVer) is installing `'$packageName`' (using WebPI)
+$h1
+Package License Acceptance Terms
+$h2
+Please run chocolatey /? for full license acceptance verbage. By installing you accept the license for the package you are installing...
+$h2
+"@ | Write-Host
+  
+  $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWebPiInstall.log';
+  Remove-LastInstallLog $chocoInstallLog
+ 
+  $webpiArgs ="/c webpicmd /Install /AcceptEula /SuppressReboot /Products:$packageName"
+  
+  Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $webpiArgs`'. If progress is taking a long time, please check that window..."
+  
+  #Start-Process -FilePath "cmd" -ArgumentList "$webpiArgs" -Verb "runas"  -Wait >$chocoInstallLog #-PassThru -UseNewEnvironment >
+  #Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $webpiArgs | Out-String`"" -Verb "runas"  -Wait | Write-Host  #-PassThru -UseNewEnvironment
+  Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $webpiArgs | Tee-Object -FilePath $chocoInstallLog`"" -Verb "RunAs"  -Wait -WindowStyle Minimized
+  
+  $webpiOutput = Get-Content $chocoInstallLog -Encoding Ascii
+	foreach ($line in $webpiOutput) {
+    Write-Host $line
+  }
+  
+@"
+$h1
+Chocolatey has finished installing `'$packageName`' - check log for errors.
+$h1
+"@ | Write-Host
+}
+
+function Chocolatey-RubyGem {
+param([string] $packageName, $version ='')
+  Chocolatey-InstallIfMissing 'ruby'
+  
+@"
+$h1
+Chocolatey ($chocVer) is installing Ruby Gem `'$packageName`' (using RubyGems.org)
+$h1
+Package License Acceptance Terms
+$h2
+Please run chocolatey /? for full license acceptance verbage. By installing you accept the license for the package you are installing...
+$h2
+"@ | Write-Host
+  
+  if ($($env:Path).ToLower().Contains("ruby") -eq $false) {
+    $env:Path = [Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Machine);
+  }
+  
+  $packageArgs = "/c gem install $packageName"
+  if ($version -notlike '') {
+    $packageArgs = $packageArgs + " -v $version";
+  }
+  & cmd.exe $packageArgs
+
+@"
+$h1
+Chocolatey has finished installing `'$packageName`' - check log for errors.
+$h1
+"@ | Write-Host
+}
+
+function Remove-LastInstallLog{
+param([string] $chocoInstallLog = '')
+  if ($chocoInstallLog -eq '') {
+    $chocoInstallLog = (Join-Path $nugetChocolateyPath 'chocolateyInstall.log')
+  }
 	try {
     if ([System.IO.File]::Exists($chocoInstallLog)) {[System.IO.File]::Delete($chocoInstallLog)}
   } catch {
@@ -440,15 +530,17 @@ function Remove-LastPSInstallLog{
   }
 }
 
-Remove-LastPSInstallLog
+Remove-LastInstallLog
 
 #main entry point
 switch -wildcard ($command) 
 {
-  "install" { Chocolatey-NuGet  $packageName $source $version; }
+  "install" { Chocolatey-Install  $packageName $source $version; }
   "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
   "update" { Chocolatey-Update $packageName $source; }
   "list" { Chocolatey-List $packageName $source; }
   "version" { Chocolatey-Version $packageName $source; }
+  "webpi" { Chocolatey-WebPI $packageName; }
+  "gem" { Chocolatey-RubyGem $packageName $version; }
   default { Chocolatey-Help; }
 }

@@ -438,7 +438,7 @@ param(
 )
 
 	$chocoPath = (Split-Path -parent $helpersPath)
-	$chocoInstallLog = Join-Path $chocoPath 'chocolateyPSInstall.log'
+	$chocoInstallLog = Join-Path $chocoPath 'chocolateyInstall.log'
 	$Object | Out-File -FilePath $chocoInstallLog -Force -Append
 	
  	$oc = Get-Command 'Write-Host' -Module 'Microsoft.PowerShell.Utility' 
@@ -460,7 +460,7 @@ param(
 )		
 
 	$chocoPath = (Split-Path -parent $helpersPath)
-	$chocoInstallLog = Join-Path $chocoPath 'chocolateyPSInstall.log'
+	$chocoInstallLog = Join-Path $chocoPath 'chocolateyInstall.log'
 	"[ERROR] $Message" | Out-File -FilePath $chocoInstallLog -Force -Append
 
  	$oc = Get-Command 'Write-Error' -Module 'Microsoft.PowerShell.Utility' 
