@@ -532,6 +532,28 @@ param([string] $chocoInstallLog = '')
 
 Remove-LastInstallLog
 
+function Chocolatey-Pack {
+param([string] $packageName)
+
+  $packageArgs = "pack $packageName -NoPackageAnalysis"
+  $logFile = Join-Path $nugetChocolateyPath 'pack.log'
+  $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
+  
+  Write-Host "Calling `'$nugetExe $packageArgs`'."
+  
+  Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile -RedirectStandardError $errorLogFile
+
+  $nugetOutput = Get-Content $logFile -Encoding Ascii
+  foreach ($line in $nugetOutput) {
+    Write-Host $line
+  }
+  $errors = Get-Content $errorLogFile
+  if ($errors -ne '') {
+    Write-Host $errors -BackgroundColor Red -ForegroundColor White
+    #throw $errors
+  }
+}
+
 function Chocolatey-Push {
 param([string] $packageName, $source = 'http://chocolatey.org/' )
 
@@ -543,6 +565,9 @@ param([string] $packageName, $source = 'http://chocolatey.org/' )
   $packageArgs = "push $packageName $srcArgs"
   $logFile = Join-Path $nugetChocolateyPath 'push.log'
   $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
+  
+  Write-Host "Calling `'$nugetExe $packageArgs`'. This may take a few minutes. Please wait for the command to finish."
+  
   Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile -RedirectStandardError $errorLogFile
 
   $nugetOutput = Get-Content $logFile -Encoding Ascii
@@ -566,6 +591,7 @@ switch -wildcard ($command)
   "version" { Chocolatey-Version $packageName $source; }
   "webpi" { Chocolatey-WebPI $packageName; }
   "gem" { Chocolatey-RubyGem $packageName $version; }
+  "pack" { Chocolatey-Pack $packageName; }
   "push" { Chocolatey-Push $packageName $source; }
   default { Chocolatey-Help; }
 }
