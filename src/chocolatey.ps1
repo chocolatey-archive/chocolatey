@@ -532,6 +532,30 @@ param([string] $chocoInstallLog = '')
 
 Remove-LastInstallLog
 
+function Chocolatey-Push {
+param([string] $packageName, $source = 'http://chocolatey.org/' )
+
+  $srcArgs = "-source $source"
+  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
+    $srcArgs = "-source http://chocolatey.org/"
+  }
+
+  $packageArgs = "push $packageName $srcArgs"
+  $logFile = Join-Path $nugetChocolateyPath 'push.log'
+  $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
+  Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile -RedirectStandardError $errorLogFile
+
+  $nugetOutput = Get-Content $logFile -Encoding Ascii
+  foreach ($line in $nugetOutput) {
+    Write-Host $line
+  }
+  $errors = Get-Content $errorLogFile
+  if ($errors -ne '') {
+    Write-Host $errors -BackgroundColor Red -ForegroundColor White
+    #throw $errors
+  }
+}
+
 #main entry point
 switch -wildcard ($command) 
 {
@@ -542,5 +566,6 @@ switch -wildcard ($command)
   "version" { Chocolatey-Version $packageName $source; }
   "webpi" { Chocolatey-WebPI $packageName; }
   "gem" { Chocolatey-RubyGem $packageName $version; }
+  "push" { Chocolatey-Push $packageName $source; }
   default { Chocolatey-Help; }
 }

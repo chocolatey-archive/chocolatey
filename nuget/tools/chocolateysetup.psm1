@@ -30,6 +30,7 @@ $nugetChocolateyListAlias = Join-Path $nugetExePath 'clist.bat'
 $nugetChocolateyVersionAlias = Join-Path $nugetExePath 'cver.bat'
 $nugetChocolateyWebPiAlias = Join-Path $nugetExePath 'cwebpi.bat'
 $nugetChocolateyGemAlias = Join-Path $nugetExePath 'cgem.bat'
+$nugetChocolateyPushAlias = Join-Path $nugetExePath 'cpush.bat'
 
 Write-Host "Creating `'$nugetChocolateyBinFile`' so you can call 'chocolatey' from anywhere."
 "@echo off
@@ -55,6 +56,9 @@ Write-Host "Creating `'$nugetChocolateyWebPiAlias`' so you can call 'chocolatey 
 Write-Host "Creating `'$nugetChocolateyGemAlias`' so you can call 'chocolatey gem' from a shortcut of 'cgem'."
 "@echo off
 ""$nugetChocolateyPath\chocolatey.cmd"" gem %*" | Out-File $nugetChocolateyGemAlias -encoding ASCII
+Write-Host "Creating `'$nugetChocolateyPushAlias`' so you can call 'chocolatey push' from a shortcut of 'cpush'."
+"@echo off
+""$nugetChocolateyPath\chocolatey.cmd"" push %*" | Out-File $nugetChocolateyPushAlias -encoding ASCII
 }
 
 function Initialize-Chocolatey {
