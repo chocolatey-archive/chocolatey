@@ -97,10 +97,7 @@ param(
     $nugetPath = $alreadyInitializedNugetPath
   }
   else {
-		#if we are just using the default, don't create the environment variable
-		if ($nugetPath -ne $defaultNugetPath) {
-			Set-ChocolateyInstallFolder $nugetPath
-		}
+    Set-ChocolateyInstallFolder $nugetPath
   }
 
   #set up variables to add
