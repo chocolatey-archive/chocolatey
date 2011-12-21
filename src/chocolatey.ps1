@@ -145,7 +145,7 @@ NuGet
 $h2
 "@ | Write-Host
 
-  $srcArgs = "/source $source"
+  $srcArgs = "/source `"$source`""
   if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
     $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
   }
