@@ -369,6 +369,10 @@ $h1
 function Chocolatey-List {
   param([string]$selector='', [string]$source='https://go.microsoft.com/fwlink/?LinkID=206669',[switch] $allVersions = $false );
   
+  if ($source -like 'webpi') {
+    $webpiArgs ="/c webpicmd /List /ListOption:All"
+    & cmd.exe $webpiArgs 
+  } else {  
   
     $srcArgs = "/source $source"
     if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
@@ -385,6 +389,7 @@ function Chocolatey-List {
 
     Start-Process $nugetExe -ArgumentList $parameters -NoNewWindow -Wait 
   }
+} 
 
 function Chocolatey-Version {
 param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?LinkID=206669')
