@@ -323,6 +323,8 @@ v0.9.8
  * .13
   - New Command! WebPI - chocolatey webpi (cwebpi) will install items from Web PI. Alternatively, you can specify -source webpi
   - New Command! Gem - chocolatey gem (cgem) will install Ruby Gems. Alternatively, you can specify -source ruby
+  - New Command! Pack - chocolatey pack (cpack) will package your chocolatey package
+  - New Command! Push - chocolatey push (cpush) will push your chocolatey package to http://chocolatey.org/
 $h2
 $h2
 using (var legalese = new LawyerText()) {
