@@ -262,28 +262,36 @@ There is no error handling built into this method.
 Install-ChocolateyPackage
 #>
 param([string] $packageName, [string] $fileType = 'exe',[string] $silentArgs = '',[string] $file)
-$installMessage = "Installing $packageName..."
-	if ($silentArgs -ne '') { $installMessage = "$installMessage silently...";}
-	write-host $installMessage
-	
-	if ($fileType -like 'msi') {
-		$msiArgs = "/i `"$file`"" 
-		if ($silentArgs -ne '') { $msiArgs = "$msiArgs $silentArgs";}
-		Start-ChocolateyProcessAsAdmin "$msiArgs" 'msiexec'
-		#Start-Process -FilePath msiexec -ArgumentList $msiArgs -Wait
-	}
-	if ($fileType -like 'exe') {
-		if ($silentArgs -ne '') {
-			Start-ChocolateyProcessAsAdmin "$silentArgs" $file
-			#Start-Process -FilePath $file -ArgumentList $silentArgs -Wait 
-		} else {
-			Start-ChocolateyProcessAsAdmin '' $file
-			#Start-Process -FilePath $file -Wait 
-		}
-	}
-	
-	write-host "$packageName has been installed."
-	Start-Sleep 3
+  $installMessage = "Installing $packageName..."
+  write-host $installMessage
+
+  $additionalInstallArgs = $env:chocolateyInstallArguments;
+  if ($additionalInstallArgs -eq $null) { $additionalInstallArgs = ''; }
+  $overrideArguments = $env:chocolateyInstallOverride;
+    
+  if ($fileType -like 'msi') {
+    $msiArgs = "/i `"$file`"" 
+    if ($overrideArguments) { 
+      $msiArgs = "$msiArgs $additionalInstallArgs";
+      write-host "Overriding package arguments with `'$additionalInstallArgs`'";
+    } else {
+      $msiArgs = "$msiArgs $silentArgs $additionalInstallArgs";
+    }
+    
+    Start-ChocolateyProcessAsAdmin "$msiArgs" 'msiexec'
+    #Start-Process -FilePath msiexec -ArgumentList $msiArgs -Wait
+  }
+  if ($fileType -like 'exe') {
+    if ($overrideArguments) {
+      Start-ChocolateyProcessAsAdmin "$additionalInstallArgs" $file
+      write-host "Overriding package arguments with `'$additionalInstallArgs`'";
+    } else {
+      Start-ChocolateyProcessAsAdmin "$silentArgs $additionalInstallArgs" $file
+    }
+  }
+
+  write-host "$packageName has been installed."
+  Start-Sleep 3
 }
 
 function Get-ChocolateyUnzip {

@@ -1,4 +1,4 @@
-param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=206669',$version='',[switch] $all = $false,$installerArguments = '')#todo:,[switch] $silent,[switch] $notsilent = $false)
+param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=206669',$version='',[alias("all")][switch] $allVersions = $false,[alias("ia","installArgs")][string] $installArguments = '',[alias("o","override","overrideArguments","notSilent")][switch] $overrideArgs = $false)#todo:,[switch] $silent,[switch] $notsilent = $false)
 # chocolatey
 # Copyright (c) 2011 Rob Reynolds
 # Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1
@@ -38,11 +38,11 @@ param([string]$file, [string]$arguments = $args, [switch] $elevated);
 }
 
 function Chocolatey-Install {
-param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669')
+param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669', [string] $installerArguments ='')
   switch -wildcard ($source) 
   {
-    "webpi" { Chocolatey-WebPI $packageName; }
-    "ruby" { Chocolatey-RubyGem $packageName $version; }
+    "webpi" { Chocolatey-WebPI $packageName $installerArguments; }
+    "ruby" { Chocolatey-RubyGem $packageName $version $installerArguments; }
     default { Chocolatey-NuGet  $packageName $source $version; }
   }
 
@@ -112,7 +112,7 @@ $h2
 
           if ([System.IO.Directory]::Exists($packageFolder)) {
             Delete-ExistingErrorLog $installedPackageName
-            Run-ChocolateyPS1 $packageFolder $installedPackageName
+            Run-ChocolateyPS1 $packageFolder $installedPackageName $installerArguments
             Get-ChocolateyBins $packageFolder
           }
         }
@@ -186,8 +186,17 @@ $h2
     $ps1 = Get-ChildItem  $packageFolder -recurse | ?{$_.name -match "chocolateyinstall.ps1"} | sort name -Descending | select -First 1
     
     if ($ps1 -notlike '') {
+      $env:chocolateyInstallArguments = "$installArguments"
+      $env:chocolateyInstallOverride = $null
+      if ($overrideArgs -eq $true) {
+        $env:chocolateyInstallOverride = $true
+      } 
+      
       $ps1FullPath = $ps1.FullName
       & "$ps1FullPath"
+      $env:chocolateyInstallArguments = ''
+      $env:chocolateyInstallOverride = $null
+      
       # $importChocolateyHelpers = "";
       # Get-ChildItem "$nugetChocolateyPath\helpers" -Filter *.psm1 | ForEach-Object { $importChocolateyHelpers = "& import-module -name  `'$($_.FullName)`';$importChocolateyHelpers" };
       # Run-ChocolateyProcess powershell "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers & `'$ps1FullPath`'`"" -elevated
@@ -461,7 +470,7 @@ param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=
 }
 
 function Chocolatey-WebPI {
-param([string] $packageName)
+param([string] $packageName, [string] $installerArguments ='')
   Chocolatey-InstallIfMissing 'webpicommandline'
   
 @"
@@ -477,9 +486,16 @@ $h2
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWebPiInstall.log';
   Remove-LastInstallLog $chocoInstallLog
  
-  $webpiArgs ="/c webpicmd /Install /AcceptEula /SuppressReboot /Products:$packageName"
+  $webpiArgs = "/c webpicmd /Install /AcceptEula /SuppressReboot /Products:$packageName"
+  if ($installerArguments -ne '') {
+    $webpiArgs = "$webpiArgs $installerArguments"
+  }
+  if ($overrideArgs -eq $true) {
+    $webpiArgs = "/c webpicmd $installerArguments /Products:$packageName"
+    write-host "Overriding arguments for WebPI"
+  }  
   
-  Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $webpiArgs`'. If progress is taking a long time, please check that window..."
+  Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $webpiArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
   
   #Start-Process -FilePath "cmd" -ArgumentList "$webpiArgs" -Verb "runas"  -Wait >$chocoInstallLog #-PassThru -UseNewEnvironment >
   #Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $webpiArgs | Out-String`"" -Verb "runas"  -Wait | Write-Host  #-PassThru -UseNewEnvironment
@@ -498,7 +514,7 @@ $h1
 }
 
 function Chocolatey-RubyGem {
-param([string] $packageName, $version ='')
+param([string] $packageName, $version ='', [string] $installerArguments ='')
   Chocolatey-InstallIfMissing 'ruby'
   
 @"
@@ -520,6 +536,10 @@ $h2
     $packageArgs = $packageArgs + " -v $version";
   }
   & cmd.exe $packageArgs
+  
+  if ($installerArguments -ne '') {
+    $packageArgs = $packageArgs + " -v $version $installerArguments";
+  }
 
 @"
 $h1
@@ -594,14 +614,13 @@ param([string] $packageName, $source = 'http://chocolatey.org/' )
 #main entry point
 switch -wildcard ($command) 
 {
-  "install" { Chocolatey-Install  $packageName $source $version; }
+  "install" { Chocolatey-Install  $packageName $source $version $installArguments; }
   "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
   "update" { Chocolatey-Update $packageName $source; }
-  "list" { Chocolatey-List $packageName $source; }
-  "list" { Chocolatey-List $packageName $source -allVersions = $all; }
+  "list" { Chocolatey-List $packageName $source -allVersions = $allVersions; }
   "version" { Chocolatey-Version $packageName $source; }
-  "webpi" { Chocolatey-WebPI $packageName; }
-  "gem" { Chocolatey-RubyGem $packageName $version; }
+  "webpi" { Chocolatey-WebPI $packageName $installArguments; }
+  "gem" { Chocolatey-RubyGem $packageName $version $installArguments; }
   "pack" { Chocolatey-Pack $packageName; }
   "push" { Chocolatey-Push $packageName $source; }
   default { Chocolatey-Help; }
