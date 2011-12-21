@@ -1,4 +1,4 @@
-param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=206669',$version='')#todo:,[switch] $silent)
+param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=206669',$version='',[switch] $all = $false,$installerArguments = '')#todo:,[switch] $silent,[switch] $notsilent = $false)
 # chocolatey
 # Copyright (c) 2011 Rob Reynolds
 # Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1
@@ -365,21 +365,24 @@ $h1
 }
 
 function Chocolatey-List {
-  param([string]$selector='', [string]$source='https://go.microsoft.com/fwlink/?LinkID=206669');
+  param([string]$selector='', [string]$source='https://go.microsoft.com/fwlink/?LinkID=206669',[switch] $allVersions = $false );
   
-  $srcArgs = "/source $source"
-  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
-    $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
+  
+    $srcArgs = "/source $source"
+    if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
+      $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
+    }
+ 
+    $parameters = "list $srcArgs"
+    if ($allVersions -eq $true) {
+      $parameters = "$parameters -all"
+    }
+    if ($selector -ne '') {
+      $parameters = "$parameters ""$selector"""
+    }
+
+    Start-Process $nugetExe -ArgumentList $parameters -NoNewWindow -Wait 
   }
-  
-  $parameters = "list $srcArgs"
-  
-  if ($selector -ne '') {
-	$parameters = "$parameters ""$selector"""
-  }
-  
-  Start-Process $nugetExe -ArgumentList $parameters -NoNewWindow -Wait 
-}
 
 function Chocolatey-Version {
 param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?LinkID=206669')
@@ -588,6 +591,7 @@ switch -wildcard ($command)
   "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
   "update" { Chocolatey-Update $packageName $source; }
   "list" { Chocolatey-List $packageName $source; }
+  "list" { Chocolatey-List $packageName $source -allVersions = $all; }
   "version" { Chocolatey-Version $packageName $source; }
   "webpi" { Chocolatey-WebPI $packageName; }
   "gem" { Chocolatey-RubyGem $packageName $version; }
