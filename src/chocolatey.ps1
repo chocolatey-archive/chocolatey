@@ -70,6 +70,10 @@ function Chocolatey-PackagesConfig {
         throw "File not found: '$config'"
     }
     
+    $h1
+    "Installing packages from manifest: '$config'"
+    $h1
+    
     $xml = [xml] (Get-Content $config)
     $xml.packages.package | %{
         # At some point, we probably want Chocolatey manifests to 
