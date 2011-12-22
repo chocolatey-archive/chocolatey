@@ -405,9 +405,10 @@ example: chocolatey version
 example: chocolatey version nunit
 
 A shortcut to 'chocolatey install' is 'cinst'
-cinst packageName  [-source source] [-version version]
+cinst [packageName  [-source source] [-version version] | pathToPackagesConfig]
 example: cinst 7zip
 example: cinst ruby -version 1.8.7
+example: cinst packages.config
 $h1
 "@ | Write-Host
 }
