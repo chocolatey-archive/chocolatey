@@ -48,6 +48,24 @@ param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=
 
 }
 
+function Chocolatey-PackagesConfig {
+
+    param(
+        [Parameter(Mandatory = $true)]
+        [ValidateNotNullOrEmpty()]
+        [string] $config
+    )
+
+    if(-not(Test-Path $config)) {
+        throw "File not found: '$config'"
+    }
+    
+    $xml = [xml] (Get-Content $config)
+    $xml.packages.package | %{
+        Chocolatey-NuGet -packageName $_.id -version $_.version
+    }
+}
+
 function Chocolatey-NuGet { 
 param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669')
 
