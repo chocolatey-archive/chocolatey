@@ -71,7 +71,7 @@ function Chocolatey-PackagesConfig {
     }
     
     $h1
-    "Installing packages from manifest: '$config'"
+    "Installing packages from manifest: '$(Resolve-Path $config)'"
     $h1
     
     $xml = [xml] (Get-Content $config)
