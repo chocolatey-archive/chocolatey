@@ -391,10 +391,11 @@ $h2
 $h2
 Usage
 $h2
-chocolatey [install packageName [-source source] [-version version]  | installmissing packageName [-source source] | update packageName [-source source] [-version version] | list [packageName] [-source source] | help | version [packageName] | webpi packageName | gem packageName [-version version]]
+chocolatey [install [packageName [-source source] [-version version] | pathToPackagesConfig]  | installmissing packageName [-source source] | update packageName [-source source] [-version version] | list [packageName] [-source source] | help | version [packageName] | webpi packageName | gem packageName [-version version]]
 
 example: chocolatey install nunit
 example: chocolatey install nunit -version 2.5.7.10213
+example: chocolatey install packages.config
 example: chocolatey installmissing nunit
 example: chocolatey update nunit -source http://somelocalfeed.com/nuget/
 example: chocolatey help
