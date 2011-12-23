@@ -38,13 +38,14 @@ param([string]$file, [string]$arguments = $args, [switch] $elevated);
 }
 
 function Chocolatey-Install {
-param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669', [string] $installerArguments ='')
+    
+  param(
+    [string] $packageName, 
+    $source = 'https://go.microsoft.com/fwlink/?LinkID=206669', 
+    [string] $installerArguments =''
+  )
   
-  # I'm not sure if this is the most robust way to figure this out.
-  # But, I can't think of any other way a filepath to a packages 
-  # config file would be printed out. No goofy trailing characters 
-  # or anything.
-  if($packageName.EndsWith('packages.config')) {
+  if((Split-Path $packageName -Leaf) -eq 'packages.config') {
     Chocolatey-PackagesConfig $packageName
     return
   }
@@ -53,35 +54,34 @@ param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=
   {
     "webpi" { Chocolatey-WebPI $packageName $installerArguments; }
     "ruby" { Chocolatey-RubyGem $packageName $version $installerArguments; }
-    default { Chocolatey-NuGet  $packageName $source $version; }
+    default { Chocolatey-NuGet $packageName $source $version; }
   }
-
 }
 
 function Chocolatey-PackagesConfig {
 
-    param(
-        [Parameter(Mandatory = $true)]
-        [ValidateNotNullOrEmpty()]
-        [string] $config
-    )
+  param(
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string] $packagesConfigPath
+  )
 
-    if(-not(Test-Path $config)) {
-        throw "File not found: '$config'"
-    }
-    
-    $h1
-    "Installing packages from manifest: '$(Resolve-Path $config)'"
-    $h1
-    
-    $xml = [xml] (Get-Content $config)
-    $xml.packages.package | %{
-        # At some point, we probably want Chocolatey manifests to 
-        # support the webpi, gem, and other 'sources'. At that time,
-        # I think we'd change this function to call Chocolatey-Install
-        # instead of Chocolatey-NuGet directly.
-        Chocolatey-NuGet -packageName $_.id -version $_.version
-    }
+  if(-not(Test-Path $packagesConfigPath)) {
+    return
+  }
+  
+  $h1
+  "Installing packages from manifest: '$(Resolve-Path $packagesConfigPath)'"
+  $h1
+  
+  $xml = [xml] (Get-Content $packagesConfigPath)
+  $xml.packages.package | %{
+    # At some point, we probably want Chocolatey manifests to 
+    # support the webpi, gem, and other 'sources'. At that time,
+    # I think we'd change this function to call Chocolatey-Install
+    # instead of Chocolatey-NuGet directly.
+    Chocolatey-NuGet -packageName $_.id -version $_.version
+  }
 }
 
 function Chocolatey-NuGet { 
