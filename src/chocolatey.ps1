@@ -42,7 +42,8 @@ function Chocolatey-Install {
   param(
     [string] $packageName, 
     $source = 'https://go.microsoft.com/fwlink/?LinkID=206669', 
-    [string] $installerArguments =''
+    [string] $version = '',
+    [string] $installerArguments = ''
   )
   
   if((Split-Path $packageName -Leaf) -eq 'packages.config') {
@@ -76,11 +77,7 @@ function Chocolatey-PackagesConfig {
   
   $xml = [xml] (Get-Content $packagesConfigPath)
   $xml.packages.package | %{
-    # At some point, we probably want Chocolatey manifests to 
-    # support the webpi, gem, and other 'sources'. At that time,
-    # I think we'd change this function to call Chocolatey-Install
-    # instead of Chocolatey-NuGet directly.
-    Chocolatey-NuGet -packageName $_.id -version $_.version
+    Chocolatey-Install -packageName $_.id -source $_.source -version $_.version
   }
 }
 
@@ -652,7 +649,7 @@ param([string] $packageName, $source = 'http://chocolatey.org/' )
 #main entry point
 switch -wildcard ($command) 
 {
-  "install" { Chocolatey-Install  $packageName $source $version $installArguments; }
+  "install" { Chocolatey-Install $packageName $source $version $installArguments; }
   "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
   "update" { Chocolatey-Update $packageName $source; }
   "list" { Chocolatey-List $packageName $source -allVersions = $allVersions; }
