@@ -508,7 +508,7 @@ function Get-WebFile {
   {
     $cred = get-credential
     $proxyaddress = $webclient.Proxy.GetProxy($url).Authority
-    Write-host "Using this proxyserver: " $proxyaddress
+    Write-host "Using this proxyserver: $proxyaddress"
     $proxy = New-Object System.Net.WebProxy($proxyaddress)
     $proxy.credentials = $cred.GetNetworkCredential();
     $req.proxy = $proxy
