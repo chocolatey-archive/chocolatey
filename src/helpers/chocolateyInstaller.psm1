@@ -1,4 +1,4 @@
-helpersPath = (Split-Path -parent $MyInvocation.MyCommand.Definition);
+$helpersPath = (Split-Path -parent $MyInvocation.MyCommand.Definition);
 
 function Start-ChocolateyProcessAsAdmin {
 param([string] $statements, [string] $exeToRun = 'powershell')
