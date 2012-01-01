@@ -38,14 +38,47 @@ param([string]$file, [string]$arguments = $args, [switch] $elevated);
 }
 
 function Chocolatey-Install {
-param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669', [string] $installerArguments ='')
+    
+  param(
+    [string] $packageName, 
+    $source = 'https://go.microsoft.com/fwlink/?LinkID=206669', 
+    [string] $version = '',
+    [string] $installerArguments = ''
+  )
+  
+  if((Split-Path $packageName -Leaf) -eq 'packages.config') {
+    Chocolatey-PackagesConfig $packageName
+    return
+  }
+  
   switch -wildcard ($source) 
   {
     "webpi" { Chocolatey-WebPI $packageName $installerArguments; }
     "ruby" { Chocolatey-RubyGem $packageName $version $installerArguments; }
-    default { Chocolatey-NuGet  $packageName $source $version; }
+    default { Chocolatey-NuGet $packageName $source $version; }
   }
+}
 
+function Chocolatey-PackagesConfig {
+
+  param(
+    [Parameter(Mandatory = $true)]
+    [ValidateNotNullOrEmpty()]
+    [string] $packagesConfigPath
+  )
+
+  if(-not(Test-Path $packagesConfigPath)) {
+    return
+  }
+  
+  $h1
+  "Installing packages from manifest: '$(Resolve-Path $packagesConfigPath)'"
+  $h1
+  
+  $xml = [xml] (Get-Content $packagesConfigPath)
+  $xml.packages.package | %{
+    Chocolatey-Install -packageName $_.id -source $_.source -version $_.version
+  }
 }
 
 function Chocolatey-NuGet { 
@@ -355,10 +388,11 @@ $h2
 $h2
 Usage
 $h2
-chocolatey [install packageName [-source source] [-version version]  | installmissing packageName [-source source] | update packageName [-source source] [-version version] | list [packageName] [-source source] | help | version [packageName] | webpi packageName | gem packageName [-version version]]
+chocolatey [install [packageName [-source source] [-version version] | pathToPackagesConfig]  | installmissing packageName [-source source] | update packageName [-source source] [-version version] | list [packageName] [-source source] | help | version [packageName] | webpi packageName | gem packageName [-version version]]
 
 example: chocolatey install nunit
 example: chocolatey install nunit -version 2.5.7.10213
+example: chocolatey install packages.config
 example: chocolatey installmissing nunit
 example: chocolatey update nunit -source http://somelocalfeed.com/nuget/
 example: chocolatey help
@@ -368,9 +402,10 @@ example: chocolatey version
 example: chocolatey version nunit
 
 A shortcut to 'chocolatey install' is 'cinst'
-cinst packageName  [-source source] [-version version]
+cinst [packageName  [-source source] [-version version] | pathToPackagesConfig]
 example: cinst 7zip
 example: cinst ruby -version 1.8.7
+example: cinst packages.config
 $h1
 "@ | Write-Host
 }
@@ -614,7 +649,7 @@ param([string] $packageName, $source = 'http://chocolatey.org/' )
 #main entry point
 switch -wildcard ($command) 
 {
-  "install" { Chocolatey-Install  $packageName $source $version $installArguments; }
+  "install" { Chocolatey-Install $packageName $source $version $installArguments; }
   "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
   "update" { Chocolatey-Update $packageName $source; }
   "list" { Chocolatey-List $packageName $source -allVersions = $allVersions; }
