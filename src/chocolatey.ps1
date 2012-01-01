@@ -5,6 +5,12 @@ param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=
 # Big thanks to Keith Dahlby for all the powershell help! 
 # Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
 
+## Set the culture to invariant
+$currentThread = [System.Threading.Thread]::CurrentThread;
+$culture = [System.Globalization.CultureInfo]::InvariantCulture;
+$currentThread.CurrentCulture = $culture;
+$currentThread.CurrentUICulture = $culture;
+
 
 #Let's get Chocolatey!
 $chocVer = '0.9.8.13'

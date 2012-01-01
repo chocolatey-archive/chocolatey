@@ -8,9 +8,9 @@ if '%1'=='?' goto usage
 if '%1'=='/help' goto usage
 if '%1'=='help' goto usage
 
-%windir%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command "& import-module -name '%DIR%helpers\chocolateyInstaller.psm1';& '%DIR%chocolatey.ps1' %*"
+%windir%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command "[System.Threading.Thread]::CurrentThread.CurrentCulture = ''; [System.Threading.Thread]::CurrentThread.CurrentUICulture = '';& import-module -name '%DIR%helpers\chocolateyinstaller.psm1';& '%DIR%chocolatey.ps1' %*"
 
 goto :eof
 :usage
 
-%windir%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command "& import-module -name '%DIR%helpers\chocolateyInstaller.psm1';& '%DIR%chocolatey.ps1'"
+%windir%\System32\WindowsPowerShell\v1.0\powershell.exe -NoProfile -ExecutionPolicy unrestricted -Command "[System.Threading.Thread]::CurrentThread.CurrentCulture = ''; [System.Threading.Thread]::CurrentThread.CurrentUICulture = '';& import-module -name '%DIR%helpers\chocolateyinstaller.psm1';& '%DIR%chocolatey.ps1'"
