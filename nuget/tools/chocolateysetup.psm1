@@ -37,33 +37,43 @@ $nugetChocolateyPushAlias = Join-Path $nugetExePath 'cpush.bat'
 
 Write-Host "Creating `'$nugetChocolateyBinFile`' so you can call 'chocolatey' from anywhere."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" %*" | Out-File $nugetChocolateyBinFile -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyInstallAlias`' so you can call 'chocolatey install' from a shortcut of 'cinst'."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" install %*" | Out-File $nugetChocolateyInstallAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyInstallIfMissingAlias`' so you can call 'chocolatey installmissing' from a shortcut of 'cinstm'."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" installmissing %*" | Out-File $nugetChocolateyInstallIfMissingAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyUpdateAlias`' so you can call 'chocolatey update' from a shortcut of 'cup'."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" update %*" | Out-File $nugetChocolateyUpdateAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyListAlias`' so you can call 'chocolatey list' from a shortcut of 'clist'."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" list %*" | Out-File $nugetChocolateyListAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyVersionAlias`' so you can call 'chocolatey version' from a shortcut of 'cver'."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" version %*" | Out-File $nugetChocolateyVersionAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyWebPiAlias`' so you can call 'chocolatey webpi' from a shortcut of 'cwebpi'."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" webpi %*" | Out-File $nugetChocolateyWebPiAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyGemAlias`' so you can call 'chocolatey gem' from a shortcut of 'cgem'."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" gem %*" | Out-File $nugetChocolateyGemAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyPackAlias`' so you can call 'chocolatey pack' from a shortcut of 'cpack'."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" pack %*" | Out-File $nugetChocolateyPackAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyPushAlias`' so you can call 'chocolatey push' from a shortcut of 'cpush'."
 "@echo off
+SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" push %*" | Out-File $nugetChocolateyPushAlias -encoding ASCII
 }
 
@@ -130,7 +140,7 @@ Creating Chocolatey NuGet folders if they do not already exist.
   
   Install-ChocolateyFiles $nugetPath
   
-  $nugetExePathVariable = $nugetExePath.ToLower().Replace($nugetPath.ToLower(), "%$($chocInstallVariableName)%\").Replace("\\","\")
+  $nugetExePathVariable = $nugetExePath.ToLower().Replace($nugetPath.ToLower(), "%DIR%..\").Replace("\\","\")
   Create-ChocolateyBinFiles $nugetChocolateyPath.ToLower().Replace($nugetPath.ToLower(), "%$($chocInstallVariableName)%\").Replace("\\","\") $nugetExePath
   Initialize-ChocolateyPath $nugetExePath $nugetExePathVariable
   Process-ChocolateyBinFiles $nugetExePath $nugetExePathVariable
@@ -208,7 +218,7 @@ param(
       $reader.Close()
       $fileStream.Close()
       
-      $fileText = $fileText.ToLower().Replace($nugetPath.ToLower(), "%$($chocInstallVariableName)%\").Replace("\\","\")
+      $fileText = $fileText.ToLower().Replace("`"" + $nugetPath.ToLower(), "SET DIR=%~dp0%`n""%DIR%..\").Replace("\\","\")
       
       Set-Content $file -Value $fileText -Encoding Ascii
     }

@@ -287,9 +287,10 @@ $h2
 function Generate-BinFile {
 param([string] $name, [string] $path)
   $packageBatchFileName = Join-Path $nugetExePath "$name.bat"
-  $path = $path.ToLower().Replace($nugetPath.ToLower(), "%$($chocInstallVariableName)%\").Replace("\\","\")
+  $path = $path.ToLower().Replace($nugetPath.ToLower(), "%DIR%..\").Replace("\\","\")
   Write-Host "Adding $packageBatchFileName and pointing to $path"
 "@echo off
+SET DIR=%~dp0%
 ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII 
 }
 
