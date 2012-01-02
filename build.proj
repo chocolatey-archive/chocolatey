@@ -3,7 +3,7 @@
          xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <!--Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" /-->
   <PropertyGroup>
-    <GoDependsOn>PrepareNuGetFiles;Package</GoDependsOn>
+    <GoDependsOn>Tests;PrepareNuGetFiles;Package</GoDependsOn>
     <Configuration>Release</Configuration>
     <Platform>Any CPU</Platform>
     <BuildDirectory>_packaged_output\</BuildDirectory>
@@ -13,6 +13,10 @@
   </PropertyGroup>
 
   <Target Name="Go" DependsOnTargets="$(GoDependsOn)" />
+  
+  <Target Name="Tests">
+    <Exec Command="cmd /c pester"/>
+  </Target>
   
   <Target Name="PrepareNuGetFiles">
    <ItemGroup>
