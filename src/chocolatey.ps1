@@ -18,6 +18,7 @@ $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
 $nugetLibPath = Join-Path $nuGetPath 'lib'
+$chocInstallVariableName = "ChocolateyInstall"
 
 $nugetExe = Join-Path $nugetChocolateyPath 'nuget.exe'
 $h1 = '====================================================='
@@ -286,7 +287,8 @@ $h2
 function Generate-BinFile {
 param([string] $name, [string] $path)
   $packageBatchFileName = Join-Path $nugetExePath "$name.bat"
-	Write-Host "Adding $packageBatchFileName and pointing to $path"
+  $path = $path.ToLower().Replace($nugetPath.ToLower(), "%$($chocInstallVariableName)%\").Replace("\\","\")
+  Write-Host "Adding $packageBatchFileName and pointing to $path"
 "@echo off
 ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII 
 }

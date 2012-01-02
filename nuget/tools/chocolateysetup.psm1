@@ -1,9 +1,11 @@
+$thisScriptFolder = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $chocInstallVariableName = "ChocolateyInstall"
 $sysDrive = $env:SystemDrive
 $defaultNugetPath = "$sysDrive\NuGet"
 
 function Set-ChocolateyInstallFolder($folder){
   if(test-path $folder){
+    write-host "Creating $chocInstallVariableName as a User Environment variable and setting it to `'$folder`'"
     [Environment]::SetEnvironmentVariable($chocInstallVariableName, $folder, [System.EnvironmentVariableTarget]::User)
   }
   else{
@@ -105,7 +107,6 @@ param(
   }
 
   #set up variables to add
-  $statementTerminator = ";"
   $nugetExePath = Join-Path $nuGetPath 'bin'
   $nugetLibPath = Join-Path $nuGetPath 'lib'
   $nugetChocolateyPath = Join-Path $nuGetPath 'chocolateyInstall'
@@ -126,46 +127,91 @@ Creating Chocolatey NuGet folders if they do not already exist.
   Create-DirectoryIfNotExists $nugetExePath
   Create-DirectoryIfNotExists $nugetLibPath
   Create-DirectoryIfNotExists $nugetChocolateyPath
-
-  #$chocInstallFolder = Get-ChildItem .\ -Recurse | ?{$_.name -match  "chocolateyInstall*"} | sort name -Descending | select -First 1 
-  $thisScript = (Get-Variable MyInvocation -Scope 1).Value 
-  $thisScriptFolder = Split-Path $thisScript.MyCommand.Path
-  $chocInstallFolder = Join-Path $thisScriptFolder "chocolateyInstall"
-  Write-Host "Copying the contents of `'$chocInstallFolder`' to `'$nugetPath`'."
-  Copy-Item $chocInstallFolder $nugetPath -recurse -force
-
-  Create-ChocolateyBinFiles $nugetChocolateyPath $nugetExePath
-  Write-Host ''
-    
-  #get the PATH variable
-  $envPath = $env:PATH
   
-  #if you do not find $nugetPath\bin, add it 
-  if (!$envPath.ToLower().Contains($nugetExePath.ToLower()))
-  {
-    Write-Host ''
-    #now we update the path
-    Write-Host 'PATH environment variable does not have ' $nugetExePath ' in it. Adding.'
-    $userPath = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)
+  Install-ChocolateyFiles $nugetPath
   
-    #does the path end in ';'?
-    $hasStatementTerminator = $userPath -ne $null -and $userPath.EndsWith($statementTerminator)
-    # if the last digit is not ;, then we are adding it
-    If (!$hasStatementTerminator -and $userPath -ne $null) {$nugetExePath = $statementTerminator + $nugetExePath}
-    $userPath = $userPath + $nugetExePath + $statementTerminator
-
-    [Environment]::SetEnvironmentVariable('Path', $userPath, [System.EnvironmentVariableTarget]::User)
-
-		#add it to the local path as well so users will be off and running
-		$envPSPath = $env:PATH
-		$env:Path = $envPSPath + $statementTerminator + $nugetExePath + $statementTerminator
-	}
-
+  $nugetExePathVariable = $nugetExePath.ToLower().Replace($nugetPath.ToLower(), "%$($chocInstallVariableName)%\").Replace("\\","\")
+  Create-ChocolateyBinFiles $nugetChocolateyPath.ToLower().Replace($nugetPath.ToLower(), "%$($chocInstallVariableName)%\").Replace("\\","\") $nugetExePath
+  Initialize-ChocolateyPath $nugetExePath $nugetExePathVariable
+  Process-ChocolateyBinFiles $nugetExePath $nugetExePathVariable
+  
 @"
 Chocolatey is now ready.
 You can call chocolatey from anywhere, command line or powershell by typing chocolatey.
 Run chocolatey /? for a list of functions.
 "@ | write-host
+}
+
+function Install-ChocolateyFiles {
+param(
+  [string]$nugetPath = "$sysDrive\NuGet"
+)
+  #$chocInstallFolder = Get-ChildItem .\ -Recurse | ?{$_.name -match  "chocolateyInstall*"} | sort name -Descending | select -First 1 
+  #$thisScript = (Get-Variable MyInvocation -Scope 1).Value 
+  #$thisScriptFolder = Split-Path $thisScript.MyCommand.Path
+  
+  $chocInstallFolder = Join-Path $thisScriptFolder "chocolateyInstall"
+  Write-Host "Copying the contents of `'$chocInstallFolder`' to `'$nugetPath`'."
+  Copy-Item $chocInstallFolder $nugetPath -recurse -force
+}
+
+function Initialize-ChocolateyPath {
+param(
+  [string]$nugetExePath = "$sysDrive\NuGet\bin"
+  ,[string]$nugetExePathVariable = "%$($chocInstallVariableName)%\bin"
+)
+
+  $statementTerminator = ";"
+  #get the PATH variable
+  $envPath = $env:PATH
+  
+  #if you do not find $nugetPath\bin, add it 
+  if (!$envPath.ToLower().Contains($nugetExePath.ToLower()) -and !$envPath.ToLower().Contains($nugetExePathVariable))
+  {
+    Write-Host ''
+    #now we update the path
+    Write-Host 'PATH environment variable does not have ' $nugetExePathVariable ' in it. Adding.'
+    $userPath = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)
+  
+    #does the path end in ';'?
+    $hasStatementTerminator = $userPath -ne $null -and $userPath.EndsWith($statementTerminator)
+    # if the last digit is not ;, then we are adding it
+    If (!$hasStatementTerminator -and $userPath -ne $null) {$nugetExePathVariable = $statementTerminator + $nugetExePathVariable}
+    $userPath = $userPath + $nugetExePathVariable + $statementTerminator
+
+    [Environment]::SetEnvironmentVariable('Path', $userPath, [System.EnvironmentVariableTarget]::User)
+
+    #add it to the local path as well so users will be off and running
+    $envPSPath = $env:PATH
+    $env:Path = $envPSPath + $statementTerminator + $nugetExePath + $statementTerminator
+  } else {
+    write-host "User PATH already contains either `'$nugetExePath`' or `'$nugetExePathVariable`'"
+  }
+}
+
+function Process-ChocolateyBinFiles {
+param(
+  [string]$nugetExePath = "$($env:SystemDrive)\NuGet\bin"
+  ,[string]$nugetExePathVariable = "%$($chocInstallVariableName)%\bin"
+)
+  $processedMarkerFile = Join-Path $nugetExePath '_processed.txt'
+  if (!(test-path $processedMarkerFile)) {
+    $files = get-childitem $nugetExePath -include *.bat -recurse
+    foreach ($file in $files) {
+      Write-Host "Processing $($file.Name) to make it portable"
+      $fileStream = [System.IO.File]::Open("$file", 'Open', 'Read', 'ReadWrite')
+      $reader = New-Object System.IO.StreamReader($fileStream)
+      $fileText = $reader.ReadToEnd()
+      $reader.Close()
+      $fileStream.Close()
+      
+      $fileText = $fileText.ToLower().Replace($nugetPath.ToLower(), "%$($chocInstallVariableName)%\").Replace("\\","\")
+      
+      Set-Content $file -Value $fileText -Encoding Ascii
+    }
+    
+    Set-Content $processedMarkerFile -Value "$([System.DateTime]::Now.Date)" -Encoding Ascii
+  }
 }
 
 export-modulemember -function Initialize-Chocolatey;
