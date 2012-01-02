@@ -82,7 +82,7 @@ function Chocolatey-PackagesConfig {
   $h1
   
   $xml = [xml] (Get-Content $packagesConfigPath)
-  $xml.packages.package | %{
+  $xml.packages.package | ?{ $_.id -ne '' -and $_.id -ne $null} | %{
     Chocolatey-Install -packageName $_.id -source $_.source -version $_.version
   }
 }
