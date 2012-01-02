@@ -139,6 +139,7 @@ Creating Chocolatey NuGet folders if they do not already exist.
 Chocolatey is now ready.
 You can call chocolatey from anywhere, command line or powershell by typing chocolatey.
 Run chocolatey /? for a list of functions.
+You may need to shut down and restart powershell and/or consoles first prior to using chocolatey.
 "@ | write-host
 }
 
@@ -166,24 +167,26 @@ param(
   $envPath = $env:PATH
   
   #if you do not find $nugetPath\bin, add it 
-  if (!$envPath.ToLower().Contains($nugetExePath.ToLower()) -and !$envPath.ToLower().Contains($nugetExePathVariable))
+  if (!$envPath.ToLower().Contains($nugetExePath.ToLower())) # -and !$envPath.ToLower().Contains($nugetExePathVariable))
   {
     Write-Host ''
     #now we update the path
-    Write-Host 'PATH environment variable does not have ' $nugetExePathVariable ' in it. Adding.'
+    Write-Host 'PATH environment variable does not have ' $nugetExePath ' in it. Adding.'
+    #Write-Host 'PATH environment variable does not have ' $nugetExePathVariable ' in it. Adding.'
     $userPath = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)
   
     #does the path end in ';'?
     $hasStatementTerminator = $userPath -ne $null -and $userPath.EndsWith($statementTerminator)
     # if the last digit is not ;, then we are adding it
-    If (!$hasStatementTerminator -and $userPath -ne $null) {$nugetExePathVariable = $statementTerminator + $nugetExePathVariable}
-    $userPath = $userPath + $nugetExePathVariable + $statementTerminator
+    If (!$hasStatementTerminator -and $userPath -ne $null) {$nugetExePath = $statementTerminator + $nugetExePath}
+    $userPath = $userPath + $nugetExePath + $statementTerminator
 
     [Environment]::SetEnvironmentVariable('Path', $userPath, [System.EnvironmentVariableTarget]::User)
 
     #add it to the local path as well so users will be off and running
     $envPSPath = $env:PATH
     $env:Path = $envPSPath + $statementTerminator + $nugetExePath + $statementTerminator
+    $env:ChocolateyInstall = $nugetExePath
   } else {
     write-host "User PATH already contains either `'$nugetExePath`' or `'$nugetExePathVariable`'"
   }
