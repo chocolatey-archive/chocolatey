@@ -53,7 +53,7 @@ function Chocolatey-Install {
     [string] $installerArguments = ''
   )
   
-  if((Split-Path $packageName -Leaf) -eq 'packages.config') {
+  if((Split-Path $packageName -Leaf) -match '\.config') {
     Chocolatey-PackagesConfig $packageName
     return
   }
@@ -376,6 +376,7 @@ v0.9.8
   - New Command! Gem - chocolatey gem (cgem) will install Ruby Gems. Alternatively, you can specify -source ruby
   - New Command! Pack - chocolatey pack (cpack) will package your chocolatey package
   - New Command! Push - chocolatey push (cpush) will push your chocolatey package to http://chocolatey.org/
+  - You can call install with a packages.config file that contains id, version, and source!
 $h2
 $h2
 using (var legalese = new LawyerText()) {
