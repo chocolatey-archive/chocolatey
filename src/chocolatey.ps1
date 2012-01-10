@@ -24,8 +24,17 @@ $nugetExe = Join-Path $nugetChocolateyPath 'nuget.exe'
 $h1 = '====================================================='
 $h2 = '-------------------------'
 
+# grab functions from files
+Resolve-Path $nugetChocolateyPath\functions\*.ps1 | 
+    ? { -not ($_.ProviderPath.Contains(".Tests.")) } |
+    % { . $_.ProviderPath }
+
 function Run-ChocolateyProcess {
-param([string]$file, [string]$arguments = $args, [switch] $elevated);
+param(
+  [string]$file, 
+  [string]$arguments = $args, 
+  [switch] $elevated
+)
 	
 	Write-Host "Running $file $arguments. This may take awhile and permissions may need to be elevated, depending on the package.";
   $psi = new-object System.Diagnostics.ProcessStartInfo $file;
@@ -45,13 +54,12 @@ param([string]$file, [string]$arguments = $args, [switch] $elevated);
 }
 
 function Chocolatey-Install {
-    
-  param(
-    [string] $packageName, 
-    $source = 'https://go.microsoft.com/fwlink/?LinkID=206669', 
-    [string] $version = '',
-    [string] $installerArguments = ''
-  )
+param(
+  [string] $packageName, 
+  $source = 'https://go.microsoft.com/fwlink/?LinkID=206669', 
+  [string] $version = '',
+  [string] $installerArguments = ''
+)
   
   if((Split-Path $packageName -Leaf) -match '\.config') {
     Chocolatey-PackagesConfig $packageName
@@ -67,12 +75,11 @@ function Chocolatey-Install {
 }
 
 function Chocolatey-PackagesConfig {
-
-  param(
-    [Parameter(Mandatory = $true)]
-    [ValidateNotNullOrEmpty()]
-    [string] $packagesConfigPath
-  )
+param(
+  [Parameter(Mandatory = $true)]
+  [ValidateNotNullOrEmpty()]
+  [string] $packagesConfigPath
+)
 
   if(-not(Test-Path $packagesConfigPath)) {
     return
@@ -89,7 +96,15 @@ function Chocolatey-PackagesConfig {
 }
 
 function Chocolatey-NuGet { 
-param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669')
+param(
+  [string] $packageName,
+  [string]$source = 'https://go.microsoft.com/fwlink/?LinkID=206669'
+)
+
+  if ($packageName -eq 'all') { 
+    Chocolatey-InstallAll $source
+    return
+  }
 
   $srcArgs = "$source"
   if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
