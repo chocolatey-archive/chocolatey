@@ -1,7 +1,10 @@
 $helpersPath = (Split-Path -parent $MyInvocation.MyCommand.Definition);
 
 function Start-ChocolateyProcessAsAdmin {
-param([string] $statements, [string] $exeToRun = 'powershell')
+param(
+  [string] $statements, 
+  [string] $exeToRun = 'powershell'
+)
 
   $wrappedStatements = $statements;
   if ($exeToRun -eq 'powershell') {
@@ -75,8 +78,15 @@ This method has error handling built into it.
 Get-ChocolateyWebFile
 Install-ChocolateyInstallPackage
 #>
-param([string] $packageName, [string] $fileType = 'exe',[string] $silentArgs = '',[string] $url,[string] $url64bit = $url)
-	try {
+param(
+  [string] $packageName, 
+  [string] $fileType = 'exe',
+  [string] $silentArgs = '',
+  [string] $url,
+  [string] $url64bit = $url
+)
+  
+  try {
     $chocTempDir = Join-Path $env:TEMP "chocolatey"
     $tempDir = Join-Path $chocTempDir "$packageName"
     if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
@@ -84,11 +94,11 @@ param([string] $packageName, [string] $fileType = 'exe',[string] $silentArgs = '
   
     Get-ChocolateyWebFile $packageName $file $url $url64bit
     Install-ChocolateyInstallPackage $packageName $fileType $silentArgs $file
-		Write-ChocolateySuccess $packageName
-	} catch {
-		Write-ChocolateyFailure $packageName $($_.Exception.Message)
-		throw 
-	}
+    Write-ChocolateySuccess $packageName
+  } catch {
+    Write-ChocolateyFailure $packageName $($_.Exception.Message)
+    throw 
+  }
 }
 
 function Install-ChocolateyZipPackage {
@@ -105,6 +115,9 @@ It's recommended you call it the same as your nuget package id.
 
 .PARAMETER Url
 This is the url to download the file from. 
+
+.PARAMETER Url64bit
+OPTIONAL - If there is an x64 installer to download, please include it here. If not, delete this parameter
 
 .PARAMETER UnzipLocation
 This is a location to unzip the contents to, most likely your script folder.
@@ -123,30 +136,39 @@ This method has error handling built into it.
   Get-ChocolateyWebFile
   Get-ChocolateyUnzip
 #>
-param([string] $packageName, [string] $url,[string] $unzipLocation)
+param(
+  [string] $packageName, 
+  [string] $url,
+  [string] $unzipLocation,
+  [string] $url64bit = $url
+)
 
-	try {
-	  $fileType = 'zip'
-	  
-	  $chocTempDir = Join-Path $env:TEMP "chocolatey"
-		$tempDir = Join-Path $chocTempDir "$packageName"
-		if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
-		$file = Join-Path $tempDir "$($packageName)Install.$fileType"
-	  
-	  Get-ChocolateyWebFile $packageName $file $url  
-	  Get-ChocolateyUnzip "$file" $unzipLocation
-		
-	  Write-ChocolateySuccess $packageName
-	} catch {
-		Write-ChocolateyFailure $packageName $($_.Exception.Message)
-		throw 
-	}
+  try {
+    $fileType = 'zip'
+    
+    $chocTempDir = Join-Path $env:TEMP "chocolatey"
+    $tempDir = Join-Path $chocTempDir "$packageName"
+    if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
+    $file = Join-Path $tempDir "$($packageName)Install.$fileType"
+    
+    Get-ChocolateyWebFile $packageName $file $url $url64bit
+    Get-ChocolateyUnzip "$file" $unzipLocation
+    
+    Write-ChocolateySuccess $packageName
+  } catch {
+    Write-ChocolateyFailure $packageName $($_.Exception.Message)
+    throw 
+  }
 }
 
 function Install-ChocolateyPowershellCommand {
-param([string] $packageName,[string] $psFileFullPath, [string] $url ='')
+param(
+  [string] $packageName,
+  [string] $psFileFullPath, 
+  [string] $url =''
+)
 
-	try {
+  try {
 
     if ($url -ne '') {
       Get-ChocolateyWebFile $packageName $psFileFullPath $url
@@ -162,11 +184,11 @@ param([string] $packageName,[string] $psFileFullPath, [string] $url ='')
 "@echo off
 powershell -NoProfile -ExecutionPolicy unrestricted -Command ""& `'$psFileFullPath`'  %*"""| Out-File $packageBatchFileName -encoding ASCII 
  
-	  Write-ChocolateySuccess $packageName
-	} catch {
-		Write-ChocolateyFailure $packageName $($_.Exception.Message)
-		throw 
-	} 
+    Write-ChocolateySuccess $packageName
+  } catch {
+    Write-ChocolateyFailure $packageName $($_.Exception.Message)
+    throw 
+  } 
 }
 
 function Get-ChocolateyWebFile {
@@ -201,25 +223,30 @@ There is no error handling built into this method.
 .LINK
 Install-ChocolateyPackage
 #>
-param([string] $packageName,[string] $fileFullPath,[string] $url,[string] $url64bit = $url)
+param(
+  [string] $packageName,
+  [string] $fileFullPath,
+  [string] $url,
+  [string] $url64bit = $url
+)
   
-	$url32bit = $url;
-	$processor = Get-WmiObject Win32_Processor
-	$is64bit = $processor.AddressWidth -eq 64
-	$systemBit = '32 bit'
-	if ($is64bit) {
-		$systemBit = '64 bit';
-		$url = $url64bit;
-	}
+  $url32bit = $url;
+  $processor = Get-WmiObject Win32_Processor
+  $is64bit = $processor.AddressWidth -eq 64
+  $systemBit = '32 bit'
+  if ($is64bit) {
+    $systemBit = '64 bit';
+    $url = $url64bit;
+  }
   
-	$downloadMessage = "Downloading $packageName ($url) to $fileFullPath"
-	if ($url32bit -ne $url64bit) {$downloadMessage = "Downloading $packageName $systemBit ($url) to $fileFullPath.";}
+  $downloadMessage = "Downloading $packageName ($url) to $fileFullPath"
+  if ($url32bit -ne $url64bit) {$downloadMessage = "Downloading $packageName $systemBit ($url) to $fileFullPath.";}
   Write-Host "$downloadMessage"
-	#$downloader = new-object System.Net.WebClient
-	#$downloader.DownloadFile($url, $fileFullPath)
+  #$downloader = new-object System.Net.WebClient
+  #$downloader.DownloadFile($url, $fileFullPath)
   Get-WebFile $url $fileFullPath
-	
-  Start-Sleep 2 #give it a sec
+
+  Start-Sleep 2 #give it a sec or two to finish up
 }
 
 function Install-ChocolateyInstallPackage {
@@ -261,7 +288,13 @@ There is no error handling built into this method.
 .LINK
 Install-ChocolateyPackage
 #>
-param([string] $packageName, [string] $fileType = 'exe',[string] $silentArgs = '',[string] $file)
+param(
+  [string] $packageName, 
+  [string] $fileType = 'exe',
+  [string] $silentArgs = '',
+  [string] $file
+)
+  
   $installMessage = "Installing $packageName..."
   write-host $installMessage
 
@@ -320,7 +353,10 @@ This helper reduces the number of lines one would have to write to unzip a file 
 There is no error handling built into this method.
 
 #>
-param([string] $fileFullPath, [string] $destination)
+param(
+  [string] $fileFullPath, 
+  [string] $destination
+)
 
 	Write-Host "Extracting $fileFullPath to $destination..."
   if (![System.IO.Directory]::Exists($destination)) {[System.IO.Directory]::CreateDirectory($destination)}
@@ -334,7 +370,9 @@ param([string] $fileFullPath, [string] $destination)
 }
 
 function Write-ChocolateySuccess {
-param([string] $packageName)
+param(
+  [string] $packageName
+)
 
   $chocTempDir = Join-Path $env:TEMP "chocolatey"
   $tempDir = Join-Path $chocTempDir "$packageName"
@@ -358,7 +396,10 @@ param([string] $packageName)
 }
 
 function Write-ChocolateyFailure {
-param([string] $packageName,[string] $failureMessage)
+param(
+  [string] $packageName,
+  [string] $failureMessage
+)
 
   $chocTempDir = Join-Path $env:TEMP "chocolatey"
   $tempDir = Join-Path $chocTempDir "$packageName"
@@ -384,7 +425,10 @@ param([string] $packageName,[string] $failureMessage)
 }
 
 function Install-ChocolateyPath {
-param([string] $pathToInstall,[System.EnvironmentVariableTarget] $pathType = [System.EnvironmentVariableTarget]::User)
+param(
+  [string] $pathToInstall,
+  [System.EnvironmentVariableTarget] $pathType = [System.EnvironmentVariableTarget]::User
+)
 
   #get the PATH variable
   $envPath = $env:PATH
@@ -392,31 +436,33 @@ param([string] $pathToInstall,[System.EnvironmentVariableTarget] $pathType = [Sy
   if (!$envPath.ToLower().Contains($pathToInstall.ToLower()))
   {
     Write-Host "PATH environment variable does not have $pathToInstall in it. Adding..."
-		$actualPath = [Environment]::GetEnvironmentVariable('Path', $pathType)
+    $actualPath = [Environment]::GetEnvironmentVariable('Path', $pathType)
 
     $statementTerminator = ";"
     #does the path end in ';'?
     $hasStatementTerminator = $actualPath -ne $null -and $actualPath.EndsWith($statementTerminator)
     # if the last digit is not ;, then we are adding it
     If (!$hasStatementTerminator -and $actualPath -ne $null) {$pathToInstall = $statementTerminator + $pathToInstall}
-		if (!$pathToInstall.EndsWith($statementTerminator)) {$pathToInstall = $pathToInstall + $statementTerminator}
+    if (!$pathToInstall.EndsWith($statementTerminator)) {$pathToInstall = $pathToInstall + $statementTerminator}
     $actualPath = $actualPath + $pathToInstall
 
-		if ($pathType -eq [System.EnvironmentVariableTarget]::Machine) {
-			$psArgs = "[Environment]::SetEnvironmentVariable('Path',`'$actualPath`', `'$pathType`')"
-			Start-ChocolateyProcessAsAdmin "$psArgs"
-		} else {
-			[Environment]::SetEnvironmentVariable('Path', $actualPath, $pathType)
-		}    
-		
-		#add it to the local path as well so users will be off and running
-		$envPSPath = $env:PATH
-		$env:Path = $envPSPath + $statementTerminator + $pathToInstall
+    if ($pathType -eq [System.EnvironmentVariableTarget]::Machine) {
+      $psArgs = "[Environment]::SetEnvironmentVariable('Path',`'$actualPath`', `'$pathType`')"
+      Start-ChocolateyProcessAsAdmin "$psArgs"
+    } else {
+      [Environment]::SetEnvironmentVariable('Path', $actualPath, $pathType)
+    }    
+    
+    #add it to the local path as well so users will be off and running
+    $envPSPath = $env:PATH
+    $env:Path = $envPSPath + $statementTerminator + $pathToInstall
   }
 }
 
 function Install-ChocolateyDesktopLink {
-param([string] $targetFilePath)
+param(
+  [string] $targetFilePath
+)
 
   if (test-path($targetFilePath)) {
     $desktop = $([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory))
@@ -494,12 +540,12 @@ Export-ModuleMember -Function Start-ChocolateyProcessAsAdmin, Install-Chocolatey
 ##        added measuring the scripts involved in the command, (uses Tokenizer)
 ##############################################################################################################
 function Get-WebFile {
-   param(
-    $url = (Read-Host "The URL to download"),
-    $fileName = $null,
-    [switch]$Passthru,
-    [switch]$quiet
-   )
+param(
+  $url = (Read-Host "The URL to download"),
+  $fileName = $null,
+  [switch]$Passthru,
+  [switch]$quiet
+)
    
   $req = [System.Net.HttpWebRequest]::Create($url);
   #to check if a proxy is required
