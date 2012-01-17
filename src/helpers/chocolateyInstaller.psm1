@@ -291,7 +291,7 @@ param([string] $packageName, [string] $fileType = 'exe',[string] $silentArgs = '
   }
 
   write-host "$packageName has been installed."
-  Start-Sleep 3
+  #cutStart-Sleep 3
 }
 
 function Get-ChocolateyUnzip {
@@ -354,7 +354,7 @@ param([string] $packageName)
   $successMessage | Out-File -FilePath $logFile -Force -Append
   Write-Host $successMessage
   
-  Start-Sleep 7
+  #cutStart-Sleep 7
 }
 
 function Write-ChocolateyFailure {
@@ -380,7 +380,7 @@ param([string] $packageName,[string] $failureMessage)
 	$errorMessage | Out-File -FilePath $logFile -Force -Append
 	Write-Error $errorMessage
 	
-	Start-Sleep 8
+	#cutStart-Sleep 8
 }
 
 function Install-ChocolateyPath {
@@ -438,41 +438,41 @@ param([string] $targetFilePath)
 
 function Write-Host {
 param(
-		[Parameter(Position=0,Mandatory=$false,ValueFromPipeline=$true)][object]$Object,
-		[Parameter()][switch] $NoNewLine, 
-		[Parameter(Mandatory=$false)][ConsoleColor] $ForegroundColor, 
-		[Parameter(Mandatory=$false)][ConsoleColor] $BackgroundColor,
-		[Parameter(Mandatory=$false)][Object] $Separator
+  [Parameter(Position=0,Mandatory=$false,ValueFromPipeline=$true)][object]$Object,
+  [Parameter()][switch] $NoNewLine, 
+  [Parameter(Mandatory=$false)][ConsoleColor] $ForegroundColor, 
+  [Parameter(Mandatory=$false)][ConsoleColor] $BackgroundColor,
+  [Parameter(Mandatory=$false)][Object] $Separator
 )
 
-	$chocoPath = (Split-Path -parent $helpersPath)
-	$chocoInstallLog = Join-Path $chocoPath 'chocolateyInstall.log'
-	$Object | Out-File -FilePath $chocoInstallLog -Force -Append
-	
- 	$oc = Get-Command 'Write-Host' -Module 'Microsoft.PowerShell.Utility' 
-	#I owe this guy a drink - http://powershell.com/cs/blogs/tobias/archive/2011/08/03/clever-splatting-to-pass-optional-parameters.aspx
-	& $oc @PSBoundParameters
+  $chocoPath = (Split-Path -parent $helpersPath)
+  $chocoInstallLog = Join-Path $chocoPath 'chocolateyInstall.log'
+  $Object | Out-File -FilePath $chocoInstallLog -Force -Append
+
+  $oc = Get-Command 'Write-Host' -Module 'Microsoft.PowerShell.Utility' 
+  #I owe this guy a drink - http://powershell.com/cs/blogs/tobias/archive/2011/08/03/clever-splatting-to-pass-optional-parameters.aspx
+  & $oc @PSBoundParameters
 }
 
 function Write-Error {
 param(
-		[Parameter(Position=0,Mandatory=$true,ValueFromPipeline=$true)][string]$Message='',
-		[Parameter(Mandatory=$false)][System.Management.Automation.ErrorCategory]$Category,
-		[Parameter(Mandatory=$false)][string]$ErrorId,
-		[Parameter(Mandatory=$false)][object]$TargetObject,
-		[Parameter(Mandatory=$false)][string]$CategoryActivity,
-		[Parameter(Mandatory=$false)][string]$CategoryReason,
-		[Parameter(Mandatory=$false)][string]$CategoryTargetName,
-		[Parameter(Mandatory=$false)][string]$CategoryTargetType,
-		[Parameter(Mandatory=$false)][string]$RecommendedAction
-)		
+  [Parameter(Position=0,Mandatory=$true,ValueFromPipeline=$true)][string]$Message='',
+  [Parameter(Mandatory=$false)][System.Management.Automation.ErrorCategory]$Category,
+  [Parameter(Mandatory=$false)][string]$ErrorId,
+  [Parameter(Mandatory=$false)][object]$TargetObject,
+  [Parameter(Mandatory=$false)][string]$CategoryActivity,
+  [Parameter(Mandatory=$false)][string]$CategoryReason,
+  [Parameter(Mandatory=$false)][string]$CategoryTargetName,
+  [Parameter(Mandatory=$false)][string]$CategoryTargetType,
+  [Parameter(Mandatory=$false)][string]$RecommendedAction
+)
 
-	$chocoPath = (Split-Path -parent $helpersPath)
-	$chocoInstallLog = Join-Path $chocoPath 'chocolateyInstall.log'
-	"[ERROR] $Message" | Out-File -FilePath $chocoInstallLog -Force -Append
+  $chocoPath = (Split-Path -parent $helpersPath)
+  $chocoInstallLog = Join-Path $chocoPath 'chocolateyInstall.log'
+  "[ERROR] $Message" | Out-File -FilePath $chocoInstallLog -Force -Append
 
- 	$oc = Get-Command 'Write-Error' -Module 'Microsoft.PowerShell.Utility' 
-	& $oc @PSBoundParameters
+  $oc = Get-Command 'Write-Error' -Module 'Microsoft.PowerShell.Utility' 
+  & $oc @PSBoundParameters
 }
 
 Export-ModuleMember -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Install-ChocolateyZipPackage, Install-ChocolateyPowershellCommand, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink, Write-Host, Write-Error
