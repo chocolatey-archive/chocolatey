@@ -165,13 +165,14 @@ function Install-ChocolateyPowershellCommand {
 param(
   [string] $packageName,
   [string] $psFileFullPath, 
-  [string] $url =''
+  [string] $url ='',
+  [string] $url64bit = $url
 )
 
   try {
 
     if ($url -ne '') {
-      Get-ChocolateyWebFile $packageName $psFileFullPath $url
+      Get-ChocolateyWebFile $packageName $psFileFullPath $url $url64bit
     }
 
     $nugetPath = $(Split-Path -parent $(Split-Path -parent $helpersPath))
