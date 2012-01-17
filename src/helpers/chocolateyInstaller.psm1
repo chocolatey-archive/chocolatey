@@ -3,7 +3,8 @@ $helpersPath = (Split-Path -parent $MyInvocation.MyCommand.Definition);
 function Start-ChocolateyProcessAsAdmin {
 param(
   [string] $statements, 
-  [string] $exeToRun = 'powershell'
+  [string] $exeToRun = 'powershell',
+  [string] $validExitCodes = @(0)
 )
 
   $wrappedStatements = $statements;
@@ -17,21 +18,21 @@ param(
 @"
 Elevating Permissions and running $exeToRun $wrappedStatements. This may take awhile, depending on the statements.
 "@ | Write-Host
-	
+
   $psi = new-object System.Diagnostics.ProcessStartInfo;
-	$psi.FileName = $exeToRun;
-	if ($wrappedStatements -ne '') {
-		$psi.Arguments = "$wrappedStatements";
-	}
-	$psi.Verb = "runas";
+  $psi.FileName = $exeToRun;
+  if ($wrappedStatements -ne '') {
+    $psi.Arguments = "$wrappedStatements";
+  }
+  $psi.Verb = "runas";
   $psi.WorkingDirectory = get-location;
  
   $s = [System.Diagnostics.Process]::Start($psi);
   $s.WaitForExit();
-  if ($s.ExitCode -ne 0) {
-		$errorMessage = "[ERROR] Running $exeToRun with $statements was not successful."
-		Write-Error $errorMessage
-		throw $errorMessage
+  if ($validExitCodes -notcontains $s.ExitCode) {
+    $errorMessage = "[ERROR] Running $exeToRun with $statements was not successful."
+    Write-Error $errorMessage
+    throw $errorMessage
   }
 }
 
@@ -83,7 +84,8 @@ param(
   [string] $fileType = 'exe',
   [string] $silentArgs = '',
   [string] $url,
-  [string] $url64bit = $url
+  [string] $url64bit = $url,
+  [string] $validExitCodes = @(0)
 )
   
   try {
@@ -93,7 +95,7 @@ param(
     $file = Join-Path $tempDir "$($packageName)Install.$fileType"
   
     Get-ChocolateyWebFile $packageName $file $url $url64bit
-    Install-ChocolateyInstallPackage $packageName $fileType $silentArgs $file
+    Install-ChocolateyInstallPackage $packageName $fileType $silentArgs $file -validExitCodes $validExitCodes
     Write-ChocolateySuccess $packageName
   } catch {
     Write-ChocolateyFailure $packageName $($_.Exception.Message)
@@ -293,7 +295,8 @@ param(
   [string] $packageName, 
   [string] $fileType = 'exe',
   [string] $silentArgs = '',
-  [string] $file
+  [string] $file,
+  [string] $validExitCodes = @(0)
 )
   
   $installMessage = "Installing $packageName..."
@@ -312,15 +315,15 @@ param(
       $msiArgs = "$msiArgs $silentArgs $additionalInstallArgs";
     }
     
-    Start-ChocolateyProcessAsAdmin "$msiArgs" 'msiexec'
+    Start-ChocolateyProcessAsAdmin "$msiArgs" 'msiexec' -validExitCodes $validExitCodes
     #Start-Process -FilePath msiexec -ArgumentList $msiArgs -Wait
   }
   if ($fileType -like 'exe') {
     if ($overrideArguments) {
-      Start-ChocolateyProcessAsAdmin "$additionalInstallArgs" $file
+      Start-ChocolateyProcessAsAdmin "$additionalInstallArgs" $file -validExitCodes $validExitCodes
       write-host "Overriding package arguments with `'$additionalInstallArgs`'";
     } else {
-      Start-ChocolateyProcessAsAdmin "$silentArgs $additionalInstallArgs" $file
+      Start-ChocolateyProcessAsAdmin "$silentArgs $additionalInstallArgs" $file -validExitCodes $validExitCodes
     }
   }
 
