@@ -1,7 +1,7 @@
-param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=206669',$version='',[alias("all")][switch] $allVersions = $false,[alias("ia","installArgs")][string] $installArguments = '',[alias("o","override","overrideArguments","notSilent")][switch] $overrideArgs = $false)#todo:,[switch] $silent,[switch] $notsilent = $false)
+param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=206669',$version='',[alias("all")][switch] $allVersions = $false,[alias("ia","installArgs")][string] $installArguments = '',[alias("o","override","overrideArguments","notSilent")][switch] $overrideArgs = $false)#todo:,[switch] $silent)
 # chocolatey
-# Copyright (c) 2011 Rob Reynolds
-# Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1
+# Copyright (c) 2011-Present Rob Reynolds
+# Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1, AnthonyMastrean
 # Big thanks to Keith Dahlby for all the powershell help! 
 # Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
 
@@ -10,7 +10,6 @@ $currentThread = [System.Threading.Thread]::CurrentThread;
 $culture = [System.Globalization.CultureInfo]::InvariantCulture;
 $currentThread.CurrentCulture = $culture;
 $currentThread.CurrentUICulture = $culture;
-
 
 #Let's get Chocolatey!
 $chocVer = '0.9.8.13'
