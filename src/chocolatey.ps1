@@ -61,7 +61,7 @@ param(
   [string] $installerArguments = ''
 )
   
-  if((Split-Path $packageName -Leaf) -match '\.config') {
+  if($($packageName).EndsWith('.config')) {
     Chocolatey-PackagesConfig $packageName
     return
   }
@@ -82,6 +82,10 @@ param(
 )
 
   if(-not(Test-Path $packagesConfigPath)) {
+    if (-not($($packagesConfigPath).Contains('\'))) {
+      Chocolatey-NuGet $packagesConfigPath
+    }
+    
     return
   }
   
@@ -620,8 +624,6 @@ param([string] $chocoInstallLog = '')
   }
 }
 
-Remove-LastInstallLog
-
 function Chocolatey-Pack {
 param([string] $packageName)
 
@@ -671,7 +673,10 @@ param([string] $packageName, $source = 'http://chocolatey.org/' )
   }
 }
 
+
 #main entry point
+Remove-LastInstallLog
+
 switch -wildcard ($command) 
 {
   "install" { Chocolatey-Install $packageName $source $version $installArguments; }
