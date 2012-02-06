@@ -12,7 +12,7 @@ $currentThread.CurrentCulture = $culture;
 $currentThread.CurrentUICulture = $culture;
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.13'
+$chocVer = '0.9.8.14'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -349,41 +349,8 @@ $h2
 $h2
 Release Notes
 $h2
-NOTE: Abbreviated, please see the wiki (https://github.com/ferventcoder/chocolatey/wiki/ReleaseNotes) for the full set of notes.
+NOTE: Abbreviated, please see the wiki (https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes) for the full set of notes.
 v0.9.8
- * Shortcuts have been added: 'cup' for 'chocolatey update', 'cver' for 'chocolatey version', and 'clist' for 'chocolatey list'.
- * Update only runs if newer version detected.
- * Calling update with no arguments will update chocolatey.
- * Calling update with all will update your entire chocolatey repository.
- * A dependency will not reinstall once it has been installed. To have it reinstall, you can install it directly (or delete it from the repository and run the core package).
- * .1 - general fix to bad character in file. Fixed selection for update as well
- * .2 - You now have the option of a custom installation folder. Thanks Jason Jarrett!
- * .3
-  - NuGet updated to v1.4
-  - New chocolatey command! InstallMissing allows you to install a package only if it is not already installed. Shortcut is 'cinstm'.
-  - Much of the error handling is improved. There are two new Helpers to call (ChocolateySuccess and Write-ChocolateyFailure).
-  - New Helper! Install-ChocolateyPath - give it a path for out of band items that are not imported to path with chocolatey 
-  - New Helper! Start-ChocolateyProcessAsAdmin - this allows you to run processes as administrator
-  - New Helper! Install-ChocolateyDesktopLink - put shortcuts on the desktop
- * .4
-  - Fixing a small issue with the Install-ChocolateyDesktopLink
- * .5
-  - Improving Start-ChocolateyProcessAsAdmin to allow for running entire functions as administrator by importing helpers to that command if powershell.
- * .6
-  - Fixed a bug introduced in Start-ChocolateyProcessAsAdmin as a result of trying to log error messages. 
- * .7
-  - Support for NuGet 1.5 packages.
-  - Proxy support. Thanks Christiaan Baes! 
- * .8
-  - Fixed issue with selector in determining a package to update. 
-  - Fixed issue with version comparison.
- * .9
-  - Fixed issue with new version of NuGet no longer giving version information with an already installed package.
- * .10
-  - New Helper! Install-ChocolateyPowershellCommand - adds a powershell script as a command to your computer. Give it an optional url to download the file if not included.
- * .11
-  - Fixing an issue with install missing.
-  - Fixing an issue with update not finding packages that only exist on chocolatey.org
  * .12
   - Fixed an issue with write-host and write-error overrides
   - Fixed an issue with getting the full path to powershell
@@ -394,6 +361,12 @@ v0.9.8
   - New Command! Pack - chocolatey pack (cpack) will package your chocolatey package
   - New Command! Push - chocolatey push (cpush) will push your chocolatey package to http://chocolatey.org/
   - You can call install with a packages.config file that contains id, version, and source!
+ * .14
+  - Enhancement - 64 bit url added to Install-ChocolateyZipPackage
+  - Enhancement - main helpers work with files not coming from HTTP
+  - Enhancement - Pass -ValidExitCodes to both install helpers
+  - Fix - CList now only includes recent versions without -all switch
+  - Fix - packages with .config in the name now work again
 $h2
 $h2
 using (var legalese = new LawyerText()) {
