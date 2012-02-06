@@ -17,7 +17,8 @@
 # ==============================================================================
 
 # variables
-$url = "http://chocolatey.org/packages/chocolatey/DownloadPackage"
+#$url = "http://chocolatey.org/packages/chocolatey/DownloadPackage"
+$url = "http://chocolatey.org/api/v1/package/chocolatey"
 $chocTempDir = Join-Path $env:TEMP "chocolatey"
 $tempDir = Join-Path $chocTempDir "chocInstall"
 if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
@@ -42,6 +43,17 @@ $chocInstallPS1 = Join-Path $toolsFolder "chocolateyInstall.ps1"
 
 & $chocInstallPS1
 
+write-host 'Ensuring chocolatey commands are on the path'
+$chocInstallVariableName = "ChocolateyInstall"
+$nuGetPath = [Environment]::GetEnvironmentVariable($chocInstallVariableName, [System.EnvironmentVariableTarget]::User)
+$nugetExePath = 'C:\NuGet\bin'
+if ($nuGetPath -ne $null) {
+  $nugetExePath = Join-Path $nuGetPath 'bin'
+}
+
+if ($($env:Path).ToLower().Contains($($nugetExePath).ToLower()) -eq $false) {
+  $env:Path = [Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Machine);
+}
 
 # update chocolatey to the latest version
 Write-Host "Updating chocolatey to the latest version"

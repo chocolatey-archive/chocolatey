@@ -3,13 +3,19 @@ $src = Join-Path (Split-Path $here) 'src'
 $script = Join-Path $src 'chocolatey.ps1'
 $installModule = Join-Path (Join-Path $src 'helpers') 'chocolateyInstaller.psm1'
 
-#Set-Alias Actual-Chocolatey-NuGet Chocolatey-NuGet  -Scope Script -Option AllScope
-#Set-Alias Actual-Chocolatey-PackagesConfig Chocolatey-PackagesConfig  -Scope Global #-Option AllScope
-
-
 Import-Module $installModule -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Install-ChocolateyZipPackage, Install-ChocolateyPowershellCommand, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink
 
 Import-Module $script
+#Set-Alias Actual-Chocolatey-NuGet Chocolatey-NuGet  -Scope Script -Option AllScope
+#Set-Alias Actual-Chocolatey-PackagesConfig Chocolatey-PackagesConfig  -Scope Global #-Option AllScope
+#(get-command Chocolatey-NuGet).Definition
+$chocoFunction = ${function:Chocolatey-NuGet}
+#write-host $($chocoFunction.Definition)
+#aaronlerch@gmail.com: rename-item Chocolatey-NuGet MyNewNameforTheFunction
+#aaronlerch@gmail.com: function Chocolatey-NuGet { /* do stuff */ MyNewNameforTheFunction }
+#aaronlerch@gmail.com: (or something like that last line, I didn't run it to verify)
+#rename-item function:foo newname
+
 
 function Initialize-Variables {
   $script:chocolatey_nuget_was_called = $false  

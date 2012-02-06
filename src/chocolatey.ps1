@@ -439,7 +439,7 @@ $h1
 }
 
 function Chocolatey-List {
-  param([string]$selector='', [string]$source='https://go.microsoft.com/fwlink/?LinkID=206669',[switch] $allVersions = $false );
+  param([string]$selector='', [string]$source='https://go.microsoft.com/fwlink/?LinkID=206669' );
   
   if ($source -like 'webpi') {
     $webpiArgs ="/c webpicmd /List /ListOption:All"
@@ -681,7 +681,7 @@ switch -wildcard ($command)
   "install" { Chocolatey-Install $packageName $source $version $installArguments; }
   "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
   "update" { Chocolatey-Update $packageName $source; }
-  "list" { Chocolatey-List $packageName $source -allVersions = $allVersions; }
+  "list" { Chocolatey-List $packageName $source; }
   "version" { Chocolatey-Version $packageName $source; }
   "webpi" { Chocolatey-WebPI $packageName $installArguments; }
   "gem" { Chocolatey-RubyGem $packageName $version $installArguments; }
