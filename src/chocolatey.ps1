@@ -197,20 +197,26 @@ $h2
     $packageArgs = $packageArgs + " /version $version";
   }
   $logFile = Join-Path $nugetChocolateyPath 'install.log'
-	$errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
+  $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
   Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile -RedirectStandardError $errorLogFile
-	
+
   $nugetOutput = Get-Content $logFile -Encoding Ascii
-	foreach ($line in $nugetOutput) {
+  foreach ($line in $nugetOutput) {
     Write-Host $line
   }
-	$errors = Get-Content $errorLogFile
-	if ($errors -ne '') {
-		Write-Host $errors -BackgroundColor Red -ForegroundColor White
-		#throw $errors
-	}
-	
-	return $nugetOutput
+  $errors = Get-Content $errorLogFile
+  if ($errors -ne '') {
+    Write-Host $errors -BackgroundColor Red -ForegroundColor White
+    #Throw $errors
+  }
+  
+  if (($nugetOutput -eq '' -or $nugetOutput -eq $null) -and ($errors -eq '' -or $errors -eq $null)) {
+    $noExecution = 'Execution of NuGet not detected. Please make sure you have .NET Framework 4.0 installed.'
+    #write-host  -BackgroundColor Red -ForegroundColor White
+    Throw $noExecution
+  }
+  
+  return $nugetOutput
 }
 
 function Run-ChocolateyPS1 {
