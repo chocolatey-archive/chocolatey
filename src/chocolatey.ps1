@@ -108,24 +108,24 @@ Please run chocolatey /? for full license acceptance verbage. By installing you 
 $h2
 "@ | Write-Host
 
-	$nugetOutput = Run-NuGet $packageName $source $version
-	
-	foreach ($line in $nugetOutput) {
-		if ($line -notlike "*not installed*" -and $line -notlike "Dependency*already installed." -and $line -notlike "Attempting to resolve dependency*") {
-			$installedPackageName = ''
-			$installedPackageVersion = ''
-		
-			$regex = [regex]"'[.\S]+\s?"
-	    $pkgNameMatches = $regex.Matches($line) | select -First 1 
-			if ($pkgNameMatches -ne $null) {
-				$installedPackageName = $pkgNameMatches -replace "'", "" -replace " ", ""
-			}
-			
-			$regex = [regex]"[0-9.]+[[)]?'"
-			$pkgVersionMatches = $regex.Matches($line) | select -First 1 
-			if ($pkgVersionMatches -ne $null) {
-				$installedPackageVersion = $pkgVersionMatches -replace '\)', '' -replace "'", "" -replace " ", ""
-			}
+  $nugetOutput = Run-NuGet $packageName $source $version
+
+  foreach ($line in $nugetOutput) {
+    if ($line -notlike "*not installed*" -and $line -notlike "Dependency*already installed." -and $line -notlike "Attempting to resolve dependency*") {
+      $installedPackageName = ''
+      $installedPackageVersion = ''
+    
+      $regex = [regex]"'[.\S]+\s?"
+      $pkgNameMatches = $regex.Matches($line) | select -First 1 
+      if ($pkgNameMatches -ne $null) {
+        $installedPackageName = $pkgNameMatches -replace "'", "" -replace " ", ""
+      }
+      
+      $regex = [regex]"[0-9.]+[[)]?'"
+      $pkgVersionMatches = $regex.Matches($line) | select -First 1 
+      if ($pkgVersionMatches -ne $null) {
+        $installedPackageVersion = $pkgVersionMatches -replace '\)', '' -replace "'", "" -replace " ", ""
+      }
       
       if ($installedPackageName -eq '') {
         $regex = [regex]"`"[.\S]+\s?"
@@ -133,7 +133,7 @@ $h2
         $installedPackageName = $pkgNameMatches -replace "`"", "" -replace " ", ""
         $installedPackageVersion = $version
       }
-			      
+      
       if ($installedPackageName -ne '') {
         $packageFolder = ''
         if ($installedPackageVersion -ne '') {
@@ -143,7 +143,7 @@ $h2
           $packageFolder = Get-ChildItem $nugetLibPath | ?{$_.name -match "^$installedPackageName*"} | sort name -Descending | select -First 1 
           $packageFolder = $packageFolder.FullName
         }
-				
+        
         if ($packageFolder -ne '') {
 @"
 $h2
