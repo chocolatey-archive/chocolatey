@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.13</version>
+    <version>0.9.8.14</version>
     <authors>Rob Reynolds</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -19,8 +19,14 @@ and it will run your application executable.
 - when it finishes you will have installed 7zip on your machine (in your add/remove programs).  
 || Check out the WIKI in the project URL for all the details of what you can do with chocolatey!
 </description>
-    <!--<releaseNotes>* 0.9.8.7 - updated to add support for NuGet v1.5 and proxies
-    * See the rest at https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes</releaseNotes>-->
+    <releaseNotes>v0.9.8.14 - See all (https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes)
+* Enhancement - 64 bit url added to Install-ChocolateyZipPackage
+* Enhancement - main helpers work with files not coming from HTTP
+* Enhancement - Pass -ValidExitCodes to both install helpers
+* Fix - CList now only includes recent versions without -all switch
+* Fix - packages with .config in the name now work again
+* NuGet.exe internal upgraded to 1.6 to take advantage of prerelease packages
+    </releaseNotes>
     <projectUrl>https://github.com/chocolatey/chocolatey/wiki</projectUrl>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>

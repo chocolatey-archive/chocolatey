@@ -247,8 +247,12 @@ param(
   Write-Host "$downloadMessage"
   #$downloader = new-object System.Net.WebClient
   #$downloader.DownloadFile($url, $fileFullPath)
-  Get-WebFile $url $fileFullPath
-
+  if ($url.StartsWith('http')) {
+    Get-WebFile $url $fileFullPath
+  } else {
+    Copy-Item $url -Destination $fileFullPath -Force
+  }
+  
   Start-Sleep 2 #give it a sec or two to finish up
 }
 
