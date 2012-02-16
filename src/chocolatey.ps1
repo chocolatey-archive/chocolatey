@@ -1,4 +1,14 @@
-param($command,$packageName='',$source='https://go.microsoft.com/fwlink/?LinkID=206669',$version='',[alias("all")][switch] $allVersions = $false,[alias("ia","installArgs")][string] $installArguments = '',[alias("o","override","overrideArguments","notSilent")][switch] $overrideArgs = $false)#todo:,[switch] $silent)
+param(
+  [string]$command,
+  [string]$packageName='',
+  [string]$source='https://go.microsoft.com/fwlink/?LinkID=206669',
+  [string]$version='',
+  [alias("all")][switch] $allVersions = $false,
+  [alias("ia","installArgs")][string] $installArguments = '',
+  [alias("o","override","overrideArguments","notSilent")]
+  [switch] $overrideArgs = $false,
+  [switch] $force = $false
+) 
 # chocolatey
 # Copyright (c) 2011-Present Rob Reynolds
 # Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1, AnthonyMastrean
@@ -127,7 +137,7 @@ $h2
   $nugetOutput = Run-NuGet $packageName $source $version
 
   foreach ($line in $nugetOutput) {
-    if ($line -notlike "*not installed*" -and $line -notlike "Dependency*already installed." -and $line -notlike "Attempting to resolve dependency*") {
+    if ($line -notlike "*not installed*" -and ($line -notlike "*already installed." -or $force -eq $true) -and $line -notlike "Attempting to resolve dependency*") {
       $installedPackageName = ''
       $installedPackageVersion = ''
     
