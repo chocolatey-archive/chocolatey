@@ -35,6 +35,9 @@ v0.9.8
   - Enhancement - Pass -ValidExitCodes to both install helpers
   - Fix - CList now only includes recent versions without -all switch
   - Fix - packages with .config in the name now work again
+ * .15
+  - Enhancement - Support Prerelease flag for Install, Update, Version, and List
+  - Fix - Now parses the correct version of a package you have installed
 $h2
 $h2
 using (var legalese = new LawyerText()) {
