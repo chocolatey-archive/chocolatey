@@ -7,7 +7,8 @@ param(
   [alias("ia","installArgs")][string] $installArguments = '',
   [alias("o","override","overrideArguments","notSilent")]
   [switch] $overrideArgs = $false,
-  [switch] $force = $false
+  [switch] $force = $false,
+  [alias("pre")][switch] $prerelease = $false
 ) 
 # chocolatey
 # Copyright (c) 2011-Present Rob Reynolds
@@ -222,12 +223,17 @@ $h2
     $srcArgs = "-Source `"http://chocolatey.org/api/v2/`" -Source `"$source`""
   }
 
-  $packageArgs = "install $packageName /outputdirectory `"$nugetLibPath`" $srcArgs"
+  $packageArgs = "install $packageName -Outputdirectory `"$nugetLibPath`" $srcArgs"
   if ($version -notlike '') {
-    $packageArgs = $packageArgs + " /version $version";
+    $packageArgs = $packageArgs + " -Version $version";
+  }
+  
+  if ($prerelease -eq $true) {
+    $packageArgs = $packageArgs + " -Prerelease";
   }
   $logFile = Join-Path $nugetChocolateyPath 'install.log'
   $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
+  #write-host "TEMP: NuGet Args - $packageArgs"
   Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile -RedirectStandardError $errorLogFile
 
   $nugetOutput = Get-Content $logFile -Encoding Ascii
@@ -410,6 +416,7 @@ param(
       $packageArgs = $packageArgs + " -Prerelease";
     }
     #write-host "TEMP: Args - $packageArgs"
+
     $logFile = Join-Path $nugetChocolateyPath 'list.log'
     Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile
     Start-Sleep 1 #let it finish writing to the config file
