@@ -1,7 +1,7 @@
 param(
   [string]$command,
   [string]$packageName='',
-  [string]$source='https://go.microsoft.com/fwlink/?LinkID=206669',
+  [string]$source='https://go.microsoft.com/fwlink/?LinkID=230477',
   [string]$version='',
   [alias("all")][switch] $allVersions = $false,
   [alias("ia","installArgs")][string] $installArguments = '',
@@ -65,7 +65,7 @@ param(
 function Chocolatey-Install {
 param(
   [string] $packageName, 
-  $source = 'https://go.microsoft.com/fwlink/?LinkID=206669', 
+  $source = 'https://go.microsoft.com/fwlink/?LinkID=230477', 
   [string] $version = '',
   [string] $installerArguments = ''
 )
@@ -111,7 +111,7 @@ param(
 function Chocolatey-NuGet { 
 param(
   [string] $packageName,
-  [string]$source = 'https://go.microsoft.com/fwlink/?LinkID=206669'
+  [string]$source = 'https://go.microsoft.com/fwlink/?LinkID=230477'
 )
 
   if ($packageName -eq 'all') { 
@@ -120,8 +120,8 @@ param(
   }
 
   $srcArgs = "$source"
-  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
-    $srcArgs = "http://chocolatey.org/api/feeds/ OR $source"
+  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
+    $srcArgs = "http://chocolatey.org/api/v2/ OR $source"
   }
 
 @"
@@ -206,16 +206,20 @@ param([string] $packageName)
 }
 
 function Run-NuGet {
-param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669',$version = '')
+param(
+  [string] $packageName, 
+  $source = 'https://go.microsoft.com/fwlink/?LinkID=230477',
+  $version = ''
+)
 @"
 $h2
 NuGet
 $h2
 "@ | Write-Host
 
-  $srcArgs = "/source `"$source`""
-  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
-    $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
+  $srcArgs = "-Source `"$source`""
+  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
+    $srcArgs = "-Source `"http://chocolatey.org/api/v2/`" -Source `"$source`""
   }
 
   $packageArgs = "install $packageName /outputdirectory `"$nugetLibPath`" $srcArgs"
@@ -338,7 +342,7 @@ SET DIR=%~dp0%
 }
 
 function Chocolatey-Update {
-param([string] $packageName ='', $source = 'https://go.microsoft.com/fwlink/?LinkID=206669')
+param([string] $packageName ='', $source = 'https://go.microsoft.com/fwlink/?LinkID=230477')
 
   if ($packageName -eq '') {$packageName = 'chocolatey';}
   
@@ -357,16 +361,16 @@ param([string] $packageName ='', $source = 'https://go.microsoft.com/fwlink/?Lin
 }
 
 function Chocolatey-List {
-  param([string]$selector='', [string]$source='https://go.microsoft.com/fwlink/?LinkID=206669' );
+  param([string]$selector='', [string]$source='https://go.microsoft.com/fwlink/?LinkID=230477' );
   
   if ($source -like 'webpi') {
     $webpiArgs ="/c webpicmd /List /ListOption:All"
     & cmd.exe $webpiArgs 
   } else {  
   
-    $srcArgs = "/source $source"
-    if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
-      $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
+    $srcArgs = "-Source `"$source`""
+    if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
+      $srcArgs = "-Source `"http://chocolatey.org/api/v2/`" -Source `"$source`""
     }
  
     $parameters = "list $srcArgs"
@@ -382,7 +386,11 @@ function Chocolatey-List {
 } 
 
 function Chocolatey-Version {
-param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?LinkID=206669')
+param(
+  [string]$packageName='',
+  [string]$source='https://go.microsoft.com/fwlink/?LinkID=230477'
+)
+
   if ($packageName -eq '') {$packageName = 'chocolatey';}
   
   $packages = $packageName
@@ -446,7 +454,7 @@ param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?
 }
 
 function Chocolatey-InstallIfMissing {
-param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=206669',$version = '')
+param([string] $packageName, $source = 'https://go.microsoft.com/fwlink/?LinkID=230477',$version = '')
   
   $versions = Chocolatey-Version $packageName $source
   
@@ -572,7 +580,7 @@ function Chocolatey-Push {
 param([string] $packageName, $source = 'http://chocolatey.org/' )
 
   $srcArgs = "-source $source"
-  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
+  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
     $srcArgs = "-source http://chocolatey.org/"
   }
 
