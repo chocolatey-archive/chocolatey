@@ -398,29 +398,29 @@ param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?
   
   foreach ($package in $packages) {
     $logFile = Join-Path $nugetChocolateyPath 'list.log'
-    Start-Process $nugetExe -ArgumentList "list ""$package"" $srcArgs" -NoNewWindow -Wait -RedirectStandardOutput $logFile
+    Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile
     Start-Sleep 1 #let it finish writing to the config file
 
     $versionLatest = Get-Content $logFile | ?{$_ -match "^$package\s+\d+"} | sort $_ -Descending | select -First 1 
     $versionLatest = $versionLatest -replace "$package ", "";
-    $versionLatestCompare = $versionLatest.Split('.') | %{('0' * (5 - $_.Length)) + $_} 
-    $versionLatestCompare = [System.String]::Join('.',$versionLatestCompare)
+    #todo - make this compare prerelease information as well
+    $versionLatestCompare = Get-LongPackageVersion $versionLatest
 
     $versionFound = $chocVer
     if ($packageName -ne 'chocolatey') {
       $versionFound = 'no version'
-      $packageFolder = Get-ChildItem $nugetLibPath | ?{$_.name -match "^$package\.\d+"} | sort name -Descending | select -First 1 
+      $packageFolderVersion = Get-LatestPackageVersion(Get-PackageFolderVersions($package))
 
-      if ($packageFolder -notlike '') { 
+      if ($packageFolderVersion -notlike '') { 
         #Write-Host $packageFolder
-        $versionFound = $packageFolder.Name -replace "$package\."
+        $versionFound = $packageFolderVersion
       }
     }
     
     $versionFoundCompare = ''
     if ($versionFound -ne 'no version') {
-      $versionFoundCompare = $versionFound.Split('.') | %{('0' * (5 - $_.Length)) + $_} 
-      $versionFoundCompare = [System.String]::Join('.',$versionFoundCompare)
+      #todo - make this compare prerelease information as well
+      $versionFoundCompare = Get-LongPackageVersion $versionFound
     }    
   
     $verMessage = "The most recent version of $package available from ($source) is $versionLatest. On your machine you have $versionFound installed."
