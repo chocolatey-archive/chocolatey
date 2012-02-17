@@ -20,7 +20,10 @@ and it will run your application executable.
 || Check out the WIKI in the project URL for all the details of what you can do with chocolatey!
 </description>
     <releaseNotes>v0.9.8.15 - See all (https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes)
-
+    
+* Breaking change : Enhancement - Chocolatey's default folder is now C:\Chocolatey (and no longer C:\NuGet) - https://github.com/chocolatey/chocolatey/issues/58
+* Breaking change : Enhancement - Use -force to reinstall existing packages - https://github.com/chocolatey/chocolatey/issues/45
+* Enhancement - Install now supports all with a custom package source to install every package from a source! - https://github.com/chocolatey/chocolatey/issues/46
 * Enhancement - Support Prerelease flag for Install - https://github.com/chocolatey/chocolatey/issues/71
 * Enhancement - Support Prerelease flag for Update/Version - https://github.com/chocolatey/chocolatey/issues/72
 * Enhancement - Support Prerelease flag in List - https://github.com/chocolatey/chocolatey/issues/74

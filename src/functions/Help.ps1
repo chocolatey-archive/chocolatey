@@ -36,6 +36,9 @@ v0.9.8
   - Fix - CList now only includes recent versions without -all switch
   - Fix - packages with .config in the name now work again
  * .15
+  - Enhancement - Chocolatey's default folder is now C:\Chocolatey (breaking change)
+  - Enhancement - Use -force to reinstall existing packages (breaking change)
+  - Install now supports all with a custom package source to install every package from a source!
   - Enhancement - Support Prerelease flag for Install, Update, Version, and List
   - Fix - Now parses the correct version of a package you have installed
 $h2
