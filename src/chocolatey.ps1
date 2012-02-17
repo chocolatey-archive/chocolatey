@@ -378,14 +378,22 @@ function Chocolatey-List {
     if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
       $srcArgs = "-Source `"http://chocolatey.org/api/v2/`" -Source `"$source`""
     }
- 
-    $parameters = "list $srcArgs"
-    if ($allVersions -eq $true) {
-      $parameters = "$parameters -all"
-    }
+    
+    $parameters = "list"
     if ($selector -ne '') {
       $parameters = "$parameters ""$selector"""
     }
+    
+    if ($allVersions -eq $true) {
+      $parameters = "$parameters -all"
+    }
+    
+    if ($prerelease -eq $true) {
+      $parameters = "$parameters -Prerelease";
+    }
+    
+    $parameters = "$parameters $srcArgs"
+    #write-host "TEMP: Args - $parameters"
 
     Start-Process $nugetExe -ArgumentList $parameters -NoNewWindow -Wait 
   }
