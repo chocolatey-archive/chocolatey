@@ -391,12 +391,17 @@ param([string]$packageName='',[string]$source='https://go.microsoft.com/fwlink/?
     $packages = $packageFolders -replace "(\.\d{1,})+"|gu 
   }
   
-  $srcArgs = "/source $source"
-  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=206669') {
-    $srcArgs = "/source http://chocolatey.org/api/feeds/ /source $source"
+  $srcArgs = "-Source `"$source`""
+  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
+    $srcArgs = "-Source `"http://chocolatey.org/api/v2/`" -Source `"$source`""
   }
   
   foreach ($package in $packages) {
+    $packageArgs = "list ""$package"" $srcArgs"
+    if ($prerelease -eq $true) {
+      $packageArgs = $packageArgs + " -Prerelease";
+    }
+    #write-host "TEMP: Args - $packageArgs"
     $logFile = Join-Path $nugetChocolateyPath 'list.log'
     Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile
     Start-Sleep 1 #let it finish writing to the config file
