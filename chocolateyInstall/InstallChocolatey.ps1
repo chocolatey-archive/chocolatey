@@ -18,7 +18,7 @@
 
 # variables
 #$url = "http://chocolatey.org/packages/chocolatey/DownloadPackage"
-$url= = "http://chocolatey.org/api/v2/package/chocolatey/0.9.8.14"
+$url = "http://chocolatey.org/api/v2/package/chocolatey/0.9.8.14"
 #$url = "http://chocolatey.org/api/v1/package/chocolatey"
 $chocTempDir = Join-Path $env:TEMP "chocolatey"
 $tempDir = Join-Path $chocTempDir "chocInstall"
