@@ -1,6 +1,6 @@
 # ==============================================================================
 # 
-# Fervent Coder Copyright © 2011 - Released under the Apache 2.0 License
+# Fervent Coder Copyright ï¿½ 2011 - Released under the Apache 2.0 License
 # 
 # Copyright 2007-2008 The Apache Software Foundation.
 #  
@@ -18,7 +18,8 @@
 
 # variables
 #$url = "http://chocolatey.org/packages/chocolatey/DownloadPackage"
-$url = "http://chocolatey.org/api/v1/package/chocolatey"
+$url= = "http://chocolatey.org/api/v2/package/chocolatey/0.9.8.14"
+#$url = "http://chocolatey.org/api/v1/package/chocolatey"
 $chocTempDir = Join-Path $env:TEMP "chocolatey"
 $tempDir = Join-Path $chocTempDir "chocInstall"
 if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
