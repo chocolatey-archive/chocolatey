@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.15-beta1</version>
+    <version>0.9.8.15-beta2</version>
     <authors>Rob Reynolds</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -29,7 +29,7 @@ and it will run your application executable.
 * Enhancement - Support Prerelease flag in List - https://github.com/chocolatey/chocolatey/issues/74
 * Fix - Parsing the wrong version when trying to update - https://github.com/chocolatey/chocolatey/issues/73
     </releaseNotes>
-    <projectUrl>https://github.com/chocolatey/chocolatey/wiki</projectUrl>
+    <projectUrl>http://chocolatey.org</projectUrl>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <tags>nuget apt-get machine repository chocolatey</tags>

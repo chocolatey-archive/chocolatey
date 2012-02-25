@@ -23,7 +23,7 @@ $currentThread.CurrentCulture = $culture;
 $currentThread.CurrentUICulture = $culture;
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.15-beta1'
+$chocVer = '0.9.8.15-beta2'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -302,49 +302,6 @@ $h2
       }
     }
   }
-}
-
-function Get-ChocolateyBins {
-param([string] $packageFolder)
-  if ($packageFolder -notlike '') { 
-@"
-$h2
-Executable Batch Links
-$h2
-Looking for executables in folder: $packageFolder
-Adding batch files for any executables found to a location on PATH. In other words the executable will be available from ANY command line/powershell prompt.
-$h2
-"@ | Write-Host
-    $batchCreated = $false
-    try {
-      $files = get-childitem $packageFolder -include *.exe -recurse
-      foreach ($file in $files) {
-        if (!(test-path($file.FullName + '.ignore'))) {
-          Generate-BinFile $file.Name.Replace(".exe","").Replace(".EXE","") $file.FullName
-          $batchCreated = $true
-        }
-      }
-    }
-    catch {
-      #Write-Host 'There are no executables (that are not ignored) in the package.'
-    }
-    
-    if (!($batchCreated)) {
-      Write-Host 'There are no executables (that are not ignored) in the package.'
-    }
-    
-    Write-Host "$h2"
-  }
-}
-
-function Generate-BinFile {
-param([string] $name, [string] $path)
-  $packageBatchFileName = Join-Path $nugetExePath "$name.bat"
-  $path = $path.ToLower().Replace($nugetPath.ToLower(), "%DIR%..\").Replace("\\","\")
-  Write-Host "Adding $packageBatchFileName and pointing to $path"
-"@echo off
-SET DIR=%~dp0%
-""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII 
 }
 
 function Chocolatey-Update {
