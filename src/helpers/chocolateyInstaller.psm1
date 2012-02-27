@@ -4,7 +4,7 @@ function Start-ChocolateyProcessAsAdmin {
 param(
   [string] $statements, 
   [string] $exeToRun = 'powershell',
-  [string] $validExitCodes = @(0)
+  $validExitCodes = @(0)
 )
 
   $wrappedStatements = $statements;
@@ -85,7 +85,7 @@ param(
   [string] $silentArgs = '',
   [string] $url,
   [string] $url64bit = $url,
-  [string] $validExitCodes = @(0)
+   $validExitCodes = @(0)
 )
   
   try {
@@ -300,7 +300,7 @@ param(
   [string] $fileType = 'exe',
   [string] $silentArgs = '',
   [string] $file,
-  [string] $validExitCodes = @(0)
+  $validExitCodes = @(0)
 )
   
   $installMessage = "Installing $packageName..."
