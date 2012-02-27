@@ -30,7 +30,7 @@ Elevating Permissions and running $exeToRun $wrappedStatements. This may take aw
   $s = [System.Diagnostics.Process]::Start($psi);
   $s.WaitForExit();
   if ($validExitCodes -notcontains $s.ExitCode) {
-    $errorMessage = "[ERROR] Running $exeToRun with $statements was not successful."
+    $errorMessage = "[ERROR] Running $exeToRun with $statements was not successful. Exit code was `'$($s.ExitCode)`'."
     Write-Error $errorMessage
     throw $errorMessage
   }
