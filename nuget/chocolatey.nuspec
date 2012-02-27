@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.15-beta2</version>
+    <version>0.9.8.16</version>
     <authors>Rob Reynolds</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -19,7 +19,11 @@ and it will run your application executable.
 - when it finishes you will have installed 7zip on your machine (in your add/remove programs).  
 || Check out the WIKI in the project URL for all the details of what you can do with chocolatey!
 </description>
-    <releaseNotes>v0.9.8.15 - See all (https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes)
+    <releaseNotes>
+v0.9.8.16 
+* Small fix to upgrade installer
+
+v0.9.8.15 - See all (https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes)
     
 * Breaking change : Enhancement - Chocolatey's default folder is now C:\Chocolatey (and no longer C:\NuGet) - https://github.com/chocolatey/chocolatey/issues/58
 * Breaking change : Enhancement - Use -force to reinstall existing packages - https://github.com/chocolatey/chocolatey/issues/45
@@ -28,6 +32,7 @@ and it will run your application executable.
 * Enhancement - Support Prerelease flag for Update/Version - https://github.com/chocolatey/chocolatey/issues/72
 * Enhancement - Support Prerelease flag in List - https://github.com/chocolatey/chocolatey/issues/74
 * Fix - Parsing the wrong version when trying to update - https://github.com/chocolatey/chocolatey/issues/73
+
     </releaseNotes>
     <projectUrl>http://chocolatey.org</projectUrl>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>

@@ -155,6 +155,7 @@ Chocolatey is now ready.
 You can call chocolatey from anywhere, command line or powershell by typing chocolatey.
 Run chocolatey /? for a list of functions.
 You may need to shut down and restart powershell and/or consoles first prior to using chocolatey.
+If you are upgrading chocolatey from an older version (prior to 0.9.8.15) and don't use a custom chocolatey path, please find and delete the C:\NuGet folder after verifying that C:\Chocolatey has the same contents (minus chocolateyinstall of course).
 "@ | write-host
 }
 
@@ -170,8 +171,8 @@ param(
     Write-Host "Copying the contents of `'$chocolateyPathOld`' to `'$chocolateyPath`'. This step may fail if you have anything in this folder running or locked."
     Write-Host 'If it fails, just manually copy the rest of the items out and then delete the folder.'
     Copy-Item "$($chocolateyPathOld)\*" "$chocolateyPath" -force -recurse
-    write-host "Attempting to remove `'$chocolateyPathOld`'. This may fail if something in the folder is being used or locked. If it fails, same idea as above."
-    Remove-Item "$($chocolateyPathOld)" -force -recurse
+    #write-host "Attempting to remove `'$chocolateyPathOld`'. This may fail if something in the folder is being used or locked. If it fails, same idea as above."
+    #Remove-Item "$($chocolateyPathOld)" -force -recurse
     
     $chocolateyExePathOld = Join-Path $chocolateyPathOld 'bin'
     $statementTerminator = ";"
@@ -219,7 +220,7 @@ param(
   {
     Write-Host ''
     #now we update the path
-    Write-Host 'PATH environment variable does not have ' $chocolateyExePath ' in it. Adding.'
+    Write-Host "PATH environment variable does not have `'$chocolateyExePath`' in it. Adding."
     #Write-Host 'PATH environment variable does not have ' $chocolateyExePathVariable ' in it. Adding.'
     $userPath = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)
   

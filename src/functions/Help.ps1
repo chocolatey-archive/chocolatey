@@ -41,6 +41,8 @@ v0.9.8
   - Install now supports all with a custom package source to install every package from a source!
   - Enhancement - Support Prerelease flag for Install, Update, Version, and List
   - Fix - Now parses the correct version of a package you have installed
+ * .16
+  - Install upgrade fix
 $h2
 $h2
 using (var legalese = new LawyerText()) {
