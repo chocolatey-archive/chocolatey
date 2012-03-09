@@ -235,7 +235,7 @@ param(
     #add it to the local path as well so users will be off and running
     $envPSPath = $env:PATH
     $env:Path = $envPSPath + $statementTerminator + $chocolateyExePath + $statementTerminator
-    $env:ChocolateyInstall = $chocolateyExePath
+    #$env:ChocolateyInstall = $chocolateyExePath
   } else {
     write-host "User PATH already contains either `'$chocolateyExePath`' or `'$chocolateyExePathVariable`'"
   }
