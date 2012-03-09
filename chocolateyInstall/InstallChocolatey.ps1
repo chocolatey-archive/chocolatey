@@ -57,5 +57,5 @@ if ($($env:Path).ToLower().Contains($($nugetExePath).ToLower()) -eq $false) {
 }
 
 # update chocolatey to the latest version
-Write-Host "Updating chocolatey to the latest version"
-cup chocolatey
+#Write-Host "Updating chocolatey to the latest version"
+#cup chocolatey
