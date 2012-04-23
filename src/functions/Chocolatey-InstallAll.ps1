@@ -1,7 +1,6 @@
-
-function Chocolatey-InstallAll {
+﻿function Chocolatey-InstallAll {
 param(
-  [string]$source = ''
+  [string] $source = ''
 )
 
   if ($source -eq '' -or $source -eq 'https://go.microsoft.com/fwlink/?LinkID=206669' -or $source -eq 'http://chocolatey.org/api/feeds/') {

@@ -1,6 +1,6 @@
-Function Get-VersionsForComparison {
+function Get-VersionsForComparison {
 param (
- $packageVersions = @()
+  $packageVersions = @()
 )
 
   $versionsForComparison = @{}

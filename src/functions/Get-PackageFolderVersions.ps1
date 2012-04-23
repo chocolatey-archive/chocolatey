@@ -1,6 +1,6 @@
-Function Get-PackageFolderVersions {
+function Get-PackageFolderVersions {
 param(
-  [string]$packageName = ''
+  [string] $packageName = ''
 )
 
   $packageFolders = Get-PackageFoldersForPackage $packageName

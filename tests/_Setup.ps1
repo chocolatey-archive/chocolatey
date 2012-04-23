@@ -1,0 +1,17 @@
+﻿Setup -Folder 'chocolatey\chocolateyInstall'
+Setup -Folder 'chocolatey\lib'
+Setup -Folder 'chocolatey\bin'
+Setup -File 'chocolatey\chocolateyInstall\chocolateyInstall.log'
+Setup -File 'chocolatey\chocolateyInstall\chocolateyWebPiInstall.log'
+Setup -File 'chocolatey\chocolateyInstall\error.log'
+Setup -File 'chocolatey\chocolateyInstall\install.log'
+Setup -File 'chocolatey\chocolateyInstall\list.log'
+Setup -File 'chocolatey\chocolateyInstall\pack.log'
+Setup -File 'chocolatey\chocolateyInstall\push.log'
+
+$nugetChocolateyPath = "TestDrive:\chocolatey\chocolateyInstall"
+$nugetPath = (Split-Path -Parent $nugetChocolateyPath)
+$nugetExePath = Join-Path $nuGetPath 'bin'
+$nugetLibPath = Join-Path $nuGetPath 'lib'
+$chocInstallVariableName = "ChocolateyInstall"
+$nugetExe = Join-Path $nugetChocolateyPath 'nuget.exe'

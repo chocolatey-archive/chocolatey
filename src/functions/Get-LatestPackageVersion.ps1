@@ -1,4 +1,4 @@
-Function Get-LatestPackageVersion {
+function Get-LatestPackageVersion {
 param(
   $packageVersions = @()
 )

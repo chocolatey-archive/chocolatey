@@ -1,4 +1,4 @@
-Function Get-PackageFoldersForPackage {
+function Get-PackageFoldersForPackage {
 param(
   [string]$packageName = ''
 )

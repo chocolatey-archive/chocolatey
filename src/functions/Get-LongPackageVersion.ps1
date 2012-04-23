@@ -1,6 +1,6 @@
-Function Get-LongPackageVersion {
+function Get-LongPackageVersion {
 param(
- [string]$packageVersion = ''
+  [string] $packageVersion = ''
 )
   #todo - make this compare prerelease information as well
   $longVersion = $packageVersion.Split('-')[0].Split('.') | %{('0' * (8 - $_.Length)) + $_}
