@@ -3,7 +3,8 @@ $common = Join-Path $here '_Common.ps1'
 . $common
 
 Describe "When installing packages from a packages.config manifest" {
-  Initialize-Variables
+  Initialize-Variables  
+  $script:exec_chocolatey_packagesconfig_actual = $true
 
   Setup -File 'packages.config' @"
 <?xml version="1.0" encoding="utf-8"?>
@@ -29,7 +30,8 @@ Describe "When installing packages from a packages.config manifest" {
 }
 
 Describe "When installing packages from a .config manifest that is named MyChocolateyPackages.config" {
-  Initialize-Variables
+  Initialize-Variables  
+  $script:exec_chocolatey_packagesconfig_actual = $true
 
   Setup -File 'MyChocolateyPackages.config' @"
 <?xml version="1.0" encoding="utf-8"?>
@@ -54,7 +56,8 @@ Describe "When installing packages from a .config manifest that is named MyChoco
 }
 
 Describe "When installing a package name ending with .config" {
-  Initialize-Variables
+  Initialize-Variables  
+  $script:exec_chocolatey_packagesconfig_actual = $true
   
   Chocolatey-PackagesConfig 'win.config'
   
@@ -69,7 +72,8 @@ Describe "When installing a package name ending with .config" {
 }
 
 Describe "When installing packages from a packages.config manifest that doesn't exist" {
-  Initialize-Variables
+  Initialize-Variables  
+  $script:exec_chocolatey_packagesconfig_actual = $true
 
   Chocolatey-PackagesConfig "TestDrive:\packages.config"
 
@@ -89,6 +93,7 @@ Describe "When installing packages from a packages.config manifest that doesn't 
 
 Describe "When installing packages from a packages.config manifest missing package id" {
   Initialize-Variables
+  $script:exec_chocolatey_packagesconfig_actual = $true
 
   Setup -File 'packages.config' @"
 <?xml version="1.0" encoding="utf-8"?>
@@ -116,8 +121,9 @@ Describe "When installing packages from a packages.config manifest missing packa
 }
 
 Describe "When installing packages from a manifest with no versions" {
-  Initialize-Variables
-
+  Initialize-Variables  
+  $script:exec_chocolatey_packagesconfig_actual = $true
+  
   Setup -File 'packages.config' @"
 <?xml version="1.0" encoding="utf-8"?>
 <packages>
@@ -142,7 +148,8 @@ Describe "When installing packages from a manifest with no versions" {
 }
 
 Describe "When installing ruby packages from a manifest" {
-  Initialize-Variables
+  Initialize-Variables  
+  $script:exec_chocolatey_packagesconfig_actual = $true
   
   Setup -File 'packages.config' @"
 <?xml version="1.0" encoding="utf-8"?>
@@ -163,7 +170,8 @@ Describe "When installing ruby packages from a manifest" {
 }
 
 Describe "When installing webpi packages from a manifest" {
-  Initialize-Variables
+  Initialize-Variables  
+  $script:exec_chocolatey_packagesconfig_actual = $true
   
   Setup -File 'packages.config' @"
 <?xml version="1.0" encoding="utf-8"?>
