@@ -15,6 +15,10 @@ $h2
     $srcArgs = "-Source `"http://chocolatey.org/api/v2/`" -Source `"$source`""
   }
 
+  if ($source -like '') {
+    $srcArgs = "-Source `"http://chocolatey.org/api/v2/`" -Source `"https://go.microsoft.com/fwlink/?LinkID=230477`""
+  }
+
   $packageArgs = "install $packageName -Outputdirectory `"$nugetLibPath`" $srcArgs"
   if ($version -notlike '') {
     $packageArgs = $packageArgs + " -Version $version";
@@ -25,7 +29,7 @@ $h2
   }
   $logFile = Join-Path $nugetChocolateyPath 'install.log'
   $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
-  #write-host "TEMP: NuGet Args - $packageArgs"
+  Write-Debug "Calling NuGet.exe $packageArgs"
   Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile -RedirectStandardError $errorLogFile
 
   $nugetOutput = Get-Content $logFile -Encoding Ascii
