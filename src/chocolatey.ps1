@@ -53,5 +53,6 @@ switch -wildcard ($command)
   "gem" { Chocolatey-RubyGem $packageName $version $installArguments; }
   "pack" { Chocolatey-Pack $packageName; }
   "push" { Chocolatey-Push $packageName $source; }
-  default { Chocolatey-Help; }
+  "help" { Chocolatey-Help; }
+  default { Write-Host 'Please run chocolatey /? or chocolatey help'; }
 }

@@ -23,6 +23,7 @@ rename-item function:Remove-LastInstallLog Remove-LastInstallLog-Actual
 rename-item function:Run-ChocolateyPS1 Run-ChocolateyPS1-Actual
 rename-item function:Run-ChocolateyProcess Run-ChocolateyProcess-Actual
 rename-item function:Run-NuGet Run-NuGet-Actual
+
 rename-item function:Get-ChocolateyUnzip Get-ChocolateyUnzip-Actual
 rename-item function:Get-ChocolateyWebFile Get-ChocolateyWebFile-Actual
 #rename-item function:Get-WebFile Get-WebFile-Actual

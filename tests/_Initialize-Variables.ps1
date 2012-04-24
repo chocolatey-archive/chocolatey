@@ -1,4 +1,5 @@
 ﻿function Initialize-Variables {
+  $script:error_message = ''
   $script:packageName = ''
   $script:packageFolder = ''
   $script:packageVersion = ''

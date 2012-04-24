@@ -8,7 +8,7 @@ $installModule = Join-Path (Join-Path $src 'helpers') 'chocolateyInstaller.psm1'
 
 Import-Module $installModule -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Install-ChocolateyZipPackage, Install-ChocolateyPowershellCommand, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink
 
-Import-Module $script
+Import-Module $script 
 Import-Module $functionRenames
 
 # grab functions from files
