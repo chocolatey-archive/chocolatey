@@ -37,7 +37,7 @@ $h1
         $installedPackageName = $pkgNameMatches -replace "'", "" -replace " ", ""
       }
       
-      $regex = [regex]"[0-9.]+[[)]?'"
+      $regex = [regex]"[\d\.]+[\-\w]*[[)]?'"
       $pkgVersionMatches = $regex.Matches($line) | select -First 1 
       if ($pkgVersionMatches -ne $null) {
         $installedPackageVersion = $pkgVersionMatches -replace '\)', '' -replace "'", "" -replace " ", ""
