@@ -27,11 +27,15 @@ param(
   $webclient = new-object System.Net.WebClient
   if (!$webclient.Proxy.IsBypassed($url))
   {
-    $cred = get-credential
+    $creds = [net.CredentialCache]::DefaultCredentials
+    if ($creds -eq $null) {
+      $cred = get-credential
+      $creds = $cred.GetNetworkCredential();
+    }
     $proxyaddress = $webclient.Proxy.GetProxy($url).Authority
     Write-host "Using this proxyserver: $proxyaddress"
     $proxy = New-Object System.Net.WebProxy($proxyaddress)
-    $proxy.credentials = $cred.GetNetworkCredential();
+    $proxy.credentials = $creds
     $req.proxy = $proxy
   }
  
