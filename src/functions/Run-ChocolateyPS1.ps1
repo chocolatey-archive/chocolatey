@@ -7,12 +7,14 @@ param(
   if ($packageFolder -notlike '') { 
 @"
 $h2
-Chocolatey Installation (chocolateyinstall.ps1)
+  Chocolatey Installation (chocolateyinstall.ps1)
 $h2
+"@ | Write-Host
+@"
 Looking for chocolateyinstall.ps1 in folder $packageFolder
 If chocolateyInstall.ps1 is found, it will be run.
 $h2
-"@ | Write-Host
+"@ | Write-Debug
 
     $ps1 = Get-ChildItem  $packageFolder -recurse | ?{$_.name -match "chocolateyinstall.ps1"} | sort name -Descending | select -First 1
     
@@ -47,6 +49,8 @@ $h2
           throw $errorContents
         }
       }
+    } else {
+      Write-Host "No chocolateyInstall.ps1 file found in `'$packageFolder`' or subfolders."
     }
   }
 }

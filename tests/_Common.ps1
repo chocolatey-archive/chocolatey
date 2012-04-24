@@ -16,5 +16,4 @@ Resolve-Path $here\functions\*.ps1 | % { . $_.ProviderPath }
 Resolve-Path $here\helpers\*.ps1 | % { . $_.ProviderPath }
 
 Import-Module $setup
-
 Import-Module $initializeVariables

@@ -8,7 +8,7 @@ param(
 $h2
 NuGet
 $h2
-"@ | Write-Host
+"@ | Write-Debug
 
   $srcArgs = "-Source `"$source`""
   if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
@@ -30,7 +30,7 @@ $h2
 
   $nugetOutput = Get-Content $logFile -Encoding Ascii
   foreach ($line in $nugetOutput) {
-    Write-Host $line
+    if ($line -ne $null) {Write-Debug $line;}
   }
   $errors = Get-Content $errorLogFile
   if ($errors -ne '') {

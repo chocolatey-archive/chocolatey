@@ -8,7 +8,8 @@
   [alias("o","override","overrideArguments","notSilent")]
   [switch] $overrideArgs = $false,
   [switch] $force = $false,
-  [alias("pre")][switch] $prerelease = $false
+  [alias("pre")][switch] $prerelease = $false,
+  [switch] $debug
 ) 
 
 # chocolatey
@@ -33,6 +34,9 @@ $chocInstallVariableName = "ChocolateyInstall"
 $nugetExe = Join-Path $nugetChocolateyPath 'nuget.exe'
 $h1 = '====================================================='
 $h2 = '-------------------------'
+
+$DebugPreference = "SilentlyContinue"
+if ($debug) {$DebugPreference = "Continue";}
 
 # grab functions from files
 Resolve-Path $nugetChocolateyPath\functions\*.ps1 | 

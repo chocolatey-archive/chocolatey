@@ -10,11 +10,10 @@ Describe "When calling Chocolatey-NuGet normally" {
   It "should call Chocolatey-NuGet" {
     $script:chocolatey_nuget_was_called.should.be($true)
   }
-
-  It "should not call the Chocolatey-PackagesConfig function" {
-    $script:chocolatey_packagesconfig_was_called.should.be($false)
+  
+  It "should call Run-NuGet" {
+    $script:run_nuget_was_called.should.be($true)
   }
-
   It "should call Start-Process function to run NuGet.exe" {
     #$script:start_process_was_called.should.be($true)
   }
@@ -22,7 +21,6 @@ Describe "When calling Chocolatey-NuGet normally" {
 }
 
 Describe "when calling Chocolatey-NuGet with packageName 'all'" {
-
   Initialize-Variables
   $script:exec_chocolatey_nuget_actual = $true
   Chocolatey-NuGet 'all'

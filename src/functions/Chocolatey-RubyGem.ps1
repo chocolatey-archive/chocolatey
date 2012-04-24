@@ -9,12 +9,8 @@ param(
   
 @"
 $h1
-Chocolatey ($chocVer) is installing Ruby Gem `'$packageName`' (using RubyGems.org)
+Chocolatey ($chocVer) is installing Ruby Gem `'$packageName`' (using RubyGems.org). By installing you accept the license for the package you are installing (please run chocolatey /? for full license acceptance terms).
 $h1
-Package License Acceptance Terms
-$h2
-Please run chocolatey /? for full license acceptance verbage. By installing you accept the license for the package you are installing...
-$h2
 "@ | Write-Host
   
   if ($($env:Path).ToLower().Contains("ruby") -eq $false) {

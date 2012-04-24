@@ -16,17 +16,17 @@ param(
 
 @"
 $h1
-Chocolatey ($chocVer) is installing $packageName (from $srcArgs) to "$nugetLibPath"
+Chocolatey ($chocVer) is installing $packageName (from $srcArgs) to "$nugetLibPath". By installing you accept the license for the package you are installing (please run chocolatey /? for full license acceptance terms).
 $h1
-Package License Acceptance Terms
-$h2
-Please run chocolatey /? for full license acceptance verbage. By installing you accept the license for the package you are installing...
-$h2
 "@ | Write-Host
 
   $nugetOutput = Run-NuGet $packageName $source $version
 
   foreach ($line in $nugetOutput) {
+    if ($line -like "*already installed." -and $force -eq $false) {
+      Write-Host "$line - If you want to reinstall an existing package, please use the -force command."
+      Write-Host ""
+    }
     if ($line -notlike "*not installed*" -and ($line -notlike "*already installed." -or $force -eq $true) -and $line -notlike "Attempting to resolve dependency*") {
       $installedPackageName = ''
       $installedPackageVersion = ''
@@ -62,7 +62,6 @@ $h2
         
         if ($packageFolder -ne '') {
 @"
-$h2
 $h2
 Chocolatey Runner ($($installedPackageName.ToUpper()))
 $h2

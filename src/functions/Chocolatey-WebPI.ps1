@@ -8,12 +8,8 @@ param(
   
 @"
 $h1
-Chocolatey ($chocVer) is installing `'$packageName`' (using WebPI)
+Chocolatey ($chocVer) is installing `'$packageName`' (using WebPI). By installing you accept the license for the package you are installing (please run chocolatey /? for full license acceptance terms).
 $h1
-Package License Acceptance Terms
-$h2
-Please run chocolatey /? for full license acceptance verbage. By installing you accept the license for the package you are installing...
-$h2
 "@ | Write-Host
   
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWebPiInstall.log';

@@ -4,14 +4,26 @@ param(
   [string] $source,
   [string] $version
 )
-  Setup -File 'chocolatey\chocolateyInstall\install.log' @"
-  Successfully installed '$packageName 1.0'.
+
+$fileText = @"
+Successfully installed '$packageName 1.0'.
 "@
+if ($version -ne '') {
+   $fileText = @"
+Successfully installed '$packageName $version'.
+"@
+  }
+
+  Setup -File 'chocolatey\chocolateyInstall\install.log' $fileText 
+  
 
   $script:run_nuget_was_called = $true
   $script:packageName = $packageName
   $script:source = $source
   $script:version = $version
   
-  if ($script:exec_run_nuget_actual) { Run-NuGet-Actual @PSBoundParameters}
+  if ($script:exec_run_nuget_actual) { Run-NuGet-Actual @PSBoundParameters
+  } else {
+    return $fileText
+  }
 }
