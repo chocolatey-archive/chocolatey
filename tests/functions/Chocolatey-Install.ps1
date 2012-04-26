@@ -12,5 +12,9 @@ param(
   $script:version = $version
   $script:installerArguments = $installerArguments
   
-  if ($script:exec_chocolatey_install_actual) { Chocolatey-Install-Actual @PSBoundParameters}
+  if ($script:exec_chocolatey_install_actual) { 
+    Chocolatey-Install-Actual @PSBoundParameters
+  } else {
+    return $script:chocolatey_install_return_value
+  }
 }

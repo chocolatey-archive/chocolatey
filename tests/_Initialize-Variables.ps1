@@ -57,6 +57,46 @@
   $script:write_chocolateyfailure_was_called = $false
   $script:write_chocolateysuccess_was_called = $false  
   
+  # return values
+  $script:chocolatey_install_return_value =  ''
+  $script:chocolatey_installall_return_value = ''
+  $script:chocolatey_installifmissing_return_value = ''
+  $script:chocolatey_list_return_value = ''
+  $script:chocolatey_nuget_return_value = ''
+  $script:chocolatey_pack_return_value = ''
+  $script:chocolatey_packagesconfig_return_value = ''
+  $script:chocolatey_push_return_value = ''
+  $script:chocolatey_rubygem_return_value = ''
+  $script:chocolatey_update_return_value = ''
+  $script:chocolatey_version_return_value = ''
+  $script:chocolatey_webpi_return_value = ''
+  $script:delete_existingerrorlog_return_value = ''
+  $script:generate_binfile_return_value = ''
+  $script:get_chocolateybins_return_value = ''
+  $script:get_latestpackageversion_return_value = ''
+  $script:get_longpackageversion_return_value = ''
+  $script:get_packagefolderversions_return_value = ''
+  $script:get_packagefoldersforpackage_return_value = ''
+  $script:get_versionsforcomparison_return_value = ''
+  $script:help_return_value = ''
+  $script:remove_lastinstalllog_return_value = ''
+  $script:run_chocolateyps1_return_value = ''
+  $script:run_chocolateyprocess_return_value = ''
+  $script:run_nuget_return_value = ''
+  $script:start_process_return_value = ''
+  $script:get_chocolateyunzip_return_value = ''
+  $script:get_chocolateywebfile_return_value = ''
+  $script:get_webfile_return_value = ''
+  $script:install_chocolateydesktoplink_return_value = ''
+  $script:install_chocolateyinstallpackage_return_value = ''
+  $script:install_chocolateypackage_return_value = ''
+  $script:install_chocolateypath_return_value = ''
+  $script:install_chocolateypowershellcommand_return_value = ''
+  $script:install_chocolateyzippackage_return_value = ''
+  $script:start_chocolateyprocessasadmin_return_value = ''
+  $script:write_chocolateyfailure_return_value = ''
+  $script:write_chocolateysuccess_return_value = ''  
+  
   # execute actuals
   $script:exec_chocolatey_install_actual = $false
   $script:exec_chocolatey_installall_actual = $false

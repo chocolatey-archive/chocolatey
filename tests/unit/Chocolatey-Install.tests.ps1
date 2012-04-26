@@ -2,6 +2,23 @@
 $common = Join-Path (Split-Path -Parent $here)  '_Common.ps1'
 . $common
 
+
+#now this is cool
+Describe "When calling Chocolatey-Install for return value" {
+  Initialize-Variables
+  $script:exec_chocolatey_install_actual = $true
+  $script:chocolatey_nuget_return_value = 'dude'
+  $returnv = Chocolatey-Install 'testpackage' -source 'bob' -version '2.0' -installerArguments '1.2.3aasf'
+
+  It "should return appropriately" {
+    $returnv.should.be($script:chocolatey_nuget_return_value)
+  }
+  
+  It "should return as the type that was passed in" {
+    $true.should.be($returnv.GetType().Name -eq 'String')
+  }  
+}
+
 Describe "When calling Chocolatey-Install with parameters" {
   Initialize-Variables
   $script:exec_chocolatey_install_actual = $true

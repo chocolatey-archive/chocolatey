@@ -10,5 +10,9 @@ param(
   $script:source = $source
   $script:version = $version
   
-  if ($script:exec_chocolatey_nuget_actual) { Chocolatey-NuGet-Actual @PSBoundParameters}
+  if ($script:exec_chocolatey_nuget_actual) { 
+    Chocolatey-NuGet-Actual @PSBoundParameters
+  } else {
+    return $script:chocolatey_nuget_return_value
+  }
 }
