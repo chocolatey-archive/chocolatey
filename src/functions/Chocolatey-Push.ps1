@@ -5,9 +5,6 @@ param(
 )
 
   $srcArgs = "-source $source"
-  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
-    $srcArgs = "-source http://chocolatey.org/"
-  }
 
   $packageArgs = "push $packageName $srcArgs"
   $logFile = Join-Path $nugetChocolateyPath 'push.log'

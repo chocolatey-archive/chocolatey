@@ -1,7 +1,7 @@
 ﻿function Chocolatey-Update {
 param(
   [string] $packageName ='', 
-  [string] $source = 'https://go.microsoft.com/fwlink/?LinkID=230477'
+  [string] $source = ''
 )
 
   if ($packageName -eq '') {$packageName = 'chocolatey';}

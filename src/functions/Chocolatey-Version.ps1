@@ -1,7 +1,7 @@
 ﻿function Chocolatey-Version {
 param(
   [string] $packageName='',
-  [string] $source='https://go.microsoft.com/fwlink/?LinkID=230477'
+  [string] $source=''
 )
 
   if ($packageName -eq '') {$packageName = 'chocolatey';}
@@ -12,9 +12,8 @@ param(
     $packages = $packageFolders -replace "(\.\d{1,})+"|gu 
   }
   
-  $srcArgs = "-Source `"$source`""
-  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
-    $srcArgs = "-Source `"http://chocolatey.org/api/v2/`" -Source `"$source`""
+  if ($source -ne '') {
+  	$srcArgs = "-Source `"$source`""
   }
   
   foreach ($package in $packages) {

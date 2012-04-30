@@ -1,7 +1,7 @@
 ﻿function Chocolatey-NuGet { 
 param(
   [string] $packageName,
-  [string] $source = 'https://go.microsoft.com/fwlink/?LinkID=230477'
+  [string] $source = ''
 )
 
   if ($packageName -eq 'all') { 
@@ -9,14 +9,14 @@ param(
     return
   }
 
-  $srcArgs = "$source"
-  if ($source -like 'https://go.microsoft.com/fwlink/?LinkID=230477') {
-    $srcArgs = "http://chocolatey.org/api/v2/ OR $source"
+  $srcArgs = ""
+  if ($source -ne '') {
+    $srcArgs = "(from $source)"
   }
 
 @"
 $h1
-Chocolatey ($chocVer) is installing $packageName (from $srcArgs) to "$nugetLibPath". By installing you accept the license for the package you are installing (please run chocolatey /? for full license acceptance terms).
+Chocolatey ($chocVer) is installing $packageName $srcArgs to "$nugetLibPath". By installing you accept the license for the package you are installing (please run chocolatey /? for full license acceptance terms).
 $h1
 "@ | Write-Host
 
