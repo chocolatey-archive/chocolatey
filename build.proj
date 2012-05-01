@@ -41,7 +41,7 @@
       <FilesToDelete Exclude="$(BuildPath)\**\*.nupkg" Include="$(BuildPath)\**\*" />
       <DirectoriesToDelete Include="$(BuildPath)\nuget" />
     </ItemGroup>
-    <Exec Command="nuget pack %(NuspecFiles.FullPath) -NoPackageAnalysis" WorkingDirectory="$(BuildPath)" />
+    <Exec Command="nuget pack &quot;%(NuspecFiles.FullPath)&quot; -NoPackageAnalysis" WorkingDirectory="$(BuildPath)" />
           
     <Delete Files="@(FilesToDelete)" />
     <RemoveDir Directories="@(DirectoriesToDelete)" />
