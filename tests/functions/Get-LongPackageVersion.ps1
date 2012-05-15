@@ -4,7 +4,12 @@ param(
 )
 
   $script:get_longpackageversion_was_called = $true
-  $script:packageName = $packageName
+  $script:packageVersion = $packageVersion
   
-  if ($script:exec_get_longpackageversion_actual) { Get-LongPackageVersion-Actual @PSBoundParameters}
+  if ($script:exec_get_longpackageversion_actual) { 
+    	$script:get_longpackageversion_actual_was_called = $true
+      Get-LongPackageVersion-Actual @PSBoundParameters
+	} else {
+		return $script:get_longpackageversion_return_value
+	}
 }

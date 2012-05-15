@@ -18,9 +18,9 @@
   $script:path = ''
  
   # function calls
-  $script:chocolatey_install_was_called= $false
+  $script:chocolatey_install_was_called = $false
   $script:chocolatey_installall_was_called = $false
-  $script:chocolatey_installifmissing_was_called= $false
+  $script:chocolatey_installifmissing_was_called = $false
   $script:chocolatey_list_was_called = $false
   $script:chocolatey_nuget_was_called = $false
   $script:chocolatey_pack_was_called = $false
@@ -136,4 +136,10 @@
   $script:exec_start_chocolateyprocessasadmin_actual = $false
   $script:exec_write_chocolateyfailure_actual = $false
   $script:exec_write_chocolateysuccess_actual = $false
+  
+  # actual function calls
+  $script:get_longpackageversion_actual_was_called = $false
+  $script:get_packagefoldersforpackage_actual_was_called = $false
+  $script:get_packagefolderversions_actual_was_called = $false
+  $script:get_versionsforcomparison_actual_was_called = $false
 }
