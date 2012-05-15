@@ -18,6 +18,7 @@ function Get-WebFile {
 param(
   $url = (Read-Host "The URL to download"),
   $fileName = $null,
+  $userAgent = $null,
   [switch]$Passthru,
   [switch]$quiet
 )
@@ -41,6 +42,9 @@ param(
  
   #http://stackoverflow.com/questions/518181/too-many-automatic-redirections-were-attempted-error-message-when-using-a-httpw
   $req.CookieContainer = New-Object System.Net.CookieContainer
+  if ($userAgent -ne $null) {
+    $req.UserAgent = $userAgent
+  }
   $res = $req.GetResponse();
 
   if($fileName -and !(Split-Path $fileName)) {
