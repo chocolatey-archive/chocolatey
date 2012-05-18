@@ -34,6 +34,8 @@ $chocInstallVariableName = "ChocolateyInstall"
 $nugetExe = Join-Path $nugetChocolateyPath 'nuget.exe'
 $h1 = '====================================================='
 $h2 = '-------------------------'
+$globalConfig = ''
+$userConfig = ''
 
 $DebugPreference = "SilentlyContinue"
 if ($debug) {$DebugPreference = "Continue";}
@@ -43,8 +45,6 @@ Resolve-Path $nugetChocolateyPath\functions\*.ps1 |
     ? { -not ($_.ProviderPath.Contains(".Tests.")) } |
     % { . $_.ProviderPath }
 
-$globalConfig = ''
-$userConfig = ''
 Get-ConfigValue('useNuGetForSources')
 
 #main entry point
