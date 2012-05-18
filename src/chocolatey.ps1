@@ -45,7 +45,7 @@ Resolve-Path $nugetChocolateyPath\functions\*.ps1 |
 
 $globalConfig = ''
 $userConfig = ''
-Get-ConfigValue('chocolatey.core.useNuGetForSources')
+Get-ConfigValue('useNuGetForSources')
 
 #main entry point
 Remove-LastInstallLog

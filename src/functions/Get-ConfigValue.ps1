@@ -20,11 +20,23 @@ if ($userConfig -eq '') {
     }
 }
 
+#append chocolatey
+$configValue = "chocolatey.core.$configValue"
+write-host "$configValue"
+$returnValue = $globalConfigFile.$configValue
+if ($returnValue -eq $null -or $returnValue -eq '') {
+    #append core if not found
+
+}
+
+Write-host "$returnValue"
+
 
 #write-host "$($globalConfig.chocolatey.core.useNuGetForSources)"
 #$useNuGetForSources = $false
 [bool] $useNuGetForSources = $globalConfig.chocolatey.core.useNuGetForSources -eq 'true'
 
-write-host "$useNuGetForSources"
+#write-host "$useNuGetForSources"
   
+  $returnValue
 }
