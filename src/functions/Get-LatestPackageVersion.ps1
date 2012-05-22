@@ -9,6 +9,9 @@ param(
       $latestPackageVersion = $packageVersions.GetEnumerator() | Select-Object -First 1
       $latestVersion = $latestPackageVersion.Value
     }
+	else {
+		$latestversion=$packageversions.value
+	}
   }
  
   return $latestVersion
