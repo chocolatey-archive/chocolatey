@@ -20,8 +20,8 @@ $h1
 #    $cygwinArgs = "$cygwinArgs $installerArguments"
 #  }
 #  if ($overrideArgs -eq $true) {
-#    $cygwinArgs = "/c webpicmd $installerArguments /Products:$packageName"
-#    write-host "Overriding arguments for WebPI"
+#    $cygwinArgs = "/c cyg-get $installerArguments /Products:$packageName"
+#    write-host "Overriding arguments for cyg-get"
 #  }  
   
   Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $cygwinArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
@@ -30,8 +30,8 @@ $h1
   #Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $cygwinArgs | Out-String`"" -Verb "runas"  -Wait | Write-Host  #-PassThru -UseNewEnvironment
   Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $cygwinArgs | Tee-Object -FilePath $chocoInstallLog`"" -Verb "RunAs"  -Wait -WindowStyle Minimized
   
-  $webpiOutput = Get-Content $chocoInstallLog -Encoding Ascii
-	foreach ($line in $webpiOutput) {
+  $cygwinOutput = Get-Content $chocoInstallLog -Encoding Ascii
+	foreach ($line in $cygwinOutput) {
     Write-Host $line
   }
   
