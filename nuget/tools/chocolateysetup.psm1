@@ -35,6 +35,7 @@ $nugetChocolateyUpdateAlias = Join-Path $chocolateyExePath 'cup.bat'
 $nugetChocolateyListAlias = Join-Path $chocolateyExePath 'clist.bat'
 $nugetChocolateyVersionAlias = Join-Path $chocolateyExePath 'cver.bat'
 $nugetChocolateyWebPiAlias = Join-Path $chocolateyExePath 'cwebpi.bat'
+$nugetChocolateyCygwinAlias = Join-Path $chocolateyExePath 'ccygwin.bat'
 $nugetChocolateyGemAlias = Join-Path $chocolateyExePath 'cgem.bat'
 $nugetChocolateyPackAlias = Join-Path $chocolateyExePath 'cpack.bat'
 $nugetChocolateyPushAlias = Join-Path $chocolateyExePath 'cpush.bat'
@@ -67,6 +68,10 @@ Write-Host "Creating `'$nugetChocolateyWebPiAlias`' so you can call 'chocolatey 
 "@echo off
 SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" webpi %*" | Out-File $nugetChocolateyWebPiAlias -encoding ASCII
+Write-Host "Creating `'$nugetChocolateyCygwinAlias`' so you can call 'chocolatey cygwin' from a shortcut of 'ccygwin'."
+"@echo off
+SET DIR=%~dp0%
+""$nugetChocolateyPath\chocolatey.cmd"" cygwin %*" | Out-File $nugetChocolateyCygwinAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyGemAlias`' so you can call 'chocolatey gem' from a shortcut of 'cgem'."
 "@echo off
 SET DIR=%~dp0%

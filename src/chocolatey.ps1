@@ -54,6 +54,7 @@ switch -wildcard ($command)
   "list" { Chocolatey-List $packageName $source; }
   "version" { Chocolatey-Version $packageName $source; }
   "webpi" { Chocolatey-WebPI $packageName $installArguments; }
+  "cygwin" { Chocolatey-Cygwin $packageName $installArguments; }
   "gem" { Chocolatey-RubyGem $packageName $version $installArguments; }
   "pack" { Chocolatey-Pack $packageName; }
   "push" { Chocolatey-Push $packageName $source; }

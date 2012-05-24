@@ -20,7 +20,8 @@ _ReSharper.*
 *.pidb
 *userprefs
 *.nupkg
- 
+lib
+
 TestResult.xml
 submit.xml
 
