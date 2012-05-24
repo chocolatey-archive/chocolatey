@@ -63,6 +63,7 @@ param(
     Write-Host $verMessage
   }
   
-	$versions = @{latest = $versionLatest; found = $versionFound; latestCompare = $versionLatestCompare; foundCompare = $versionFoundCompare; }
-	return $versions
+	$versions = @{name=$package; latest = $versionLatest; found = $versionFound; latestCompare = $versionLatestCompare; foundCompare = $versionFoundCompare; }
+	$versionsObj = New-Object –typename PSObject -Property $versions
+	return $versionsObj
 }
