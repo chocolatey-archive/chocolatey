@@ -64,7 +64,7 @@ $h2
 $h2
 Usage
 $h2
-chocolatey [install [packageName [-source source] [-version version] | pathToPackagesConfig]  | installmissing packageName [-source source] | update packageName [-source source] [-version version] | list [packageName] [-source source] | help | version [packageName] | webpi packageName | gem packageName [-version version]]
+chocolatey [install [packageName [-source source] [-version version] | pathToPackagesConfig]  | installmissing packageName [-source source] | update packageName [-source source] [-version version] | list [packageName] [-source source] | help | version [packageName] | webpi packageName | gem packageName [-version version] |uninstall packageName]
 
 example: chocolatey install nunit
 example: chocolatey install nunit -version 2.5.7.10213
@@ -76,6 +76,7 @@ example: chocolatey list (might take awhile)
 example: chocolatey list nunit
 example: chocolatey version
 example: chocolatey version nunit
+example: chocolatey uninstall
 
 A shortcut to 'chocolatey install' is 'cinst'
 cinst [packageName  [-source source] [-version version] | pathToPackagesConfig]
