@@ -69,7 +69,7 @@ $h2
 
           if ([System.IO.Directory]::Exists($packageFolder)) {
             Delete-ExistingErrorLog $installedPackageName
-            Run-ChocolateyPS1 $packageFolder $installedPackageName $installerArguments
+            Run-ChocolateyPS1 $packageFolder $installedPackageName $installerArguments "install"
             Get-ChocolateyBins $packageFolder
           }
         }
