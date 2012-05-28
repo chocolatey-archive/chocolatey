@@ -1,22 +1,25 @@
 ﻿function Run-ChocolateyPS1 {
-param(
-  [string] $packageFolder, 
-  [string] $packageName
-)
+param([string] $packageFolder, [string] $packageName, [string] $action)
+
+
+	  switch ($action) 
+	{
+	  "install" { $actionFile = "chocolateyinstall.ps1"; }
+	  "uninstall" {$actionFile = "chocolateyuninstall.ps1"; }
+	  default { $actionFile = "chocolateyinstall.ps1";}
+	}
 
   if ($packageFolder -notlike '') { 
 @"
 $h2
-  Chocolatey Installation (chocolateyinstall.ps1)
+Chocolatey $action ($actionFile)
+$h2
+Looking for $actionFile in folder $packageFolder
+If $actionFile is found, it will be run.
 $h2
 "@ | Write-Host
-@"
-Looking for chocolateyinstall.ps1 in folder $packageFolder
-If chocolateyInstall.ps1 is found, it will be run.
-$h2
-"@ | Write-Debug
 
-    $ps1 = Get-ChildItem  $packageFolder -recurse | ?{$_.name -match "chocolateyinstall.ps1"} | sort name -Descending | select -First 1
+    $ps1 = Get-ChildItem  $packageFolder -recurse | ?{$_.name -match $actionFile} | sort name -Descending | select -First 1
     
     if ($ps1 -notlike '') {
       $env:chocolateyInstallArguments = "$installArguments"
@@ -49,8 +52,6 @@ $h2
           throw $errorContents
         }
       }
-    } else {
-      Write-Host "No chocolateyInstall.ps1 file found in `'$packageFolder`' or subfolders."
     }
   }
 }
