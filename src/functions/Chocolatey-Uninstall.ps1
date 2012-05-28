@@ -24,9 +24,6 @@ $h1
 			write-host "not installed"
 		}
 		else {
-		#this is where the meat and the potatos goes
-		write-host "installed"
-
 		$packageFolder = Join-Path $nugetLibPath "$($package).$($versions.found)" 
         Run-ChocolateyPS1 $packageFolder $package "uninstall"	
 		}
