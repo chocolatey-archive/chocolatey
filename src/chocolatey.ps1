@@ -51,6 +51,7 @@ switch -wildcard ($command)
   "install" { Chocolatey-Install $packageName $source $version $installArguments; }
   "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
   "update" { Chocolatey-Update $packageName $source; }
+  "uninstall" {Chocolatey-Uninstall $packageName $version $installArguments; }
   "list" { Chocolatey-List $packageName $source; }
   "version" { Chocolatey-Version $packageName $source; }
   "webpi" { Chocolatey-WebPI $packageName $installArguments; }
