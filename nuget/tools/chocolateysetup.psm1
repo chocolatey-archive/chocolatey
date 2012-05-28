@@ -39,6 +39,8 @@ $nugetChocolateyCygwinAlias = Join-Path $chocolateyExePath 'ccygwin.bat'
 $nugetChocolateyGemAlias = Join-Path $chocolateyExePath 'cgem.bat'
 $nugetChocolateyPackAlias = Join-Path $chocolateyExePath 'cpack.bat'
 $nugetChocolateyPushAlias = Join-Path $chocolateyExePath 'cpush.bat'
+$nugetChocolateyUninstallAlias = Join-Path $chocolateyExePath 'cuninst.bat'
+
 
 Write-Host "Creating `'$nugetChocolateyBinFile`' so you can call 'chocolatey' from anywhere."
 "@echo off
@@ -81,6 +83,10 @@ Write-Host "Creating `'$nugetChocolateyPackAlias`' so you can call 'chocolatey p
 SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" pack %*" | Out-File $nugetChocolateyPackAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyPushAlias`' so you can call 'chocolatey push' from a shortcut of 'cpush'."
+"@echo off
+SET DIR=%~dp0%
+""$nugetChocolateyPath\chocolatey.cmd"" %*" | Out-File $nugetChocolateyUninstall -encoding ASCII
+Write-Host "Creating `'$nugetChocolateyUninstallAlias`' so you can call 'chocolatey uninstall' from a shortcut of 'cuninst'."
 "@echo off
 SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" push %*" | Out-File $nugetChocolateyPushAlias -encoding ASCII
