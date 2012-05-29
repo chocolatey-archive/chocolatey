@@ -85,7 +85,7 @@ SET DIR=%~dp0%
 Write-Host "Creating `'$nugetChocolateyPushAlias`' so you can call 'chocolatey push' from a shortcut of 'cpush'."
 "@echo off
 SET DIR=%~dp0%
-""$nugetChocolateyPath\chocolatey.cmd"" %*" | Out-File $nugetChocolateyUninstallAlias -encoding ASCII
+""$nugetChocolateyPath\chocolatey.cmd"" uninstall %*" | Out-File $nugetChocolateyUninstallAlias -encoding ASCII
 Write-Host "Creating `'$nugetChocolateyUninstallAlias`' so you can call 'chocolatey uninstall' from a shortcut of 'cuninst'."
 "@echo off
 SET DIR=%~dp0%
