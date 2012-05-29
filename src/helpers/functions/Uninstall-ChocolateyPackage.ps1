@@ -34,7 +34,7 @@ Uninstall-ChocolateyPackage
 param(
   [string] $packageName, 
   [string] $fileType = 'exe',
-  #[string] $silentArgs = '',
+  [string] $silentArgs = '',
   [string] $file,
   $validExitCodes = @(0)
 )
