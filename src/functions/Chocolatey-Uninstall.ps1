@@ -25,7 +25,8 @@ $h1
 		}
 		else {
 		$packageFolder = Join-Path $nugetLibPath "$($package).$($versions.found)" 
-        Run-ChocolateyPS1 $packageFolder $package "uninstall"	
+        Run-ChocolateyPS1 $packageFolder $package "uninstall"
+		Remove-Item -Recurse -Force $packageFolder
 		}
 	}
 }
