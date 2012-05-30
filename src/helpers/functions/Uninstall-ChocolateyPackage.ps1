@@ -38,7 +38,6 @@ param(
   [string] $file,
   $validExitCodes = @(0)
 )
-  $silentargs=''
   $installMessage = "Uninstalling $packageName..."
   write-host $installMessage
 
