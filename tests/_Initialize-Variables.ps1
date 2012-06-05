@@ -16,6 +16,7 @@
   $script:chocoInstallLog = ''
   $script:name = ''
   $script:path = ''
+  $script:action = ''
  
   # function calls
   $script:chocolatey_install_was_called = $false
