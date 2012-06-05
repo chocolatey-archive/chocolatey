@@ -15,23 +15,23 @@ $h1
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWebPiInstall.log';
   Remove-LastInstallLog $chocoInstallLog
  
-  $webpiArgs = "/c webpicmd /Install /AcceptEula /SuppressReboot /Products:$packageName"
+  $packageArgs = "/c webpicmd /Install /AcceptEula /SuppressReboot /Products:$packageName"
   if ($installerArguments -ne '') {
-    $webpiArgs = "$webpiArgs $installerArguments"
+    $packageArgs = "$packageArgs $installerArguments"
   }
   if ($overrideArgs -eq $true) {
-    $webpiArgs = "/c webpicmd $installerArguments /Products:$packageName"
-    write-host "Overriding arguments for WebPI"
+    $packageArgs = "/c webpicmd $installerArguments /Products:$packageName"
+    write-host "Overriding arguments for WebPI to be `'$packageArgs`'"
   }  
   
-  Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $webpiArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
+  Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
   
-  #Start-Process -FilePath "cmd" -ArgumentList "$webpiArgs" -Verb "runas"  -Wait >$chocoInstallLog #-PassThru -UseNewEnvironment >
-  #Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $webpiArgs | Out-String`"" -Verb "runas"  -Wait | Write-Host  #-PassThru -UseNewEnvironment
-  Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $webpiArgs | Tee-Object -FilePath $chocoInstallLog`"" -Verb "RunAs"  -Wait -WindowStyle Minimized
+  #Start-Process -FilePath "cmd" -ArgumentList "$packageArgs" -Verb "runas"  -Wait >$chocoInstallLog #-PassThru -UseNewEnvironment >
+  #Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $packageArgs | Out-String`"" -Verb "runas"  -Wait | Write-Host  #-PassThru -UseNewEnvironment
+  Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $packageArgs | Tee-Object -FilePath $chocoInstallLog`"" -Verb "RunAs"  -Wait -WindowStyle Minimized
   
-  $webpiOutput = Get-Content $chocoInstallLog -Encoding Ascii
-	foreach ($line in $webpiOutput) {
+  $installOutput = Get-Content $chocoInstallLog -Encoding Ascii
+  foreach ($line in $installOutput) {
     Write-Host $line
   }
   
