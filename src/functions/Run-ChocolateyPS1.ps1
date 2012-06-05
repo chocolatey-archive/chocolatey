@@ -14,10 +14,12 @@ param([string] $packageFolder, [string] $packageName, [string] $action)
 $h2
 Chocolatey $action ($actionFile)
 $h2
+"@ | Write-Host
+@"
 Looking for $actionFile in folder $packageFolder
 If $actionFile is found, it will be run.
 $h2
-"@ | Write-Host
+"@ | Write-Debug
 
     $ps1 = Get-ChildItem  $packageFolder -recurse | ?{$_.name -match $actionFile} | sort name -Descending | select -First 1
     
