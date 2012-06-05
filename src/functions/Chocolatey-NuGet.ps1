@@ -24,7 +24,7 @@ $h1
 
   foreach ($line in $nugetOutput) {
     if ($line -like "*already installed." -and $force -eq $false) {
-      Write-Host "$line - If you want to reinstall an existing package, please use the -force command."
+      Write-Host "$line - If you want to reinstall the current version of an existing package, please use the -force command."
       Write-Host ""
     }
     if ($line -notlike "*not installed*" -and ($line -notlike "*already installed." -or $force -eq $true) -and $line -notlike "Attempting to resolve dependency*") {
