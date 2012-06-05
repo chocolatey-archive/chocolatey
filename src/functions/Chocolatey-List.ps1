@@ -9,9 +9,7 @@ param(
     & cmd.exe $webpiArgs 
   } else {  
   
-    if ($source -ne '') {
-    	$srcArgs = "-Source `"$source`""
-    }
+  	$srcArgs = Get-SourceArgument $source
     
     $parameters = "list"
     if ($selector -ne '') {

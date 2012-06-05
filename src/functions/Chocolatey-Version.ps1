@@ -12,9 +12,7 @@ param(
     $packages = $packageFolders -replace "(\.\d{1,})+"|gu 
   }
   
-  if ($source -ne '') {
-  	$srcArgs = "-Source `"$source`""
-  }
+  $srcArgs = Get-SourceArgument $source
   
   foreach ($package in $packages) {
     $packageArgs = "list ""$package"" $srcArgs"

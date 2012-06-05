@@ -10,9 +10,7 @@ NuGet
 $h2
 "@ | Write-Debug
 
-  if ($source -ne '') {
-  	$srcArgs = "-Source `"$source`""
-  }
+  	$srcArgs = Get-SourceArgument $source
 
   $packageArgs = "install $packageName -Outputdirectory `"$nugetLibPath`" $srcArgs"
   if ($version -notlike '') {
