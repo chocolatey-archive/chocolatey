@@ -46,7 +46,6 @@ param(
     
     $versionFoundCompare = ''
     if ($versionFound -ne 'no version') {
-      #todo - make this compare prerelease information as well
       $versionFoundCompare = Get-LongPackageVersion $versionFound
     }    
   
