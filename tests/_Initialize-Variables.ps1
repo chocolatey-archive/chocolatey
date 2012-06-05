@@ -16,6 +16,7 @@
   $script:chocoInstallLog = ''
   $script:name = ''
   $script:path = ''
+  $script:configValue = ''
   $script:action = ''
  
   # function calls
@@ -34,6 +35,7 @@
   $script:chocolatey_cygwin_was_called = $false
   $script:delete_existingerrorlog_was_called = $false
   $script:generate_binfile_was_called = $false
+  $script:get_configvalue_was_called = $false
   $script:get_chocolateybins_was_called = $false
   $script:get_latestpackageversion_was_called = $false
   $script:get_longpackageversion_was_called = $false
@@ -75,6 +77,7 @@
   $script:chocolatey_cygwin_return_value = ''
   $script:delete_existingerrorlog_return_value = ''
   $script:generate_binfile_return_value = ''
+  $script:get_configvalue_return_value = ''
   $script:get_chocolateybins_return_value = ''
   $script:get_latestpackageversion_return_value = ''
   $script:get_longpackageversion_return_value = ''
@@ -116,6 +119,7 @@
   $script:exec_chocolatey_cygwin_actual = $false
   $script:exec_delete_existingerrorlog_actual = $false
   $script:exec_generate_binfile_actual = $false
+  $script:exec_get_configvalue_actual = $false
   $script:exec_get_chocolateybins_actual = $false
   $script:exec_get_latestpackageversion_actual = $false
   $script:exec_get_longpackageversion_actual = $false
@@ -142,6 +146,7 @@
   $script:exec_write_chocolateysuccess_actual = $false
   
   # actual function calls
+  $script:get_configvalue_actual_was_called = $false
   $script:get_longpackageversion_actual_was_called = $false
   $script:get_packagefoldersforpackage_actual_was_called = $false
   $script:get_packagefolderversions_actual_was_called = $false

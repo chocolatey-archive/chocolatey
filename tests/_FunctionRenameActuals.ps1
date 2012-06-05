@@ -17,6 +17,7 @@ rename-item function:Chocolatey-Cygwin Chocolatey-Cygwin-Actual
 rename-item function:Delete-ExistingErrorLog Delete-ExistingErrorLog-Actual
 rename-item function:Generate-BinFile Generate-BinFile-Actual
 rename-item function:Get-ChocolateyBins Get-ChocolateyBins-Actual
+rename-item function:Get-ConfigValue Get-ConfigValue-Actual
 rename-item function:Get-LatestPackageVersion Get-LatestPackageVersion-Actual
 rename-item function:Get-LongPackageVersion Get-LongPackageVersion-Actual
 rename-item function:Get-PackageFolderVersions Get-PackageFolderVersions-Actual

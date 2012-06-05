@@ -3,7 +3,7 @@ param(
   [string] $source = ''
 )
 
-  if ($source -eq '' -or $source -eq 'https://go.microsoft.com/fwlink/?LinkID=206669' -or $source -eq 'http://chocolatey.org/api/feeds/') {
+  if ($source -eq '' -or $source -eq 'https://go.microsoft.com/fwlink/?LinkID=230477' -or $source -eq 'http://chocolatey.org/api/v2/') {
     write-host 'Source must be specified and cannot be nuget.org/chocolatey.org'
     return
   }

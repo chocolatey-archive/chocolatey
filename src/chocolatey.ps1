@@ -45,8 +45,6 @@ Resolve-Path $nugetChocolateyPath\functions\*.ps1 |
     ? { -not ($_.ProviderPath.Contains(".Tests.")) } |
     % { . $_.ProviderPath }
 
-Get-ConfigValue('useNuGetForSources')
-
 #main entry point
 Remove-LastInstallLog
 
