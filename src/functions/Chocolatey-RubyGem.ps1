@@ -6,6 +6,10 @@ param(
 )
 
   Chocolatey-InstallIfMissing 'ruby'
+
+  if ($($env:Path).ToLower().Contains("ruby") -eq $false) {
+    $env:Path = [Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Machine);
+  }
   
 @"
 $h1
@@ -13,20 +17,26 @@ Chocolatey ($chocVer) is installing Ruby Gem `'$packageName`' (using RubyGems.or
 $h1
 "@ | Write-Host
   
-  if ($($env:Path).ToLower().Contains("ruby") -eq $false) {
-    $env:Path = [Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Machine);
-  }
-  
+  $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyRubyInstall.log';
+  Remove-LastInstallLog $chocoInstallLog
+ 
   $packageArgs = "/c gem install $packageName"
   if ($version -notlike '') {
-    $packageArgs = $packageArgs + " -v $version";
+    $packageArgs = "$packageArgs -v $version";
   }
-  & cmd.exe $packageArgs
   
   if ($installerArguments -ne '') {
-    $packageArgs = $packageArgs + " -v $version $installerArguments";
+    $packageArgs = "$packageArgs $installerArguments";
   }
 
+  Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
+  Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $packageArgs | Tee-Object -FilePath $chocoInstallLog`"" -Wait -WindowStyle Minimized
+  
+  $installOutput = Get-Content $chocoInstallLog -Encoding Ascii
+  foreach ($line in $installOutput) {
+    Write-Host $line
+  }
+  
 @"
 $h1
 Chocolatey has finished installing `'$packageName`' - check log for errors.
