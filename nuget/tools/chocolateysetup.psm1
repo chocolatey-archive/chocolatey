@@ -106,10 +106,6 @@ param(
   [Parameter(Mandatory=$false)][string]$chocolateyPath = "$sysDrive\Chocolatey"
 )
 
-  if(!(test-path $chocolateyPath)){
-    mkdir $chocolateyPath | out-null
-  }
-  
   #if we have an already environment variable path, use it.
   $alreadyInitializedNugetPath = Get-ChocolateyInstallFolder
   if($alreadyInitializedNugetPath -and $alreadyInitializedNugetPath -ne $chocolateyPath -and $alreadyInitializedNugetPath -ne $defaultChocolateyPathOld){
@@ -117,6 +113,10 @@ param(
   }
   else {
     Set-ChocolateyInstallFolder $chocolateyPath
+  }
+
+  if(!(test-path $chocolateyPath)){
+    mkdir $chocolateyPath | out-null
   }
 
   #set up variables to add
@@ -202,6 +202,8 @@ param(
   
   $chocInstallFolder = Join-Path $thisScriptFolder "chocolateyInstall"
   Write-Host "Copying the contents of `'$chocInstallFolder`' to `'$chocolateyPath`'."
+  Remove-Item "$chocolateyPath\chocolateyInstall\functions" -recurse -force 
+  Remove-Item "$chocolateyPath\chocolateyInstall\helpers" -recurse -force 
   Copy-Item $chocInstallFolder $chocolateyPath -recurse -force
 }
 
