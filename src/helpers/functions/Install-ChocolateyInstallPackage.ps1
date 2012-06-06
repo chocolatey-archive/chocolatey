@@ -44,7 +44,7 @@ param(
   [string] $file,
   $validExitCodes = @(0)
 )
-  
+  Write-Debug "Running 'Install-ChocolateyInstallPackage' for $packageName with file:`'$file`', args: `'$silentArgs`' ";
   $installMessage = "Installing $packageName..."
   write-host $installMessage
 
@@ -74,5 +74,4 @@ param(
   }
 
   write-host "$packageName has been installed."
-  #cutStart-Sleep 3
 }
