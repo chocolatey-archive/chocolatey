@@ -36,9 +36,17 @@ $h1 = '====================================================='
 $h2 = '-------------------------'
 $globalConfig = ''
 $userConfig = ''
+$env:ChocolateyEnvironmentDebug = 'false'
+
 
 $DebugPreference = "SilentlyContinue"
-if ($debug) {$DebugPreference = "Continue";}
+if ($debug) {
+  $DebugPreference = "Continue";
+  $env:ChocolateyEnvironmentDebug = 'true'
+}
+
+$installModule = Join-Path $nugetChocolateyPath (Join-Path 'helpers' 'chocolateyInstaller.psm1')
+Import-Module $installModule
 
 # grab functions from files
 Resolve-Path $nugetChocolateyPath\functions\*.ps1 | 
