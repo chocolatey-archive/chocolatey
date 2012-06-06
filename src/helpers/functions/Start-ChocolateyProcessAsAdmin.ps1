@@ -2,6 +2,8 @@
 param(
   [string] $statements, 
   [string] $exeToRun = 'powershell',
+  [switch] $minimized,
+  [switch] $noSleep,
   $validExitCodes = @(0)
 )
 
@@ -12,6 +14,9 @@ param(
     $importChocolateyHelpers = "";
     Get-ChildItem "$helpersPath" -Filter *.psm1 | ForEach-Object { $importChocolateyHelpers = "& import-module -name  `'$($_.FullName)`';$importChocolateyHelpers" };
     $wrappedStatements = "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers try{$statements start-sleep 6;}catch{write-error `'That was not sucessful`';start-sleep 8;throw;}`""
+    if ($noSleep) {
+      $wrappedStatements = "-NoProfile -ExecutionPolicy unrestricted -Command `"$importChocolateyHelpers try{$statements}catch{write-error `'That was not sucessful`';throw;}`""
+    }
   }
 @"
 Elevating Permissions and running $exeToRun $wrappedStatements. This may take awhile, depending on the statements.
@@ -24,6 +29,10 @@ Elevating Permissions and running $exeToRun $wrappedStatements. This may take aw
   }
   $psi.Verb = "runas";
   $psi.WorkingDirectory = get-location;
+
+  if ($minimized) {
+    $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Minimized;
+  }
  
   $s = [System.Diagnostics.Process]::Start($psi);
   $s.WaitForExit();
@@ -32,4 +41,6 @@ Elevating Permissions and running $exeToRun $wrappedStatements. This may take aw
     Write-Error $errorMessage
     throw $errorMessage
   }
+
+  Write-Debug "Finishing 'Start-ChocolateyProcessAsAdmin'";
 }
