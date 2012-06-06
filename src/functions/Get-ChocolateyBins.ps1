@@ -4,9 +4,9 @@ param(
 )
   if ($packageFolder -notlike '') { 
 @"
-$h2
-  Executable Links (*.exe)
-$h2
+  $h2
+   Executable Links (*.exe)
+  $h2
 "@ | Write-Host
 @"
 Looking for executables in folder: $packageFolder

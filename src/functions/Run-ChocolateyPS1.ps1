@@ -11,9 +11,9 @@ param([string] $packageFolder, [string] $packageName, [string] $action)
 
   if ($packageFolder -notlike '') { 
 @"
-$h2
-Chocolatey $action ($actionFile)
-$h2
+  $h2
+   PowerShell $action ($actionFile)
+  $h2
 "@ | Write-Host
 @"
 Looking for $actionFile in folder $packageFolder
