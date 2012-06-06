@@ -1,4 +1,4 @@
-﻿function Get-SourceArgument {
+﻿function Get-SourceArguments {
 param(
   [string] $source = ''
 )
@@ -13,14 +13,14 @@ param(
 		if ($useNugetConfig -eq 'false') {
 			$sources = Get-ConfigValue 'sources'
 	
-			foreach ($sourceEntry in $sources.ChildNodes) {
-				$srcUri = $sourceEntry.value
+			foreach ($source in $sources.source) {
+				$srcUri = $source.value
 				$srcArgs = $srcArgs + "-Source `"$srcUri`" "
 			}
 		}
 	}
 	
-	Write-Debug "Source args: $srcArgs"
+	Write-Debug "Using `'$srcArgs`' as the source arguments"
 
-	$srcArgs
+	return $srcArgs
 }
