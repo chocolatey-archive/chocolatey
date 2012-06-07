@@ -4,6 +4,10 @@ param(
   [string] $source = 'http://chocolatey.org/' 
 )
 
+  if ($source -like '') {
+    $srcArgs = '-source http://chocolatey.org/'
+  }
+
   $srcArgs = "-source $source"
 
   $packageArgs = "push $packageName $srcArgs"
