@@ -4,12 +4,11 @@ param(
   [string] $source = 'http://chocolatey.org/' 
 )
 
+  $srcArgs = "-source $source"
   if ($source -like '') {
     $srcArgs = '-source http://chocolatey.org/'
   }
-
-  $srcArgs = "-source $source"
-
+  
   $packageArgs = "push $packageName $srcArgs"
   $logFile = Join-Path $nugetChocolateyPath 'push.log'
   $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
