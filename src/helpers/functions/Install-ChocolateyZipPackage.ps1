@@ -37,7 +37,8 @@ param(
   [string] $packageName, 
   [string] $url,
   [string] $unzipLocation,
-  [string] $url64bit = $url
+  [string] $url64bit = $url,
+  [string] $specificFolder =""
 )
   Write-Debug "Running 'Install-ChocolateyZipPackage' for $packageName with url:`'$url`', unzipLocation: `'$unzipLocation`', url64bit: `'$url64bit`' ";
   
@@ -50,7 +51,7 @@ param(
     $file = Join-Path $tempDir "$($packageName)Install.$fileType"
     
     Get-ChocolateyWebFile $packageName $file $url $url64bit
-    Get-ChocolateyUnzip "$file" $unzipLocation
+    Get-ChocolateyUnzip "$file" $unzipLocation $specificFolder $packageName
     
     Write-ChocolateySuccess $packageName
   } catch {
