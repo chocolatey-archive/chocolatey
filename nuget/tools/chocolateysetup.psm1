@@ -230,8 +230,12 @@ param(
   
   $chocInstallFolder = Join-Path $thisScriptFolder "chocolateyInstall"
   Write-Host "Copying the contents of `'$chocInstallFolder`' to `'$chocolateyPath`'."
-  Remove-Item "$chocolateyPath\chocolateyInstall\functions" -recurse -force 
-  Remove-Item "$chocolateyPath\chocolateyInstall\helpers" -recurse -force 
+  if(test-path "$chocolateyPath\chocolateyInstall\functions") {
+    Remove-Item "$chocolateyPath\chocolateyInstall\functions" -recurse -force 
+  }
+  if(test-path "$chocolateyPath\chocolateyInstall\helpers") {
+    Remove-Item "$chocolateyPath\chocolateyInstall\helpers" -recurse -force 
+  }
   Copy-Item $chocInstallFolder $chocolateyPath -recurse -force
 }
 
