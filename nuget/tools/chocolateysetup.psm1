@@ -174,7 +174,7 @@ Creating Chocolatey NuGet folders if they do not already exist.
   Install-ChocolateyFiles $chocolateyPath
   
   $chocolateyExePathVariable = $chocolateyExePath.ToLower().Replace($chocolateyPath.ToLower(), "%DIR%..\").Replace("\\","\")
-  Create-ChocolateyBinFiles $nugetChocolateyPath.ToLower().Replace($chocolateyPath.ToLower(), "%$($chocInstallVariableName)%\").Replace("\\","\") $chocolateyExePath
+  Create-ChocolateyBinFiles $nugetChocolateyPath.ToLower().Replace($chocolateyPath.ToLower(), "%DIR%..\").Replace("\\","\") $chocolateyExePath
   Initialize-ChocolateyPath $chocolateyExePath $chocolateyExePathVariable
   Process-ChocolateyBinFiles $chocolateyExePath $chocolateyExePathVariable
   
