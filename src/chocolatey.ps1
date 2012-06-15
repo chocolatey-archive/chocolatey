@@ -14,7 +14,7 @@
 
 # chocolatey
 # Copyright (c) 2011-Present Rob Reynolds
-# Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1, AnthonyMastrean, Rich Siegel
+# Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1, AnthonyMastrean, Rich Siegel, and other contributors from the community.
 # Big thanks to Keith Dahlby for all the powershell help! 
 # Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
 
@@ -25,7 +25,7 @@ $currentThread.CurrentCulture = $culture;
 $currentThread.CurrentUICulture = $culture;
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.17-rc2'
+$chocVer = '0.9.8.17'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
