@@ -4,6 +4,7 @@ param(
   [string] $version ='', 
   [string] $installerArguments =''
 )
+  Write-Debug "Running 'Chocolatey-RubyGem' for $packageName with version:`'$version`', installerArguments: `'$installerArguments`'";
 
   Chocolatey-InstallIfMissing 'ruby'
 
@@ -22,20 +23,24 @@ $h1
  
   $packageArgs = "/c gem install $packageName"
   if ($version -notlike '') {
+    Write-Debug "Adding version arguments `'$version`'"
     $packageArgs = "$packageArgs -v $version";
   }
   
   if ($installerArguments -ne '') {
+    Write-Debug "Adding installerArguments `'$installerArguments`'"
     $packageArgs = "$packageArgs $installerArguments";
   }
+  Write-Host "Calling cmd.exe $packageArgs"
+  & cmd.exe $packageArgs
 
-  Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
-  Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $packageArgs | Tee-Object -FilePath $chocoInstallLog`"" -Wait -WindowStyle Minimized
+  #Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
+  #Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $packageArgs | Tee-Object -FilePath $chocoInstallLog`"" -Wait -WindowStyle Minimized
   
-  $installOutput = Get-Content $chocoInstallLog -Encoding Ascii
-  foreach ($line in $installOutput) {
-    Write-Host $line
-  }
+  #$installOutput = Get-Content $chocoInstallLog -Encoding Ascii
+  #foreach ($line in $installOutput) {
+  #  Write-Host $line
+  #}
   
 @"
 $h1
