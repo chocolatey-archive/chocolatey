@@ -63,7 +63,7 @@ $h1
         if ($packageFolder -ne '') {
 @"
 $h2
-Chocolatey Runner ($($installedPackageName.ToUpper()))
+Chocolatey Runner ($($installedPackageName.ToUpper()) v$installedPackageVersion)
 $h2
 "@ | Write-Host
 
