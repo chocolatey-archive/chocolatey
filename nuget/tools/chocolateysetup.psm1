@@ -5,13 +5,13 @@ $sysDrive = $env:SystemDrive
 $defaultChocolateyPathOld = "$sysDrive\NuGet"
 
 function Set-ChocolateyInstallFolder($folder){
-  if(test-path $folder){
+  #if(test-path $folder){
     write-host "Creating $chocInstallVariableName as a User Environment variable and setting it to `'$folder`'"
     [Environment]::SetEnvironmentVariable($chocInstallVariableName, $folder, [System.EnvironmentVariableTarget]::User)
-  }
-  else{
-    throw "Cannot set the chocolatey install folder. Folder not found [$folder]"
-  }
+  #}
+  #else{
+  #  throw "Cannot set the chocolatey install folder. Folder not found [$folder]"
+  #}
 }
 
 function Get-ChocolateyInstallFolder(){
