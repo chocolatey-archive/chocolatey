@@ -2,6 +2,7 @@
 param(
   [string] $packageName
 )
+  Write-Debug "Running 'Chocolatey-Pack' for $packageName. If nuspec name is not passed, it will find the nuspec file in the current working directory";
 
   $packageArgs = "pack $packageName -NoPackageAnalysis"
   $logFile = Join-Path $nugetChocolateyPath 'pack.log'

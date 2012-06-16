@@ -28,8 +28,9 @@ param(
   [string] $fileFullPath, 
   [string] $destination
 )
-
-	Write-Host "Extracting $fileFullPath to $destination..."
+  Write-Debug "Running 'Get-ChocolateyUnzip' with fileFullPath:`'$fileFullPath`'',destination:$destination";
+  
+  Write-Host "Extracting $fileFullPath to $destination..."
   if (![System.IO.Directory]::Exists($destination)) {[System.IO.Directory]::CreateDirectory($destination)}
   
 	$shellApplication = new-object -com shell.application 

@@ -4,6 +4,7 @@ param(
   [ValidateNotNullOrEmpty()]
   [string] $configValue
 )
+  Write-Debug "Running 'Get-ConfigValue' with configValue:`'$configValue`'";
 
     if ($globalConfig -eq '') {
         $globalConfigFile = Join-Path $nugetChocolateyPath chocolatey.config
@@ -16,6 +17,7 @@ param(
         
         $userConfig = $globalConfig
         if (Test-Path($userConfigFile)) {
+            Write-Debug "A user config exists. We will use that first."
             $userConfig = [xml] (Get-Content $userConfigFile)
         }
     }

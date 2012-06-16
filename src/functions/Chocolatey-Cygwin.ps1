@@ -3,6 +3,7 @@ param(
   [string] $packageName, 
   [string] $installerArguments =''
 )
+  Write-Debug "Running 'Chocolatey-Cygwin' for $packageName with installerArguments:`'$installerArguments`'";
 
   Chocolatey-InstallIfMissing 'cyg-get'
   
@@ -21,6 +22,7 @@ $h1
   # }
   
   if ($installerArguments -ne '') {
+    Write-Debug "Adding installerArguments `'$installerArguments`'"
     $packageArgs = "$packageArgs $installerArguments";
   }
 

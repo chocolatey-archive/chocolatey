@@ -3,8 +3,8 @@ param(
   [string] $packageName ='', 
   [string] $source = ''
 )
-
   if ($packageName -eq '') {$packageName = 'chocolatey';}
+  Write-Debug "Running 'Chocolatey-Update' for $packageName with source:`'$source`'.";
   
   $packages = $packageName
   if ($packageName -eq 'all') {

@@ -39,7 +39,8 @@ param(
   [string] $unzipLocation,
   [string] $url64bit = $url
 )
-
+  Write-Debug "Running 'Install-ChocolateyZipPackage' for $packageName with url:`'$url`', unzipLocation: `'$unzipLocation`', url64bit: `'$url64bit`' ";
+  
   try {
     $fileType = 'zip'
     

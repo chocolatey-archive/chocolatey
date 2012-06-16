@@ -4,6 +4,8 @@ param(
   [string] $path,
   [switch] $useStart
 )
+  Write-Debug "Running 'Generate-BinFile' for $name with path:`'$path`'";
+
   $packageBatchFileName = Join-Path $nugetExePath "$name.bat"
   $path = $path.ToLower().Replace($nugetPath.ToLower(), "%DIR%..\").Replace("\\","\")
   Write-Host "Adding $packageBatchFileName and pointing to $path"

@@ -4,6 +4,7 @@ param(
   [string] $source = '',
   [string] $version = ''
 )
+  Write-Debug "Running 'Run-NuGet' for $packageName with source: `'$source`', version:`'$version`'";
 @"
 $h2
 NuGet
@@ -36,7 +37,7 @@ $h2
   }
   
   if (($nugetOutput -eq '' -or $nugetOutput -eq $null) -and ($errors -eq '' -or $errors -eq $null)) {
-    $noExecution = 'Execution of NuGet not detected. Please make sure you have .NET Framework 4.0 installed.'
+    $noExecution = 'Execution of NuGet not detected. Please make sure you have .NET Framework 4.0 installed and are passing arguments to the install command.'
     #write-host  -BackgroundColor Red -ForegroundColor White
     Throw $noExecution
   }

@@ -20,6 +20,4 @@ param(
   $successMessage = "$packageName has finished succesfully! The chocolatey gods have answered your request!"
   $successMessage | Out-File -FilePath $logFile -Force -Append
   Write-Host $successMessage
-  
-  #cutStart-Sleep 7
 }

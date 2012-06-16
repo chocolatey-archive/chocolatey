@@ -5,9 +5,11 @@ param(
 )
 
   if ($packageName -eq '') {$packageName = 'chocolatey';}
+  Write-Debug "Running 'Chocolatey-Version' for $packageName with source:`'$source`'.";
   
   $packages = $packageName
   if ($packageName -eq 'all') {
+    Write-Debug "Updating all packages in $nugetLibPath"
     $packageFolders = Get-ChildItem $nugetLibPath | sort name
     $packages = $packageFolders -replace "(\.\d{1,})+"|gu 
   }

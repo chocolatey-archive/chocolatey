@@ -36,6 +36,7 @@ param(
   [string] $url,
   [string] $url64bit = $url
 )
+  Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`',and url64bit:`'$url64bit`'";
   
   $url32bit = $url;
   $processor = Get-WmiObject Win32_Processor
@@ -54,6 +55,7 @@ param(
   if ($url.StartsWith('http')) {
     Get-WebFile $url $fileFullPath
   } else {
+    Write-Debug "We are attempting to copy the local item `'$url`' to `'$fileFullPath`'"
     Copy-Item $url -Destination $fileFullPath -Force
   }
   

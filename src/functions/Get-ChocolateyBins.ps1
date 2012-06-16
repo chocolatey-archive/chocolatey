@@ -2,6 +2,8 @@ function Get-ChocolateyBins {
 param(
   [string] $packageFolder
 )
+  Write-Debug "Running 'Get-ChocolateyBins' for $packageFolder";
+
   if ($packageFolder -notlike '') { 
 @"
   $h2

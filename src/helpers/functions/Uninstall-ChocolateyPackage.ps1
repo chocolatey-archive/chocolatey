@@ -38,6 +38,8 @@ param(
   [string] $file,
   $validExitCodes = @(0)
 )
+  Write-Debug "Running 'Uninstall-ChocolateyPackage' for $packageName with fileType:`'$fileType`', silentArgs: `'$silentArgs`', file: `'$file`'";
+  
   $installMessage = "Uninstalling $packageName..."
   write-host $installMessage
 

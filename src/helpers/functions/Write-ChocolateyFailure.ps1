@@ -23,6 +23,4 @@ param(
 -----------------------" 
 	$errorMessage | Out-File -FilePath $logFile -Force -Append
 	Write-Error $errorMessage
-	
-	#cutStart-Sleep 8
 }

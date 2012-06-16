@@ -5,7 +5,8 @@ param(
   [string] $url ='',
   [string] $url64bit = $url
 )
-
+  Write-Debug "Running 'Install-ChocolateyPowershellCommand' for $packageName with psFileFullPath:`'$psFileFullPath`', url: `'$url`', url64bit:`'$url64bit`' ";
+  
   try {
 
     if ($url -ne '') {

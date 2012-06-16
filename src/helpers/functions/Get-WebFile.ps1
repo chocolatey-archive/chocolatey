@@ -16,13 +16,14 @@
 ##############################################################################################################
 function Get-WebFile {
 param(
-  $url = (Read-Host "The URL to download"),
+  $url = '', #(Read-Host "The URL to download"),
   $fileName = $null,
   $userAgent = $null,
   [switch]$Passthru,
   [switch]$quiet
 )
-   
+  Write-Debug "Running 'Get-WebFile' for $fileName with url:`'$url`', userAgent: `'$userAgent`' ";
+  #if ($url -eq '' return)
   $req = [System.Net.HttpWebRequest]::Create($url);
   #to check if a proxy is required
   $webclient = new-object System.Net.WebClient
@@ -30,6 +31,7 @@ param(
   {
     $creds = [net.CredentialCache]::DefaultCredentials
     if ($creds -eq $null) {
+      Write-Debug "Default credentials were null. Attempting backup method"
       $cred = get-credential
       $creds = $cred.GetNetworkCredential();
     }
@@ -43,6 +45,7 @@ param(
   #http://stackoverflow.com/questions/518181/too-many-automatic-redirections-were-attempted-error-message-when-using-a-httpw
   $req.CookieContainer = New-Object System.Net.CookieContainer
   if ($userAgent -ne $null) {
+    Write-Debug "Setting the UserAgent to `'$userAgent`'"
     $req.UserAgent = $userAgent
   }
   $res = $req.GetResponse();

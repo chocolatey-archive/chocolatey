@@ -4,6 +4,7 @@ param(
   [string] $version = '',
   [string] $installerArguments = ''
 )
+  Write-Debug "Running 'Chocolatey-Uninstall' for $packageName with version:`'$version`', installerArguments: `'$installerArguments`'";
 
   if ($packageName -eq 'all') { 
     write-host "Uninstalling all packages is not yet supported in this version. "  
@@ -21,12 +22,13 @@ $h1
 	foreach ($package in $packages) {
 		$versions = Chocolatey-Version $package $source
 		if ($versions.found -eq "no version") {
-			write-host "not installed"
+		  write-host "not installed"
 		}
 		else {
-		$packageFolder = Join-Path $nugetLibPath "$($package).$($versions.found)" 
-        Run-ChocolateyPS1 $packageFolder $package "uninstall"
-		Remove-Item -Recurse -Force $packageFolder
+		  Write-Debug "Looking for $($package).$($versions.found)"
+          $packageFolder = Join-Path $nugetLibPath "$($package).$($versions.found)" 
+          Run-ChocolateyPS1 $packageFolder $package "uninstall"
+		  Remove-Item -Recurse -Force $packageFolder
 		}
 	}
 }

@@ -6,7 +6,8 @@ param(
   [switch] $noSleep,
   $validExitCodes = @(0)
 )
-
+  Write-Debug "Running 'Start-ChocolateyProcessAsAdmin' with exeToRun:`'$exeToRun`', statements: `'$statements`' ";
+  
   $wrappedStatements = $statements;
   if ($exeToRun -eq 'powershell') {
     $exeToRun = "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe"

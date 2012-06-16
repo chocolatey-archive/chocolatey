@@ -3,6 +3,7 @@ param(
   [string] $packageName,
   [string] $source = ''
 )
+  Write-Debug "Running 'Chocolatey-NuGet' for $packageName with source:`'$source`'";
 
   if ($packageName -eq 'all') { 
     Chocolatey-InstallAll $source
@@ -23,6 +24,8 @@ $h1
   $nugetOutput = Run-NuGet $packageName $source $version
 
   foreach ($line in $nugetOutput) {
+    Write-Debug "Evaluating NuGet output for line: $line"
+
     if ($line -like "*already installed." -and $force -eq $false) {
       Write-Host "$line - If you want to reinstall the current version of an existing package, please use the -force command."
       Write-Host ""

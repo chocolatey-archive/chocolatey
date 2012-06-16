@@ -5,6 +5,8 @@ param(
   [string] $installerArguments =''
 )
 
+  Write-Debug "Running 'Chocolatey-Python' for $packageName with version:`'$version`', installerArguments: `'$installerArguments`'";
+
   Chocolatey-InstallIfMissing 'python'
 
   if ($($env:Path).ToLower().Contains("python") -eq $false) {
@@ -24,10 +26,12 @@ $h1
  
   $packageArgs = "/c easy_install $packageName"
   if ($version -notlike '') {
+    Write-Debug "Adding version arguments `'$version`'"
     $packageArgs = "/c easy_install $packageName==$version";
   }
   
   if ($installerArguments -ne '') {
+    Write-Debug "Adding installerArguments `'$installerArguments`'"
     $packageArgs = "$packageArgs $installerArguments";
   }
 

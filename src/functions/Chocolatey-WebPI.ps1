@@ -3,6 +3,7 @@ param(
   [string] $packageName, 
   [string] $installerArguments =''
 )
+  Write-Debug "Running 'Chocolatey-WebPI' for $packageName with installerArguments:`'$installerArguments`'";
 
   Chocolatey-InstallIfMissing 'webpicommandline'
   
@@ -17,8 +18,10 @@ $h1
  
   $packageArgs = "/c webpicmd /Install /AcceptEula /SuppressReboot /Products:$packageName"
   if ($installerArguments -ne '') {
+    Write-Debug "Adding installerArguments `'$installerArguments`'"
     $packageArgs = "$packageArgs $installerArguments"
   }
+  
   if ($overrideArgs -eq $true) {
     $packageArgs = "/c webpicmd $installerArguments /Products:$packageName"
     write-host "Overriding arguments for WebPI to be `'$packageArgs`'"

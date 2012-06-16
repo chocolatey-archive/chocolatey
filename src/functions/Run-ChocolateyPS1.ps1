@@ -1,6 +1,10 @@
 ﻿function Run-ChocolateyPS1 {
-param([string] $packageFolder, [string] $packageName, [string] $action)
-
+param(
+  [string] $packageFolder, 
+  [string] $packageName, 
+  [string] $action
+)
+  Write-Debug "Running 'Run-ChocolateyPS1' for $packageName with packageFolder:`'$packageFolder`', action: `'$action`'";
 
 	  switch ($action) 
 	{
@@ -24,7 +28,7 @@ $h2
     $ps1 = Get-ChildItem  $packageFolder -recurse | ?{$_.name -match $actionFile} | sort name -Descending | select -First 1
     $installps1 = Get-ChildItem  $packageFolder -recurse | ?{$_.name -match 'chocolateyinstall.ps1'} | sort name -Descending | select -First 1
     
-    Write-Debug "action file is $ps1"
+    Write-Debug "action file is `'$ps1`'"
 
     if ($ps1 -notlike '') {
       $env:chocolateyInstallArguments = "$installArguments"

@@ -3,10 +3,12 @@ param(
   [string] $packageName, 
   [string] $source = 'http://chocolatey.org/' 
 )
+  Write-Debug "Running 'Chocolatey-Push' for $packageName with source:`'$source`'";
 
   $srcArgs = "-source $source"
   if ($source -like '') {
     $srcArgs = '-source http://chocolatey.org/'
+    Write-Debug "Setting source to `'$srcArgs`'"
   }
   
   $packageArgs = "push $packageName $srcArgs"

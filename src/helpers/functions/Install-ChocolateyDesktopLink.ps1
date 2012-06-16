@@ -2,7 +2,8 @@
 param(
   [string] $targetFilePath
 )
-
+  Write-Debug "Running 'Install-ChocolateyDesktopLink' with targetFilePath:`'$targetFilePath`'";
+  
   if (test-path($targetFilePath)) {
     $desktop = $([System.Environment]::GetFolderPath([System.Environment+SpecialFolder]::DesktopDirectory))
     $link = Join-Path $desktop "$([System.IO.Path]::GetFileName($targetFilePath)).lnk"

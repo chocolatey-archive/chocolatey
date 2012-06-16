@@ -3,7 +3,8 @@ param(
   [string] $pathToInstall,
   [System.EnvironmentVariableTarget] $pathType = [System.EnvironmentVariableTarget]::User
 )
-
+  Write-Debug "Running 'Install-ChocolateyPath' with pathToInstall:`'$pathToInstall`'";
+  
   #get the PATH variable
   $envPath = $env:PATH
   #$envPath = [Environment]::GetEnvironmentVariable('Path', $pathType)
