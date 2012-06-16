@@ -12,7 +12,7 @@ Chocolatey allows you to install application nuggets and run executables from an
 $h2
 Known Issues
 $h2
- * There is no automated uninstallation.
+ * The automated uninstall is limited. You have to run it against each version and it only removes the package if there is not a chocolateyUninstall.ps1 included.
  * See https://github.com/chocolatey/chocolatey/issues
 $h2
 Release Notes
