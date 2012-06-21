@@ -55,7 +55,7 @@ param(
 	
   if ($packageName) {
     $packagelibPath=join-path $env:chocolateyinstall`\lib $packageName
-	if (!(Test-Path -path $packagelibPath)) {
+    if (!(Test-Path -path $packagelibPath)) {
       New-Item $packagelibPath -type directory
     }
  
@@ -69,16 +69,16 @@ param(
 function Get-ZipItems_recursive {
   param(
     [object]$subitems,
-	[string]$specificFolder,
+    [string]$specificFolder,
     [string]$target)
     
   foreach($file in $subitems) {
     if($file.getfolder -ne $null) {
       Get-ZipItems_recursive $file.getfolder.items() $specificfolder $target
     }
-	$extension=".zip"
+    $extension=".zip"
     $pathStrip=join-path $extension $specificFolder
-	$fileIndex=$file.path.indexof("$pathStrip")+$pathStrip.Length
+    $fileIndex=$file.path.indexof("$pathStrip")+$pathStrip.Length
     $insideZipFile=$file.path.substring($fileIndex)
     $finalFilePath=join-path $target $insideZipFile
     write-output $finalFilePath
