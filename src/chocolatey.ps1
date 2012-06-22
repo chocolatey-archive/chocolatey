@@ -58,7 +58,8 @@ Resolve-Path $nugetChocolateyPath\functions\*.ps1 |
 # load extensions if they exist
 if(Test-Path($extensionsPath)) {
   Write-Debug 'Loading community extensions'
-  Resolve-Path $extensionsPath\**\*.psm1 | % { Write-Debug "Importing `'$_`'"; Import-Module $_.ProviderPath }
+  #Resolve-Path $extensionsPath\**\*\*.psm1 | % { Write-Debug "Importing `'$_`'"; Import-Module $_.ProviderPath }
+  Get-ChildItem $extensionsPath -recurse -filter "*.psm1" | Select -ExpandProperty FullName | % { Write-Debug "Importing `'$_`'"; Import-Module $_; }
 }
 
 #main entry point
