@@ -1,8 +1,9 @@
 ﻿function Chocolatey-InstallExtension {
 param(
-  [string] $packageName,
-  [string] $packageFolder
+  [string] $packageFolder, 
+  [string] $packageName
 )
+  Write-Debug "Running 'Chocolatey-InstallExtension' for $packageName with packageFolder:`'$packageFolder`'";
 
   $packageExtensionPath = Join-Path $extensionsPath $packageName
   $packageExtensionsFromPath = Join-Path $packageFolder 'extensions'
@@ -18,6 +19,6 @@ param(
     Write-Host "The package `'$packageName`' seems to be missing the extensions folder at `'$packageExtensionsFromPath`'."
   } else {
     Write-Host "Installing extension `'$packageName`'. You will be able to use it next time you run chocolatey."
-    Copy-Item $packageExtensionsFromPath $packageExtensionPath -recurse -force
+    Copy-Item $packageExtensionsFromPath\* $packageExtensionPath -recurse -force
   }
 }

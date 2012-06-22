@@ -74,6 +74,9 @@ $h2
             Delete-ExistingErrorLog $installedPackageName
             Run-ChocolateyPS1 $packageFolder $installedPackageName $installerArguments "install"
             Get-ChocolateyBins $packageFolder
+            if ($installedPackageName.ToLower().EndsWith('.extension')) {
+              Chocolatey-InstallExtension $packageFolder $installedPackageName
+            }
           }
         }
       }
