@@ -30,6 +30,7 @@ $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
 $nugetLibPath = Join-Path $nuGetPath 'lib'
+$extensionsPath = Join-Path $nugetPath 'extensions'
 $chocInstallVariableName = "ChocolateyInstall"
 $nugetExe = Join-Path $nugetChocolateyPath 'nuget.exe'
 $h1 = '====================================================='
@@ -52,6 +53,13 @@ Import-Module $installModule
 Resolve-Path $nugetChocolateyPath\functions\*.ps1 | 
     ? { -not ($_.ProviderPath.Contains(".Tests.")) } |
     % { . $_.ProviderPath }
+
+
+# load extensions if they exist
+if(Test-Path($extensionsPath)) {
+  Write-Debug 'Loading community extensions'
+  Resolve-Path $extensionsPath\**\*.psm1 | % { Write-Debug "Importing `'$_`'"; Import-Module $_.ProviderPath }
+}
 
 #main entry point
 Remove-LastInstallLog
