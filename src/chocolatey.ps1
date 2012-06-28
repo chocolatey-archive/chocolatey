@@ -9,8 +9,9 @@
   [switch] $overrideArgs = $false,
   [switch] $force = $false,
   [alias("pre")][switch] $prerelease = $false,
+  [alias("lo")][switch] $localonly = $false,
   [switch] $debug
-) 
+  ) 
 
 # chocolatey
 # Copyright (c) 2011-Present Rob Reynolds
