@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.18</version>
+    <version>0.9.8.19-alpha1</version>
     <authors>Rob Reynolds</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -24,6 +24,11 @@ Check out the WIKI in the project URL for all the details of what you can do wit
 </description>
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes
+v0.9.8.19
+* Fix - PowerShell v3 doesn't like foreach loop (prefers ForEach-Object) - https://github.com/chocolatey/chocolatey/pull/116
+* Fix - Cannot install Python packages on Windows 8 - https://github.com/chocolatey/chocolatey/issues/117
+* Enhancement - Allow community extensions - https://github.com/chocolatey/chocolatey/issues/115
+
 v0.9.8.18
 * Fix - 0.9.8.17 installer doesn't create chocolatey folder if it doesn't exist - https://github.com/chocolatey/chocolatey/issues/112
 
