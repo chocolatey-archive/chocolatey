@@ -9,7 +9,11 @@ param(
   
   $errorLog = Join-Path $tempDir 'failure.log'
   try {
-    if ([System.IO.File]::Exists($errorLog)) {[System.IO.File]::Move($errorLog,(Join-Path ($errorLog) '.old'))}
+    if ([System.IO.File]::Exists($errorLog)) {
+      $oldErrorLog = Join-Path "$errorLog" '.old'
+      Move-Item $errorLog $oldErrorLog -Force
+      #[System.IO.File]::Move($errorLog,(Join-Path ($errorLog) '.old'))
+    }
   } catch {
     Write-Error "Could not rename `'$errorLog`' to `'$($errorLog).old`': $($_.Exception.Message)"
   }

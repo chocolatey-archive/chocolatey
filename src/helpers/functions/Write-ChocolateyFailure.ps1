@@ -7,9 +7,13 @@ param(
   $chocTempDir = Join-Path $env:TEMP "chocolatey"
   $tempDir = Join-Path $chocTempDir "$packageName"
   if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
-	$successLog = Join-Path $tempDir 'success.log'
+  $successLog = Join-Path $tempDir 'success.log'
   try {
-    if ([System.IO.File]::Exists($successLog)) {[System.IO.File]::Move($successLog,(Join-Path ($successLog) '.old'))}
+    if ([System.IO.File]::Exists($successLog)) {
+      $oldSuccessLog = Join-Path "$successLog" '.old'
+      Move-Item $successLog $oldSuccessLog -Force
+      #[System.IO.File]::Move($successLog,(Join-Path ($successLog) '.old'))
+    }
   } catch {
     Write-Error "Could not rename `'$successLog`' to `'$($successLog).old`': $($_.Exception.Message)"
   }
