@@ -27,10 +27,11 @@ $h1
   }
 
   Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
-  $statements = "cmd.exe $packageArgs | Tee-Object -FilePath $chocoInstallLog;"
+  $statements = "cmd.exe $packageArgs | Tee-Object -FilePath `'$chocoInstallLog`';"
   Start-ChocolateyProcessAsAdmin "$statements" -minimized -nosleep
   #Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $packageArgs | Tee-Object -FilePath $chocoInstallLog; Write-Host 'finished';Start-Sleep 5`"" -Wait -Verb "RunAs" -WindowStyle Minimized | Wait-Process
   
+  Create-InstallLogIfNotExists $chocoInstallLog
   $installOutput = Get-Content $chocoInstallLog -Encoding Ascii
   foreach ($line in $installOutput) {
     Write-Host $line
