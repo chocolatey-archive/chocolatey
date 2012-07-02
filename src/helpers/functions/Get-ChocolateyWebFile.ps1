@@ -40,7 +40,12 @@ param(
   
   $url32bit = $url;
   $processor = Get-WmiObject Win32_Processor
-  $is64bit = $processor.AddressWidth -eq 64
+  $procCount=(Get-WmiObject Win32_ComputerSystem).NumberofProcessors
+  if ($procCount -eq '1') {
+     $is64bit = $processor.AddressWidth -eq 64
+	 } else {
+	 $is64bit = $processor[0].AddressWidth -eq 64
+	 }
   $systemBit = '32 bit'
   if ($is64bit) {
     $systemBit = '64 bit';
