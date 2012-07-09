@@ -43,7 +43,9 @@ param(
   $procCount=(Get-WmiObject Win32_ComputerSystem).NumberofProcessors
   if ($procCount -eq '1') {
      $is64bit = $processor.AddressWidth -eq 64
+     Write-Debug "Processor width is $($processor.AddressWidth)."
 	 } else {
+	 Write-Debug "First processor width is $($processor[0].AddressWidth)."
 	 $is64bit = $processor[0].AddressWidth -eq 64
 	 }
   $systemBit = '32 bit'
