@@ -18,7 +18,7 @@ function Get-WebFile {
 param(
   $url = '', #(Read-Host "The URL to download"),
   $fileName = $null,
-  $userAgent = $null,
+  $userAgent = 'chocolatey command line',
   [switch]$Passthru,
   [switch]$quiet
 )
