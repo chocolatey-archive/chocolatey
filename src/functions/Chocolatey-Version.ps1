@@ -8,7 +8,7 @@ param(
   
   $packages = $packageName
   if ($packageName -eq 'all') {
-    Write-Debug "Updating all packages in $nugetLibPath"
+    Write-Debug "Reading all packages in $nugetLibPath"
     $packageFolders = Get-ChildItem $nugetLibPath | sort name
     $packages = $packageFolders -replace "(\.\d{1,})+"|gu 
   }
