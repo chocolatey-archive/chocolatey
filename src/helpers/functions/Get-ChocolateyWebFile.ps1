@@ -61,6 +61,8 @@ param(
   #$downloader.DownloadFile($url, $fileFullPath)
   if ($url.StartsWith('http')) {
     Get-WebFile $url $fileFullPath
+  } elseif ($url.StartsWith('ftp')) {
+    Get-FtpFile $url $fileFullPath
   } else {
     Write-Debug "We are attempting to copy the local item `'$url`' to `'$fileFullPath`'"
     Copy-Item $url -Destination $fileFullPath -Force
