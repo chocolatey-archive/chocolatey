@@ -10,8 +10,9 @@
   [switch] $force = $false,
   [alias("pre")][switch] $prerelease = $false,
   [alias("lo")][switch] $localonly = $false,
-  [switch] $debug
-  ) 
+  [switch] $debug,
+  [string] $name
+)
 
 # chocolatey
 # Copyright (c) 2011-Present Rob Reynolds
@@ -87,5 +88,6 @@ switch -wildcard ($command)
   "pack" { Chocolatey-Pack $packageName; }
   "push" { Chocolatey-Push $packageName $source; }
   "help" { Chocolatey-Help; }
+  "sources" { Chocolatey-Sources $packageName $name $source; }
   default { Write-Host 'Please run chocolatey /? or chocolatey help'; }
 }
