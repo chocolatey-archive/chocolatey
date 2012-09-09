@@ -55,6 +55,7 @@
   $script:install_chocolateyinstallpackage_was_called = $false
   $script:install_chocolateypackage_was_called = $false
   $script:install_chocolateypath_was_called = $false
+  $script:install_chocolateyenvironmentvariable_was_called = $false
   $script:install_chocolateypowershellcommand_was_called = $false
   $script:install_chocolateyzippackage_was_called = $false
   $script:start_chocolateyprocessasadmin_was_called = $false
@@ -97,6 +98,7 @@
   $script:install_chocolateyinstallpackage_return_value = ''
   $script:install_chocolateypackage_return_value = ''
   $script:install_chocolateypath_return_value = ''
+  $script:install_chocolateyenvironmentvariable_return_value = ''
   $script:install_chocolateypowershellcommand_return_value = ''
   $script:install_chocolateyzippackage_return_value = ''
   $script:start_chocolateyprocessasadmin_return_value = ''
