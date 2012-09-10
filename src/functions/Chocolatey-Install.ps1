@@ -16,6 +16,7 @@ param(
   switch -wildcard ($source) 
   {
     "webpi" { Chocolatey-WebPI $packageName $installerArguments; }
+    "windowsfeatures" { Chocolatey-WindowsFeatures $packageName; }
     "cygwin" { Chocolatey-Cygwin $packageName $installerArguments; }
     "python" { Chocolatey-Python $packageName $version $installerArguments; }
     "ruby" { Chocolatey-RubyGem $packageName $version $installerArguments; }

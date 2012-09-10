@@ -285,3 +285,32 @@ Describe "When calling Chocolatey-PackagesConfig with a packages.config manifest
   }
 
 }
+
+Describe "When calling Chocolatey-PackagesConfig with a packages.config manifest that has windowsfeatures packages" {
+  Initialize-Variables  
+  $script:exec_chocolatey_packagesconfig_actual = $true
+  
+  Setup -File 'packages.config' @"
+<?xml version="1.0" encoding="utf-8"?>
+<packages>
+  <package id="chocolateytestpackage" source="windowsfeatures" />
+</packages>  
+"@
+  
+  Chocolatey-PackagesConfig "TestDrive:\packages.config"
+  
+  It "should execute the contents of the packages.config" {}
+  
+  It "should call Chocolatey-Install" {
+    $script:chocolatey_install_was_called.should.be($true)
+  }
+  
+  It "should set the source to windowsfeatures" {
+    $script:source.should.be('windowsfeatures')
+  }
+  
+  It "should not call Chocolatey-Nuget" {
+    $script:chocolatey_nuget_was_called.should.be($false)
+  }
+
+}

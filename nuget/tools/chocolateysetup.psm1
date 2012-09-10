@@ -35,6 +35,7 @@ $nugetChocolateyUpdateAlias = Join-Path $chocolateyExePath 'cup.bat'
 $nugetChocolateyListAlias = Join-Path $chocolateyExePath 'clist.bat'
 $nugetChocolateyVersionAlias = Join-Path $chocolateyExePath 'cver.bat'
 $nugetChocolateyWebPiAlias = Join-Path $chocolateyExePath 'cwebpi.bat'
+$nugetChocolateyWinFeaturesAlias = Join-Path $chocolateyExePath 'cwinfeatures.bat'
 $nugetChocolateyCygwinAlias = Join-Path $chocolateyExePath 'ccygwin.bat'
 $nugetChocolateyPythonAlias = Join-Path $chocolateyExePath 'cpython.bat'
 $nugetChocolateyGemAlias = Join-Path $chocolateyExePath 'cgem.bat'
@@ -77,6 +78,11 @@ Write-Host "Creating `'$nugetChocolateyWebPiAlias`' so you can call 'chocolatey 
 "@echo off
 SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" webpi %*" | Out-File $nugetChocolateyWebPiAlias -encoding ASCII
+
+Write-Host "Creating `'$nugetChocolateyWinFeaturesAlias`' so you can call 'chocolatey windowsfeatures' from a shortcut of 'cwinfeatures'."
+"@echo off
+SET DIR=%~dp0%
+""$nugetChocolateyPath\chocolatey.cmd"" windowsfeatures %*" | Out-File $nugetChocolateyWindowsFeaturesAlias -encoding ASCII
 
 Write-Host "Creating `'$nugetChocolateyCygwinAlias`' so you can call 'chocolatey cygwin' from a shortcut of 'ccygwin'."
 "@echo off

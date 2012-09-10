@@ -54,6 +54,10 @@ Describe "When calling Chocolatey-Install normally" {
     $script:chocolatey_webpi_was_called.should.be($false)
   }
   
+  It "should not call Chocolatey-WindowsFeatures" {
+    $script:chocolatey_windowsfeatures_was_called.should.be($false)
+  }
+
   It "should not call Chocolatey-RubyGem" {
     $script:chocolatey_rubygem_was_called.should.be($false)
   }
@@ -77,6 +81,10 @@ Describe "When calling Chocolatey-Install with .config in the name but not endin
     $script:chocolatey_webpi_was_called.should.be($false)
   }
   
+  It "should not call Chocolatey-WindowsFeatures" {
+    $script:chocolatey_windowsfeatures_was_called.should.be($false)
+  }
+
   It "should not call Chocolatey-RubyGem" {
     $script:chocolatey_rubygem_was_called.should.be($false)
   }
@@ -101,6 +109,10 @@ Describe "When calling Chocolatey-Install from a manifest named packages.config"
     $script:chocolatey_webpi_was_called.should.be($false)
   }
   
+  It "should not call Chocolatey-WindowsFeatures" {
+    $script:chocolatey_windowsfeatures_was_called.should.be($false)
+  }
+
   It "should not call Chocolatey-RubyGem" {
     $script:chocolatey_rubygem_was_called.should.be($false)
   }
@@ -124,6 +136,10 @@ Describe "When calling Chocolatey-Install from a manifest named MyChocolateyPack
     $script:chocolatey_webpi_was_called.should.be($false)
   }
   
+  It "should not call Chocolatey-WindowsFeatures" {
+    $script:chocolatey_windowsfeatures_was_called.should.be($false)
+  }
+
   It "should not call Chocolatey-RubyGem" {
     $script:chocolatey_rubygem_was_called.should.be($false)
   }
@@ -147,6 +163,10 @@ Describe "When calling Chocolatey-Install with ruby as the source" {
     $script:chocolatey_webpi_was_called.should.be($false)
   }
   
+  It "should not call Chocolatey-WindowsFeatures" {
+    $script:chocolatey_windowsfeatures_was_called.should.be($false)
+  }
+
   It "should call Chocolatey-RubyGem" {
     $script:chocolatey_rubygem_was_called.should.be($true)
   }
@@ -162,7 +182,7 @@ Describe "When calling Chocolatey-Install with webpi as the source" {
 
   Chocolatey-Install "dude" -source 'webpi'
 
-   It "should not call Chocolatey-PackagesConfig" {
+  It "should not call Chocolatey-PackagesConfig" {
     $script:chocolatey_packagesconfig_was_called.should.be($false)
   }
   
@@ -170,6 +190,37 @@ Describe "When calling Chocolatey-Install with webpi as the source" {
     $script:chocolatey_webpi_was_called.should.be($true)
   }
   
+  It "should not call Chocolatey-WindowsFeatures" {
+    $script:chocolatey_windowsfeatures_was_called.should.be($false)
+  }
+
+  It "should not call Chocolatey-RubyGem" {
+    $script:chocolatey_rubygem_was_called.should.be($false)
+  }
+
+  It "should not call Chocolatey-NuGet" {
+    $script:chocolatey_nuget_was_called.should.be($false)
+  }
+}
+
+Describe "When calling Chocolatey-Install with windowsfeatures as the source" {
+  Initialize-Variables
+  $script:exec_chocolatey_install_actual = $true
+
+  Chocolatey-Install "dude" -source 'windowsfeatures'
+
+  It "should not call Chocolatey-PackagesConfig" {
+    $script:chocolatey_packagesconfig_was_called.should.be($false)
+  }
+  
+  It "should not call Chocolatey-WebPI" {
+    $script:chocolatey_webpi_was_called.should.be($false)
+  }
+  
+  It "should call Chocolatey-WindowsFeatures" {
+    $script:chocolatey_windowsfeatures_was_called.should.be($true)
+  }
+
   It "should not call Chocolatey-RubyGem" {
     $script:chocolatey_rubygem_was_called.should.be($false)
   }

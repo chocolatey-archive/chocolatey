@@ -8,6 +8,9 @@ param(
   if ($source -like 'webpi') {
     $webpiArgs ="/c webpicmd /List /ListOption:All"
     & cmd.exe $webpiArgs 
+  } elseif ($source -like 'windowsfeatures') {
+    $windowsFeaturesArgs ="/c dism /online /get-features /format:table"
+    & cmd.exe $windowsFeaturesArgs 
   } else {  
   
   	$srcArgs = Get-SourceArguments $source

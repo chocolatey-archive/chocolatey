@@ -13,6 +13,7 @@ rename-item function:Chocolatey-RubyGem Chocolatey-RubyGem-Actual
 rename-item function:Chocolatey-Update Chocolatey-Update-Actual
 rename-item function:Chocolatey-Version Chocolatey-Version-Actual
 rename-item function:Chocolatey-WebPI Chocolatey-WebPI-Actual
+rename-item function:Chocolatey-WindowsFeatures Chocolatey-WindowsFeatures-Actual
 rename-item function:Chocolatey-Cygwin Chocolatey-Cygwin-Actual
 rename-item function:Delete-ExistingErrorLog Delete-ExistingErrorLog-Actual
 rename-item function:Generate-BinFile Generate-BinFile-Actual

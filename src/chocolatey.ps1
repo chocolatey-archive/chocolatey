@@ -75,6 +75,7 @@ switch -wildcard ($command)
   "list" { Chocolatey-List $packageName $source; }
   "version" { Chocolatey-Version $packageName $source; }
   "webpi" { Chocolatey-WebPI $packageName $installArguments; }
+  "windowsfeatures" { Chocolatey-WindowsFeatures $packageName; }
   "cygwin" { Chocolatey-Cygwin $packageName $installArguments; }
   "python" { Chocolatey-Python $packageName $version $installArguments; }
   "gem" { Chocolatey-RubyGem $packageName $version $installArguments; }

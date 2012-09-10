@@ -32,6 +32,7 @@
   $script:chocolatey_update_was_called = $false
   $script:chocolatey_version_was_called = $false
   $script:chocolatey_webpi_was_called = $false
+  $script:chocolatey_windowsfeatures_was_called = $false
   $script:chocolatey_cygwin_was_called = $false
   $script:delete_existingerrorlog_was_called = $false
   $script:generate_binfile_was_called = $false
@@ -74,6 +75,7 @@
   $script:chocolatey_update_return_value = ''
   $script:chocolatey_version_return_value = ''
   $script:chocolatey_webpi_return_value = ''
+  $script:chocolatey_windowsfeatures_return_value = ''
   $script:chocolatey_cygwin_return_value = ''
   $script:delete_existingerrorlog_return_value = ''
   $script:generate_binfile_return_value = ''
@@ -116,6 +118,7 @@
   $script:exec_chocolatey_update_actual = $false
   $script:exec_chocolatey_version_actual = $false
   $script:exec_chocolatey_webpi_actual = $false
+  $script:exec_chocolatey_windowsfeatures_actual = $false
   $script:exec_chocolatey_cygwin_actual = $false
   $script:exec_delete_existingerrorlog_actual = $false
   $script:exec_generate_binfile_actual = $false
