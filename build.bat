@@ -1,7 +1,13 @@
 @echo off
 
+IF "%1"=="" (
+	SET Target=Go
+)  ELSE (
+	SET Target="%1"
+)
+
 SET MSBUILD="%windir%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
-%MSBUILD% build.proj /v:normal /nologo /clp:Summary;ShowTimestamp
+%MSBUILD% build.proj /v:normal /nologo /clp:Summary;ShowTimestamp /t:%Target%
 if %ERRORLEVEL% NEQ 0 goto errors
 
 goto :eof

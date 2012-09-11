@@ -8,12 +8,17 @@ $installModule = Join-Path (Join-Path $src 'helpers') 'chocolateyInstaller.psm1'
 
 Import-Module $installModule -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Install-ChocolateyZipPackage, Install-ChocolateyPowershellCommand, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink
 
+if(Get-Module chocolatey){Remove-Module chocolatey}
 Import-Module $script 
+if(Get-Module _FunctionRenameActuals){Remove-Module _FunctionRenameActuals}
 Import-Module $functionRenames
 
 # grab functions from files
 Resolve-Path $here\functions\*.ps1 | % { . $_.ProviderPath }
 Resolve-Path $here\helpers\*.ps1 | % { . $_.ProviderPath }
 
+if(Get-Module _Setup){Remove-Module _Setup}
 Import-Module $setup
+
+if(Get-Module _Initialize-Variables){Remove-Module _Initialize-Variables}
 Import-Module $initializeVariables
