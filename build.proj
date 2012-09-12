@@ -1,7 +1,7 @@
 ﻿<Project ToolsVersion="4.0"
          DefaultTargets="Go"
          xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <!--Import Project="$(MSBuildExtensionsPath)\MSBuildCommunityTasks\MSBuild.Community.Tasks.Targets" /-->
+  <Import Project="$(baseDir)\packages\Nuget.Targets" />
   <PropertyGroup>
     <GoDependsOn>Tests;PrepareNuGetFiles;Package</GoDependsOn>
     <Configuration>Release</Configuration>
@@ -15,7 +15,7 @@
   <Target Name="Go" DependsOnTargets="$(GoDependsOn)" />
   
   <Target Name="Tests">
-    <Exec Command="cmd /c pester"/>
+    <Exec Command="cmd /c $(baseDir)\packages\lib\$(pesterDir)\tools\bin\pester.bat" WorkingDirectory="$(baseDir)\tests\"/>
   </Target>
   
   <Target Name="PrepareNuGetFiles">
@@ -41,7 +41,7 @@
       <FilesToDelete Exclude="$(BuildPath)\**\*.nupkg" Include="$(BuildPath)\**\*" />
       <DirectoriesToDelete Include="$(BuildPath)\nuget" />
     </ItemGroup>
-    <Exec Command="nuget pack &quot;%(NuspecFiles.FullPath)&quot; -NoPackageAnalysis" WorkingDirectory="$(BuildPath)" />
+    <Exec Command="$(baseDir)\packages\nuget pack &quot;%(NuspecFiles.FullPath)&quot; -NoPackageAnalysis" WorkingDirectory="$(BuildPath)" />
           
     <Delete Files="@(FilesToDelete)" />
     <RemoveDir Directories="@(DirectoriesToDelete)" />
