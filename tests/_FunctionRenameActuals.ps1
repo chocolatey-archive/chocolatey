@@ -38,6 +38,7 @@ rename-item function:Install-ChocolateyFileAssociation Install-ChocolateyFileAss
 rename-item function:Install-ChocolateyInstallPackage Install-ChocolateyInstallPackage-Actual
 rename-item function:Install-ChocolateyPackage Install-ChocolateyPackage-Actual
 rename-item function:Install-ChocolateyPath Install-ChocolateyPath-Actual
+rename-item function:Install-ChocolateyEnvironmentVariable Install-ChocolateyEnvironmentVariable-Actual
 rename-item function:Install-ChocolateyPowershellCommand Install-ChocolateyPowershellCommand-Actual
 rename-item function:Install-ChocolateyZipPackage Install-ChocolateyZipPackage-Actual
 rename-item function:Start-ChocolateyProcessAsAdmin Start-ChocolateyProcessAsAdmin-Actual
