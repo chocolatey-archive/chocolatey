@@ -32,7 +32,7 @@ param(
   [switch] $PassThru, 
   [string] $Verb, 
   [switch] $Wait, 
-  [{Normal | Hidden | Minimized | Maximized}] $WindowsStyle,
+  [ValidateSet("Normal", "Hidden", "Minimized", "Maximized")] $WindowsStyle,
   [string] $WorkingDirectory
 )
 
