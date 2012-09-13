@@ -32,6 +32,7 @@ rename-item function:Get-ChocolateyUnzip Get-ChocolateyUnzip-Actual
 rename-item function:Get-ChocolateyWebFile Get-ChocolateyWebFile-Actual
 #rename-item function:Get-WebFile Get-WebFile-Actual
 rename-item function:Install-ChocolateyDesktopLink Install-ChocolateyDesktopLink-Actual
+rename-item function:Install-ChocolateyPinnedTaskBarItem Install-ChocolateyPinnedTaskBarItem-Actual
 rename-item function:Install-ChocolateyInstallPackage Install-ChocolateyInstallPackage-Actual
 rename-item function:Install-ChocolateyPackage Install-ChocolateyPackage-Actual
 rename-item function:Install-ChocolateyPath Install-ChocolateyPath-Actual

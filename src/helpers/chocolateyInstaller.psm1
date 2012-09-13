@@ -9,4 +9,4 @@ Resolve-Path $helpersPath\functions\*.ps1 |
     ? { -not ($_.ProviderPath.Contains(".Tests.")) } |
     % { . $_.ProviderPath }
 
-Export-ModuleMember -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Uninstall-ChocolateyPackage, Install-ChocolateyZipPackage, Install-ChocolateyPowershellCommand, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink, Write-Host, Write-Error
+Export-ModuleMember -Function Start-ChocolateyProcessAsAdmin, Install-ChocolateyPackage, Uninstall-ChocolateyPackage, Install-ChocolateyZipPackage, Install-ChocolateyPowershellCommand, Get-ChocolateyWebFile, Install-ChocolateyInstallPackage, Get-ChocolateyUnzip, Write-ChocolateySuccess, Write-ChocolateyFailure, Install-ChocolateyPath, Install-ChocolateyDesktopLink, Install-ChocolateyPinnedTaskBarItem, Write-Host, Write-Error
