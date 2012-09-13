@@ -53,6 +53,7 @@
   $script:get_webfile_was_called = $false
   $script:install_chocolateydesktoplink_was_called = $false
   $script:install_chocolateypinnedtaskbaritem_was_called = $false
+  $script:install_ChocolateyExplorerMenuItem_was_called = $false
   $script:install_chocolateyinstallpackage_was_called = $false
   $script:install_chocolateypackage_was_called = $false
   $script:install_chocolateypath_was_called = $false
@@ -138,6 +139,7 @@
   $script:exec_get_webfile_actual = $false
   $script:exec_install_chocolateydesktoplink_actual = $false
   $script:exec_install_ChocolateyPinnedTaskBarItem_actual = $false  
+  $script:exec_install_ChocolateyExplorerMenuItem_actual = $false
   $script:exec_install_chocolateyinstallpackage_actual = $false
   $script:exec_install_chocolateypackage_actual = $false
   $script:exec_install_chocolateypath_actual = $false
