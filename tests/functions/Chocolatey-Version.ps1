@@ -7,5 +7,10 @@ param(
   $script:packageName = $packageName
   $script:source = $source
   
-  if ($script:exec_chocolatey_version_actual) { Chocolatey-Version-Actual @PSBoundParameters}
+  if ($script:exec_chocolatey_version_actual) { 
+    Chocolatey-Version-Actual @PSBoundParameters
+  }
+  else {
+    return $script:chocolatey_version_return_value
+  }
 }
