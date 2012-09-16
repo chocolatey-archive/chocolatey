@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.19</version>
+    <version>0.9.8.20-alpha1</version>
     <authors>Rob Reynolds</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -24,6 +24,9 @@ Check out the WIKI in the project URL for all the details of what you can do wit
 </description>
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes
+v0.9.8.20
+* Quite a few, this will be updated by release.
+
 v0.9.8.19
 * Fix - PowerShell v3 doesn't like foreach loop (prefers ForEach-Object) - https://github.com/chocolatey/chocolatey/pull/116
 * Fix - Cannot install Python packages on Windows 8 - https://github.com/chocolatey/chocolatey/issues/117
@@ -31,25 +34,6 @@ v0.9.8.19
 
 v0.9.8.18
 * Fix - 0.9.8.17 installer doesn't create chocolatey folder if it doesn't exist - https://github.com/chocolatey/chocolatey/issues/112
-
-v0.9.8.17 
-* Enhancement - Support for naive uninstall - https://github.com/chocolatey/chocolatey/issues/96
-* Enhancement - Sources specified through config (or nuget.config) - https://github.com/chocolatey/chocolatey/pull/101
-* Enhancement - Chocolatey should support multiple sources - https://github.com/chocolatey/chocolatey/issues/82
-* Enhancement - Use Cygwin as a package source - https://github.com/chocolatey/chocolatey/pull/93
-* Enhancement - Use Python as a package source (uses easy_install) - https://github.com/chocolatey/chocolatey/issues/100
-* Enhancement - Use Default Credentials before Get-Credentials when using proxy on web call - https://github.com/chocolatey/chocolatey/pull/83
-* Enhancement - Reduce the verbosity of running chocolatey - https://github.com/chocolatey/chocolatey/issues/84
-* Enhancement - Support opening links to "GUI" type applications in a different way than the console apps - https://github.com/chocolatey/chocolatey/issues/76
-* Enhancement - Do not create batch redirects for certain executables in package folder - https://github.com/chocolatey/chocolatey/issues/106
-* Enhancement - Add a -debug switch - https://github.com/chocolatey/chocolatey/issues/85
-* Enhancement - Improve pipelining of cver by returning an object - https://github.com/chocolatey/chocolatey/pull/94
-* Fix - Packages.config source now uses chocolatey/nuget sources by default instead of empty - https://github.com/chocolatey/chocolatey/issues/79
-* Fix - Executable batch links not created for "prerelease" versions - https://github.com/chocolatey/chocolatey/issues/88
-* Fix - Issue where latest version is not returned - https://github.com/chocolatey/chocolatey/pull/92
-* Fix - Prerelease versions now broken out as separate versions - https://github.com/chocolatey/chocolatey/issues/90
-* Fix - During install PowerShell session gets bad $env:ChocolateyInstall variable - https://github.com/chocolatey/chocolatey/issues/80
-* Fix - Build path with spaces now works - https://github.com/chocolatey/chocolatey/pull/102
 
     </releaseNotes>
     <projectUrl>http://chocolatey.org</projectUrl>
