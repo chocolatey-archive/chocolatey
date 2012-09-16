@@ -12,11 +12,9 @@ param(
     $env:Path = [Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Machine);
   }
   
-@"
-$h1
-Chocolatey ($chocVer) is installing Ruby Gem `'$packageName`' (using RubyGems.org). By installing you accept the license for the package you are installing (please run chocolatey /? for full license acceptance terms).
-$h1
-"@ | Write-Host
+
+  Write-Host "Chocolatey (v$chocVer) is installing $packageName and dependencies (using RubyGems.org). By installing you accept the license for $packageName and each dependency you are installing." -ForegroundColor $RunNote -BackgroundColor Black
+
   
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyRubyInstall.log';
   Remove-LastInstallLog $chocoInstallLog
@@ -34,7 +32,7 @@ $h1
   Write-Host "Calling cmd.exe $packageArgs"
   & cmd.exe $packageArgs
 
-  #Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
+  #Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..." -ForegroundColor $Warning -BackgroundColor Black
   #Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $packageArgs | Tee-Object -FilePath $chocoInstallLog`"" -Wait -WindowStyle Minimized
   
   #Create-InstallLogIfNotExists $chocoInstallLog
@@ -43,9 +41,5 @@ $h1
   #  Write-Host $line
   #}
   
-@"
-$h1
-Chocolatey has finished installing `'$packageName`' - check log for errors.
-$h1
-"@ | Write-Host
+  Write-Host "Finished installing `'$packageName`' and dependencies - if errors not shown in console, none detected. Check log for errors if unsure." -ForegroundColor $RunNote -BackgroundColor Black
 }

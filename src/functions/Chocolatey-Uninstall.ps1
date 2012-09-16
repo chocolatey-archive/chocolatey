@@ -12,11 +12,8 @@ param(
     return
   }
 
-@"
-$h1
-Chocolatey ($chocVer) is uninstalling $packageName from "$nugetLibPath". 
-$h1
-"@ | Write-Host
+    Write-Host "Chocolatey (v$chocVer) is unininstalling $packageName..." -ForegroundColor $RunNote -BackgroundColor Black
+  
 	
 	$packages = $packageName
 	foreach ($package in $packages) {

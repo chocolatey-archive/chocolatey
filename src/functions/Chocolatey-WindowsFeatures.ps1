@@ -4,11 +4,8 @@ param(
 )
   Write-Debug "Running 'Chocolatey-WindowsFeatures' for $packageName";
   
-@"
-$h1
-Chocolatey ($chocVer) is installing `'$packageName`' (from Windows Veatures)..
-$h1
-"@ | Write-Host
+
+  Write-Host "Chocolatey (v$chocVer) is installing $packageName and dependencies (from Windows Features). By installing you accept the license for $packageName and each dependency you are installing." -ForegroundColor $RunNote -BackgroundColor Black
   
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWindowsFeaturesInstall.log';
   Remove-LastInstallLog $chocoInstallLog
@@ -20,7 +17,7 @@ $h1
   }
   $packageArgs += " /FeatureName:$packageName"
   
-  Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..."
+  Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..." -ForegroundColor $Warning -BackgroundColor Black
   $statements = "cmd.exe $packageArgs | Tee-Object -FilePath `'$chocoInstallLog`';"
   Start-ChocolateyProcessAsAdmin "$statements" -minimized -nosleep -validExitCodes @(0,1)
 
@@ -30,9 +27,5 @@ $h1
     Write-Host $line
   }
   
-@"
-$h1
-Chocolatey has finished installing `'$packageName`' - check log for errors.
-$h1
-"@ | Write-Host
+  Write-Host "Finished installing `'$packageName`' and dependencies - if errors not shown in console, none detected. Check log for errors if unsure." -ForegroundColor $RunNote -BackgroundColor Black
 }
