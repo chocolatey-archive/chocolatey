@@ -7,7 +7,7 @@ $modules | ForEach-Object { import-module -name  $_.FullName }
 ========================
 Chocolatey
 ========================
-Welcome to Chocolatey, your local machine repository for NuGet. Chocolatey allows you to install application packages to your machine with the goodness of a #chocolatey #nuget combo. 
+Welcome to Chocolatey, your local machine repository built on the NuGet infrastructure. Chocolatey allows you to install application packages to your machine with the goodness of a #chocolatey #nuget combo. 
 Application executables get added to the path automatically so you can call them from anywhere (command line/powershell prompt), not just in Visual Studio.
 
 Lets get Chocolatey!
