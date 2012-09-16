@@ -156,7 +156,7 @@ param(
   #set up variables to add
   $chocolateyExePath = Join-Path $chocolateyPath 'bin'
   $chocolateyLibPath = Join-Path $chocolateyPath 'lib'
-  $nugetChocolateyPath = Join-Path $chocolateyPath 'chocolateyInstall'
+  $nugetChocolateyPath = Join-Path $chocolateyPath 'chocolateyinstall'
 
   $nugetYourPkgPath = [System.IO.Path]::Combine($chocolateyLibPath,"yourPackageName")
 @"
