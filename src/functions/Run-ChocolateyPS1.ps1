@@ -14,21 +14,14 @@ param(
 	}
 
   if ($packageFolder -notlike '') { 
-@"
-  $h2
-   PowerShell $action ($actionFile)
-  $h2
-"@ | Write-Host
-@"
-Looking for $actionFile in folder $packageFolder
-If $actionFile is found, it will be run.
-$h2
-"@ | Write-Debug
+
+    Write-Debug "  __ PowerShell $action ($actionFile) __"
+    Write-Debug "  Looking for $actionFile in folder `'$packageFolder`'. If $actionFile is found, it will be run."
 
     $ps1 = Get-ChildItem  $packageFolder -recurse | ?{$_.name -match $actionFile} | sort name -Descending | select -First 1
     $installps1 = Get-ChildItem  $packageFolder -recurse | ?{$_.name -match 'chocolateyinstall.ps1'} | sort name -Descending | select -First 1
     
-    Write-Debug "action file is `'$ps1`'"
+    Write-Debug "Action file is `'$ps1`'"
 
     if ($ps1 -notlike '') {
       $env:chocolateyInstallArguments = "$installArguments"
@@ -57,7 +50,7 @@ $h2
         $errorContents = Get-Content $failureLog
         if ($errorContents -ne '') {
           foreach ($errorLine in $errorContents) {
-            Write-Host $errorLine -BackgroundColor Red -ForegroundColor White
+            Write-Host $errorLine -BackgroundColor $Error -ForegroundColor White
           }
           throw $errorContents
         }
@@ -65,7 +58,7 @@ $h2
     }
 
     if ($installps1 -notlike '' -and $ps1 -like '') {
-      Write-Host "This package has a chocolateyInstall.ps1 without a chocolateyUninstall.ps1. You will need to manually reverse whatever steps the installer did. Please ask the package maker to include a chocolateyUninstall.ps1 in the file to really remove the package."
+      Write-Host "This package has a chocolateyInstall.ps1 without a chocolateyUninstall.ps1. You will need to manually reverse whatever steps the installer did. Please ask the package maker to include a chocolateyUninstall.ps1 in the file to really remove the package." -ForegroundColor $Warning -BackgroundColor Black
     }
   }
 }

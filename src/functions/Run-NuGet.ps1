@@ -5,11 +5,7 @@ param(
   [string] $version = ''
 )
   Write-Debug "Running 'Run-NuGet' for $packageName with source: `'$source`', version:`'$version`'";
-@"
-$h2
-NuGet
-$h2
-"@ | Write-Debug
+  Write-Debug "___ NuGet ____"
 
   	$srcArgs = Get-SourceArguments $source
 

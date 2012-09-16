@@ -39,6 +39,10 @@ $h2 = '-------------------------'
 $globalConfig = ''
 $userConfig = ''
 $env:ChocolateyEnvironmentDebug = 'false'
+$RunNote = "DarkCyan"
+$Warning = "Magenta"
+$Error = "Red"
+$Note = "Green"
 
 
 $DebugPreference = "SilentlyContinue"

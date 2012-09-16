@@ -15,11 +15,8 @@ param(
     $srcArgs = "(from $source)"
   }
 
-@"
-$h1
-Chocolatey ($chocVer) is installing $packageName $srcArgs to "$nugetLibPath". By installing you accept the license for the package you are installing (please run chocolatey /? for full license acceptance terms).
-$h1
-"@ | Write-Host
+Write-Host "Chocolatey (v$chocVer) is installing $packageName and dependencies. By installing you accept the license for $packageName and each dependency you are installing." -ForegroundColor $RunNote -BackgroundColor Black
+Write-Debug "Installing packages to `"$nugetLibPath`"."
 
   $nugetOutput = Run-NuGet $packageName $source $version
 
@@ -27,7 +24,7 @@ $h1
     Write-Debug "Evaluating NuGet output for line: $line"
 
     if ($line -like "*already installed." -and $force -eq $false) {
-      Write-Host "$line - If you want to reinstall the current version of an existing package, please use the -force command."
+      Write-Host "$line - If you want to reinstall the current version of an existing package, please use the -force command." -ForegroundColor $Warning -BackgroundColor Black
       Write-Host ""
     }
     if ($line -notlike "*not installed*" -and ($line -notlike "*already installed." -or $force -eq $true) -and $line -notlike "Attempting to resolve dependency*") {
@@ -64,11 +61,8 @@ $h1
         }
         
         if ($packageFolder -ne '') {
-@"
-$h2
-Chocolatey Runner ($($installedPackageName.ToUpper()) v$installedPackageVersion)
-$h2
-"@ | Write-Host
+
+          Write-Host "______ $installedPackageName v$installedPackageVersion ______" -ForegroundColor $RunNote -BackgroundColor Black
 
           if ([System.IO.Directory]::Exists($packageFolder)) {
             Delete-ExistingErrorLog $installedPackageName
@@ -83,9 +77,5 @@ $h2
     }
   }
   
-@"
-$h1
-Chocolatey has finished installing `'$packageName`' - check log for errors.
-$h1
-"@ | Write-Host
+ Write-Host "Finished installing `'$packageName`' and dependencies - if errors not shown in console, none detected. Check log for errors if unsure." -ForegroundColor $RunNote -BackgroundColor Black
 }

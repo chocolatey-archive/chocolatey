@@ -8,9 +8,9 @@ param(
 
   $packageBatchFileName = Join-Path $nugetExePath "$name.bat"
   $path = $path.ToLower().Replace($nugetPath.ToLower(), "%DIR%..\").Replace("\\","\")
-  Write-Host "Adding $packageBatchFileName and pointing to $path"
+  Write-Host "Adding $packageBatchFileName and pointing to `'$path`'." -ForegroundColor $Note
   if ($useStart) {
-    Write-Host "Setting up $name as a non-command line application"
+    Write-Host "Setting up $name as a non-command line application."  -ForegroundColor $Note
 "@echo off
 SET DIR=%~dp0%
 start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII     
