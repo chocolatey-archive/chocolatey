@@ -9,10 +9,12 @@ param(
   $script:packageName = $packageName
   $script:source = $source
   $script:version = $version
-  
-  if ($script:exec_chocolatey_nuget_actual) { 
+
+  if ($script:exec_chocolatey_nuget_actual) {
     Chocolatey-NuGet-Actual @PSBoundParameters
   } else {
     return $script:chocolatey_nuget_return_value
   }
+
+  Update-SessionEnvironment
 }
