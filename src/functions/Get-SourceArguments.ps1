@@ -13,8 +13,14 @@ param(
 		if ($useNugetConfig -eq 'false') {
 			$sources = Get-Sources
 	
-			$sources.source | foreach {
-				$srcUri = $_.value
+			#TODO: Need to look into this, thought this caused issues in PS3
+			#$sources.source | foreach {
+			#	$srcUri = $_.value
+			#	$srcArgs = $srcArgs + "-Source `"$srcUri`" "
+			#}
+
+			foreach ($source in $sources) {
+				$srcUri = $source.value
 				$srcArgs = $srcArgs + "-Source `"$srcUri`" "
 			}
 		}
