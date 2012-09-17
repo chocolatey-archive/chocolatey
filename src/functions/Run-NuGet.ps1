@@ -27,7 +27,7 @@ param(
   $process.StartInfo.RedirectStandardError = $true
   $process.StartInfo.UseShellExecute = $false
 
-  $process.Start()
+  $process.Start() | Out-Null
   $process.WaitForExit()
 
   $nugetOutput = $process.StandardOutput.ReadToEnd()
