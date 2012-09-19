@@ -15,6 +15,4 @@ param(
   } else {
     return $script:chocolatey_nuget_return_value
   }
-
-  Update-SessionEnvironment
 }

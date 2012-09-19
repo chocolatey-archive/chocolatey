@@ -21,6 +21,7 @@
   $script:extension = ''
   
   # function calls
+  $script:update_sessionenvironment_was_called = $false
   $script:chocolatey_install_was_called = $false
   $script:chocolatey_installall_was_called = $false
   $script:chocolatey_installifmissing_was_called = $false
@@ -112,6 +113,7 @@
   $script:write_chocolateysuccess_return_value = ''  
   
   # execute actuals
+  $script:exec_update_sessionenvironment_actual = $false
   $script:exec_chocolatey_install_actual = $false
   $script:exec_chocolatey_installall_actual = $false
   $script:exec_chocolatey_installifmissing_actual = $false

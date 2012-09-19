@@ -5,6 +5,8 @@ $common = Join-Path $here '_Common.ps1'
 Describe "When calling Chocolatey-NuGet normally" {
   Initialize-Variables
   $script:exec_chocolatey_nuget_actual = $true
+  $script:exec_update_sessionenvironment_actual = $false
+  
   Chocolatey-NuGet 'somepackage'
   
   It "should call Chocolatey-NuGet" {
@@ -23,6 +25,8 @@ Describe "When calling Chocolatey-NuGet normally" {
 Describe "when calling Chocolatey-NuGet with packageName 'all'" {
   Initialize-Variables
   $script:exec_chocolatey_nuget_actual = $true
+  $script:exec_update_sessionenvironment_actual = $false
+
   Chocolatey-NuGet 'all'
 
   It "should call Chocolatey-NuGet" {

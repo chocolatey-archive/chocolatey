@@ -76,6 +76,7 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
       }
     }
   }
-  
+ 
+ Update-SessionEnvironment
  Write-Host "Finished installing `'$packageName`' and dependencies - if errors not shown in console, none detected. Check log for errors if unsure." -ForegroundColor $RunNote -BackgroundColor Black
 }

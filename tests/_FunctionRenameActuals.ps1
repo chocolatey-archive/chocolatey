@@ -1,5 +1,6 @@
 ﻿#credit to Aaron Lerch on helping me figure out how you can keep the real functions around
 
+rename-item function:Update-SessionEnvironment Update-SessionEnvironment-Actual
 rename-item function:Chocolatey-Help Chocolatey-Help-Actual
 rename-item function:Chocolatey-Install Chocolatey-Install-Actual
 rename-item function:Chocolatey-InstallAll Chocolatey-InstallAll-Actual
