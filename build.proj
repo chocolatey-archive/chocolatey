@@ -1,9 +1,8 @@
 ﻿<Project ToolsVersion="4.0"
          DefaultTargets="Go"
          xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
-  <Import Project="$(baseDir)\packages\Nuget.Targets" />
   <PropertyGroup>
-    <GoDependsOn>Tests;PrepareNuGetFiles;Package</GoDependsOn>
+    <GoDependsOn>Setup;Tests;PrepareNuGetFiles;Package</GoDependsOn>
     <Configuration>Release</Configuration>
     <Platform>Any CPU</Platform>
     <BuildDirectory>_packaged_output\</BuildDirectory>
@@ -15,9 +14,13 @@
   <Target Name="Go" DependsOnTargets="$(GoDependsOn)" />
   
   <Target Name="Tests">
-    <Exec Command="cmd /c $(baseDir)\packages\lib\$(pesterDir)\tools\bin\pester.bat" WorkingDirectory="$(baseDir)\tests\"/>
+    <Exec Command="cmd /c $(baseDir)test.cmd" />
   </Target>
   
+  <Target Name="Setup">
+    <Exec Command="cmd /c $(baseDir)setup.cmd" />
+  </Target>
+
   <Target Name="PrepareNuGetFiles">
    <ItemGroup>
       <NuGetFiles Include="$(NuGetDirectory)\**\*" />
@@ -35,14 +38,13 @@
       />
   </Target>
   
-  <Target Name="Package">
+  <Target Name="Package" DependsOnTargets="PrepareNuGetFiles">
   <ItemGroup>
       <NuspecFiles Include="$(BuildPath)**\*nuspec" />
       <FilesToDelete Exclude="$(BuildPath)\**\*.nupkg" Include="$(BuildPath)\**\*" />
       <DirectoriesToDelete Include="$(BuildPath)\nuget" />
     </ItemGroup>
-    <Exec Command="$(baseDir)\packages\nuget pack &quot;%(NuspecFiles.FullPath)&quot; -NoPackageAnalysis" WorkingDirectory="$(BuildPath)" />
-          
+    <Exec Command="FOR /F &quot;delims=|&quot; %%I IN ('DIR %systemdrive%\chocolatey\lib\nuget.commandline.* /B /O:D') DO %systemdrive%\chocolatey\lib\%%I\tools\nuget pack &quot;%(NuspecFiles.FullPath)&quot; -NoPackageAnalysis" WorkingDirectory="$(BuildPath)" />
     <Delete Files="@(FilesToDelete)" />
     <RemoveDir Directories="@(DirectoriesToDelete)" />
   </Target>

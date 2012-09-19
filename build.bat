@@ -8,8 +8,6 @@ IF "%1"=="" (
 )
 
 SET MSBUILD="%windir%\Microsoft.NET\Framework\v4.0.30319\msbuild.exe"
-%MSBUILD% %baseDir%\build.proj /v:normal /nologo /clp:Summary;ShowTimestamp /t:RestorePackages
-FOR /F "delims=|" %%I IN ('DIR "%baseDir%\packages\lib\pester.*" /B /O:D') DO SET pesterDir=%%I
 %MSBUILD% %baseDir%\build.proj /v:normal /nologo /clp:Summary;ShowTimestamp /t:%Target%
 if %ERRORLEVEL% NEQ 0 goto errors
 
