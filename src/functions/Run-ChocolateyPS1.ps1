@@ -6,12 +6,12 @@ param(
 )
   Write-Debug "Running 'Run-ChocolateyPS1' for $packageName with packageFolder:`'$packageFolder`', action: `'$action`'";
 
-	  switch ($action) 
-	{
-	  "install" { $actionFile = "chocolateyinstall.ps1"; }
-	  "uninstall" {$actionFile = "chocolateyuninstall.ps1"; }
-	  default { $actionFile = "chocolateyinstall.ps1";}
-	}
+    switch ($action) 
+  {
+    "install" { $actionFile = "chocolateyinstall.ps1"; }
+    "uninstall" {$actionFile = "chocolateyuninstall.ps1"; }
+    default { $actionFile = "chocolateyinstall.ps1";}
+  }
 
   if ($packageFolder -notlike '') { 
 
@@ -24,6 +24,7 @@ param(
     Write-Debug "Action file is `'$ps1`'"
 
     if ($ps1 -notlike '') {
+      $env:chocolateyPackageFolder ="$packageFolder"
       $env:chocolateyInstallArguments = "$installArguments"
       $env:chocolateyInstallOverride = $null
       if ($overrideArgs -eq $true) {

@@ -31,7 +31,7 @@ param(
   Write-Debug "Running 'UnInstall-ChocolateyZipPackage' for $packageName $zipFileName "
   
   try {
-    $packagelibPath=join-path $env:chocolateyinstall`\lib $packageName
+    $packagelibPath=$env:chocolateyPackageFolder
     $zipContentFile=(join-path $packagelibPath $zipFileName) + ".txt"
     $zipContentFile
     $zipContents=get-content $zipContentFile
