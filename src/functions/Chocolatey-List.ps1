@@ -37,6 +37,10 @@ param(
       $parameters = "$parameters -Prerelease";
     }
     
+    if ($verbosity -eq $true) {
+      $parameters = "$parameters -verbose";
+    }
+
     Write-Debug "Calling nuget with `'$parameters $srcArgs`'"
     $parameters = "$parameters $srcArgs"
 

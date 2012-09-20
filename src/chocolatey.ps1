@@ -10,6 +10,7 @@
   [switch] $force = $false,
   [alias("pre")][switch] $prerelease = $false,
   [alias("lo")][switch] $localonly = $false,
+  [alias("verbose")][switch] $verbosity = $false,
   [switch] $debug,
   [string] $name
 )
