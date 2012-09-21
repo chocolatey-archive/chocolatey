@@ -43,7 +43,7 @@ param(
   } 
   
   Write-Debug "Running 'Get-ChocolateyUnzip' with fileFullPath:`'$fileFullPath`'',destination:$destination";
-	
+
   Write-Host "Extracting $fileFullPath to $destination..."
   if (![System.IO.Directory]::Exists($destination)) {[System.IO.Directory]::CreateDirectory($destination)}
   
@@ -52,16 +52,16 @@ param(
   $destinationFolder = $shellApplication.NameSpace($destination)
   $zipPackageItems = $zipPackage.Items()
   $destinationFolder.CopyHere($zipPackageItems,0x10) 
-	
+
   if ($packageName) {
-    $packagelibPath=join-path $env:chocolateyinstall`\lib $packageName
+    $packagelibPath=$env:chocolateyPackageFolder
     if (!(Test-Path -path $packagelibPath)) {
       New-Item $packagelibPath -type directory
     }
  
-	$zipFilename=split-path $zipfileFullPath -Leaf
-	$zipExtractLogFullPath=join-path $packagelibPath $zipFilename`.txt
-	Get-ZipItems_Recursive $zipPackageItems $specificFolder $destination |add-content $zipExtractLogFullPath
+  $zipFilename=split-path $zipfileFullPath -Leaf
+  $zipExtractLogFullPath=join-path $packagelibPath $zipFilename`.txt
+  Get-ZipItems_Recursive $zipPackageItems $specificFolder $destination |add-content $zipExtractLogFullPath
   }
   return $destination
 }
@@ -82,6 +82,6 @@ function Get-ZipItems_recursive {
     $insideZipFile=$file.path.substring($fileIndex)
     $finalFilePath=join-path $target $insideZipFile
     write-output $finalFilePath
-	    
+    
   }
 } 
