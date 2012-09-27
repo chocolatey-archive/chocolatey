@@ -76,13 +76,13 @@ param(
   }
 
   if($res.StatusCode -eq 200) {
-    [int]$goal = $res.ContentLength
+    [long]$goal = $res.ContentLength
     $reader = $res.GetResponseStream()
     if($fileName) {
        $writer = new-object System.IO.FileStream $fileName, "Create"
     }
     [byte[]]$buffer = new-object byte[] 4096
-    [int]$total = [int]$count = 0
+    [long]$total = [long]$count = 0
     do
     {
        $count = $reader.Read($buffer, 0, $buffer.Length);
