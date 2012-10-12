@@ -82,7 +82,7 @@ param(
        $writer = new-object System.IO.FileStream $fileName, "Create"
     }
     [byte[]]$buffer = new-object byte[] 1048576
-    [long]$total = [long]$count = 0
+    [long]$total = [long]$count = [long]$iterLoop =0
     do
     {
        $count = $reader.Read($buffer, 0, $buffer.Length);
@@ -93,10 +93,8 @@ param(
           $output += $encoding.GetString($buffer,0,$count)
        } elseif(!$quiet) {
           $total += $count
-          if($goal -gt 0) {
+          if($goal -gt 0 -and ++$iterLoop%5000 -eq 0) {
              Write-Progress "Downloading $url to $fileName" "Saving $total of $goal" -id 0 -percentComplete (($total/$goal)*100) 
-          } else {
-             Write-Progress "Downloading $url to $fileName" "Saving $total bytes..." -id 0 -Completed
           }
           if ($total -eq $goal) {
             Write-Progress "Completed download of $url." "Completed a total of $total bytes of $fileName" -id 0 -Completed 
