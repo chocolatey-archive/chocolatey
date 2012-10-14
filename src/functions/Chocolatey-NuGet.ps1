@@ -1,7 +1,9 @@
 ﻿function Chocolatey-NuGet { 
 param(
   [string] $packageName,
-  [string] $source = ''
+  [string] $source = '',
+  [string] $version = '',
+  [string] $installerArguments = ''
 )
   Write-Debug "Running 'Chocolatey-NuGet' for $packageName with source:`'$source`'";
 
@@ -66,7 +68,7 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
 
           if ([System.IO.Directory]::Exists($packageFolder)) {
             Delete-ExistingErrorLog $installedPackageName
-            Run-ChocolateyPS1 $packageFolder $installedPackageName $installerArguments "install"
+            Run-ChocolateyPS1 $packageFolder $installedPackageName "install" $installerArguments
             Get-ChocolateyBins $packageFolder
             if ($installedPackageName.ToLower().EndsWith('.extension')) {
               Chocolatey-InstallExtension $packageFolder $installedPackageName

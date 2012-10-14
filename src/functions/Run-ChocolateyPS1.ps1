@@ -2,7 +2,8 @@
 param(
   [string] $packageFolder, 
   [string] $packageName, 
-  [string] $action
+  [string] $action,
+  [string] $installerArguments = ''
 )
   Write-Debug "Running 'Run-ChocolateyPS1' for $packageName with packageFolder:`'$packageFolder`', action: `'$action`'";
 
@@ -25,7 +26,7 @@ param(
 
     if ($ps1 -notlike '') {
       $env:chocolateyPackageFolder ="$packageFolder"
-      $env:chocolateyInstallArguments = "$installArguments"
+      $env:chocolateyInstallArguments = "$installerArguments"
       $env:chocolateyInstallOverride = $null
       if ($overrideArgs -eq $true) {
         $env:chocolateyInstallOverride = $true
