@@ -81,7 +81,7 @@ param(
     if($fileName) {
        $writer = new-object System.IO.FileStream $fileName, "Create"
     }
-    [byte[]]$buffer = new-object byte[] 4096
+    [byte[]]$buffer = new-object byte[] 1048576
     [long]$total = [long]$count = 0
     do
     {
