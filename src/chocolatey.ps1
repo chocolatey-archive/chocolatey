@@ -17,7 +17,7 @@
 
 # chocolatey
 # Copyright (c) 2011-Present Rob Reynolds
-# Committers: Rob Reynolds, Rich Siegel, Matt Wrock
+# Committers and Contributors: Rob Reynolds, Rich Siegel, Matt Wrock, Anthony Mastrean, Alan Stevens
 # Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1, AnthonyMastrean, Rich Siegel, Matt Wrock and other contributors from the community.
 # Big thanks to Keith Dahlby for all the powershell help! 
 # Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
