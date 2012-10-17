@@ -51,7 +51,7 @@ param(
   $zipPackage = $shellApplication.NameSpace($fileFullPath) 
   $destinationFolder = $shellApplication.NameSpace($destination)
   $zipPackageItems = $zipPackage.Items()
-  $destinationFolder.CopyHere($zipPackageItems,0x10) 
+  $destinationFolder.CopyHere($zipPackageItems,0x14) 
 
   if ($packageName) {
     $packagelibPath=$env:chocolateyPackageFolder
