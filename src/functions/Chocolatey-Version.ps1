@@ -18,6 +18,7 @@ param(
   
   Write-Debug "based on: `'$srcArgs`' feed"
   
+  $versionsObj = New-Object –typename PSObject
   foreach ($package in $packages) {
     $packageArgs = "list ""$package"" $srcArgs -NonInteractive"
     if ($prerelease -eq $true) {
