@@ -3,10 +3,8 @@
 rename-item function:Update-SessionEnvironment Update-SessionEnvironment-Actual
 rename-item function:Chocolatey-Help Chocolatey-Help-Actual
 rename-item function:Chocolatey-Install Chocolatey-Install-Actual
-rename-item function:Chocolatey-InstallAll Chocolatey-InstallAll-Actual
 rename-item function:Chocolatey-InstallIfMissing Chocolatey-InstallIfMissing-Actual
 rename-item function:Chocolatey-List Chocolatey-List-Actual
-rename-item function:Chocolatey-Nuget Chocolatey-Nuget-Actual
 rename-item function:Chocolatey-Pack Chocolatey-Pack-Actual
 rename-item function:Chocolatey-PackagesConfig Chocolatey-PackagesConfig-Actual
 rename-item function:Chocolatey-Push Chocolatey-Push-Actual
@@ -26,9 +24,7 @@ rename-item function:Get-PackageFolderVersions Get-PackageFolderVersions-Actual
 rename-item function:Get-PackageFoldersForPackage Get-PackageFoldersForPackage-Actual
 rename-item function:Get-VersionsForComparison Get-VersionsForComparison-Actual
 rename-item function:Remove-LastInstallLog Remove-LastInstallLog-Actual
-rename-item function:Run-ChocolateyPS1 Run-ChocolateyPS1-Actual
 rename-item function:Run-ChocolateyProcess Run-ChocolateyProcess-Actual
-rename-item function:Run-NuGet Run-NuGet-Actual
 
 rename-item function:Get-ChocolateyUnzip Get-ChocolateyUnzip-Actual
 rename-item function:Get-ChocolateyWebFile Get-ChocolateyWebFile-Actual

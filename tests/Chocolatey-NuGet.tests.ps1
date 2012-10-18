@@ -3,42 +3,22 @@ $common = Join-Path $here '_Common.ps1'
 . $common
 
 Describe "When calling Chocolatey-NuGet normally" {
-  Initialize-Variables
-  $script:exec_chocolatey_nuget_actual = $true
-  $script:exec_update_sessionenvironment_actual = $false
+  Mock Run-NuGet {""} -Verifiable -ParameterFilter {$packageName -eq 'somepackage'}
   
   Chocolatey-NuGet 'somepackage'
   
-  It "should call Chocolatey-NuGet" {
-    $script:chocolatey_nuget_was_called.should.be($true)
-  }
-  
   It "should call Run-NuGet" {
-    $script:run_nuget_was_called.should.be($true)
-  }
-  It "should call Start-Process function to run NuGet.exe" {
-    #$script:start_process_was_called.should.be($true)
-  }
-  
+    Assert-VerifiableMocks
+  }  
 }
 
 Describe "when calling Chocolatey-NuGet with packageName 'all'" {
-  Initialize-Variables
-  $script:exec_chocolatey_nuget_actual = $true
-  $script:exec_update_sessionenvironment_actual = $false
+  Mock Chocolatey-InstallAll {} -Verifiable -ParameterFilter {$source -eq 'source'}
 
-  Chocolatey-NuGet 'all'
+  Chocolatey-NuGet 'all' 'source'
 
-  It "should call Chocolatey-NuGet" {
-    $script:chocolatey_nuget_was_called.should.be($true)
-  }
-  
   It "should call Chocolatey-InstallAll" {
-    $script:chocolatey_installall_was_called.should.be($true)
-  }
-  
-  It "should set packageName appropriately" {
-    $script:packageName.should.be('all')
+    Assert-VerifiableMocks
   }
   
 }
