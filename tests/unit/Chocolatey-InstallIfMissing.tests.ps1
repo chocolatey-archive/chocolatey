@@ -3,74 +3,64 @@ $common = Join-Path (Split-Path -Parent $here)  '_Common.ps1'
 . $common
 
 Describe "When calling Chocolatey-InstallIfMissing with no version and package exists" {
-  Initialize-Variables
-  $script:exec_chocolatey_installifmissing_actual = $true
-  $script:exec_get_packagefoldersforpackage_actual = $false
-  $script:get_packagefoldersforpackage_return_value = 'dude'
+  Mock Chocolatey-Version {}
+  Mock Chocolatey-Nuget {}
+  Mock Get-PackageFoldersForPackage { return 'dude' }
+
   Chocolatey-InstallIfMissing 'testpackage'
 
   It "should not call Chocolatey-Version" {
-    $script:chocolatey_version_was_called.should.be($false)
+    Assert-MockCalled Chocolatey-Version 0
   } 
   It "should not call Chocolatey-Nuget" {
-    $script:chocolatey_nuget_was_called.should.be($false)
+    Assert-MockCalled Chocolatey-Nuget 0
   }    
 }
 
 Describe "When calling Chocolatey-InstallIfMissing with no version and package does not exists" {
-  Initialize-Variables
-  $script:exec_chocolatey_installifmissing_actual = $true
-  $script:exec_get_packagefoldersforpackage_actual = $false
-  $script:exec_chocolatey_nuget_actual = $false  
-  $script:get_packagefoldersforpackage_return_value = ''
+  Mock Chocolatey-Version {}
+  Mock Chocolatey-Nuget {}
+  Mock Get-PackageFoldersForPackage {}
+
   Chocolatey-InstallIfMissing 'testpackage'
 
   It "should call Chocolatey-Version" {
-    $script:chocolatey_version_was_called.should.be($true)
+    Assert-MockCalled Chocolatey-Version 1 {$packageName -eq 'testpackage'}
   } 
 }
 
 Describe "When calling Chocolatey-InstallIfMissing with a version and the package does not exists" {
-  Initialize-Variables
-  $script:exec_chocolatey_installifmissing_actual = $true
-  $script:exec_chocolatey_version_actual = $false
-  $script:exec_chocolatey_nuget_actual = $false  
-  $versionsObj = @{found = "no version"}
-  $script:chocolatey_version_return_value = $versionsObj
+  Mock Chocolatey-Version { return @{found = "no version"} }
+  Mock Chocolatey-Nuget {}
+
   Chocolatey-InstallIfMissing 'testpackage' -version 1.0
 
   It "should call Chocolatey-Nuget" {
-    $script:chocolatey_nuget_was_called.should.be($true)
+    Assert-MockCalled Chocolatey-Nuget 1 {$packageName -eq 'testpackage' -and $version -eq '1.0' }
   } 
 
 }
 
 Describe "When calling Chocolatey-InstallIfMissing with a version and version different than the one in the repo" {
-  Initialize-Variables
-  $script:exec_chocolatey_installifmissing_actual = $true
-  $script:exec_chocolatey_version_actual = $false
-  $script:exec_chocolatey_nuget_actual = $false  
-  $versionsObj = @{found = "0.3"}
-  $script:chocolatey_version_return_value = $versionsObj
+  Mock Chocolatey-Version { return @{found = "0.3"} }
+  Mock Chocolatey-Nuget {}
+
   Chocolatey-InstallIfMissing 'testpackage' -version 1.0
 
   It "should call Chocolatey-Nuget" {
-    $script:chocolatey_nuget_was_called.should.be($true)
+    Assert-MockCalled Chocolatey-Nuget 1 {$packageName -eq 'testpackage' -and $version -eq '1.0' }
   } 
 
 }
 
 Describe "When calling Chocolatey-InstallIfMissing with a version that is the same as the one in the repo" {
-  Initialize-Variables
-  $script:exec_chocolatey_installifmissing_actual = $true
-  $script:exec_chocolatey_version_actual = $false
-  $script:exec_chocolatey_nuget_actual = $false  
-  $versionsObj = @{found = 1.0}
-  $script:chocolatey_version_return_value = $versionsObj
+  Mock Chocolatey-Version { return @{found = "1.0"} }
+  Mock Chocolatey-Nuget {}
+
   Chocolatey-InstallIfMissing 'testpackage' -version 1.0
 
-  It "should call Chocolatey-Nuget" {
-    $script:chocolatey_nuget_was_called.should.be($false)
+  It "should not call Chocolatey-Nuget" {
+    Assert-MockCalled Chocolatey-Nuget 0
   } 
 
 }

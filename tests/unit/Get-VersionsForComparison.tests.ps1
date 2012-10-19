@@ -3,22 +3,16 @@ $common = Join-Path (Split-Path -Parent $here)  '_Common.ps1'
 . $common
 
 Describe "When calling Get-VersionsForComparison normally" {
-  Initialize-Variables
-  $script:exec_get_versionsforcomparison_actual = $true
   $longVersion = '00000000.00000001.00000003'
   $shortVersion = '0.1.3'
-  $script:get_longpackageversion_return_value = $longVersion
+  Mock Get-LongPackageVersion {return $longVersion} -Verifiable -ParameterFilter {$packageVersion -eq $shortVersion}
   $packageVersions = @($shortVersion)
   $returnValue = Get-VersionsForComparison $packageVersions
   $expectedValue = @{$longVersion=$shortVersion}
   
   It "should call Get-LongPackageVersion" {
-    $script:get_longpackageversion_was_called.should.be($true)
+    Assert-VerifiableMocks
   }  
-  
-  It "should call Get-VersionsForComparison-Actual" {
-    $script:get_versionsforcomparison_actual_was_called.should.be($true)
-  }
   
   It "should have one item returned" {
     $returnValue.Count.should.be(1)
@@ -34,11 +28,9 @@ Describe "When calling Get-VersionsForComparison normally" {
 }
 
 Describe "When calling Get-VersionsForComparison to add multiple of the same item" {
-  Initialize-Variables
-  $script:exec_get_versionsforcomparison_actual = $true
   $longVersion = '00000000.00000001.00000003'
   $shortVersion = '0.1.3'
-  $script:get_longpackageversion_return_value = $longVersion
+  Mock Get-LongPackageVersion {return $longVersion} -ParameterFilter {$packageVersion -eq $shortVersion}
   $packageVersions = @($shortVersion,$shortVersion)
   $returnValue = Get-VersionsForComparison $packageVersions
   $expectedValue = @{$longVersion=$shortVersion}
@@ -51,11 +43,9 @@ Describe "When calling Get-VersionsForComparison to add multiple of the same ite
 }
 
 Describe "When calling Get-VersionsForComparison with a prerelease package" {
-  Initialize-Variables
-  $script:exec_get_versionsforcomparison_actual = $true
   $longVersion = '00000000.00000001.00000003.alpha1'
   $shortVersion = '0.1.3-alpha1'
-  $script:get_longpackageversion_return_value = $longVersion
+  Mock Get-LongPackageVersion {return $longVersion} -ParameterFilter {$packageVersion -eq $shortVersion}
   $packageVersions = @($shortVersion)
   $returnValue = Get-VersionsForComparison $packageVersions
   $expectedValue = @{$longVersion=$shortVersion}
@@ -69,14 +59,12 @@ Describe "When calling Get-VersionsForComparison with a prerelease package" {
 }
 
 Describe "When calling Get-VersionsForComparison with multiple prerelease packages of the same underlying version" {
-  Initialize-Variables
-  $script:exec_get_versionsforcomparison_actual = $true
-  $script:exec_get_longpackageversion_actual = $true
-  
   $shortVersion1 = '0.1.3-alpha1'
   $longVersion1 = '00000000.00000001.00000003.alpha1'
   $shortVersion2 = '0.1.3-alpha2'
   $longVersion2 = '00000000.00000001.00000003.alpha2'
+  Mock Get-LongPackageVersion {return $longVersion1} -ParameterFilter {$packageVersion -eq $shortVersion1}
+  Mock Get-LongPackageVersion {return $longVersion2} -ParameterFilter {$packageVersion -eq $shortVersion2}
   
   $packageVersions = @($shortVersion1,$shortVersion2)
   $returnValue = Get-VersionsForComparison $packageVersions

@@ -8,11 +8,9 @@ $isAdmin = $principal.IsInRole( [System.Security.Principal.WindowsBuiltInRole]::
 if(-not $isAdmin){return}
 
 Describe "When calling Update-SessionEnvironment anormally" {
-  Initialize-Variables
   $originalURegPath = [Environment]::GetEnvironmentVariable('Path', 'User')
   $originalMRegPath = [Environment]::GetEnvironmentVariable('Path', 'Machine')
   $originalEnv = @{}
-  $script:exec_update_sessionenvironment_actual = $true
   $mkey = 'choc' + [Guid]::NewGuid().ToString('n')
   $mvalue = [Guid]::NewGuid().ToString('n')  
   $ukey = 'choc' + [Guid]::NewGuid().ToString('n')
@@ -33,6 +31,7 @@ Describe "When calling Update-SessionEnvironment anormally" {
     $mlocalSession = Get-ChildItem "Env:$($mkey)"
     $ulocalSession = Get-ChildItem "Env:$($ukey)"
     $plocalSession = Get-ChildItem "Env:$('Path')"
+
     It "should properly refresh MACHINE variables set outside this session" {
         $mlocalSession.Value.should.be($mvalue)
     }

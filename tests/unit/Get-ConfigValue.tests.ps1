@@ -3,28 +3,10 @@ $common = Join-Path (Split-Path -Parent $here)  '_Common.ps1'
 . $common
 
 Setup -File 'userprofile\_crapworkaround.txt'
-$env:USERPROFILE = Join-Path 'TestDrive:' 'userProfile'
-
-Describe "When calling Get-ConfigValue normally" {
-  Initialize-Variables
-  #$script:exec_get_configvalue_actual = $true
-  $script:get_configvalue_return_value = 'dude'
-  $result = Get-ConfigValue 'useNuGetForSources'
-  
-  It "should call Get-ConfigValue" {
-    $script:get_configvalue_was_called.should.be($true)
-  }
-  
-  It "should return the result of what we specified" {
-    $result.should.be($script:get_configvalue_return_value)
-  }
-  
-}
 
 Describe "When calling Get-ConfigValue for a simple return value" {
-  Initialize-Variables
-  $script:exec_get_configvalue_actual = $true
-  
+  $oldProfile = $env:USERPROFILE
+  $env:USERPROFILE = Join-Path 'TestDrive:' 'userProfile'
   Setup -File 'chocolatey\chocolateyInstall\chocolatey.config' @"
 <?xml version="1.0"?>
 <chocolatey>
@@ -33,7 +15,8 @@ Describe "When calling Get-ConfigValue for a simple return value" {
 "@
   
   $result = Get-ConfigValue 'useNuGetForSources'
-  
+  $env:USERPROFILE = $oldProfile
+
   It "should not be null" {
     $true.should.be($result -ne $null)
   }
@@ -45,9 +28,8 @@ Describe "When calling Get-ConfigValue for a simple return value" {
 }
 
 Describe "When calling Get-ConfigValue for a list" {
-  Initialize-Variables
-  $script:exec_get_configvalue_actual = $true
-  
+  $oldProfile = $env:USERPROFILE
+  $env:USERPROFILE = Join-Path 'TestDrive:' 'userProfile'
   Setup -File 'chocolatey\chocolateyInstall\chocolatey.config' @"
 <?xml version="1.0"?>
 <chocolatey>
@@ -59,7 +41,8 @@ Describe "When calling Get-ConfigValue for a list" {
 "@
   
   $result = Get-ConfigValue 'sources'
-  
+
+  $env:USERPROFILE = $oldProfile
   It "should not be null" {
     $true.should.be($result -ne $null)
   }
@@ -74,7 +57,6 @@ Describe "When calling Get-ConfigValue for a list" {
   
   It "should contain source IDs that are not null" {
      foreach ($source in $result.source) {
-        write-host $source.id
         $true.should.be($source.id -ne $null)
      }
   }  

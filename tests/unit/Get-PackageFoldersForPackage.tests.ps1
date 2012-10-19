@@ -3,21 +3,16 @@ $common = Join-Path (Split-Path -Parent $here)  '_Common.ps1'
 . $common
 
 Describe "When calling Get-PackageFoldersForPackage normally" {
-  Initialize-Variables
-  $script:exec_get_packagefoldersforpackage_actual = $true
   $packageName = 'sake'
   $packageVersion = '0.1.3'
   Setup -File "chocolatey\lib\$packageName.$packageVersion\sake.nuspec" ''
   $pathExists = Test-Path("TestDrive:\chocolatey\lib\$packageName.$packageVersion")
-  $returnValue = Get-PackageFoldersForPackage $packageName
   $expectedValue = "$packageName.$packageVersion"
   
+  $returnValue = Get-PackageFoldersForPackage $packageName
+
   It "should find that the folder path actually exists" {
     $pathExists.should.be($true)
-  }
-  
-  It "should call Get-PackageFoldersForPackage-Actual" {
-    $script:get_packagefoldersforpackage_actual_was_called.should.be($true)
   }
   
   It "should return a package folder back" {
@@ -26,8 +21,6 @@ Describe "When calling Get-PackageFoldersForPackage normally" {
 }
 
 Describe "When calling Get-PackageFoldersForPackage against a folder version that has a date value" {
-  Initialize-Variables
-  $script:exec_get_packagefoldersforpackage_actual = $true
   $packageName = 'sake'
   $packageVersion = '0.1.3.20120225'
   Setup -File "chocolatey\lib\$packageName.$packageVersion\sake.nuspec" ''
@@ -42,8 +35,6 @@ Describe "When calling Get-PackageFoldersForPackage against a folder version tha
 }
 
 Describe "When calling Get-PackageFoldersForPackage against a folder that has a prerelease version" {
-  Initialize-Variables
-  $script:exec_get_packagefoldersforpackage_actual = $true
   $packageName = 'sake'
   $packageVersion = '0.1.3-alpha1'
   Setup -File "chocolatey\lib\$packageName.$packageVersion\sake.nuspec" ''
@@ -58,8 +49,6 @@ Describe "When calling Get-PackageFoldersForPackage against a folder that has a 
 }
 
 Describe "When calling Get-PackageFoldersForPackage against a folder that has a prerelease version with multiple dashes" {
-  Initialize-Variables
-  $script:exec_get_packagefoldersforpackage_actual = $true
   $packageName = 'sake'
   $packageVersion = '0.1.3-alpha-1'
   Setup -File "chocolatey\lib\$packageName.$packageVersion\sake.nuspec" ''
@@ -74,8 +63,6 @@ Describe "When calling Get-PackageFoldersForPackage against a folder that has a 
 }
 
 Describe "When calling Get-PackageFoldersForPackage against multiple versions" {
-  Initialize-Variables
-  $script:exec_get_packagefoldersforpackage_actual = $true
   $packageName = 'sake'
   $packageVersion1 = '0.1.3'
   $packageVersion2 = '0.1.3.1'
@@ -92,8 +79,6 @@ Describe "When calling Get-PackageFoldersForPackage against multiple versions" {
 }
 
 Describe "When calling Get-PackageFoldersForPackage against multiple versions and other packages" {
-  Initialize-Variables
-  $script:exec_get_packagefoldersforpackage_actual = $true
   $packageName = 'sake'
   $packageVersion1 = '0.1.3'
   $packageVersion2 = '0.1.3.1'
