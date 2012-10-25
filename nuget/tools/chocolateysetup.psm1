@@ -79,7 +79,7 @@ Write-Host "Creating `'$nugetChocolateyWebPiAlias`' so you can call 'chocolatey 
 SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" webpi %*" | Out-File $nugetChocolateyWebPiAlias -encoding ASCII
 
-Write-Host "Creating `'$nugetChocolateyWindowsFeaturesAlias`' so you can call 'chocolatey windowsfeatures' from a shortcut of 'cwinfeatures'."
+Write-Host "Creating `'$nugetChocolateyWindowsFeaturesAlias`' so you can call 'chocolatey windowsfeatures' from a shortcut of 'cwindowsfeatures'."
 "@echo off
 SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" windowsfeatures %*" | Out-File $nugetChocolateyWindowsFeaturesAlias -encoding ASCII
