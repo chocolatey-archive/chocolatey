@@ -6,8 +6,8 @@ Creates a windows explorer context menu item that can be associated with a comma
 .DESCRIPTION
 Install-ChocolateyExplorerMenuItem can add an entry in the context menu of 
 Windows Explorer. The menu item is given a text label and a command. The command 
-can be any command acepted on the windows command line. The menu item can be 
-applied toeither folder items or file items.
+can be any command accepted on the windows command line. The menu item can be 
+applied to either folder items or file items.
 
 Because this command accesses and edits the root class registry node, it will be 
 elevated to admin.
@@ -38,7 +38,7 @@ C:\PS>Install-ChocolateyExplorerMenuItem "sublime" "Open with Sublime Text 2" $s
 This will create a context menu item in Windows Explorer when any folder is right clicked. The menu item will appear with the text "Open with Sublime Text 2" and will invoke sublime text 2 when selected.
 
 .NOTES
-Chocolatey willautomatically add the path of the file or folder clicked to the command. This is done simply by appending a %1 to the end of the command.
+Chocolatey will automatically add the path of the file or folder clicked to the command. This is done simply by appending a %1 to the end of the command.
 #>
 param(
   [string]$menuKey, 

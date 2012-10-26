@@ -13,7 +13,7 @@ powershell session. This means the user needs to open a new powershell
 session before these settings take effect which can render the installed 
 application unfunctional until that time.
 
-Use the Update-SessionEnvironment-Command to refresh the current 
+Use the Update-SessionEnvironment command to refresh the current 
 powershell session with all environment settings possibly performed by 
 chocolatey package installs.
 
