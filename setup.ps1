@@ -5,4 +5,4 @@ if(-not $env:ChocolateyInstall -or -not (Test-Path "$env:ChocolateyInstall")){
 
 # install nuget if it is missing
 cinstm nuget.commandline
-cinstm pester
+cinstm pester -source http://www.myget.org/F/pester/
