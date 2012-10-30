@@ -1,11 +1,11 @@
 ﻿#not overwriting this one
 function Write-Host-Local {
 param(
-  [object] $Object,
+  [Parameter(Position=0, ValueFromPipeline=$true, ValueFromRemainingArguments=$true)][object] $Object,
   [switch] $NoNewLine, 
+  [object] $Separator,
   [ConsoleColor] $ForegroundColor, 
-  [ConsoleColor] $BackgroundColor,
-  [object] $Separator
+  [ConsoleColor] $BackgroundColor
 )
 
   $script:write_host_was_called = $true

@@ -1,6 +1,6 @@
 ﻿function Write-Host {
 param(
-  [Parameter(Position=0,Mandatory=$false,ValueFromPipeline=$true)][object] $Object,
+  [Parameter(Position=0, ValueFromPipeline=$true, ValueFromRemainingArguments=$true)][object] $Object,
   [Parameter()][switch] $NoNewLine, 
   [Parameter(Mandatory=$false)][ConsoleColor] $ForegroundColor, 
   [Parameter(Mandatory=$false)][ConsoleColor] $BackgroundColor,
