@@ -26,7 +26,7 @@ param(
     $item = $folder.Parsename((split-path $targetFilePath -leaf)) 
     $itemVerb = $item.Verbs() | ? {$_.Name.Replace("&","") -eq $verb} 
     if($itemVerb -eq $null){ 
-      $errorMessage = "TaskBar verb not found for $item. It may have already been pinned"
+      Write-Host "TaskBar verb not found for $item. It may have already been pinned"
     } else { 
         $itemVerb.DoIt() 
     } 
