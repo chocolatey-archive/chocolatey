@@ -2,7 +2,9 @@ $scriptPath = (Split-Path -parent $MyInvocation.MyCommand.path)
 $identity  = [System.Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object System.Security.Principal.WindowsPrincipal( $identity )
 $isAdmin = $principal.IsInRole( [System.Security.Principal.WindowsBuiltInRole]::Administrator )
-$pesterDir = (dir $env:ChocolateyInstall/lib/Pester*)[-1]
+$chocoDir = $env:ChocolateyInstall
+if(!$chocoDir){$chocoDir="$env:SystemDrive\chocolatey"}
+$pesterDir = (dir $chocoDir\lib\Pester*)[-1]
 
 if(-not $isAdmin){
     $psi = New-Object System.Diagnostics.ProcessStartInfo
