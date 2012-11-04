@@ -19,6 +19,21 @@ Describe "Install-ChocolateyVsixPackage" {
     }
   }
 
+  Context "When not Specifying a version and only 10 is installed" {
+    Mock Get-ChildItem {@{Name="path\10.0";Property=@("InstallDir");PSPath="10";Length=$false}}
+    Mock get-itemproperty {@{InstallDir=$Path}}
+    Mock Get-ChocolateyWebFile
+    Mock Write-Debug
+    Mock Write-ChocolateySuccess
+    Mock Write-ChocolateyFailure
+    Mock Install-Vsix
+
+    Install-ChocolateyVsixPackage "package" "url"
+    It "should install for version 10" {
+        Assert-MockCalled Write-Debug -ParameterFilter {$message -like "*10\VsixInstaller.exe" }
+    }
+  }
+
   Context "When Specifying a specific version that version is installed" {
     Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
     Mock get-itemproperty {@{InstallDir=$Path}}
@@ -78,7 +93,7 @@ Describe "Install-ChocolateyVsixPackage" {
     }
   }
 
-  Context "When Installer returns an exit code > 0" {
+  Context "When Installer returns an exit code error" {
     Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
     Mock get-itemproperty {@{InstallDir=$Path}}
     Mock Get-ChocolateyWebFile
@@ -92,4 +107,18 @@ Describe "Install-ChocolateyVsixPackage" {
     }
   }
 
+  Context "When VSIX is already installed" {
+    Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
+    Mock get-itemproperty {@{InstallDir=$Path}}
+    Mock Get-ChocolateyWebFile
+    Mock Write-Debug
+    Mock Write-ChocolateySuccess
+    Mock Write-ChocolateyFailure
+    Mock Install-Vsix {return 1001}
+
+    Install-ChocolateyVsixPackage "package" "url"
+    It "should succeed" {
+        Assert-MockCalled Write-ChocolateySuccess
+    }
+  }
 }

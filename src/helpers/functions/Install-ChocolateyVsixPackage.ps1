@@ -39,7 +39,11 @@ param(
     Write-Debug "Running 'Install-ChocolateyVsixPackage' for $packageName with url:`'$vsixUrl`', version: $vsVersion ";
     if($vsVersion -eq 0) {
         $versions=(get-ChildItem HKLM:SOFTWARE\Wow6432Node\Microsoft\VisualStudio -ErrorAction SilentlyContinue | ? { ($_.Name -match ".*\\[0-9\.]+$") } | ? {$_.property -contains "InstallDir"} | sort {$_.Name} -descending)
-        if($versions){$version = $versions[0]}
+        if($versions -and $versions.Length){
+            $version = $versions[0]
+        }elseif($versions){
+            $version = $versions
+        }
     }
     else {
         $version=(get-ChildItem HKLM:SOFTWARE\Wow6432Node\Microsoft\VisualStudio -ErrorAction SilentlyContinue | ? { ($_.Name.EndsWith("$vsVersion.0")) } | ? {$_.property -contains "InstallDir"} | sort {$_.Name} -descending)
@@ -64,7 +68,7 @@ param(
         }
         Write-Debug "Installing VSIX using $installer"
         $exitCode = Install-Vsix "$installer" "$download"
-        if($exitCode -gt 0) {
+        if($exitCode -gt 0 -and $exitCode -ne 1001) { #1001: Already installed
             Write-ChocolateyFailure $packageName "There was an error installing '$packageName'. The exit code returned was $exitCode."
             return
         }
