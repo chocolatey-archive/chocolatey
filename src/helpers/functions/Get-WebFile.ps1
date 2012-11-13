@@ -93,7 +93,7 @@ param(
           $output += $encoding.GetString($buffer,0,$count)
        } elseif(!$quiet) {
           $total += $count
-          if($goal -gt 0 -and ++$iterLoop%100 -eq 0) {
+          if($goal -gt 0 -and ++$iterLoop%25 -eq 0) {
              Write-Progress "Downloading $url to $fileName" "Saving $total of $goal" -id 0 -percentComplete (($total/$goal)*100) 
           }
           if ($total -eq $goal) {
