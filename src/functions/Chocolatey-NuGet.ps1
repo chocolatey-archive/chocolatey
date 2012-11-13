@@ -5,9 +5,10 @@ param(
   [string] $version = '',
   [string] $installerArguments = ''
 )
-  Write-Debug "Running 'Chocolatey-NuGet' for $packageName with source:`'$source`'";
+  Write-Debug "Running 'Chocolatey-NuGet' for $packageName with source:`'$source`'. Force? $force";
 
   if ($packageName -eq 'all') { 
+    Write-Debug "Running install all";
     Chocolatey-InstallAll $source
     return
   }
@@ -25,11 +26,12 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
   foreach ($line in $nugetOutput) {
     Write-Debug "Evaluating NuGet output for line: $line"
 
-    if ($line -like "*already installed." -and $force -eq $false) {
-      Write-Host "$line - If you want to reinstall the current version of an existing package, please use the -force command." -ForegroundColor $Warning -BackgroundColor Black
+    if ($line -like "*already installed*" -and $force -eq $false) {
+      Write-Host "$line" # does not show up when combined with the line below
+      Write-Host "If you want to reinstall the current version of an existing package, please use the -force command." -ForegroundColor $Warning -BackgroundColor Black
       Write-Host ""
     }
-    if ($line -notlike "*not installed*" -and ($line -notlike "*already installed." -or $force -eq $true) -and $line -notlike "Attempting to resolve dependency*") {
+    if ($line -notlike "*not installed*" -and ($line -notlike "*already installed*" -or $force -eq $true) -and $line -notlike "Attempting to resolve dependency*") {
       $installedPackageName = ''
       $installedPackageVersion = ''
     
