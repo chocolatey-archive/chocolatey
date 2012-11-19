@@ -35,8 +35,12 @@ chocolatey package installs.
   #Path gets special treatment b/c it munges the two together
   $paths = 'Machine', 'User' |
     % {
-      [Environment]::GetEnvironmentVariable('PATH', $_) -split ';'
+      (Get-EnvironmentVar 'PATH' $_) -split ';'
     } |
     Select -Unique
   $Env:PATH = $paths -join ';'
+}
+
+function Get-EnvironmentVar($key, $scope) {
+  [Environment]::GetEnvironmentVariable($key, $scope)
 }
