@@ -11,7 +11,7 @@ param(
   if ($packageName -eq 'all') {
     Write-Debug "Reading all packages in $nugetLibPath"
     $packageFolders = Get-ChildItem $nugetLibPath | sort name
-    $packages = $packageFolders -replace "(\.\d{1,})+"|gu 
+    $packages = $packageFolders -replace "(\.\d.*)+"|gu 
   }
   
   $srcArgs = Get-SourceArguments $source
