@@ -57,7 +57,7 @@ param(
           $verMessage = "Latest version installed"
       }
       if ($versionLatestCompare -lt $versionFoundCompare) {
-          $verMessage = "$verMessage You must be smarter than the average bear..."
+          $verMessage = "Your version is newer than the most recent. You must be smarter than the average bear..."
       }
       if ($versionLatest -eq '') {
           $verMessage = "$package does not appear to be on the source(s) specified: "
