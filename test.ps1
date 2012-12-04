@@ -5,7 +5,7 @@ $isAdmin = $principal.IsInRole( [System.Security.Principal.WindowsBuiltInRole]::
 $chocoDir = $env:ChocolateyInstall
 if(!$chocoDir){$chocoDir="$env:SystemDrive\chocolatey"}
 $pesterDir = (dir $chocoDir\lib\Pester*)
-if($pesterDir -gt 0) {$pesterDir = $pesterDir[-1]}
+if($pesterDir.length -gt 0) {$pesterDir = $pesterDir[-1]}
 
 if(-not $isAdmin){
     $psi = New-Object System.Diagnostics.ProcessStartInfo
