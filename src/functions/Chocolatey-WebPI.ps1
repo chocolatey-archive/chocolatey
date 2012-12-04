@@ -11,7 +11,7 @@ param(
 
   
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWebPiInstall.log';
-  Remove-LastInstallLog $chocoInstallLog
+  Append-Log $chocoInstallLog
  
   $packageArgs = "/c webpicmd /Install /AcceptEula /SuppressReboot /Products:$packageName"
   if ($installerArguments -ne '') {

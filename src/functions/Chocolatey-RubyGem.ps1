@@ -17,7 +17,7 @@ param(
 
   
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyRubyInstall.log';
-  Remove-LastInstallLog $chocoInstallLog
+  Append-Log $chocoInstallLog
  
   $packageArgs = "/c gem install $packageName"
   if ($version -notlike '') {

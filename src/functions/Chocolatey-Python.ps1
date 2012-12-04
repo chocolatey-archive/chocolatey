@@ -19,7 +19,7 @@ param(
   
 
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyPythonInstall.log';
-  Remove-LastInstallLog $chocoInstallLog
+  Append-Log $chocoInstallLog
  
   $packageArgs = "/c easy_install $packageName"
   if ($version -notlike '') {

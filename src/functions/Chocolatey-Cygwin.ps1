@@ -11,7 +11,7 @@ param(
   Write-Host "Chocolatey (v$chocVer) is installing $packageName and dependencies (using Cygwin). By installing you accept the license for $packageName and each dependency you are installing." -ForegroundColor $RunNote -BackgroundColor Black
   
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyCygwinInstall.log';
-  Remove-LastInstallLog $chocoInstallLog
+  Append-Log $chocoInstallLog
  
   $packageArgs = "/c cyg-get $packageName"
   # if ($version -notlike '') {

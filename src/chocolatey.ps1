@@ -71,7 +71,7 @@ if(Test-Path($extensionsPath)) {
 }
 
 #main entry point
-#Remove-LastInstallLog
+Append-Log
 
 switch -wildcard ($command) 
 {
