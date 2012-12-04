@@ -13,7 +13,7 @@ param(
 
   $chocoPath = (Split-Path -parent $helpersPath)
   $chocoInstallLog = Join-Path $chocoPath 'chocolateyInstall.log'
-  "[ERROR] $Message" | Out-File -FilePath $chocoInstallLog -Force -Append
+  "$(get-date -format 'yyyyMMdd-HH:mm:ss') [ERROR] $Message" | Out-File -FilePath $chocoInstallLog -Force -Append
 
   $oc = Get-Command 'Write-Error' -Module 'Microsoft.PowerShell.Utility' 
   & $oc @PSBoundParameters
