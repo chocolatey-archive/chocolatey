@@ -19,7 +19,7 @@ param(
   Write-Debug "based on: `'$srcArgs`' feed"
   
   foreach ($package in $packages) {
-    $packageArgs = "list ""$package"" $srcArgs"
+    $packageArgs = "list ""$package"" $srcArgs -NonInteractive"
     if ($prerelease -eq $true) {
       $packageArgs = $packageArgs + " -Prerelease";
     }

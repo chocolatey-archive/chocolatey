@@ -38,11 +38,11 @@ param(
     }
     
     if ($verbosity -eq $true) {
-      $parameters = "$parameters -verbose";
+      $parameters = "$parameters -verbosity detailed";
     }
 
     Write-Debug "Calling nuget with `'$parameters $srcArgs`'"
-    $parameters = "$parameters $srcArgs"
+    $parameters = "$parameters $srcArgs -NonInteractive"
 
     Start-Process $nugetExe -ArgumentList $parameters -NoNewWindow -Wait 
   }
