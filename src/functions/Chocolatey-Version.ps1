@@ -40,9 +40,16 @@ param(
     }
     
     if (!$localOnly) {
+      Write-Debug "Calling `'$nugetExe`' $packageArgs"
       Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile
       Start-Sleep 1 #let it finish writing to the config file
-      $versionLatest = Get-Content $logFile | ?{$_ -match "^$package\s+\d+"} | sort $_ -Descending | select -First 1 
+      
+      $nugetOutput = Get-Content $logFile
+      foreach ($line in $nugetOutput) {
+        if ($line -ne $null) {Write-Debug $line;}
+      }
+      
+      $versionLatest = $nugetOutput | ?{$_ -match "^$package\s+\d+"} | sort $_ -Descending | select -First 1 
       $versionLatest = $versionLatest -replace "$package ", "";
       #todo - make this compare prerelease information as well
       $versionLatestCompare = Get-LongPackageVersion $versionLatest
