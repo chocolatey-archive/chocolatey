@@ -2,7 +2,7 @@ function Get-LongPackageVersion {
 param(
   [string] $packageVersion = ''
 )
-  $longVersion = $packageVersion.Split('-')[0].Split('.') | %{('0' * (8 - $_.Length)) + $_}
+  $longVersion = $packageVersion.Split('-')[0].Split('.') | %{('0' * (12 - $_.Length)) + $_}
   
   $longVersionReturn = [System.String]::Join('.',$longVersion)
   
