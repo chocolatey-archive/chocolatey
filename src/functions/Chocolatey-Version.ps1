@@ -60,7 +60,7 @@ param(
       }    
       
       $verMessage = "A more recent version is available"
-      if ($versionLatest -eq $versionFound) { 
+      if ($versionLatestCompare -eq $versionFoundCompare) { 
           $verMessage = "Latest version installed"
       }
       if ($versionLatestCompare -lt $versionFoundCompare) {
