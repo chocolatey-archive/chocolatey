@@ -6,9 +6,9 @@ Describe "When calling Get-LongPackageVersion normally" {
   $shortVersion = '0.1.3'
   $packageVersions = @($shortVersion)
   $returnValue = Get-LongPackageVersion $packageVersions
-  $expectedValue = '00000000.00000001.00000003'
+  $expectedValue = '000000000000.000000000001.000000000003'
   
-  It "should return a long version string with 8 fields of padding back" {
+  It "should return a long version string with 12 fields of padding back" {
     $returnValue.should.be($expectedValue)
   }  
 }
@@ -17,7 +17,7 @@ Describe "When calling Get-LongPackageVersion with a version that has a date val
   $shortVersion = '2.0.1.20120225'
   $packageVersions = @($shortVersion)
   $returnValue = Get-LongPackageVersion $packageVersions
-  $expectedValue = '00000002.00000000.00000001.20120225'
+  $expectedValue = '000000000002.000000000000.000000000001.000020120225'
   
   It "should not error" {}
   
@@ -30,7 +30,7 @@ Describe "When calling Get-LongPackageVersion with prerelease package version" {
   $shortVersion = '2.0.1.3-alpha1'
   $packageVersions = @($shortVersion)
   $returnValue = Get-LongPackageVersion $packageVersions
-  $expectedValue = '00000002.00000000.00000001.00000003.alpha1'
+  $expectedValue = '000000000002.000000000000.000000000001.000000000003.alpha1'
   
   It "should not error" {}
   
@@ -43,7 +43,7 @@ Describe "When calling Get-LongPackageVersion with prerelease package version th
   $shortVersion = '2.0.1.3-alpha-1'
   $packageVersions = @($shortVersion)
   $returnValue = Get-LongPackageVersion $packageVersions
-  $expectedValue = '00000002.00000000.00000001.00000003.alpha-1'
+  $expectedValue = '000000000002.000000000000.000000000001.000000000003.alpha-1'
   
   It "should not error" {}
   
