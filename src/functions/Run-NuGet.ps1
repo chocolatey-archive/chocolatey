@@ -7,9 +7,9 @@ param(
   Write-Debug "Running 'Run-NuGet' for $packageName with source: `'$source`', version:`'$version`'";
   Write-Debug "___ NuGet ____"
 
-  	$srcArgs = Get-SourceArguments $source
+  $srcArgs = Get-SourceArguments $source
 
-  $packageArgs = "install $packageName -Outputdirectory `"$nugetLibPath`" $srcArgs"
+  $packageArgs = "install $packageName -Outputdirectory `"$nugetLibPath`" $srcArgs -NonInteractive"
   if ($version -notlike '') {
     $packageArgs = $packageArgs + " -Version $version";
   }
@@ -19,7 +19,7 @@ param(
   }
   $logFile = Join-Path $nugetChocolateyPath 'install.log'
   $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
-  Write-Debug "Calling NuGet.exe $packageArgs"
+  Write-Debug "Calling `'$nugetExe`' $packageArgs"
 
   $process = New-Object system.Diagnostics.Process
   $process.StartInfo = new-object System.Diagnostics.ProcessStartInfo($nugetExe, $packageArgs)
