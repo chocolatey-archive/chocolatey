@@ -47,6 +47,9 @@ param(
   Write-Debug "Running 'Install-ChocolateyInstallPackage' for $packageName with file:`'$file`', args: `'$silentArgs`' ";
   $installMessage = "Installing $packageName..."
   write-host $installMessage
+  
+  $ignoreFile = $file + '.ignore'
+  '' | out-file $ignoreFile
 
   $additionalInstallArgs = $env:chocolateyInstallArguments;
   if ($additionalInstallArgs -eq $null) { $additionalInstallArgs = ''; }
