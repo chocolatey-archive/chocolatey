@@ -8,8 +8,10 @@ if '%1'=='?' goto usage
 if '%1'=='/help' goto usage
 if '%1'=='help' goto usage
 
-@PowerShell -NoProfile -NoLogo -ExecutionPolicy unrestricted -Command "[System.Threading.Thread]::CurrentThread.CurrentCulture = ''; [System.Threading.Thread]::CurrentThread.CurrentUICulture = '';& '%DIR%chocolatey.ps1' %*"
+@PowerShell -NoProfile -NoLogo -ExecutionPolicy unrestricted -Command "[System.Threading.Thread]::CurrentThread.CurrentCulture = ''; [System.Threading.Thread]::CurrentThread.CurrentUICulture = '';& '%DIR%chocolatey.ps1' %* ;"exit $LastExitCode""
+SET ErrLvl=%ERRORLEVEL%
 "%DIR%RefreshEnv.cmd"
+exit /b %ErrLvl%
 goto :eof
 :usage
 
