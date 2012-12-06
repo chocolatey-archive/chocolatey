@@ -82,4 +82,10 @@ param(
       $versionsObj
     }
   }
+
+  # exit error 1 if querying a single package, no version returned, and not called from another function (ie cup)
+  $commandType=((Get-Variable -Name MyInvocation -Scope 1 -ValueOnly).MyCommand).CommandType
+  if ($packages.count -eq 1 -and $versionFound -eq 'no version' -and $commandType -ne 'Function') {
+    throw ""
+  }
 }
