@@ -18,6 +18,6 @@ param(
   $s = [System.Diagnostics.Process]::Start($psi);
   $s.WaitForExit();
   if ($s.ExitCode -ne 0) {
-    Write-Host "[ERROR] Running $file with $arguments was not successful." -ForegroundColor White -BackgroundColor DarkRed
+    throw "[ERROR] Running $file with $arguments was not successful."
   }
 }

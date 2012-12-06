@@ -21,14 +21,15 @@ param(
     $entries = $feed | select -ExpandProperty feed | select -ExpandProperty entry  
     foreach ($entry in $entries) {
       if ($entry.properties.id -ne $null) {
-        Chocolatey-NuGet $entry.properties.id -version $entry.properties.version -source $source
+        Invoke-ChocolateyFunction "Chocolatey-Nuget" @("$entry.properties.id","-version $entry.properties.version","-source $source") 
+
       }
     } 
   } else {
     $files = get-childitem $source -include *.nupkg -recurse
     foreach ($file in $files) {
       $packageName = $file.Name -replace "(\.\d{1,})+.nupkg"
-      Chocolatey-NuGet $packageName -source $source
+      Invoke-ChocolateyFunction "Chocolatey-Nuget" @($packageName," -source $source") 
     }
   }
 }

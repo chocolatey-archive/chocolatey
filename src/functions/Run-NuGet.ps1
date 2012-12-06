@@ -42,8 +42,7 @@ param(
   }
 
   if ($errors -ne '') {
-    Write-Host $errors -BackgroundColor Red -ForegroundColor White
-    #Throw $errors
+    Throw $errors
   }
   
   if (($nugetOutput -eq '' -or $nugetOutput -eq $null) -and ($errors -eq '' -or $errors -eq $null)) {

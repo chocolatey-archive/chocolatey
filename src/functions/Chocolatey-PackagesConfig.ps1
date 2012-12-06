@@ -10,7 +10,7 @@ param(
     Write-Debug "No file exists at `'$packagesConfigPath`'"
     if (-not($($packagesConfigPath).Contains('\'))) {
       Write-Debug "Going to attempt to install $packagesConfigPath as regular chocolatey package."
-      Chocolatey-NuGet $packagesConfigPath
+      Invoke-ChocolateyFunction "Chocolatey-Nuget" @($packagesConfigPath)
     }
     
     return
