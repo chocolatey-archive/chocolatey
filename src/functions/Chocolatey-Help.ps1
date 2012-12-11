@@ -17,23 +17,7 @@ $h2
 $h2
 Release Notes
 $h2
-NOTE: Abbreviated, please see the wiki (https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes) for the full set of notes.
-v0.9.8
- * .15
-  - Enhancement - Chocolatey's default folder is now C:\Chocolatey (breaking change)
-  - Enhancement - Use -force to reinstall existing packages (breaking change)
-  - Install now supports all with a custom package source to install every package from a source!
-  - Enhancement - Support Prerelease flag for Install, Update, Version, and List
-  - Fix - Now parses the correct version of a package you have installed
- * .16
-  - Install upgrade fix
- * .17
-  - New Command! Uninstall - chocolatey uninstall (cuninst) will uninstall packages. Expect support for this to get smoother over the next few versions.
-  - New Command! Cygwin - chocolatey cygwin (ccygwin) will install Cygwin packages. Alternatively, you can specify cinst -source cygwin
-  - New Command! Python - chocolatey python (cpython) will install Python packages. Alternatively, you can specify cinst -source python
-  - Enhancement/Fix - Prerelease packages are better  supported
-  - Enhancement - added -debug switch
-  - Fix - Packages.config works without sources specified now
+Please see the wiki (https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes) for the full set of notes.
 $h2
 $h2
 using (var legalese = new LawyerText()) {
