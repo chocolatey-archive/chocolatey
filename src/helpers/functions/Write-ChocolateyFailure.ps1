@@ -10,7 +10,8 @@ param(
   $successLog = Join-Path $tempDir 'success.log'
   try {
     if ([System.IO.File]::Exists($successLog)) {
-      $oldSuccessLog = Join-Path "$successLog" '.old'
+      $oldSuccessLog = "$successLog".replace('.log','.log.old')
+      write-debug "Renaming `'$successLog`' to `'$oldSuccessLog`'"
       Move-Item $successLog $oldSuccessLog -Force
       #[System.IO.File]::Move($successLog,(Join-Path ($successLog) '.old'))
     }
