@@ -37,26 +37,23 @@ param(
   [string] $url64bit = $url
 )
   Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`',and url64bit:`'$url64bit`'";
-  
   $url32bit = $url;
-  $processor = Get-WmiObject Win32_Processor
-  $procCount=(Get-WmiObject Win32_ComputerSystem).NumberofProcessors
-  if ($procCount -eq '1') {
-     $is64bit = $processor.AddressWidth -eq 64
-     Write-Debug "Processor width is $($processor.AddressWidth)."
-	 } else {
-	 Write-Debug "First processor width is $($processor[0].AddressWidth)."
-	 $is64bit = $processor[0].AddressWidth -eq 64
-	 }
-  $systemBit = '32 bit'
-  if ($is64bit) {
-    $systemBit = '64 bit';
-    $url = $url64bit;
+  
+  if (Get-ProcessorBits 64) {
+	$bitWidth = 64
+	$url = $url64bit;
+  } else { # I am just assuming that it's either 32 or 64. 
+	$bitWidth = 32
+  }
+  Write-Debug "CPU is $bitWidth bit"
+  
+  if ($url32bit -eq $url64bit) {
+	$bitPackage = 32
+  } else {
+	$bitPackage = $bitWidth
   }
   
-  $downloadMessage = "Downloading $packageName ($url) to $fileFullPath"
-  if ($url32bit -ne $url64bit) {$downloadMessage = "Downloading $packageName $systemBit ($url) to $fileFullPath.";}
-  Write-Host "$downloadMessage"
+  Write-Host "Downloading $packageName $bitWidth bit ($url) to $fileFullPath"
   #$downloader = new-object System.Net.WebClient
   #$downloader.DownloadFile($url, $fileFullPath)
   if ($url.StartsWith('http')) {
