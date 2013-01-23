@@ -121,4 +121,19 @@ Describe "Install-ChocolateyVsixPackage" {
         Assert-MockCalled Write-ChocolateySuccess
     }
   }
+
+  Context "When package name has spaces" {
+    Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
+    Mock get-itemproperty {@{InstallDir=$Path}}
+    Mock Get-ChocolateyWebFile
+    Mock Write-Debug
+    Mock Write-ChocolateySuccess
+    Mock Write-ChocolateyFailure
+    Mock Install-Vsix
+
+    Install-ChocolateyVsixPackage "package name" "url"
+    It "should remove spaces" {
+        Assert-MockCalled Install-Vsix -ParameterFilter {$installFile -eq "$env:temp\packagename.vsix"}
+    }
+  }
 }
