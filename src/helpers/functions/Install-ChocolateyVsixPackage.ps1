@@ -12,15 +12,20 @@ you call it the same as your nuget package id.
 The URL of the package to be installed
 
 .PARAMETER VsVersion
-The version of Visual Studio where the package should 
-be installed. This is optional. If not specified, the 
-most recent Visual Studio installation will be 
-targetted.
+The Major version number of Visual Studio where the 
+package should be installed. This is optional. If not 
+specified, the most recent Visual Studio installation 
+will be targetted.
 
 .EXAMPLE
 Install-ChocolateyVsixPackage "MyPackage" http://visualstudiogallery.msdn.microsoft.com/ea3a37c9-1c76-4628-803e-b10a109e7943/file/73131/1/AutoWrockTestable.vsix
 
 This downloads the AutoWrockTestable VSIX from the Visual Studio Gallery and installs it to the latest version of VS.
+
+.EXAMPLE
+Install-ChocolateyVsixPackage "MyPackage" http://visualstudiogallery.msdn.microsoft.com/ea3a37c9-1c76-4628-803e-b10a109e7943/file/73131/1/AutoWrockTestable.vsix 11
+
+This downloads the AutoWrockTestable VSIX from the Visual Studio Gallery and installs it to Visual Studio 2012 (v11.0). 
 
 .NOTES
 VSIX packages are Extensions for the Visual Studio IDE. 
