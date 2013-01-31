@@ -22,7 +22,7 @@ param(
   $logFile = Join-Path $tempDir 'success.log'
   #Write-Host "Writing to $logFile"
 
-  $successMessage = "$packageName has finished succesfully! The chocolatey gods have answered your request!"
+  $successMessage = "$packageName has finished successfully! The chocolatey gods have answered your request!"
   $successMessage | Out-File -FilePath $logFile -Force -Append
   Write-Host $successMessage
 }
