@@ -44,18 +44,6 @@ param(
   
   Write-Debug "Running 'Get-ChocolateyUnzip' with fileFullPath:`'$fileFullPath`'',destination:$destination";
 
-  Write-Host "Extracting $fileFullPath to $destination..."
-  if (![System.IO.Directory]::Exists($destination)) {[System.IO.Directory]::CreateDirectory($destination)}
-  
-  #for logging
-  $originalContents = Get-ChildItem -Recurse $destination | % { $_.FullName }
-  
-  $shellApplication = new-object -com shell.application 
-  $zipPackage = $shellApplication.NameSpace($fileFullPath) 
-  $destinationFolder = $shellApplication.NameSpace($destination)
-  $zipPackageItems = $zipPackage.Items()
-  $destinationFolder.CopyHere($zipPackageItems,0x14) 
-
   if ($packageName) {
     $packagelibPath=$env:chocolateyPackageFolder
     if (!(Test-Path -path $packagelibPath)) {
@@ -64,9 +52,50 @@ param(
  
     $zipFilename=split-path $zipfileFullPath -Leaf
     $zipExtractLogFullPath=join-path $packagelibPath $zipFilename`.txt
-
-    $newContents = Get-ChildItem -Recurse $destination | % { $_.FullName }
-    Compare-Object $originalContents $newContents | ? { $_.SideIndicator -eq "=>"} | % { $_.InputObject } | Add-Content $zipExtractLogFullPath
   }
+
+  Write-Host "Extracting $fileFullPath to $destination..."
+  if (![System.IO.Directory]::Exists($destination)) {[System.IO.Directory]::CreateDirectory($destination)}
+  
+  $shellApplication = new-object -com shell.application 
+  $zipPackage = $shellApplication.NameSpace($fileFullPath) 
+  $destinationFolder = $shellApplication.NameSpace($destination)
+  $zipPackageItems = $zipPackage.Items()
+
+  if ($zipExtractLogFullPath) {
+    Write-FileUpdateLog $zipExtractLogFullPath $destination {$destinationFolder.CopyHere($zipPackageItems,0x14)}
+  } else {
+    $destinationFolder.CopyHere($zipPackageItems,0x14) 
+  }
+
   return $destination
+}
+
+function Write-FileUpdateLog {
+  param (
+    [string] $logFilePath,
+    [string] $locationToMonitor,
+    [scriptblock] $operationToLog    
+  )
+
+  $originalContents = Get-ChildItem -Recurse $locationToMonitor | Select-Object LastWriteTimeUTC,FullName
+
+  . $operationToLog
+
+  $newContents = Get-ChildItem -Recurse $locationToMonitor | Select-Object LastWriteTimeUTC,FullName
+
+  if($originalContents -eq $null) {$originalContents = @()}
+  if($newContents -eq $null) {$newContents = @()}
+  
+  $changedFiles = Compare-Object $originalContents $newContents -Property LastWriteTimeUtc -PassThru | Group-Object FullName
+
+  #log modified files
+  $changedFiles | ? {$_.Count -gt 1} | % {$_.Name} | % Add-Content $logFilePath
+ 
+  #log added files
+  $addOrDelete = $changedFiles | ? { $_.Count -eq 1 } | % {$_.Group}
+  $addOrDelete | ? {$_.SideIndicator -eq "=>"} | % {$_.FullName} | Add-Content $logFilePath
+
+  #log deleted files
+  #$addOrDelete | ? {$_.SideIndicator -eq "<="} | % {$_.FullName} | Add-Content $logFilePath
 }
