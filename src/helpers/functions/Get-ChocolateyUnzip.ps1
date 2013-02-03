@@ -47,6 +47,9 @@ param(
   Write-Host "Extracting $fileFullPath to $destination..."
   if (![System.IO.Directory]::Exists($destination)) {[System.IO.Directory]::CreateDirectory($destination)}
   
+  #for logging
+  $originalContents = Get-ChildItem -Recurse $destination | % { $_.FullName }
+  
   $shellApplication = new-object -com shell.application 
   $zipPackage = $shellApplication.NameSpace($fileFullPath) 
   $destinationFolder = $shellApplication.NameSpace($destination)
@@ -59,29 +62,11 @@ param(
       New-Item $packagelibPath -type directory
     }
  
-  $zipFilename=split-path $zipfileFullPath -Leaf
-  $zipExtractLogFullPath=join-path $packagelibPath $zipFilename`.txt
-  Get-ZipItems_Recursive $zipPackageItems $specificFolder $destination |add-content $zipExtractLogFullPath
+    $zipFilename=split-path $zipfileFullPath -Leaf
+    $zipExtractLogFullPath=join-path $packagelibPath $zipFilename`.txt
+
+    $newContents = Get-ChildItem -Recurse $destination | % { $_.FullName }
+    Compare-Object $originalContents $newContents | ? { $_.SideIndicator -eq "=>"} | % { $_.InputObject } | Add-Content $zipExtractLogFullPath
   }
   return $destination
 }
-
-function Get-ZipItems_recursive {
-  param(
-    [object]$subitems,
-    [string]$specificFolder,
-    [string]$target)
-    
-  foreach($file in $subitems) {
-    if($file.getfolder -ne $null) {
-      Get-ZipItems_recursive $file.getfolder.items() $specificfolder $target
-    }
-    $extension=".zip"
-    $pathStrip=join-path $extension $specificFolder
-    $fileIndex=$file.path.indexof("$pathStrip")+$pathStrip.Length
-    $insideZipFile=$file.path.substring($fileIndex)
-    $finalFilePath=join-path $target $insideZipFile
-    write-output $finalFilePath
-    
-  }
-} 
