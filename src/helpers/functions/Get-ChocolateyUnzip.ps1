@@ -78,16 +78,16 @@ function Write-FileUpdateLog {
     [scriptblock] $operationToLog    
   )
 
-  $originalContents = Get-ChildItem -Recurse $locationToMonitor | Select-Object LastWriteTimeUTC,FullName
+  $originalContents = Get-ChildItem -Recurse $locationToMonitor | Select-Object LastWriteTimeUTC,FullName,Length
 
   . $operationToLog
 
-  $newContents = Get-ChildItem -Recurse $locationToMonitor | Select-Object LastWriteTimeUTC,FullName
+  $newContents = Get-ChildItem -Recurse $locationToMonitor | Select-Object LastWriteTimeUTC,FullName,Length
 
   if($originalContents -eq $null) {$originalContents = @()}
   if($newContents -eq $null) {$newContents = @()}
   
-  $changedFiles = Compare-Object $originalContents $newContents -Property LastWriteTimeUtc -PassThru | Group-Object FullName
+  $changedFiles = Compare-Object $originalContents $newContents -Property LastWriteTimeUtc,FullName,Length -PassThru | Group-Object FullName
 
   #log modified files
   $changedFiles | ? {$_.Count -gt 1} | % {$_.Name} | Add-Content $logFilePath
