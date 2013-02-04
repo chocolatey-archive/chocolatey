@@ -90,7 +90,7 @@ function Write-FileUpdateLog {
   $changedFiles = Compare-Object $originalContents $newContents -Property LastWriteTimeUtc -PassThru | Group-Object FullName
 
   #log modified files
-  $changedFiles | ? {$_.Count -gt 1} | % {$_.Name} | % Add-Content $logFilePath
+  $changedFiles | ? {$_.Count -gt 1} | % {$_.Name} | Add-Content $logFilePath
  
   #log added files
   $addOrDelete = $changedFiles | ? { $_.Count -eq 1 } | % {$_.Group}
