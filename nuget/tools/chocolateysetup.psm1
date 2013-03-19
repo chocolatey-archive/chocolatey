@@ -8,6 +8,7 @@ function Set-ChocolateyInstallFolder($folder){
   #if(test-path $folder){
     write-host "Creating $chocInstallVariableName as a User Environment variable and setting it to `'$folder`'"
     [Environment]::SetEnvironmentVariable($chocInstallVariableName, $folder, [System.EnvironmentVariableTarget]::User)
+    Set-Content "env:\$chocInstallVariableName" -value $folder -force
   #}
   #else{
   #  throw "Cannot set the chocolatey install folder. Folder not found [$folder]"
@@ -130,7 +131,8 @@ function Initialize-Chocolatey {
 		This will initialize the Chocolatey tool by
 			a) setting up the "nugetPath" (the location where all chocolatey nuget packages will be installed)
 			b) Installs chocolatey into the "nugetPath"
-			c) Adds chocolaty to the PATH environment variable so you have access to the chocolatey|cinst commands.
+            c) Instals .net 4.0 if needed
+			d) Adds chocolaty to the PATH environment variable so you have access to the chocolatey|cinst commands.
 	.PARAMETER  NuGetPath
 		Allows you to override the default path of (C:\Chocolatey\) by specifying a directory chocolaty will install nuget packages.
 
@@ -192,6 +194,7 @@ Creating Chocolatey NuGet folders if they do not already exist.
   Create-ChocolateyBinFiles $nugetChocolateyPath.ToLower().Replace($chocolateyPath.ToLower(), "%DIR%..\").Replace("\\","\") $chocolateyExePath
   Initialize-ChocolateyPath $chocolateyExePath $chocolateyExePathVariable
   Process-ChocolateyBinFiles $chocolateyExePath $chocolateyExePathVariable
+  Install-DotNet4IfMissing
   
 @"
 Chocolatey is now ready.
@@ -200,6 +203,18 @@ Run chocolatey /? for a list of functions.
 You may need to shut down and restart powershell and/or consoles first prior to using chocolatey.
 If you are upgrading chocolatey from an older version (prior to 0.9.8.15) and don't use a custom chocolatey path, please find and delete the C:\NuGet folder after verifying that C:\Chocolatey has the same contents (minus chocolateyinstall of course).
 "@ | write-host
+}
+
+function Install-DotNet4IfMissing {
+    if([IntPtr]::Size -eq 8) {$fx="framework64"} else {$fx="framework"}
+    if(!(test-path "$env:windir\Microsoft.Net\$fx\v4.0.30319")) {
+        "Downloading and installing .NET 4.0 Framework" | Write-Host
+        $env:chocolateyPackageFolder="$env:temp\chocolatey\webcmd"
+        Import-Module $env:ChocolateyInstall\chocolateyinstall\helpers\chocolateyInstaller.psm1
+        Install-ChocolateyZipPackage 'webcmd' 'http://www.iis.net/community/files/webpi/webpicmdline_anycpu.zip' $env:temp
+        Start-ChocolateyProcessAsAdmin ".'$env:temp\WebpiCmdLine.exe' /products: NetFramework4 /accepteula"
+        Remove-Module ChocolateyInstaller
+    }
 }
 
 function Upgrade-OldNuGetDirectory {
