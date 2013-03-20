@@ -1,6 +1,7 @@
 function Get-ChocolateyBins {
 param(
-  [string] $packageFolder
+  [string] $packageFolder,
+  [switch] $uninstall
 )
   Write-Debug "Running 'Get-ChocolateyBins' for $packageFolder";
 
@@ -17,9 +18,17 @@ Adding batch files for any executables found to a location on PATH. In other wor
       foreach ($file in $files) {
         if (!(test-path($file.FullName + '.ignore'))) {
           if (test-path($file.FullName + '.gui')) {
-            Generate-BinFile $file.Name.Replace(".exe","").Replace(".EXE","") $file.FullName -useStart
+            if ($uninstall) {
+              Remove-BinFile $file.Name.Replace(".exe","").Replace(".EXE","") $file.FullName
+            } else {
+              Generate-BinFile $file.Name.Replace(".exe","").Replace(".EXE","") $file.FullName -useStart
+            }
           } else {
-            Generate-BinFile $file.Name.Replace(".exe","").Replace(".EXE","") $file.FullName
+            if ($uninstall) {
+              Remove-BinFile $file.Name.Replace(".exe","").Replace(".EXE","") $file.FullName
+            } else {
+              Generate-BinFile $file.Name.Replace(".exe","").Replace(".EXE","") $file.FullName
+            }
           }
           $batchCreated = $true
         }

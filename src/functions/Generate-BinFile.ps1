@@ -11,6 +11,7 @@ param(
   $path = $path.ToLower().Replace($nugetPath.ToLower(), "%DIR%..\").Replace("\\","\")
   $pathBash = $path.Replace("%DIR%..\","`$DIR/../").Replace("\","/")
   Write-Host "Adding $packageBatchFileName and pointing to `'$path`'." -ForegroundColor $Note
+  Write-Host "Adding $packageBashFileName and pointing to `'$path`'." -ForegroundColor $Note
   if ($useStart) {
     Write-Host "Setting up $name as a non-command line application."  -ForegroundColor $Note
 "@echo off
