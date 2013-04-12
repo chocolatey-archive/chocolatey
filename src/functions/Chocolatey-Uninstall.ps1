@@ -6,12 +6,17 @@ param(
 )
   Write-Debug "Running 'Chocolatey-Uninstall' for $packageName with version:`'$version`', installerArguments: `'$installerArguments`'";
 
+  if(!$packageName) {
+	Write-ChocolateyFailure "Chocolatey-Uninstall" "Missing PackageName input parameter."
+	return
+  }
+  
   if ($packageName -eq 'all') { 
     write-host "Uninstalling all packages is not yet supported in this version. "  
 	# by default this should prompt user 2x.  Also can provide a -nuke switch for prompt bypass
     return
   }
-
+  
     Write-Host "Chocolatey (v$chocVer) is unininstalling $packageName..." -ForegroundColor $RunNote -BackgroundColor Black
   
 	
