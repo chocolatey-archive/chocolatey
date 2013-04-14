@@ -136,7 +136,7 @@ Describe "When calling Chocolatey-PackagesConfig with a packages.config manifest
   It "should error upon getting content" {}
   
   It "should return an error" {
-    $true.should.be($script:error_message -ne '')
+    $script:error_message | should not BeNullOrEmpty
   }
   
   It "should not call Chocolatey-Install" {

@@ -15,15 +15,15 @@ Describe "When calling Get-VersionsForComparison normally" {
   }  
   
   It "should have one item returned" {
-    $returnValue.Count.should.be(1)
+    $returnValue.Count  | should Be 1
   }
   
   It "should return both versions back as the first element in a hash" {
-    $returnValue."$longVersion".should.be($expectedValue."$longVersion")
+    $returnValue."$longVersion"  | should Be $expectedValue."$longVersion"
   }  
   
   It "should return the short version back as the value of the first element in the hash" {
-    $returnValue."$longVersion".should.be($shortVersion)
+    $returnValue."$longVersion"  | should Be $shortVersion
   }
 }
 
@@ -38,7 +38,7 @@ Describe "When calling Get-VersionsForComparison to add multiple of the same ite
   It "should work appropriately" {}
   
   It "should only have one item returned" {
-    $returnValue.Count.should.be(1)
+    $returnValue.Count  | should Be 1
   }
 }
 
@@ -53,7 +53,7 @@ Describe "When calling Get-VersionsForComparison with a prerelease package" {
   It "should work appropriately" {}
 
   It "should return versions in the first element" {
-    $returnValue."$longVersion".should.be($expectedValue."$longVersion")
+    $returnValue."$longVersion"  | should Be $expectedValue."$longVersion"
   }
   
 }
@@ -73,11 +73,11 @@ Describe "When calling Get-VersionsForComparison with multiple prerelease packag
   It "should work appropriately" {}
   
   It "should return the long version of the first short version" {
-    $returnValue."$longVersion1".should.be($expectedValue."$longVersion1")
+    $returnValue."$longVersion1"  | should Be $expectedValue."$longVersion1"
   }
   
   It "should return the long version of the second short version" {
-    $returnValue."$longVersion2".should.be($expectedValue."$longVersion2")
+    $returnValue."$longVersion2"  | should Be $expectedValue."$longVersion2"
   }
   
 }

@@ -18,11 +18,11 @@ Describe "When calling Get-ConfigValue for a simple return value" {
   $env:USERPROFILE = $oldProfile
 
   It "should not be null" {
-    $true.should.be($result -ne $null)
+    $true  | should Be $result -ne $null
   }
   
   It "should return the result of what we specified" {
-    $result.should.be('true')
+    $result  | should Be 'true'
   }
   
 }
@@ -44,38 +44,26 @@ Describe "When calling Get-ConfigValue for a list" {
 
   $env:USERPROFILE = $oldProfile
   It "should not be null" {
-    $true.should.be($result -ne $null)
+    $result | should Not BeNullOrEmpty
   }
   
   It "should return a type of what we specified" {
-    $result.GetType().should.be('System.Xml.XmlElement')
+    $result.GetType() | should Be 'System.Xml.XmlElement'
   }
   
   It "should contain the same number of sources as specified" {
-    $result.ChildNodes.Count.should.be(2)
+    $result.ChildNodes.Count | should Be 2
   }
   
-  It "should contain source IDs that are not null" {
+  It "should contain source IDs that are not null or empty" {
      foreach ($source in $result.source) {
-        $true.should.be($source.id -ne $null)
+        $source.id | should Not BeNullOrEmpty
      }
   }  
-  
-  It "should contain source IDs that are not empty" {
+    
+  It "should contain source values that are not null or empty" {
      foreach ($source in $result.source) {
-        $true.should.be($source.id -ne '')
-     }
-  }
-  
-  It "should contain source values that are not null" {
-     foreach ($source in $result.source) {
-        $true.should.be($source.value -ne $null)
-     }
-  }
-
-  It "should contain source values that are not empty" {
-     foreach ($source in $result.source) {
-        $true.should.be($source.value -ne '')
+        $source.value | should Not BeNullOrEmpty
      }
   }
 
@@ -85,6 +73,6 @@ Describe "When calling Get-ConfigValue for a list" {
         if ($source.id -eq 'chocolatey') { $found = $true }
     }
     
-    $found.should.be($true)
+    $found | should Be $true
   }
 }

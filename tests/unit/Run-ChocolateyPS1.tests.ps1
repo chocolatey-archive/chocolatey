@@ -13,7 +13,7 @@ Describe "When calling Run-Chocolatey.ps1 with Installer Arguments" {
   Run-ChocolateyPS1 "$env:temp\test" 'testPackage' 'install' 'real args'
 
   It "should set chocolateyInstallArguments env var to Installer Arguments" {
-    $global:installArgsInEnvironment.should.be('real args')
+    $global:installArgsInEnvironment  | should Be 'real args'
   }
 }
     

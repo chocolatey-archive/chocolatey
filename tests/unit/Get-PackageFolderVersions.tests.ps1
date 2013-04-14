@@ -14,6 +14,6 @@ Describe "When calling Get-PackageFolderVersion normally" {
   $returnValue = Get-PackageFolderVersions $packageName
 
   It "should return the output of Get-VersionsForComparison" {
-    $returnValue.should.be($returnedVersions)
+    $returnValue  | should Be $returnedVersions
   }  
 }

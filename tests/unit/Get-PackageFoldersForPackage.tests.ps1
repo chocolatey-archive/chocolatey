@@ -12,11 +12,11 @@ Describe "When calling Get-PackageFoldersForPackage normally" {
   $returnValue = Get-PackageFoldersForPackage $packageName
 
   It "should find that the folder path actually exists" {
-    $pathExists.should.be($true)
+    $pathExists  | should Be $true
   }
   
   It "should return a package folder back" {
-    $returnValue.should.be($expectedValue)
+    $returnValue  | should Be $expectedValue
   }  
 }
 
@@ -30,7 +30,7 @@ Describe "When calling Get-PackageFoldersForPackage against a folder version tha
   It "should not error" {}
   
   It "should return a package folder back" {
-    $returnValue.should.be($expectedValue)
+    $returnValue  | should Be $expectedValue
   }  
 }
 
@@ -44,7 +44,7 @@ Describe "When calling Get-PackageFoldersForPackage against a folder that has a 
   It "should not error" {}
   
   It "should return a package folder back" {
-    $returnValue.should.be($expectedValue)
+    $returnValue  | should Be $expectedValue
   }  
 }
 
@@ -58,7 +58,7 @@ Describe "When calling Get-PackageFoldersForPackage against a folder that has a 
   It "should not error" {}
   
   It "should return a package folder back" {
-    $returnValue.should.be($expectedValue)
+    $returnValue  | should Be $expectedValue
   }  
 }
 
@@ -74,7 +74,9 @@ Describe "When calling Get-PackageFoldersForPackage against multiple versions" {
   $expectedValue = "$packageName.$packageVersion1 $packageName.$packageVersion2 $packageName.$packageVersion3"
   
   It "should return multiple package folders back" {
-    $returnValue.should.be($expectedValue)
+    foreach($item in $returnValue){
+       $expectedValue | should Match $item.Name
+    }
   }  
 }
 
@@ -90,12 +92,14 @@ Describe "When calling Get-PackageFoldersForPackage against multiple versions an
   $expectedValue = "$packageName.$packageVersion1 $packageName.$packageVersion2"
   
   It "should return multiple package folders back" {
-    $returnValue.should.be($expectedValue)
+    foreach($item in $returnValue){
+       $expectedValue | should Match $item.Name
+    }
   }    
   
   It "should not return the package that is not the same name" {
     foreach ($item in $returnValue) {
-      $item.Name.Contains("sumo.$packageVersion3").should.be($false)
+      $item.Name.Contains("sumo.$packageVersion3")  | should Be $false
     }
   }  
 }

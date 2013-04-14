@@ -53,13 +53,13 @@ Describe "When calling Update-SessionEnvironment anormally" {
     $plocalSession = Get-ChildItem "Env:$('Path')"
 
     It "should properly refresh MACHINE variables set outside this session" {
-        $mlocalSession.Value.should.be($mvalue)
+        $mlocalSession.Value  | should Be $mvalue
     }
     It "should properly refresh USER variables set outside this session overriding Machine vars with same key" {
-        $ulocalSession.Value.should.be($uvalue)
+        $ulocalSession.Value  | should Be $uvalue
     }
     It "should properly refresh the PATH variable aconcatenating MACHINE and USER" {
-      $plocalSession.Value.should.be('someval2;someval1')
+      $plocalSession.Value  | should Be 'someval2;someval1'
     }
   }
   finally {
