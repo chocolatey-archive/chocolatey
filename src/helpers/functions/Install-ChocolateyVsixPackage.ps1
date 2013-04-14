@@ -43,7 +43,7 @@ param(
 )
     Write-Debug "Running 'Install-ChocolateyVsixPackage' for $packageName with url:`'$vsixUrl`', version: $vsVersion ";
     if($vsVersion -eq 0) {
-        $versions=(get-ChildItem HKLM:SOFTWARE\Wow6432Node\Microsoft\VisualStudio -ErrorAction SilentlyContinue | ? { ($_.Name -match ".*\\[0-9\.]+$") } | ? {$_.property -contains "InstallDir"} | sort {$_.Name} -descending)
+        $versions=(get-ChildItem HKLM:SOFTWARE\Wow6432Node\Microsoft\VisualStudio -ErrorAction SilentlyContinue | ? { ($_.PSChildName -match "^[0-9\.]+$") } | ? {$_.property -contains "InstallDir"} | sort {[int]($_.PSChildName)} -descending)
         if($versions -and $versions.Length){
             $version = $versions[0]
         }elseif($versions){
@@ -51,7 +51,7 @@ param(
         }
     }
     else {
-        $version=(get-ChildItem HKLM:SOFTWARE\Wow6432Node\Microsoft\VisualStudio -ErrorAction SilentlyContinue | ? { ($_.Name.EndsWith("$vsVersion.0")) } | ? {$_.property -contains "InstallDir"} | sort {$_.Name} -descending)
+        $version=(get-ChildItem HKLM:SOFTWARE\Wow6432Node\Microsoft\VisualStudio -ErrorAction SilentlyContinue | ? { ($_.PSChildName.EndsWith("$vsVersion.0")) } | ? {$_.property -contains "InstallDir"})
     }
     if($version){
         $vnum=$version.PSPath.Substring($version.PSPath.LastIndexOf('\')+1)

@@ -5,8 +5,12 @@ $base = Split-Path -parent (Split-Path -Parent $here)
 . "$base\src\helpers\functions\Install-ChocolateyVsixPackage.ps1"
 
 Describe "Install-ChocolateyVsixPackage" {
-  Context "When not Specifying a version and version 10 and 11 is installed" {
-    Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
+  Context "When not Specifying a version and version 9, 10 and 11 is installed" {
+    Mock Get-ChildItem {@(
+        @{PSChildName="9.0";Property=@("InstallDir");PSPath="9"},
+        @{PSChildName="10.0";Property=@("InstallDir");PSPath="10"},
+        @{PSChildName="11.0";Property=@("InstallDir");PSPath="11"}
+    )}
     Mock get-itemproperty {@{InstallDir=$Path}}
     Mock Get-ChocolateyWebFile
     Mock Write-Debug
@@ -20,7 +24,7 @@ Describe "Install-ChocolateyVsixPackage" {
   }
 
   Context "When not Specifying a version and only 10 is installed" {
-    Mock Get-ChildItem {@{Name="path\10.0";Property=@("InstallDir");PSPath="10";Length=$false}}
+    Mock Get-ChildItem {@{PSChildName="10.0";Property=@("InstallDir");PSPath="10";Length=$false}}
     Mock get-itemproperty {@{InstallDir=$Path}}
     Mock Get-ChocolateyWebFile
     Mock Write-Debug
@@ -35,7 +39,7 @@ Describe "Install-ChocolateyVsixPackage" {
   }
 
   Context "When Specifying a specific version that version is installed" {
-    Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
+    Mock Get-ChildItem {@(@{PSChildName="10.0";Property=@("InstallDir");PSPath="10"},@{PSChildName="11.0";Property=@("InstallDir");PSPath="11"})}
     Mock get-itemproperty {@{InstallDir=$Path}}
     Mock Get-ChocolateyWebFile
     Mock Write-Debug
@@ -60,7 +64,7 @@ Describe "Install-ChocolateyVsixPackage" {
   }
 
   Context "When the specified version of VS is not installed" {
-    Mock Get-ChildItem {@(@{Name="path\12.0";Property=@("InstallDir");PSPath="12"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
+    Mock Get-ChildItem {@(@{PSChildName="12.0";Property=@("InstallDir");PSPath="12"},@{PSChildName="11.0";Property=@("InstallDir");PSPath="11"})}
     Mock get-itemproperty {@{InstallDir=$Path}}
     Mock Write-Debug
     Mock Write-ChocolateyFailure
@@ -72,7 +76,7 @@ Describe "Install-ChocolateyVsixPackage" {
   }
 
   Context "When something goes wrong downloading the file" {
-    Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
+    Mock Get-ChildItem {@(@{PSChildName="10.0";Property=@("InstallDir");PSPath="10"},@{PSChildName="11.0";Property=@("InstallDir");PSPath="11"})}
     Mock get-itemproperty {@{InstallDir=$Path}}
     Mock Get-ChocolateyWebFile { throw "something went wrong"}
     Mock Write-ChocolateyFailure 
@@ -84,7 +88,7 @@ Describe "Install-ChocolateyVsixPackage" {
   }
 
   Context "When Installed VS version is less than 10" {
-    Mock Get-ChildItem {@(@{Name="path\8.0";Property=@("InstallDir");PSPath="path\8.0"},@{Name="path\9.0";Property=@("InstallDir");PSPath="path\9.0"})}
+    Mock Get-ChildItem {@(@{PSChildName="8.0";Property=@("InstallDir");PSPath="8.0"},@{PSChildName="9.0";Property=@("InstallDir");PSPath="9.0"})}
     Mock Write-ChocolateyFailure 
 
     Install-ChocolateyVsixPackage "package" "url"
@@ -94,7 +98,7 @@ Describe "Install-ChocolateyVsixPackage" {
   }
 
   Context "When Installer returns an exit code error" {
-    Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
+    Mock Get-ChildItem {@(@{PSChildName="10.0";Property=@("InstallDir");PSPath="10"},@{PSChildName="11.0";Property=@("InstallDir");PSPath="11"})}
     Mock get-itemproperty {@{InstallDir=$Path}}
     Mock Get-ChocolateyWebFile
     Mock Write-Debug
@@ -108,7 +112,7 @@ Describe "Install-ChocolateyVsixPackage" {
   }
 
   Context "When VSIX is already installed" {
-    Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
+    Mock Get-ChildItem {@(@{PSChildName="10.0";Property=@("InstallDir");PSPath="10"},@{PSChildName="11.0";Property=@("InstallDir");PSPath="11"})}
     Mock get-itemproperty {@{InstallDir=$Path}}
     Mock Get-ChocolateyWebFile
     Mock Write-Debug
@@ -123,7 +127,7 @@ Describe "Install-ChocolateyVsixPackage" {
   }
 
   Context "When package name has spaces" {
-    Mock Get-ChildItem {@(@{Name="path\10.0";Property=@("InstallDir");PSPath="10"},@{Name="path\11.0";Property=@("InstallDir");PSPath="11"})}
+    Mock Get-ChildItem {@(@{PSChildName="10.0";Property=@("InstallDir");PSPath="10"},@{PSChildName="11.0";Property=@("InstallDir");PSPath="11"})}
     Mock get-itemproperty {@{InstallDir=$Path}}
     Mock Get-ChocolateyWebFile
     Mock Write-Debug
