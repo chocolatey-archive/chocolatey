@@ -9,6 +9,12 @@ param(
   
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWindowsFeaturesInstall.log';
   Remove-LastInstallLog $chocoInstallLog
+  $checkStatement=@"
+`$dismInfo=(DISM /Online /Get-FeatureInfo /FeatureName:$packageName)
+if(`$dismInfo -contains 'State : Enabled') {return}
+if(`$dismInfo -contains 'State : Enable Pending') {return}
+"@
+
   $osVersion = (Get-WmiObject -class Win32_OperatingSystem).Version
  
   $packageArgs = "/c DISM /Online /NoRestart /Enable-Feature"
@@ -18,7 +24,7 @@ param(
   $packageArgs += " /FeatureName:$packageName"
   
   Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..." -ForegroundColor $Warning -BackgroundColor Black
-  $statements = "cmd.exe $packageArgs | Tee-Object -FilePath `'$chocoInstallLog`';"
+  $statements = $checkStatement + "cmd.exe $packageArgs | Tee-Object -FilePath `'$chocoInstallLog`';"
   Start-ChocolateyProcessAsAdmin "$statements" -minimized -nosleep -validExitCodes @(0,1)
 
   Create-InstallLogIfNotExists $chocoInstallLog
@@ -26,6 +32,10 @@ param(
   foreach ($line in $installOutput) {
     Write-Host $line
   }
-  
-  Write-Host "Finished installing `'$packageName`' and dependencies - if errors not shown in console, none detected. Check log for errors if unsure." -ForegroundColor $RunNote -BackgroundColor Black
+  if($installOutput.Count -eq 0) {
+    Write-Host "`'$packageName`' has already been installed - if errors not shown in console, none detected. Check log for errors if unsure." -ForegroundColor $RunNote -BackgroundColor Black
+  }
+  else {
+    Write-Host "Finished installing `'$packageName`' and dependencies - if errors not shown in console, none detected. Check log for errors if unsure." -ForegroundColor $RunNote -BackgroundColor Black
+  }
 }
