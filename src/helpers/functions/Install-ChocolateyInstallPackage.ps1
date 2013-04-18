@@ -76,5 +76,15 @@ param(
     }
   }
 
+  if($fileType -like 'msu') {
+
+    if ($overrideArguments) {
+      $msuArgs = "$file $additionalInstallArgs"
+    } else {
+      $msuArgs = "$file $silentArgs $additionalInstallArgs"
+    }
+    Start-ChocolateyProcessAsAdmin "$msuArgs" 'wusa.exe' -validExitCodes $validExitCodes
+  }
+
   write-host "$packageName has been installed."
 }
