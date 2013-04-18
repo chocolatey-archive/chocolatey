@@ -20,7 +20,7 @@ start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII
 
 "#!/bin/sh
 DIR=`${0%/*}
-""$pathBash"" `$* &" | Out-File $packageBashFileName -encoding ASCII 
+""$pathBash"" ""`$*"" &" | Out-File $packageBashFileName -encoding ASCII
  
   } else {
 "@echo off
@@ -29,6 +29,6 @@ SET DIR=%~dp0%
   
 "#!/bin/sh
 DIR=`${0%/*}
-""$pathBash"" `$*" | Out-File $packageBashFileName -encoding ASCII 
+""$pathBash"" ""`$*""" | Out-File $packageBashFileName -encoding ASCII
   }
 }
