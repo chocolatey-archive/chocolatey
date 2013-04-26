@@ -2,7 +2,7 @@
 param(
   [string] $chocoInstallLog = ''
 )
-  Write-Debug "Running 'Remove-LastInstallLog' with chocoInstallLog:`'$chocoInstallLog`'";
+  Write-Debug "Running 'Append-InstallLog' with chocoInstallLog:`'$chocoInstallLog`'";
   
   if ($chocoInstallLog -eq '') {
     $chocoInstallLog = (Join-Path $nugetChocolateyPath 'chocolateyInstall.log')
