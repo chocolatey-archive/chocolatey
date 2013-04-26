@@ -21,6 +21,10 @@ param(
   } else {  
   
   	$srcArgs = Get-SourceArguments $source
+
+    if ($localonly) {
+      $srcArgs = "-Source $nugetLibPath"
+    }
     
     $parameters = "list"
     if ($selector -ne '') {
