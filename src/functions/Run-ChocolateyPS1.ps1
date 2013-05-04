@@ -52,7 +52,7 @@ param(
         $errorContents = Get-Content $failureLog
         if ($errorContents -ne '') {
           foreach ($errorLine in $errorContents) {
-            Write-Host $errorLine -BackgroundColor $Error -ForegroundColor White
+            Write-Host $errorLine -BackgroundColor Red -ForegroundColor White
           }
           throw $errorContents
         }
