@@ -65,8 +65,11 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
         }
         
         if ($packageFolder -ne '') {
+          if ($ignoreDependencies -and $installedPackageName -ne $packageName) {
+            Remove-Item $packageFolder -force
+          } else {
 
-          Write-Host "______ $installedPackageName v$installedPackageVersion ______" -ForegroundColor $RunNote -BackgroundColor Black
+            Write-Host "______ $installedPackageName v$installedPackageVersion ______" -ForegroundColor $RunNote -BackgroundColor Black
 
             if ([System.IO.Directory]::Exists($packageFolder)) {
               try {
