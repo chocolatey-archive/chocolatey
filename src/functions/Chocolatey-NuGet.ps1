@@ -68,12 +68,19 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
 
           Write-Host "______ $installedPackageName v$installedPackageVersion ______" -ForegroundColor $RunNote -BackgroundColor Black
 
-          if ([System.IO.Directory]::Exists($packageFolder)) {
-            Delete-ExistingErrorLog $installedPackageName
-            Run-ChocolateyPS1 $packageFolder $installedPackageName "install" $installerArguments
-            Get-ChocolateyBins $packageFolder
-            if ($installedPackageName.ToLower().EndsWith('.extension')) {
-              Chocolatey-InstallExtension $packageFolder $installedPackageName
+            if ([System.IO.Directory]::Exists($packageFolder)) {
+              try {
+                Delete-ExistingErrorLog $installedPackageName
+                Run-ChocolateyPS1 $packageFolder $installedPackageName "install" $installerArguments
+                Get-ChocolateyBins $packageFolder
+                if ($installedPackageName.ToLower().EndsWith('.extension')) {
+                  Chocolatey-InstallExtension $packageFolder $installedPackageName
+                }
+            
+              } catch {
+                Move-BadInstall $installedPackageName $installedPackageVersion $packageFolder
+                Write-Error "Package `'$installedPackageName v$installedPackageVersion`' did not install successfully: $($_.Exception.Message)"
+              }
             }
           }
         }
