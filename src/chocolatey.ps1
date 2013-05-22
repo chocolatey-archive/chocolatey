@@ -12,7 +12,8 @@
   [alias("lo")][switch] $localonly = $false,
   [alias("verbose")][switch] $verbosity = $false,
   [switch] $debug,
-  [string] $name
+  [string] $name,
+  [switch] $ignoreDependencies = $false
 )
 
 # chocolatey
