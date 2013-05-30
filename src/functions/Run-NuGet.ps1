@@ -9,7 +9,7 @@ param(
 
   $srcArgs = Get-SourceArguments $source
 
-  $packageArgs = "install $packageName -Outputdirectory `"$nugetLibPath`" $srcArgs -NonInteractive"
+  $packageArgs = "install $packageName -Outputdirectory `"$nugetLibPath`" $srcArgs -NonInteractive -NoCache"
   if ($version -notlike '') {
     $packageArgs = $packageArgs + " -Version $version";
   }
