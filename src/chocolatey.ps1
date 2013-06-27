@@ -1,8 +1,6 @@
 ﻿param(
-  #[parameter(Position=0)]
+  [parameter(Position=0)]
   [string]$command,
-  #[parameter(Position=1)]
-  [string[]]$packageNames=@(''),
   [string]$source='',
   [string]$version='',
   [alias("all")][switch] $allVersions = $false,
@@ -12,11 +10,22 @@
   [switch] $force = $false,
   [alias("pre")][switch] $prerelease = $false,
   [alias("lo")][switch] $localonly = $false,
-  [alias("verbose")][switch] $verbosity = $false,
-  [switch] $debug,
+  [switch] $verbosity = $false,
+  #[switch] $debug,
   [string] $name,
-  [switch] $ignoreDependencies = $false
+  [switch] $ignoreDependencies = $false,
+  [parameter(Position=1, ValueFromRemainingArguments=$true)]
+  [string[]]$packageNames=@('')
 )
+
+[switch] $debug = $false
+if ($PSBoundParameters['Debug']) {
+ $debug = $true
+}
+
+if ($PSBoundParameters['Verbose']) {
+  $verbosity = $true
+}
 
 # chocolatey
 # Copyright (c) 2011-Present Rob Reynolds
