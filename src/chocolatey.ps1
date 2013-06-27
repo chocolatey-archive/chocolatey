@@ -1,6 +1,6 @@
 ﻿param(
   [string]$command,
-  [string]$packageName='',
+  [string[]]$packageNames=@(''),
   [string]$source='',
   [string]$version='',
   [alias("all")][switch] $allVersions = $false,
@@ -75,23 +75,39 @@ if(Test-Path($extensionsPath)) {
 #main entry point
 Append-Log
 
-switch -wildcard ($command) 
-{
-  "install" { Chocolatey-Install $packageName $source $version $installArguments; }
-  "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
-  "update" { Chocolatey-Update $packageName $source; }
-  "uninstall" {Chocolatey-Uninstall $packageName $version $installArguments; }
-  "search" { Chocolatey-List $packageName $source; }
-  "list" { Chocolatey-List $packageName $source; }
-  "version" { Chocolatey-Version $packageName $source; }
-  "webpi" { Chocolatey-WebPI $packageName $installArguments; }
-  "windowsfeatures" { Chocolatey-WindowsFeatures $packageName; }
-  "cygwin" { Chocolatey-Cygwin $packageName $installArguments; }
-  "python" { Chocolatey-Python $packageName $version $installArguments; }
-  "gem" { Chocolatey-RubyGem $packageName $version $installArguments; }
-  "pack" { Chocolatey-Pack $packageName; }
-  "push" { Chocolatey-Push $packageName $source; }
-  "help" { Chocolatey-Help; }
-  "sources" { Chocolatey-Sources $packageName $name $source; }
-  default { Write-Host 'Please run chocolatey /? or chocolatey help'; }
+$badPackages = ''
+
+foreach ($packageName in $packageNames) {
+  try {
+    switch -wildcard ($command) 
+    {
+      "install" { Chocolatey-Install $packageName $source $version $installArguments; }
+      "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
+      "update" { Chocolatey-Update $packageName $source; }
+      "uninstall" {Chocolatey-Uninstall $packageName $version $installArguments; }
+      "search" { Chocolatey-List $packageName $source; }
+      "list" { Chocolatey-List $packageName $source; }
+      "version" { Chocolatey-Version $packageName $source; }
+      "webpi" { Chocolatey-WebPI $packageName $installArguments; }
+      "windowsfeatures" { Chocolatey-WindowsFeatures $packageName; }
+      "cygwin" { Chocolatey-Cygwin $packageName $installArguments; }
+      "python" { Chocolatey-Python $packageName $version $installArguments; }
+      "gem" { Chocolatey-RubyGem $packageName $version $installArguments; }
+      "pack" { Chocolatey-Pack $packageName; }
+      "push" { Chocolatey-Push $packageName $source; }
+      "help" { Chocolatey-Help; }
+      "sources" { Chocolatey-Sources $packageName $name $source; }
+      default { Write-Host 'Please run chocolatey /? or chocolatey help'; }
+    }
+    
+  }
+  catch {
+    #nothing makes it up to here, so we are going to need to catch it further down the line
+    if ($badPackages -ne '') { $badPackages += ', '}
+    $badPackages += "$packageName"
+  }
+}
+
+if ($badPackages -ne '') {
+ write-host "Installs that failed - $badpackages" -Color $Error
 }
