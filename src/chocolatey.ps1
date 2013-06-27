@@ -1,5 +1,7 @@
 ﻿param(
+  #[parameter(Position=0)]
   [string]$command,
+  #[parameter(Position=1)]
   [string[]]$packageNames=@(''),
   [string]$source='',
   [string]$version='',
