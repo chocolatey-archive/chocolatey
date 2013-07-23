@@ -48,7 +48,7 @@ SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" %*" | Out-File $nugetChocolateyBinFile -encoding ASCII
 
 "#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename $0).bat `$*""
+""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
 exit `$?" | Out-File $nugetChocolateyBinFile.Replace(".bat","") -encoding ASCII 
 
 Write-Host "Creating `'$nugetChocolateyBinFileAlias`' so you can call 'choco' from anywhere."
@@ -57,7 +57,7 @@ SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" %*" | Out-File $nugetChocolateyBinFileAlias -encoding ASCII
 
 "#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename $0).bat `$*""
+""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
 exit `$?" | Out-File $nugetChocolateyBinFileAlias.Replace(".bat","") -encoding ASCII 
 
 Write-Host "Creating `'$nugetChocolateyInstallAlias`' so you can call 'chocolatey install' from a shortcut of 'cinst'."
@@ -66,7 +66,7 @@ SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" install %*" | Out-File $nugetChocolateyInstallAlias -encoding ASCII
 
 "#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename $0).bat `$*""
+""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
 exit `$?" | Out-File $nugetChocolateyInstallAlias.Replace(".bat","") -encoding ASCII 
 
 Write-Host "Creating `'$nugetChocolateyUpdateAlias`' so you can call 'chocolatey update' from a shortcut of 'cup'."
@@ -75,7 +75,7 @@ SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" update %*" | Out-File $nugetChocolateyUpdateAlias -encoding ASCII
 
 "#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename $0).bat `$*""
+""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
 exit `$?" | Out-File $nugetChocolateyUpdateAlias.Replace(".bat","") -encoding ASCII 
 
 Write-Host "Creating `'$nugetChocolateyListAlias`' so you can call 'chocolatey list' from a shortcut of 'clist'."
@@ -84,7 +84,7 @@ SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" list %*" | Out-File $nugetChocolateyListAlias -encoding ASCII
 
 "#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename $0).bat `$*""
+""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
 exit `$?" | Out-File $nugetChocolateyListAlias.Replace(".bat","") -encoding ASCII 
 
 Write-Host "Creating `'$nugetChocolateyVersionAlias`' so you can call 'chocolatey version' from a shortcut of 'cver'."
@@ -93,7 +93,7 @@ SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" version %*" | Out-File $nugetChocolateyVersionAlias -encoding ASCII
 
 "#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename $0).bat `$*""
+""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
 exit `$?" | Out-File $nugetChocolateyVersionAlias.Replace(".bat","") -encoding ASCII 
 
 Write-Host "Creating `'$nugetChocolateyPackAlias`' so you can call 'chocolatey pack' from a shortcut of 'cpack'."
@@ -102,7 +102,7 @@ SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" pack %*" | Out-File $nugetChocolateyPackAlias -encoding ASCII
 
 "#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename $0).bat `$*""
+""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
 exit `$?" | Out-File $nugetChocolateyPackAlias.Replace(".bat","") -encoding ASCII 
 
 Write-Host "Creating `'$nugetChocolateyPushAlias`' so you can call 'chocolatey push' from a shortcut of 'cpush'."
@@ -111,7 +111,7 @@ SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" push %*" | Out-File $nugetChocolateyPushAlias -encoding ASCII
 
 "#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename $0).bat `$*""
+""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
 exit `$?" | Out-File $nugetChocolateyPushAlias.Replace(".bat","") -encoding ASCII 
 
 Write-Host "Creating `'$nugetChocolateyUninstallAlias`' so you can call 'chocolatey uninstall' from a shortcut of 'cuninst'."
@@ -120,7 +120,7 @@ SET DIR=%~dp0%
 ""$nugetChocolateyPath\chocolatey.cmd"" uninstall %*" | Out-File $nugetChocolateyUninstallAlias -encoding ASCII
 
 "#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename $0).bat `$*""
+""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
 exit `$?" | Out-File $nugetChocolateyUninstallAlias.Replace(".bat","") -encoding ASCII 
 
 }
