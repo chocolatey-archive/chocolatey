@@ -212,7 +212,7 @@ function Install-DotNet4IfMissing {
         $env:chocolateyPackageFolder="$env:temp\chocolatey\webcmd"
         Import-Module $env:ChocolateyInstall\chocolateyinstall\helpers\chocolateyInstaller.psm1
         Install-ChocolateyZipPackage 'webcmd' 'http://www.iis.net/community/files/webpi/webpicmdline_anycpu.zip' $env:temp
-        Start-ChocolateyProcessAsAdmin ".'$env:temp\WebpiCmdLine.exe' /products: NetFramework4 /accepteula"
+        Start-ChocolateyProcessAsAdmin ".'$env:temp\WebpiCmdLine.exe' /products: NetFramework4 /SuppressReboot /accepteula"
         Remove-Module ChocolateyInstaller
     }
 }
