@@ -61,6 +61,7 @@ param(
   } elseif ($url.StartsWith('ftp')) {
     Get-FtpFile $url $fileFullPath
   } else {
+    if ($url.StartsWith('file:')) { $url = ([uri] $url).LocalPath }
     Write-Debug "We are attempting to copy the local item `'$url`' to `'$fileFullPath`'"
     Copy-Item $url -Destination $fileFullPath -Force
   }
