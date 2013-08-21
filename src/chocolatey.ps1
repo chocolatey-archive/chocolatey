@@ -84,21 +84,29 @@ if(Test-Path($extensionsPath)) {
 }
 
 # Win2003/XP do not support SNI
-if ([Environment]::OSVersion.Version -ge (new-object 'Version' 6,0)){
-  $chocoSourceIsHTTPS = $false
+if ([Environment]::OSVersion.Version -lt (new-object 'Version' 6,0)){
+  $originalSource = $source
+  Write-Debug 'This version of Windows does not support SNI, so configuring chocolatey to use Http automatically'
+  $chocoHttpExists = $false
+  $chocoHttpId = 'chocolateyHttp'
   $sources = Chocolatey-Sources 'list'
+  Write-Debug 'Checking sources to see if chocolatey http is configured'
   foreach ($source in $sources) {
-    Write-Debug 'Checking sources to see if chocolatey is using SSL'
-    if ($source.ID -eq 'chocolatey' -and $source.URI -contains 'https') {
-      $chocoSourceIsHTTPS = $true
+    if ($source.ID -eq "$chocoHttpId") {
+      Write-Debug 'ChocolateyHttp found'
+      $chocoHttpExists = $true
+      break
     }
   }
 
-  if ($chocoSourceIsHTTPS) {
+  if (!$chocoHttpExists) {
     Write-Debug 'Removing https version of chocolatey and re-adding as http'
-    Chocolatey-Sources 'remove' 'chocolatey'
-    Chocolatey-Sources 'add' 'chocolatey' 'http://chocolatey.org/api/v2/'
+    Chocolatey-Sources 'disable' 'chocolatey'
+    Chocolatey-Sources 'add' "$chocoHttpId" 'http://chocolatey.org/api/v2/'
   }
+
+  #this command fixes a small change somewhere that messes up the original source specified
+  $source = $originalSource
 }
 
 #main entry point
