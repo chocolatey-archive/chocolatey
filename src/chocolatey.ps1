@@ -83,6 +83,24 @@ if(Test-Path($extensionsPath)) {
   Get-ChildItem $extensionsPath -recurse -filter "*.psm1" | Select -ExpandProperty FullName | % { Write-Debug "Importing `'$_`'"; Import-Module $_; }
 }
 
+# Win2003/XP do not support SNI
+if ([Environment]::OSVersion.Version -ge (new-object 'Version' 6,0)){
+  $chocoSourceIsHTTPS = $false
+  $sources = Chocolatey-Sources 'list'
+  foreach ($source in $sources) {
+    Write-Debug 'Checking sources to see if chocolatey is using SSL'
+    if ($source.ID -eq 'chocolatey' -and $source.URI -contains 'https') {
+      $chocoSourceIsHTTPS = $true
+    }
+  }
+
+  if ($chocoSourceIsHTTPS) {
+    Write-Debug 'Removing https version of chocolatey and re-adding as http'
+    Chocolatey-Sources 'remove' 'chocolatey'
+    Chocolatey-Sources 'add' 'chocolatey' 'http://chocolatey.org/api/v2/'
+  }
+}
+
 #main entry point
 Append-Log
 
