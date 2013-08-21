@@ -28,7 +28,11 @@ Elevating Permissions and running $exeToRun $wrappedStatements. This may take aw
   if ($wrappedStatements -ne '') {
     $psi.Arguments = "$wrappedStatements";
   }
-  $psi.Verb = "runas";
+
+  if ([Environment]::OSVersion.Version -ge (new-object 'Version' 6,0)){
+    $psi.Verb = "runas";
+  }
+
   $psi.WorkingDirectory = get-location;
 
   if ($minimized) {
