@@ -50,6 +50,7 @@ $badLibPath = Join-Path $nuGetPath 'lib-bad'
 $extensionsPath = Join-Path $nugetPath 'extensions'
 $chocInstallVariableName = "ChocolateyInstall"
 $nugetExe = Join-Path $nugetChocolateyPath 'nuget.exe'
+$7zip = Join-Path $nugetChocolateyPath 'tools\7za.exe'
 $h1 = '====================================================='
 $h2 = '-------------------------'
 $globalConfig = ''

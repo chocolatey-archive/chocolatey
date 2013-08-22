@@ -56,16 +56,16 @@ param(
 
   Write-Host "Extracting $fileFullPath to $destination..."
   if (![System.IO.Directory]::Exists($destination)) {[System.IO.Directory]::CreateDirectory($destination)}
-  
-  $shellApplication = new-object -com shell.application 
-  $zipPackage = $shellApplication.NameSpace($fileFullPath) 
-  $destinationFolder = $shellApplication.NameSpace($destination)
-  $zipPackageItems = $zipPackage.Items()
+
+  #$shellApplication = new-object -com shell.application 
+  #$zipPackage = $shellApplication.NameSpace($fileFullPath) 
+  #$destinationFolder = $shellApplication.NameSpace($destination)
+  #$zipPackageItems = $zipPackage.Items()
 
   if ($zipExtractLogFullPath) {
-    Write-FileUpdateLog $zipExtractLogFullPath $destination {$destinationFolder.CopyHere($zipPackageItems,0x14)}
+    Write-FileUpdateLog $zipExtractLogFullPath $destination {Start-Process "$7zip" -ArgumentList "x -o`"$destination`" -y `"$fileFullPath`"" -Wait}
   } else {
-    $destinationFolder.CopyHere($zipPackageItems,0x14) 
+    Start-Process "$7zip" -ArgumentList "x -o`"$destination`" -y `"$fileFullPath`"" -Wait
   }
 
   return $destination
