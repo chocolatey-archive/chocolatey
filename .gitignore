@@ -33,3 +33,6 @@ src/*.ReSharper
 fubu-content
 spark.zip
 Test.xml
+
+.DS_Store
+*.db
