@@ -10,4 +10,4 @@ $modules | ForEach-Object {
 
 Initialize-Chocolatey
 
-start-sleep 5
+#start-sleep 5
