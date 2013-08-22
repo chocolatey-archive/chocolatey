@@ -7,7 +7,7 @@ param(
   Write-Debug "Running 'Move-BadInstall' for $packageName version: `'$version`', packageFolder:`'$packageFolder`'";
 
   #copy the bad stuff to a temp directory
-  $badPackageFolder = Join-Path $badLibPath "$($installedPackageName).$($installedPackageVersion)"
+  $badPackageFolder = $badLibPath #Join-Path $badLibPath "$($installedPackageName).$($installedPackageVersion)"
   try {
     if ([System.IO.Directory]::Exists($badPackageFolder)) {
       [System.IO.Directory]::Delete($badPackageFolder,$true) #| out-null
