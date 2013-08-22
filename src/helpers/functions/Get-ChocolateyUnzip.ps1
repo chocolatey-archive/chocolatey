@@ -37,19 +37,18 @@ param(
   [string] $packageName 
 )
   $zipfileFullPath=$fileFullPath
-  
   if ($specificfolder) {
     $fileFullPath=join-path $fileFullPath $specificFolder
-  } 
-  
-  Write-Debug "Running 'Get-ChocolateyUnzip' with fileFullPath:`'$fileFullPath`'',destination:$destination";
+  }
+
+  Write-Debug "Running 'Get-ChocolateyUnzip' with fileFullPath:`'$fileFullPath`'', destination:$destination";
 
   if ($packageName) {
     $packagelibPath=$env:chocolateyPackageFolder
     if (!(Test-Path -path $packagelibPath)) {
       New-Item $packagelibPath -type directory
     }
- 
+
     $zipFilename=split-path $zipfileFullPath -Leaf
     $zipExtractLogFullPath=join-path $packagelibPath $zipFilename`.txt
   }
@@ -75,7 +74,7 @@ function Write-FileUpdateLog {
   param (
     [string] $logFilePath,
     [string] $locationToMonitor,
-    [scriptblock] $operationToLog    
+    [scriptblock] $operationToLog
   )
 
   $originalContents = Get-ChildItem -Recurse $locationToMonitor | Select-Object LastWriteTimeUTC,FullName,Length
