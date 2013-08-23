@@ -60,7 +60,7 @@ param(
     }
 
     if ($installps1 -notlike '' -and $ps1 -like '') {
-      Write-Host "This package has a chocolateyInstall.ps1 without a chocolateyUninstall.ps1. You will need to manually reverse whatever steps the installer did. Please ask the package maker to include a chocolateyUninstall.ps1 in the file to really remove the package." -ForegroundColor $Warning -BackgroundColor Black
+      throw "This package has a chocolateyInstall.ps1 without a chocolateyUninstall.ps1. You will need to manually reverse whatever steps the installer did. Please ask the package maker to include a chocolateyUninstall.ps1 in the file to really remove the package."
     }
   }
 }

@@ -58,7 +58,7 @@ $userConfig = ''
 $env:ChocolateyEnvironmentDebug = 'false'
 $RunNote = "DarkCyan"
 $Warning = "Magenta"
-$Error = "Red"
+$ErrorColor = "Red"
 $Note = "Green"
 
 
@@ -113,33 +113,34 @@ if ([Environment]::OSVersion.Version -lt (new-object 'Version' 6,0)){
 #main entry point
 Append-Log
 
+$chocolateyErrored = $false
 $badPackages = ''
 
 foreach ($packageName in $packageNames) {
   try {
-    switch -wildcard ($command) 
-    {
-      "install" { Chocolatey-Install $packageName $source $version $installArguments; }
-      "installmissing" { Chocolatey-InstallIfMissing $packageName $source $version; }
-      "update" { Chocolatey-Update $packageName $source; }
-      "uninstall" {Chocolatey-Uninstall $packageName $version $installArguments; }
-      "search" { Chocolatey-List $packageName $source; }
-      "list" { Chocolatey-List $packageName $source; }
-      "version" { Chocolatey-Version $packageName $source; }
-      "webpi" { Chocolatey-WebPI $packageName $installArguments; }
-      "windowsfeatures" { Chocolatey-WindowsFeatures $packageName; }
-      "cygwin" { Chocolatey-Cygwin $packageName $installArguments; }
-      "python" { Chocolatey-Python $packageName $version $installArguments; }
-      "gem" { Chocolatey-RubyGem $packageName $version $installArguments; }
-      "pack" { Chocolatey-Pack $packageName; }
-      "push" { Chocolatey-Push $packageName $source; }
-      "help" { Chocolatey-Help; }
-      "sources" { Chocolatey-Sources $packageName $name $source; }
-      default { Write-Host 'Please run chocolatey /? or chocolatey help'; }
+    switch -wildcard ($command) {
+      "install"         {Invoke-ChocolateyFunction "Chocolatey-Install" @($packageName,$source,$version,$installArguments)}
+      "installmissing"  {Invoke-ChocolateyFunction "Chocolatey-InstallIfMissing" @($packageName,$source,$version)}
+      "update"          {Invoke-ChocolateyFunction "Chocolatey-Update" @($packageName,$source)}
+      "uninstall"       {Invoke-ChocolateyFunction "Chocolatey-Uninstall" @($packageName,$version,$installArguments) }
+      "search"          {Invoke-ChocolateyFunction "Chocolatey-List" @($packageName,$source)}
+      "list"            {Invoke-ChocolateyFunction "Chocolatey-List" @($packageName,$source)}
+      "version"         {Invoke-ChocolateyFunction "Chocolatey-Version" @($packageName,$source)}
+      "webpi"           {Invoke-ChocolateyFunction "Chocolatey-WebPI" @($packageName,$installArguments)}
+      "windowsfeatures" {Invoke-ChocolateyFunction "Chocolatey-WindowsFeatures" @($packageName)}
+      "cygwin"          {Invoke-ChocolateyFunction "Chocolatey-Cygwin" @($packageName,$installArguments)}
+      "python"          {Invoke-ChocolateyFunction "Chocolatey-Python" @($packageName,$version,$installArguments)}
+      "gem"             {Invoke-ChocolateyFunction "Chocolatey-RubyGem" @($packageName,$version,$installArguments)}
+      "pack"            {Invoke-ChocolateyFunction "Chocolatey-Pack" @($packageName)}
+      "push"            {Invoke-ChocolateyFunction "Chocolatey-Push" @($packageName,$source)}
+      "help"            {Invoke-ChocolateyFunction "Chocolatey-Help"}
+      "sources"         {Invoke-ChocolateyFunction "Chocolatey-Sources" @($packageName,$name,$source)}
+      default        {Write-Host 'Please run chocolatey /? or chocolatey help';}
     }
-    
   }
   catch {
+    $chocolateyErrored = $true
+    Write-Host "$_.exception.message" -BackgroundColor $ErrorColor -ForegroundColor White ;
     #nothing makes it up to here, so we are going to need to catch it further down the line
     if ($badPackages -ne '') { $badPackages += ', '}
     $badPackages += "$packageName"
@@ -147,5 +148,9 @@ foreach ($packageName in $packageNames) {
 }
 
 if ($badPackages -ne '') {
- write-host "Installs that failed - $badpackages" -Color $Error
+ write-host "Installs that failed - $badpackages" -Color $ErrorColor
+}
+
+if ($chocolateyErrored) {
+  exit 1
 }
