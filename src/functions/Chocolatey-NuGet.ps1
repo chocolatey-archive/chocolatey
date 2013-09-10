@@ -65,8 +65,9 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
         }
         
         if ($packageFolder -ne '') {
+          Write-Debug "NuGet installed $installedPackageName. If we are ignoring dependencies ($ignoreDependencies) then we will clean this up."
           if ($ignoreDependencies -and $installedPackageName -ne $packageName) {
-            Remove-Item $packageFolder -force
+            Remove-Item $packageFolder -force -recurse
           } else {
 
             Write-Host "______ $installedPackageName v$installedPackageVersion ______" -ForegroundColor $RunNote -BackgroundColor Black
