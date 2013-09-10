@@ -47,13 +47,14 @@ param(
   }
   Write-Debug "CPU is $bitWidth bit"
   
+  $bitPackage = 32
   if ($url32bit -eq $url64bit) {
 	$bitPackage = 32
   } else {
 	$bitPackage = $bitWidth
   }
   
-  Write-Host "Downloading $packageName $bitWidth bit ($url) to $fileFullPath"
+  Write-Host "Downloading $packageName $bitPackage bit ($url) to $fileFullPath"
   #$downloader = new-object System.Net.WebClient
   #$downloader.DownloadFile($url, $fileFullPath)
   if ($url.StartsWith('http')) {
