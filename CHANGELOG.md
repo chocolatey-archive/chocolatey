@@ -2,14 +2,14 @@
 
 BREAKING CHANGES:
 
- * Enhancement - For local package searching, use choco list -lo or choco search -lo. The execution speed is much better. cver for local has been deprecated. - [#276](https://github.com/chocolatey/chocolatey/issues/276)
+ * Enhancement - For local package searching, use choco list -lo or choco search -lo. The execution speed is greatly increased. cver for local has been deprecated. - [#276](https://github.com/chocolatey/chocolatey/issues/276)
 
 FEATURES:
 
  * Enhancement - Support for Server Core - [#59](https://github.com/chocolatey/chocolatey/issues/59)
  * Enhancement - Add a switch for ignoring dependencies on install `-ignoredependencies` - [#131](https://github.com/chocolatey/chocolatey/issues/131)
- * Command - choco is now a default term
- * Command - search is now a command (aliases list)
+ * Command - `choco` is now a default term
+ * Command - search is now a command (aliases list) - `choco search something [-localonly]`
  * Function - `Get-ProcessorBits` - tells you whether a processor is x86 or x64. This functionality was in chocolatey already but has been globalized for easy access. - [#231](https://github.com/chocolatey/chocolatey/issues/231) & [#229](https://github.com/chocolatey/chocolatey/issues/229)
 
 IMPROVEMENTS:
@@ -21,7 +21,7 @@ IMPROVEMENTS:
  * Enhancement - Support for bash and similar shells - [#347](https://github.com/chocolatey/chocolatey/issues/347) & [#258](https://github.com/chocolatey/chocolatey/issues/258)
  * Enhancement - Allow file uri to be used when downloading files - [#322](https://github.com/chocolatey/chocolatey/issues/322)
  * Enhancement - Chocolatey version all versions returned for specific local package. - [#260](https://github.com/chocolatey/chocolatey/issues/260)
- * Enhancement - exit codes return appropriately - [#210](https://github.com/chocolatey/chocolatey/issues/210)
+ * Enhancement - Exit codes return appropriately - [#210](https://github.com/chocolatey/chocolatey/issues/210)
  * Enhancement - Better logging support - [#208](https://github.com/chocolatey/chocolatey/issues/208)
 
 BUG FIXES:
