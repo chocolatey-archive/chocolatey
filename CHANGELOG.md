@@ -7,18 +7,17 @@ BREAKING CHANGES:
 FEATURES:
 
  * Enhancement - Support for Server Core - [#59](https://github.com/chocolatey/chocolatey/issues/59)
- * Enhancement - Add a switch for ignoring dependencies on install - [#131](https://github.com/chocolatey/chocolatey/issues/131)
+ * Enhancement - Add a switch for ignoring dependencies on install `-ignoredependencies` - [#131](https://github.com/chocolatey/chocolatey/issues/131)
  * Command - choco is now a default term
  * Command - search is now a command (aliases list)
- * Function - Get-ProcessorBits - tells you whether a processor is x86 or x64. This functionality was in chocolatey already but has been globalized for easy access. - [#231](https://github.com/chocolatey/chocolatey/issues/231) & [#229](https://github.com/chocolatey/chocolatey/issues/229)
+ * Function - `Get-ProcessorBits` - tells you whether a processor is x86 or x64. This functionality was in chocolatey already but has been globalized for easy access. - [#231](https://github.com/chocolatey/chocolatey/issues/231) & [#229](https://github.com/chocolatey/chocolatey/issues/229)
 
 IMPROVEMENTS:
 
  * Enhancement - Install multiple packages by specifying them all on the same line - [#191](https://github.com/chocolatey/chocolatey/issues/191)
- * Enhancement - Ignore dependencies switch for install! `-ignoredependencies` - [#131](https://github.com/chocolatey/chocolatey/issues/131)
  * Enhancement - Install .NET Framework 4.0 requirement if not already installed - [#255](https://github.com/chocolatey/chocolatey/issues/255)
  * Enhancement - Refresh command line PATH after installs - partial to [#134](https://github.com/chocolatey/chocolatey/issues/134) - Previously we were just doing it in chocolatey with [#158](https://github.com/chocolatey/chocolatey/issues/158)
- * Enhanement - Allow chocolatey to install when zip shell extensions are disabled - [#297](https://github.com/chocolatey/chocolatey/issues/297)
+ * Enhancement - Allow chocolatey to install when zip shell extensions are disabled - [#297](https://github.com/chocolatey/chocolatey/issues/297)
  * Enhancement - Support for bash and similar shells - [#347](https://github.com/chocolatey/chocolatey/issues/347) & [#258](https://github.com/chocolatey/chocolatey/issues/258)
  * Enhancement - Allow file uri to be used when downloading files - [#322](https://github.com/chocolatey/chocolatey/issues/322)
  * Enhancement - Chocolatey version all versions returned for specific local package. - [#260](https://github.com/chocolatey/chocolatey/issues/260)
