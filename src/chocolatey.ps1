@@ -31,7 +31,7 @@ if ($PSBoundParameters['Verbose']) {
 # Copyright (c) 2011-Present Rob Reynolds
 # Committers and Contributors: Rob Reynolds, Rich Siegel, Matt Wrock, Anthony Mastrean, Alan Stevens, Gary Ewan Park
 # Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1, AnthonyMastrean, Rich Siegel, Matt Wrock and other contributors from the community.
-# Big thanks to Keith Dahlby for all the powershell help! 
+# Big thanks to Keith Dahlby for all the powershell help!
 # Apache License, Version 2.0 - http://www.apache.org/licenses/LICENSE-2.0
 
 ## Set the culture to invariant
@@ -72,7 +72,7 @@ $installModule = Join-Path $nugetChocolateyPath (Join-Path 'helpers' 'chocolatey
 Import-Module $installModule
 
 # grab functions from files
-Resolve-Path $nugetChocolateyPath\functions\*.ps1 | 
+Resolve-Path $nugetChocolateyPath\functions\*.ps1 |
     ? { -not ($_.ProviderPath.Contains(".Tests.")) } |
     % { . $_.ProviderPath }
 
@@ -148,7 +148,7 @@ foreach ($packageName in $packageNames) {
 }
 
 if ($badPackages -ne '') {
- write-host "Installs that failed - $badpackages" -Color $ErrorColor
+ Write-Host "Installs that failed - $badpackages" -BackgroundColor $ErrorColor -ForegroundColor White
 }
 
 if ($chocolateyErrored) {
