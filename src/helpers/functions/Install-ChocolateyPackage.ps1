@@ -22,7 +22,7 @@ If you don't pass anything it will invoke the installer with out any arguments. 
 Please include the notSilent tag in your chocolatey nuget package if you are not setting up a silent package.
 
 .PARAMETER Url
-This is the url to download the file from. 
+This is the url to download the file from.
 
 .PARAMETER Url64bit
 OPTIONAL - If there is an x64 installer to download, please include it here. If not, delete this parameter
@@ -42,14 +42,14 @@ Get-ChocolateyWebFile
 Install-ChocolateyInstallPackage
 #>
 param(
-  [string] $packageName, 
+  [string] $packageName,
   [string] $fileType = 'exe',
   [string] $silentArgs = '',
   [string] $url,
   [string] $url64bit = $url,
   $validExitCodes = @(0)
 )
-  
+
   try {
     Write-Debug "Running 'Install-ChocolateyPackage' for $packageName with url:`'$url`', args: `'$silentArgs`' ";
 
@@ -57,12 +57,12 @@ param(
     $tempDir = Join-Path $chocTempDir "$packageName"
     if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir) | Out-Null}
     $file = Join-Path $tempDir "$($packageName)Install.$fileType"
-  
+
     Get-ChocolateyWebFile $packageName $file $url $url64bit
     Install-ChocolateyInstallPackage $packageName $fileType $silentArgs $file -validExitCodes $validExitCodes
     Write-ChocolateySuccess $packageName
   } catch {
     Write-ChocolateyFailure $packageName $($_.Exception.Message)
-    throw 
+    throw
   }
 }
