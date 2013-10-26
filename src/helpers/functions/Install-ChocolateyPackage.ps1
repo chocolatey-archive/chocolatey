@@ -46,7 +46,7 @@ param(
   [string] $fileType = 'exe',
   [string] $silentArgs = '',
   [string] $url,
-  [string] $url64bit = $url,
+  [string] $url64bit = '',
   $validExitCodes = @(0)
 )
 

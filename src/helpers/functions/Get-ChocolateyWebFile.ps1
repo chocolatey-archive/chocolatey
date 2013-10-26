@@ -34,24 +34,22 @@ param(
   [string] $packageName,
   [string] $fileFullPath,
   [string] $url,
-  [string] $url64bit = $url
+  [string] $url64bit = ''
 )
   Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`',and url64bit:`'$url64bit`'";
-  $url32bit = $url;
 
+  $url32bit = $url;
+  $bitWidth = 32
   if (Get-ProcessorBits 64) {
-	$bitWidth = 64
-	$url = $url64bit;
-  } else { # I am just assuming that it's either 32 or 64. 
-	$bitWidth = 32
+    $bitWidth = 64
   }
   Write-Debug "CPU is $bitWidth bit"
 
   $bitPackage = 32
-  if ($url32bit -eq $url64bit) {
-	$bitPackage = 32
-  } else {
-	$bitPackage = $bitWidth
+  if ($bitWidth -eq 64 -and $url64bit -ne $null -and $url64bit -ne '') {
+    Write-Debug "Setting url to '$url64bit' and bitPackage to $bitWidth"
+    $bitPackage = $bitWidth
+    $url = $url64bit;
   }
 
   Write-Host "Downloading $packageName $bitPackage bit ($url) to $fileFullPath"
