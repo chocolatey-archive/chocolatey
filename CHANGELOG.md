@@ -3,7 +3,7 @@
 BREAKING CHANGES:
 
  * Enhancement - For local package searching, use choco list -lo or choco search -lo. The execution speed is greatly increased. cver for local has been deprecated. - [#276](https://github.com/chocolatey/chocolatey/issues/276)
- * Breaking - Chocolatey default source does not include Nuget official feed. This will help improve response time and greatly increase relevant results. - [#349](https://github.com/chocolatey/chocolatey/issues/349)
+ * Breaking - Chocolatey default source no longer includes Nuget official feed. This will help improve response time and greatly increase relevant results. - [#349](https://github.com/chocolatey/chocolatey/issues/349)
 
 FEATURES:
 
@@ -42,7 +42,7 @@ BUG FIXES:
 
 FEATURES:
 
- * Command - Win Feature feed - [#150](https://github.com/chocolatey/chocolatey/pull/150)
+ * Command - Windows Feature feed - [#150](https://github.com/chocolatey/chocolatey/pull/150)
  * Function - Add function to install environment variables - [#149](https://github.com/chocolatey/chocolatey/pull/149)
  * Function - Function to associate file extensions with installed executables - [#146](https://github.com/chocolatey/chocolatey/pull/146)
  * Function - Helper function to create explorer context menu items - [#144](https://github.com/chocolatey/chocolatey/pull/144)
