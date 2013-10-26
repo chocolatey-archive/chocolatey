@@ -15,7 +15,7 @@
   [string] $name,
   [switch] $ignoreDependencies = $false,
   [parameter(Position=1, ValueFromRemainingArguments=$true)]
-  [string[]]$packageNames=@('')
+  [string[]]$packageNames=@()
 )
 
 [switch] $debug = $false
@@ -119,6 +119,9 @@ Write-Debug "Arguments: `$command = '$command'|`$packageNames='$packageNames'|`$
 $chocolateyErrored = $false
 $badPackages = ''
 
+#if ($packageNames -eq @()) {$packageNames = @('')}
+
+#todo: This does not catch package names that come later
 foreach ($packageName in $packageNames) {
   try {
     switch -wildcard ($command) {
@@ -138,7 +141,7 @@ foreach ($packageName in $packageNames) {
       "push"            {Invoke-ChocolateyFunction "Chocolatey-Push" @($packageName,$source)}
       "help"            {Invoke-ChocolateyFunction "Chocolatey-Help"}
       "sources"         {Invoke-ChocolateyFunction "Chocolatey-Sources" @($packageName,$name,$source)}
-      default        {Write-Host 'Please run chocolatey /? or chocolatey help';}
+      default           {Write-Host 'Please run chocolatey /? or chocolatey help';}
     }
   }
   catch {
