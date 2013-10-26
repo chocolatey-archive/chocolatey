@@ -1,5 +1,5 @@
 ﻿param(
-  [parameter(Mandatory=$true,Position=0)]
+  [parameter(Position=0)]
   [string]$command,
   [string]$source='',
   [string]$version='',
@@ -15,7 +15,7 @@
   [string] $name,
   [switch] $ignoreDependencies = $false,
   [parameter(Position=1, ValueFromRemainingArguments=$true)]
-  [string[]]$packageNames=@()
+  [string[]]$packageNames=@('')
 )
 
 [switch] $debug = $false
@@ -113,13 +113,10 @@ if ([Environment]::OSVersion.Version -lt (new-object 'Version' 6,0)){
 #main entry point
 Append-Log
 
-
 Write-Debug "Arguments: `$command = '$command'|`$packageNames='$packageNames'|`$source='$source'|`$version='$version'|`$allVersions='$allVersions'|`$InstallArguments='$installArguments'|`$overrideArguments='$overrideArgs'|`$force='$force'|`$prerelease='$prerelease'|`$localonly='$localonly'|`$verbosity='$verbosity'|`$debug='$debug'|`$name='$name'|`$ignoreDependencies='$ignoreDependencies'"
 
 $chocolateyErrored = $false
 $badPackages = ''
-
-#if ($packageNames -eq @()) {$packageNames = @('')}
 
 #todo: This does not catch package names that come later
 foreach ($packageName in $packageNames) {
