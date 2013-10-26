@@ -1,7 +1,7 @@
 ﻿function Chocolatey-Install {
 param(
-  [string] $packageName, 
-  [string] $source = '', 
+  [string] $packageName,
+  [string] $source = '',
   [string] $version = '',
   [string] $installerArguments = ''
 )
@@ -12,8 +12,8 @@ param(
     Chocolatey-PackagesConfig $packageName
     return
   }
-  
-  switch -wildcard ($source) 
+
+  switch -wildcard ($source)
   {
     "webpi" { Chocolatey-WebPI $packageName $installerArguments; }
     "windowsfeatures" { Chocolatey-WindowsFeatures $packageName; }
