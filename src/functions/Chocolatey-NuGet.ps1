@@ -13,6 +13,10 @@ param(
     return
   }
 
+  if ($packageName -eq $null -or $packageName.Trim() -eq '') {
+    Throw "Please provide a package name to install."
+  }
+
   $srcArgs = ""
   if ($source -ne '') {
     $srcArgs = "(from $source)"
