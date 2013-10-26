@@ -88,6 +88,8 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
               } catch {
                 Move-BadInstall $installedPackageName $installedPackageVersion $packageFolder
                 Write-Error "Package `'$installedPackageName v$installedPackageVersion`' did not install successfully: $($_.Exception.Message)"
+                if ($badPackages -ne '') { $badPackages += ', '}
+                $badPackages += "$packageName"
               }
             }
           }
