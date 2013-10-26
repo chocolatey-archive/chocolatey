@@ -5,7 +5,7 @@ param(
   [string] $version = '',
   [string] $installerArguments = ''
 )
-  Write-Debug "Running 'Chocolatey-Install' for $packageName with source: `'$source`', version: `'$version`', installerArguments:`'$installerArguments`'";
+  Write-Debug "Running 'Chocolatey-Install' for `'$packageName`' with source: `'$source`', version: `'$version`', installerArguments:`'$installerArguments`'";
 
   if($($packageName).EndsWith('.config')) {
     Write-Debug "Chocolatey-Install has determined that package $packageName ends with `'.config`' - calling Chocolatey-PackagesConfig"

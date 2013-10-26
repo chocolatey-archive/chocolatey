@@ -22,7 +22,7 @@ param(
     $srcArgs = "(from $source)"
   }
 
-Write-Host "Chocolatey (v$chocVer) is installing $packageName and dependencies. By installing you accept the license for $packageName and each dependency you are installing." -ForegroundColor $RunNote -BackgroundColor Black
+Write-Host "Chocolatey (v$chocVer) is installing `'$packageName`' and dependencies. By installing you accept the license for `'$packageName`' and each dependency you are installing." -ForegroundColor $RunNote -BackgroundColor Black
 Write-Debug "Installing packages to `"$nugetLibPath`"."
 
   $nugetOutput = (Run-NuGet $packageName $source $version).Split("`n")
