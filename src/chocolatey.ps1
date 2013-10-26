@@ -1,5 +1,5 @@
 ﻿param(
-  [parameter(Position=0)]
+  [parameter(Mandatory=$true,Position=0)]
   [string]$command,
   [string]$source='',
   [string]$version='',
@@ -92,8 +92,8 @@ if ([Environment]::OSVersion.Version -lt (new-object 'Version' 6,0)){
   $chocoHttpId = 'chocolateyHttp'
   $sources = Chocolatey-Sources 'list'
   Write-Debug 'Checking sources to see if chocolatey http is configured'
-  foreach ($source in $sources) {
-    if ($source.ID -eq "$chocoHttpId") {
+  foreach ($sourceConfig in $sources) {
+    if ($sourceConfig.ID -eq "$chocoHttpId") {
       Write-Debug 'ChocolateyHttp found'
       $chocoHttpExists = $true
       break
@@ -112,6 +112,9 @@ if ([Environment]::OSVersion.Version -lt (new-object 'Version' 6,0)){
 
 #main entry point
 Append-Log
+
+
+Write-Debug "Arguments: `$command = '$command'|`$packageNames='$packageNames'|`$source='$source'|`$version='$version'|`$allVersions='$allVersions'|`$InstallArguments='$installArguments'|`$overrideArguments='$overrideArgs'|`$force='$force'|`$prerelease='$prerelease'|`$localonly='$localonly'|`$verbosity='$verbosity'|`$debug='$debug'|`$name='$name'|`$ignoreDependencies='$ignoreDependencies'"
 
 $chocolateyErrored = $false
 $badPackages = ''
