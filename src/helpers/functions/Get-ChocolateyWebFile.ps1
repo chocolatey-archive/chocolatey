@@ -4,7 +4,7 @@
 Downloads a file from the internets.
 
 .DESCRIPTION
-This will download a file from a url, tracking with a progress bar. 
+This will download a file from a url, tracking with a progress bar.
 It returns the filepath to the downloaded file when it is complete.
 
 .PARAMETER PackageName
@@ -15,7 +15,7 @@ It's recommended you call it the same as your nuget package id.
 This is the full path of the resulting file name.
 
 .PARAMETER Url
-This is the url to download the file from. 
+This is the url to download the file from.
 
 .PARAMETER Url64bit
 OPTIONAL - If there is an x64 installer to download, please include it here. If not, delete this parameter
@@ -38,7 +38,7 @@ param(
 )
   Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`',and url64bit:`'$url64bit`'";
   $url32bit = $url;
-  
+
   if (Get-ProcessorBits 64) {
 	$bitWidth = 64
 	$url = $url64bit;
@@ -46,14 +46,14 @@ param(
 	$bitWidth = 32
   }
   Write-Debug "CPU is $bitWidth bit"
-  
+
   $bitPackage = 32
   if ($url32bit -eq $url64bit) {
 	$bitPackage = 32
   } else {
 	$bitPackage = $bitWidth
   }
-  
+
   Write-Host "Downloading $packageName $bitPackage bit ($url) to $fileFullPath"
   #$downloader = new-object System.Net.WebClient
   #$downloader.DownloadFile($url, $fileFullPath)
@@ -66,6 +66,6 @@ param(
     Write-Debug "We are attempting to copy the local item `'$url`' to `'$fileFullPath`'"
     Copy-Item $url -Destination $fileFullPath -Force
   }
-  
+
   Start-Sleep 2 #give it a sec or two to finish up
 }
