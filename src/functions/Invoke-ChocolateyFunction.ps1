@@ -4,5 +4,8 @@ function Invoke-ChocolateyFunction ($ChocoFunction,$paramlist) {
   	invoke-expression "$ChocoFunction @paramlist;"
   }
   #catch {Write-Host $_.exception.message -BackgroundColor Red -ForegroundColor White ;exit 1}
-  catch {Throw "$_.exception.message"}
+  catch {
+    Write-Debug "Caught `'$_`'"
+    throw "$($_.Exception.Message)"
+  }
 }

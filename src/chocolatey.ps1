@@ -143,15 +143,14 @@ foreach ($packageName in $packageNames) {
   }
   catch {
     $chocolateyErrored = $true
-    Write-Host "$_.exception.message" -BackgroundColor $ErrorColor -ForegroundColor White ;
-    #nothing makes it up to here, so we are going to need to catch it further down the line
+    Write-Host "$($_.Exception.Message)" -BackgroundColor $ErrorColor -ForegroundColor White ;
     if ($badPackages -ne '') { $badPackages += ', '}
     $badPackages += "$packageName"
   }
 }
 
 if ($badPackages -ne '') {
- Write-Host "Installs that failed - $badpackages" -BackgroundColor $ErrorColor -ForegroundColor White
+ Write-Host "Command `'$command`' failed (sometimes this indicates a partial failure). Additional info/packages: $badpackages" -BackgroundColor $ErrorColor -ForegroundColor White
 }
 
 if ($chocolateyErrored) {
