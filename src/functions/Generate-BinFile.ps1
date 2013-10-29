@@ -1,6 +1,6 @@
 function Generate-BinFile {
 param(
-  [string] $name, 
+  [string] $name,
   [string] $path,
   [switch] $useStart
 )
@@ -16,12 +16,12 @@ param(
     Write-Host "Setting up $name as a non-command line application."  -ForegroundColor $Note
 "@echo off
 SET DIR=%~dp0%
-start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII    
+start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII
 
 "#!/bin/sh
 DIR=`${0%/*}
 ""$pathBash"" ""`$*"" &" | Out-File $packageBashFileName -encoding ASCII
- 
+
   } else {
 "@echo off
 SET DIR=%~dp0%
