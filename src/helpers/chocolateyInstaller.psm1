@@ -10,6 +10,7 @@ Resolve-Path $helpersPath\functions\*.ps1 |
     % { . $_.ProviderPath }
 
 Export-ModuleMember -Function `
+	Get-BinRoot,`
 	Get-ChocolateyWebFile,`
 	Get-ChocolateyUnzip,`
 	Get-ProcessorBits,`
