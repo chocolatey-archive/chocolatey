@@ -12,6 +12,7 @@ FEATURES:
  * Command - `choco` is now a default term
  * Command - search is now a command (aliases list) - `choco search something [-localonly]`
  * Function - `Get-ProcessorBits` - tells you whether a processor is x86 or x64. This functionality was in chocolatey already but has been globalized for easy access. - [#231](https://github.com/chocolatey/chocolatey/issues/231) & [#229](https://github.com/chocolatey/chocolatey/issues/229)
+ * Function - `Get-BinRoot` - allows you to get the binary root or tools root where folks want certain packages installed. - https://github.com/chocolatey/chocolatey/pull/359
 
 IMPROVEMENTS:
 
