@@ -25,6 +25,7 @@ IMPROVEMENTS:
  * Enhancement - Exit codes return appropriately - [#210](https://github.com/chocolatey/chocolatey/issues/210)
  * Enhancement - Better logging support - [#208](https://github.com/chocolatey/chocolatey/issues/208)
  * Enhancement - Pass through exit codes from binned batch files - https://github.com/chocolatey/chocolatey/issues/360
+ * Enhancement - Support MSU file type - https://github.com/chocolatey/chocolatey/pull/348
 
 BUG FIXES:
 
