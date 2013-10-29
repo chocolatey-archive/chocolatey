@@ -154,5 +154,6 @@ if ($badPackages -ne '') {
 }
 
 if ($chocolateyErrored) {
+  Write-Host "Exiting with non-zero exit code."
   exit 1
 }
