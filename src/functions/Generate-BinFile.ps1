@@ -14,6 +14,7 @@ param(
   Write-Host "Adding $packageBashFileName and pointing to `'$path`'." -ForegroundColor $Note
   if ($useStart) {
     Write-Host "Setting up $name as a non-command line application."  -ForegroundColor $Note
+
 "@echo off
 SET DIR=%~dp0%
 start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII
@@ -23,12 +24,16 @@ DIR=`${0%/*}
 ""$pathBash"" ""`$*"" &" | Out-File $packageBashFileName -encoding ASCII
 
   } else {
+
 "@echo off
 SET DIR=%~dp0%
-""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII
-  
+cmd /c ""$path"" %*
+exit /b %ERRORLEVEL%" | Out-File $packageBatchFileName -encoding ASCII
+
 "#!/bin/sh
 DIR=`${0%/*}
-""$pathBash"" ""`$*""" | Out-File $packageBashFileName -encoding ASCII
+""$pathBash"" ""`$*""
+exit `$?" | Out-File $packageBashFileName -encoding ASCII
+
   }
 }
