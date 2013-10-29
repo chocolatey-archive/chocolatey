@@ -24,6 +24,7 @@ IMPROVEMENTS:
  * Enhancement - Chocolatey version all versions returned for specific local package. - [#260](https://github.com/chocolatey/chocolatey/issues/260)
  * Enhancement - Exit codes return appropriately - [#210](https://github.com/chocolatey/chocolatey/issues/210)
  * Enhancement - Better logging support - [#208](https://github.com/chocolatey/chocolatey/issues/208)
+ * Enhancement - Pass through exit codes from binned batch files - https://github.com/chocolatey/chocolatey/issues/360
 
 BUG FIXES:
 
