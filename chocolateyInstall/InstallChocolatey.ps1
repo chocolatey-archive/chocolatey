@@ -55,6 +55,7 @@ if ($nuGetPath -ne $null) {
 if ($($env:Path).ToLower().Contains($($nugetExePath).ToLower()) -eq $false) {
   $env:Path = [Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Machine);
 }
+Write-Host "THIS IS DEPRECATED. Please use the install from https://chocolatey.org/install.ps1"
 # update chocolatey to the latest version
 #Write-Host "Updating chocolatey to the latest version"
 #cup chocolatey
