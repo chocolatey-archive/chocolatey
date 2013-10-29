@@ -5,12 +5,14 @@ function Get-BinRoot {
   #    1) all occurances of $env:chocolatey_bin_root be replaced with $env:ChocolateyBinRoot;
   #    2) Make the new Chocolatey Installer for new users explicitly set (if not exists) $env:ChocolateyInstall and $env:ChocolateyBinRoot as environment variables so users will smile and understand;
   #    3) Make new Chocolatey convert old $env:chocolatey_bin_root to $env:ChocolateyBinRoot
-  #
+  #    4) If there is no bin root, we default to SystemDrive\tools
+
+  $binRoot = ''
 
   # For now, check old var first
-  if($env:ChocolateyBinRoot -eq $null) { # If no value
-    if($env:chocolatey_bin_root -eq $null) { # Try old var
-      $binRoot = "$env:ChocolateyInstall\bin"
+  if ($env:ChocolateyBinRoot -eq $null) { # If no value
+    if ($env:chocolatey_bin_root -eq $null) { # Try old var
+      $binRoot = join-path $env:systemdrive 'tools'
     }
     else {
       $env:ChocolateyBinRoot = $env:chocolatey_bin_root
@@ -27,7 +29,7 @@ function Get-BinRoot {
   }
 
   # Now that we figured out the binRoot, let's store it as per proposal #3 line #7
-  if(-not($env:ChocolateyBinRoot -eq $binRoot)) {
+  if (-not($env:ChocolateyBinRoot -eq $binRoot)) {
     [Environment]::SetEnvironmentVariable("ChocolateyBinRoot", "$binRoot", "User")
     # Note that user variables pose a problem when there are two admins on one computer. But this is what was decided upon.
   }
