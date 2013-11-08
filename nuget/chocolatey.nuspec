@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.21-beta1</version>
+    <version>0.9.8.21-beta2</version>
     <authors>Rob Reynolds</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -39,6 +39,7 @@ FEATURES:
  * Command - `choco` is now a default term
  * Command - search is now a command (aliases list) - `choco search something [-localonly]`
  * Function - `Get-ProcessorBits` - tells you whether a processor is x86 or x64. This functionality was in chocolatey already but has been globalized for easy access. - [#231](https://github.com/chocolatey/chocolatey/issues/231) &amp; [#229](https://github.com/chocolatey/chocolatey/issues/229)
+ * Function - `Get-BinRoot` - Gives package maintainers the ability to call one command that gets them the tools/bin root. This gives you the location where folks want certain packages installed. - [#359](https://github.com/chocolatey/chocolatey/pull/359)
 
 IMPROVEMENTS:
 
