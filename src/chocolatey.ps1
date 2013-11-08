@@ -125,7 +125,7 @@ foreach ($packageName in $packageNames) {
       "install"         {Invoke-ChocolateyFunction "Chocolatey-Install" @($packageName,$source,$version,$installArguments)}
       "installmissing"  {Invoke-ChocolateyFunction "Chocolatey-InstallIfMissing" @($packageName,$source,$version)}
       "update"          {Invoke-ChocolateyFunction "Chocolatey-Update" @($packageName,$source)}
-      "uninstall"       {Invoke-ChocolateyFunction "Chocolatey-Uninstall" @($packageName,$version,$installArguments) }
+      "uninstall"       {Invoke-ChocolateyFunction "Chocolatey-Uninstall" @($packageName,$version,$installArguments)}
       "search"          {Invoke-ChocolateyFunction "Chocolatey-List" @($packageName,$source)}
       "list"            {Invoke-ChocolateyFunction "Chocolatey-List" @($packageName,$source)}
       "version"         {Invoke-ChocolateyFunction "Chocolatey-Version" @($packageName,$source)}
@@ -138,7 +138,7 @@ foreach ($packageName in $packageNames) {
       "push"            {Invoke-ChocolateyFunction "Chocolatey-Push" @($packageName,$source)}
       "help"            {Invoke-ChocolateyFunction "Chocolatey-Help"}
       "sources"         {Invoke-ChocolateyFunction "Chocolatey-Sources" @($packageName,$name,$source)}
-      default           {Write-Host 'Please run chocolatey /? or chocolatey help';}
+      default           {Write-Host "Please run chocolatey /? or chocolatey help - chocolatey v$chocVer";}
     }
   }
   catch {
