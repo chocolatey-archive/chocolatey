@@ -109,15 +109,14 @@ param(
   #set up variables to add
   $chocolateyExePath = Join-Path $chocolateyPath 'bin'
   $chocolateyLibPath = Join-Path $chocolateyPath 'lib'
-  $nugetChocolateyPath = Join-Path $chocolateyPath 'chocolateyinstall'
+  $chocolateyInstallPath = Join-Path $chocolateyPath 'chocolateyinstall'
 
-  $nugetYourPkgPath = [System.IO.Path]::Combine($chocolateyLibPath,"yourPackageName")
+  $yourPkgPath = [System.IO.Path]::Combine($chocolateyLibPath,"yourPackageName")
 @"
 We are setting up the Chocolatey repository for NuGet packages that should be at the machine level. Think executables/application packages, not library packages.
-That is what Chocolatey NuGet goodness is for.
-The repository is set up at `'$chocolateyPath`'.
-The packages themselves go to `'$chocolateyLibPath`' (i.e. $nugetYourPkgPath).
-A batch file for the command line goes to `'$chocolateyExePath`' and points to an executable in `'$nugetYourPkgPath`'.
+That is what Chocolatey NuGet goodness is for. The repository is set up at `'$chocolateyPath`'.
+The packages themselves go to `'$chocolateyLibPath`' (i.e. $yourPkgPath).
+A batch file for the command line goes to `'$chocolateyExePath`' and points to an executable in `'$yourPkgPath`'.
 
 Creating Chocolatey NuGet folders if they do not already exist.
 
@@ -126,14 +125,14 @@ Creating Chocolatey NuGet folders if they do not already exist.
   #create the base structure if it doesn't exist
   Create-DirectoryIfNotExists $chocolateyExePath
   Create-DirectoryIfNotExists $chocolateyLibPath
-  Create-DirectoryIfNotExists $nugetChocolateyPath
+  Create-DirectoryIfNotExists $chocolateyInstallPath
 
   Upgrade-OldNuGetDirectory $defaultChocolateyPathOld $chocolateyPath
 
   Install-ChocolateyFiles $chocolateyPath
 
   $chocolateyExePathVariable = $chocolateyExePath.ToLower().Replace($chocolateyPath.ToLower(), "%DIR%..\").Replace("\\","\")
-  Create-ChocolateyBinFiles $nugetChocolateyPath.ToLower().Replace($chocolateyPath.ToLower(), "%DIR%..\").Replace("\\","\") $chocolateyExePath
+  Create-ChocolateyBinFiles $chocolateyInstallPath.ToLower().Replace($chocolateyPath.ToLower(), "%DIR%..\").Replace("\\","\") $chocolateyExePath
   Initialize-ChocolateyPath $chocolateyExePath $chocolateyExePathVariable
   Process-ChocolateyBinFiles $chocolateyExePath $chocolateyExePathVariable
   Install-DotNet4IfMissing
