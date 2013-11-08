@@ -9,7 +9,7 @@ _ReSharper.*
 *.csproj.user
 *.[r|R]esharper.user
 *.suo
-*.user 
+*.user
 *.resharper
 *.cache
 *~
@@ -21,6 +21,7 @@ _ReSharper.*
 *userprefs
 *.nupkg
 lib
+.ignore
 
 TestResult.xml
 submit.xml
