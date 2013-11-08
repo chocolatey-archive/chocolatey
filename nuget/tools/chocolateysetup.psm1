@@ -30,7 +30,7 @@ param (
   [Parameter(Mandatory=$false)][string] $commandText
 )
 
-  $commandShortcut = [System.IO.Path]::GetFileNameWithoutExtension("$chocolateyPath")
+  $commandShortcut = [System.IO.Path]::GetFileNameWithoutExtension("$binFilePath")
   if ($commandText -ne $null -and $commandText -ne '') {
     Write-Host "Creating `'$binFilePath`' so you can call 'choco $commandText' from a shortcut of '$commandShortcut'."
     $commandText += ' %*'
