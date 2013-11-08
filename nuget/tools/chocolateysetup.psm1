@@ -25,7 +25,7 @@ function Create-DirectoryIfNotExists($folderName){
 
 function Create-BinFile {
 param (
-  [string] $chocolateyPath
+  [string] $chocolateyPath,
   [string] $binFilePath,
   [Parameter(Mandatory=$false)][string] $commandText
 )
