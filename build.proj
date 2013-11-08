@@ -2,7 +2,7 @@
          DefaultTargets="Go"
          xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <PropertyGroup>
-    <GoDependsOn>Setup;Tests;PrepareNuGetFiles;Package</GoDependsOn>
+    <GoDependsOn>Tests;PrepareNuGetFiles;Package</GoDependsOn>
     <Configuration>Release</Configuration>
     <Platform>Any CPU</Platform>
     <BuildDirectory>_packaged_output\</BuildDirectory>
