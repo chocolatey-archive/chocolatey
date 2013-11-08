@@ -12,11 +12,11 @@
   </PropertyGroup>
 
   <Target Name="Go" DependsOnTargets="$(GoDependsOn)" />
-  
+
   <Target Name="Tests">
     <Exec Command="cmd /c $(baseDir)test.cmd" />
   </Target>
-  
+
   <Target Name="Setup">
     <Exec Command="cmd /c $(baseDir)setup.cmd" />
   </Target>
@@ -29,15 +29,15 @@
     <Copy SourceFiles="@(NuGetFiles)"
       DestinationFiles="@(NuGetFiles->'$(BuildPath)\nuget\%(RecursiveDir)%(Filename)%(Extension)')"
       Retries="3"
-      RetryDelayMilliseconds="300" 
+      RetryDelayMilliseconds="300"
       />
     <Copy SourceFiles="@(NuGetFilesToPack)"
       DestinationFiles="@(NuGetFilesToPack->'$(BuildPath)\nuget\tools\chocolateyInstall\%(RecursiveDir)%(Filename)%(Extension)')"
       Retries="3"
-      RetryDelayMilliseconds="300" 
+      RetryDelayMilliseconds="300"
       />
   </Target>
-  
+
   <Target Name="Package" DependsOnTargets="PrepareNuGetFiles">
   <ItemGroup>
       <NuspecFiles Include="$(BuildPath)**\*nuspec" />
