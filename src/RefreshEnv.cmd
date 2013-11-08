@@ -57,4 +57,8 @@ goto main
     call "%TEMP%\_env.bat"
 
     :: Finish
-    echo | set /p dummy="Done."
+    echo | set /p dummy="Done"
+    echo .
+    
+
+exit /b %ERRORLEVEL%
