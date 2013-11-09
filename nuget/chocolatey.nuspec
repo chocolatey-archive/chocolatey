@@ -25,46 +25,16 @@ Check out the WIKI in the project URL for all the details of what you can do wit
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes
 
-v0.9.8.21
+v0.9.8.22:
 
 BREAKING CHANGES:
 
- * Enhancement - For local package searching, use choco list -lo or choco search -lo. The execution speed is greatly increased. cver for local has been deprecated. - [#276](https://github.com/chocolatey/chocolatey/issues/276)
- * Breaking - Chocolatey default sources no longer includes Nuget official feed. This will help improve response time and greatly increase relevant results. - [#349](https://github.com/chocolatey/chocolatey/issues/349)
-
 FEATURES:
 
- * Enhancement - Support for Server Core - [#59](https://github.com/chocolatey/chocolatey/issues/59)
- * Enhancement - Add a switch for ignoring dependencies on install `-ignoredependencies` - [#131](https://github.com/chocolatey/chocolatey/issues/131)
- * Command - `choco` is now a default term
- * Command - search is now a command (aliases list) - `choco search something [-localonly]`
- * Function - `Get-ProcessorBits` - tells you whether a processor is x86 or x64. This functionality was in chocolatey already but has been globalized for easy access. - [#231](https://github.com/chocolatey/chocolatey/issues/231) &amp; [#229](https://github.com/chocolatey/chocolatey/issues/229)
- * Function - `Get-BinRoot` - Gives package maintainers the ability to call one command that gets them the tools/bin root. This gives you the location where folks want certain packages installed. - [#359](https://github.com/chocolatey/chocolatey/pull/359)
 
 IMPROVEMENTS:
 
- * Enhancement - Install multiple packages by specifying them all on the same line - [#191](https://github.com/chocolatey/chocolatey/issues/191)
- * Enhancement - Install .NET Framework 4.0 requirement if not already installed - [#255](https://github.com/chocolatey/chocolatey/issues/255)
- * Enhancement - Refresh command line PATH after installs - partial to [#134](https://github.com/chocolatey/chocolatey/issues/134) - Previously we were just doing it in chocolatey with [#158](https://github.com/chocolatey/chocolatey/issues/158)
- * Enhancement - Allow chocolatey to install when zip shell extensions are disabled - [#297](https://github.com/chocolatey/chocolatey/issues/297)
- * Enhancement - Support for bash and similar shells - [#347](https://github.com/chocolatey/chocolatey/issues/347) &amp; [#258](https://github.com/chocolatey/chocolatey/issues/258)
- * Enhancement - Allow file uri to be used when downloading files - [#322](https://github.com/chocolatey/chocolatey/issues/322)
- * Enhancement - Chocolatey version all versions returned for specific local package. - [#260](https://github.com/chocolatey/chocolatey/issues/260)
- * Enhancement - Exit codes return appropriately - [#210](https://github.com/chocolatey/chocolatey/issues/210)
- * Enhancement - Better logging support - [#208](https://github.com/chocolatey/chocolatey/issues/208)
-
 BUG FIXES:
-
- * Fix - Treat installation failures appropriately - [#10](https://github.com/chocolatey/chocolatey/issues/10)
- * Fix - Using newer versions of nuget breaks chocolatey - [#303](https://github.com/chocolatey/chocolatey/issues/303)
- * Fix - Chocolatey incorrectly reports 64 bit urls when downloading anything - [#331](https://github.com/chocolatey/chocolatey/issues/331)
- * Fix - Executing `cuninst` without parameters shouldn't do anything - [#267](https://github.com/chocolatey/chocolatey/issues/267) &amp; [#265](https://github.com/chocolatey/chocolatey/issues/265)
- * Fix - VSIX installer helper is finding the wrong Visual Studio version - [#262](https://github.com/chocolatey/chocolatey/issues/262)
- * Fix - Renaming logs appending `.old` results in error - [#225](https://github.com/chocolatey/chocolatey/issues/225)
- * Fix - Minor typo in uninstall script "uninINstalling" - [#247](https://github.com/chocolatey/chocolatey/issues/247)
- * Fix - Bug in Get-ChocolateyUnzip throws issues sometimes [#244](https://github.com/chocolatey/chocolatey/issues/244) &amp; [#242](https://github.com/chocolatey/chocolatey/issues/242)
- * Fix - Minor typo "succesfully" - [#241](https://github.com/chocolatey/chocolatey/issues/241)
-
 
     </releaseNotes>
     <projectUrl>http://chocolatey.org</projectUrl>
