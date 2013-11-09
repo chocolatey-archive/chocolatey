@@ -52,6 +52,13 @@ param(
     $url = $url64bit;
   }
 
+  $forceX86 = $env:chocolateyForceX86;
+  if ($forceX86) {
+    Write-Debug "User specified -x86 so forcing 32 bit"
+    $bitPackage = 32
+    $url = $url32bit
+  }
+
   Write-Host "Downloading $packageName $bitPackage bit ($url) to $fileFullPath"
   #$downloader = new-object System.Net.WebClient
   #$downloader.DownloadFile($url, $fileFullPath)

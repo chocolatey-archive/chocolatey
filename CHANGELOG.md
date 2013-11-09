@@ -4,6 +4,7 @@ BREAKING CHANGES:
 
 FEATURES:
 
+ * Enhancement - Add switch to force x86 when packages have both versions - [#365](https://github.com/chocolatey/chocolatey/issues/365)
 
 IMPROVEMENTS:
 
