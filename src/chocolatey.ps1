@@ -15,6 +15,7 @@
   [string] $name,
   [switch] $ignoreDependencies = $false,
   [alias("x86")][switch] $forceX86 = $false,
+  [alias("params")][alias("parameters")][alias("pkgParams")][hashtable]$packageParameters = @{},
   [parameter(Position=1, ValueFromRemainingArguments=$true)]
   [string[]]$packageNames=@('')
 )
@@ -114,7 +115,7 @@ if ([Environment]::OSVersion.Version -lt (new-object 'Version' 6,0)){
 #main entry point
 Append-Log
 
-Write-Debug "Arguments: `$command = '$command'|`$packageNames='$packageNames'|`$source='$source'|`$version='$version'|`$allVersions=$allVersions|`$InstallArguments='$installArguments'|`$overrideArguments=$overrideArgs|`$force=$force|`$prerelease=$prerelease|`$localonly=$localonly|`$verbosity=$verbosity|`$debug=$debug|`$name='$name'|`$ignoreDependencies=$ignoreDependencies|`$forceX86=$forceX86"
+Write-Debug "Arguments: `$command = '$command'|`$packageNames='$packageNames'|`$source='$source'|`$version='$version'|`$allVersions=$allVersions|`$InstallArguments='$installArguments'|`$overrideArguments=$overrideArgs|`$force=$force|`$prerelease=$prerelease|`$localonly=$localonly|`$verbosity=$verbosity|`$debug=$debug|`$name='$name'|`$ignoreDependencies=$ignoreDependencies|`$forceX86=$forceX86|`$packageParameters='$($packageParameters.GetEnumerator() | % {"$($_.Name)=$($_.Value)"})'"
 
 # run level environment variables
 $env:chocolateyForceX86 = $null
@@ -122,6 +123,7 @@ if ($forceX86) {
   $env:chocolateyForceX86 = $true
 }
 
+$env:chocolateyPackageParameters = $packageParameters
 
 $chocolateyErrored = $false
 $badPackages = ''

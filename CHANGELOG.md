@@ -5,6 +5,7 @@ BREAKING CHANGES:
 FEATURES:
 
  * Enhancement - Add switch to force x86 when packages have both versions - [#365](https://github.com/chocolatey/chocolatey/issues/365)
+ * Enhancement - Allow passing parameters to packages - [#159](https://github.com/chocolatey/chocolatey/issues/159)
 
 IMPROVEMENTS:
 
