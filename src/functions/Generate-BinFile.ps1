@@ -27,7 +27,7 @@ DIR=`${0%/*}
 
 "@echo off
 SET DIR=%~dp0%
-cmd /c ""$path"" %*
+cmd /c ""$path %*""
 exit /b %ERRORLEVEL%" | Out-File $packageBatchFileName -encoding ASCII
 
 "#!/bin/sh

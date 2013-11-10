@@ -41,7 +41,7 @@ param (
 
 "@echo off
 SET DIR=%~dp0%
-cmd /c ""$chocolateyPath\chocolatey.cmd"" $commandText
+cmd /c ""$chocolateyPath\chocolatey.cmd $commandText""
 exit /b %ERRORLEVEL%" | Out-File $binFilePath -encoding ASCII
 
 "#!/bin/sh

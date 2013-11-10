@@ -11,6 +11,7 @@ IMPROVEMENTS:
 
 BUG FIXES:
 
+ * Fix - Chocolatey 0.9.8.21 errors when using spaces or quotes with chocolatey or with batch redirect files [#367](https://github.com/chocolatey/chocolatey/issues/367)
 
 ##[0.9.8.21](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.21&page=1&state=closed) (November 7, 2013)
 
