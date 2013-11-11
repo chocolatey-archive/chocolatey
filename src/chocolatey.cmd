@@ -7,6 +7,7 @@ if '%1'=='-?' goto usage
 if '%1'=='?' goto usage
 if '%1'=='/help' goto usage
 if '%1'=='help' goto usage
+if '%1'=='--help' goto usage
 
 SET PS_ARGS=%*
 SET PS_ARGS=%PS_ARGS:"=\"%
