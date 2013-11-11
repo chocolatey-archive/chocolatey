@@ -1,4 +1,4 @@
-##[0.9.8.22](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.22&page=1&state=closed) (unreleased)
+##[0.9.8.22](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.22&page=1&state=closed) (11/10/2013)
 
 BREAKING CHANGES:
 
@@ -8,8 +8,6 @@ FEATURES:
 
  * Enhancement - Add switch to force x86 when packages have both versions - [#365](https://github.com/chocolatey/chocolatey/issues/365)
  * Enhancement - Allow passing parameters to packages - [#159](https://github.com/chocolatey/chocolatey/issues/159)
-
-IMPROVEMENTS:
 
 BUG FIXES:
 
