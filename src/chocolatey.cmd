@@ -10,8 +10,8 @@ if '%1'=='help' goto usage
 if '%1'=='--help' goto usage
 
 SET PS_ARGS=%*
-SET PS_ARGS=%PS_ARGS:"=\"%
-SET PS_ARGS=%PS_ARGS:\\"=\"%
+IF NOT '%1'=='' SET PS_ARGS=%PS_ARGS:"=\"%
+IF NOT '%1'=='' SET PS_ARGS=%PS_ARGS:\\"=\"%
 
 @PowerShell -NoProfile -NoLogo -ExecutionPolicy unrestricted -Command "[System.Threading.Thread]::CurrentThread.CurrentCulture = ''; [System.Threading.Thread]::CurrentThread.CurrentUICulture = '';& '%DIR%chocolatey.ps1' %PS_ARGS%"
 SET ErrLvl=%ERRORLEVEL%
