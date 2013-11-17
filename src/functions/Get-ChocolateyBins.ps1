@@ -16,6 +16,7 @@ Adding batch files for any executables found to a location on PATH. In other wor
     try {
       $files = get-childitem $packageFolder -include *.exe -recurse
       foreach ($file in $files) {
+        Write-Debug "Found '$file' for batch redirect"
         if (!(test-path($file.FullName + '.ignore'))) {
           if (test-path($file.FullName + '.gui')) {
             if ($uninstall) {
