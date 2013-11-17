@@ -22,9 +22,7 @@ start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII
 "#!/bin/sh
 DIR=`${0%/*}
 ""$pathBash"" ""`$*"" &" | Out-File $packageBashFileName -encoding ASCII
-
-  } else {
-
+    } else {
 "@echo off
 SET DIR=%~dp0%
 cmd /c ""$path %*""
@@ -34,6 +32,7 @@ exit /b %ERRORLEVEL%" | Out-File $packageBatchFileName -encoding ASCII
 DIR=`${0%/*}
 ""$pathBash"" ""`$*""
 exit `$?" | Out-File $packageBashFileName -encoding ASCII
+  }
 
   }
 }
