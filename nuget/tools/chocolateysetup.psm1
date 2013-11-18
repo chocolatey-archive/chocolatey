@@ -23,48 +23,30 @@ function Create-DirectoryIfNotExists($folderName){
   if (![System.IO.Directory]::Exists($folderName)) {[System.IO.Directory]::CreateDirectory($folderName)}
 }
 
-function Create-BinFile {
-param (
-  [string] $chocolateyPath,
-  [string] $binFilePath,
-  [Parameter(Mandatory=$false)][string] $commandText
-)
-
-  $commandShortcut = [System.IO.Path]::GetFileNameWithoutExtension("$binFilePath")
-  if ($commandText -ne $null -and $commandText -ne '') {
-    Write-Host "Creating `'$binFilePath`' so you can call 'choco $commandText' from a shortcut of '$commandShortcut'."
-    $commandText += ' %*'
-  } else {
-    Write-Host "Creating `'$binFilePath`' so you can call '$commandShortcut'."
-    $commandText = '%*'
-  }
-
-"@echo off
-SET DIR=%~dp0%
-cmd /c ""$chocolateyPath\chocolatey.cmd $commandText""
-exit /b %ERRORLEVEL%" | Out-File $binFilePath -encoding ASCII
-
-"#!/bin/sh
-""`$SYSTEMROOT/System32/cmd.exe"" /c ""`$(basename `$0).bat `$*""
-exit `$?" | Out-File $binFilePath.Replace(".bat","") -encoding ASCII
-
-}
-
-function Create-ChocolateyBinFiles {
+function Install-ChocolateyBinFiles {
 param(
-  [string] $chocolateyPath,
+  [string] $chocolateyInstallPath,
   [string] $chocolateyExePath
 )
 
-  Create-BinFile $chocolateyPath (Join-Path $chocolateyExePath 'chocolatey.bat')
-  Create-BinFile $chocolateyPath (Join-Path $chocolateyExePath 'choco.bat')
-  Create-BinFile $chocolateyPath (Join-Path $chocolateyExePath 'cinst.bat') 'install'
-  Create-BinFile $chocolateyPath (Join-Path $chocolateyExePath 'cup.bat') 'update'
-  Create-BinFile $chocolateyPath (Join-Path $chocolateyExePath 'cuninst.bat') 'uninstall'
-  Create-BinFile $chocolateyPath (Join-Path $chocolateyExePath 'clist.bat') 'list'
-  Create-BinFile $chocolateyPath (Join-Path $chocolateyExePath 'cver.bat') 'version'
-  Create-BinFile $chocolateyPath (Join-Path $chocolateyExePath 'cpack.bat') 'pack'
-  Create-BinFile $chocolateyPath (Join-Path $chocolateyExePath 'cpush.bat') 'push'
+  $redirectsPath = Join-Path $chocolateyInstallPath 'redirects'
+  $exeFiles = Get-ChildItem "$redirectsPath" -filter *.exe
+  foreach ($exeFile in $exeFiles) {
+    $exeFilePath = $exeFile.FullName
+    $exeFileName = [System.IO.Path]::GetFileName("$exeFilePath")
+    $binFilePath = Join-Path $chocolateyExePath $exeFileName
+    $binFilePathRename = $binFilePath + '.old'
+    $batchFilePath = $binFilePath.Replace(".exe",".bat")
+    $bashFilePath = $binFilePath.Replace(".exe","")
+    if (Test-Path ($batchFilePath)) {Remove-Item $batchFilePath -force}
+    if (Test-Path ($bashFilePath)) {Remove-Item $bashFilePath -force}
+    if (Test-Path ($binFilePathRename)) {Remove-Item $binFilePathRename -force}
+    if (Test-Path ($binFilePath)) {Move-Item -path $binFilePath -destination $binFilePathRename -force}
+
+    Copy-Item -path $exeFilePath -destination $binFilePath -force
+    $commandShortcut = [System.IO.Path]::GetFileNameWithoutExtension("$exeFilePath")
+    Write-Host "Added command $commandShortcut"
+  }
 }
 
 function Initialize-Chocolatey {
@@ -116,7 +98,7 @@ param(
 We are setting up the Chocolatey repository for NuGet packages that should be at the machine level. Think executables/application packages, not library packages.
 That is what Chocolatey NuGet goodness is for. The repository is set up at `'$chocolateyPath`'.
 The packages themselves go to `'$chocolateyLibPath`' (i.e. $yourPkgPath).
-A batch file for the command line goes to `'$chocolateyExePath`' and points to an executable in `'$yourPkgPath`'.
+A shim file for the command line goes to `'$chocolateyExePath`' and points to an executable in `'$yourPkgPath`'.
 
 Creating Chocolatey NuGet folders if they do not already exist.
 
@@ -131,11 +113,14 @@ Creating Chocolatey NuGet folders if they do not already exist.
 
   Install-ChocolateyFiles $chocolateyPath
 
+  Import-Module "$chocolateyInstallPath\helpers\chocolateyInstaller.psm1"
+
   $chocolateyExePathVariable = $chocolateyExePath.ToLower().Replace($chocolateyPath.ToLower(), "%DIR%..\").Replace("\\","\")
-  Create-ChocolateyBinFiles $chocolateyInstallPath.ToLower().Replace($chocolateyPath.ToLower(), "%DIR%..\").Replace("\\","\") $chocolateyExePath
+  Install-ChocolateyBinFiles $chocolateyInstallPath $chocolateyExePath
   Initialize-ChocolateyPath $chocolateyExePath $chocolateyExePathVariable
   Process-ChocolateyBinFiles $chocolateyExePath $chocolateyExePathVariable
-  Install-DotNet4IfMissing
+  Install-DotNet4IfMissing $chocolateyInstallPath
+  Remove-Module ChocolateyInstaller
 
 @"
 Chocolatey is now ready.
@@ -148,15 +133,16 @@ If you are upgrading chocolatey from an older version (prior to 0.9.8.15) and do
 
 # not a fan of using webpi here as it isn't always awesome.
 function Install-DotNet4IfMissing {
-    if([IntPtr]::Size -eq 8) {$fx="framework64"} else {$fx="framework"}
-    if(!(test-path "$env:windir\Microsoft.Net\$fx\v4.0.30319")) {
-        "Downloading and installing .NET 4.0 Framework" | Write-Host
-        $env:chocolateyPackageFolder="$env:temp\chocolatey\webcmd"
-        Import-Module $env:ChocolateyInstall\chocolateyinstall\helpers\chocolateyInstaller.psm1
-        Install-ChocolateyZipPackage 'webcmd' 'http://www.iis.net/community/files/webpi/webpicmdline_anycpu.zip' $env:temp
-        Start-ChocolateyProcessAsAdmin ".'$env:temp\WebpiCmdLine.exe' /products: NetFramework4 /SuppressReboot /accepteula"
-        Remove-Module ChocolateyInstaller
-    }
+param(
+  [string]$chocolateyInstallPath
+)
+  if([IntPtr]::Size -eq 8) {$fx="framework64"} else {$fx="framework"}
+  if(!(test-path "$env:windir\Microsoft.Net\$fx\v4.0.30319")) {
+      "Downloading and installing .NET 4.0 Framework" | Write-Host
+      $env:chocolateyPackageFolder="$env:temp\chocolatey\webcmd"
+      Install-ChocolateyZipPackage 'webcmd' 'http://www.iis.net/community/files/webpi/webpicmdline_anycpu.zip' $env:temp
+      Start-ChocolateyProcessAsAdmin ".'$env:temp\WebpiCmdLine.exe' /products: NetFramework4 /SuppressReboot /accepteula"
+  }
 }
 
 function Upgrade-OldNuGetDirectory {
@@ -255,17 +241,19 @@ param(
   $processedMarkerFile = Join-Path $chocolateyExePath '_processed.txt'
   if (!(test-path $processedMarkerFile)) {
     $files = get-childitem $chocolateyExePath -include *.bat -recurse
-    foreach ($file in $files) {
-      Write-Host "Processing $($file.Name) to make it portable"
-      $fileStream = [System.IO.File]::Open("$file", 'Open', 'Read', 'ReadWrite')
-      $reader = New-Object System.IO.StreamReader($fileStream)
-      $fileText = $reader.ReadToEnd()
-      $reader.Close()
-      $fileStream.Close()
+    if ($files -ne $null -and $files.Count -gt 0) {
+      foreach ($file in $files) {
+        Write-Host "Processing $($file.Name) to make it portable"
+        $fileStream = [System.IO.File]::Open("$file", 'Open', 'Read', 'ReadWrite')
+        $reader = New-Object System.IO.StreamReader($fileStream)
+        $fileText = $reader.ReadToEnd()
+        $reader.Close()
+        $fileStream.Close()
 
-      $fileText = $fileText.ToLower().Replace("`"" + $chocolateyPath.ToLower(), "SET DIR=%~dp0%`n""%DIR%..\").Replace("\\","\")
+        $fileText = $fileText.ToLower().Replace("`"" + $chocolateyPath.ToLower(), "SET DIR=%~dp0%`n""%DIR%..\").Replace("\\","\")
 
-      Set-Content $file -Value $fileText -Encoding Ascii
+        Set-Content $file -Value $fileText -Encoding Ascii
+      }
     }
 
     Set-Content $processedMarkerFile -Value "$([System.DateTime]::Now.Date)" -Encoding Ascii
