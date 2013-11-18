@@ -1,6 +1,6 @@
 ﻿function Run-NuGet {
 param(
-  [string] $packageName, 
+  [string] $packageName,
   [string] $source = '',
   [string] $version = ''
 )
@@ -13,7 +13,7 @@ param(
   if ($version -notlike '') {
     $packageArgs = $packageArgs + " -Version $version";
   }
-  
+
   if ($prerelease -eq $true) {
     $packageArgs = $packageArgs + " -Prerelease";
   }
@@ -21,7 +21,7 @@ param(
   $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
   Write-Debug "Calling `'$nugetExe`' $packageArgs"
 
-  $process = New-Object system.Diagnostics.Process
+  $process = New-Object System.Diagnostics.Process
   $process.StartInfo = new-object System.Diagnostics.ProcessStartInfo($nugetExe, $packageArgs)
   $process.StartInfo.RedirectStandardOutput = $true
   $process.StartInfo.RedirectStandardError = $true
@@ -44,12 +44,12 @@ param(
   if ($errors -ne '') {
     Throw $errors
   }
-  
+
   if (($nugetOutput -eq '' -or $nugetOutput -eq $null) -and ($errors -eq '' -or $errors -eq $null)) {
     $noExecution = 'Execution of NuGet not detected. Please make sure you have .NET Framework 4.0 installed and are passing arguments to the install command.'
     #write-host  -BackgroundColor Red -ForegroundColor White
     Throw $noExecution
   }
-  
+
   return $nugetOutput
 }
