@@ -74,7 +74,7 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
             Remove-Item $packageFolder -force -recurse
           } else {
 
-            Write-Host "______ $installedPackageName v$installedPackageVersion ______" -ForegroundColor $RunNote -BackgroundColor Black
+            Write-Host "$installedPackageName v$installedPackageVersion" -ForegroundColor $Note -BackgroundColor Black
 
             if ([System.IO.Directory]::Exists($packageFolder)) {
               try {
