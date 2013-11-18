@@ -2,19 +2,53 @@ function Generate-BinFile {
 param(
   [string] $name,
   [string] $path,
-  [switch] $useStart
+  [switch] $useStart,
+  [string] $command = ''
 )
-  Write-Debug "Running 'Generate-BinFile' for $name with path:`'$path`'";
+  Write-Debug "Running 'Generate-BinFile' for $name with path:`'$path`'|`$useStart:$useStart|`$command:$command";
 
   $packageBatchFileName = Join-Path $nugetExePath "$name.bat"
   $packageBashFileName = Join-Path $nugetExePath "$name"
-  $path = $path.ToLower().Replace($nugetPath.ToLower(), "%DIR%..\").Replace("\\","\")
-  $pathBash = $path.Replace("%DIR%..\","`$DIR/../").Replace("\","/")
-  Write-Host "Adding $packageBatchFileName and pointing to `'$path`'." -ForegroundColor $Note
-  Write-Host "Adding $packageBashFileName and pointing to `'$path`'." -ForegroundColor $Note
-  if ($useStart) {
-    Write-Host "Setting up $name as a non-command line application."  -ForegroundColor $Note
+  $packageShimFileName = Join-Path $nugetExePath "$name.exe"
 
+  if (Test-Path ($packageBatchFileName)) {Remove-Item $packageBatchFileName -force}
+  if (Test-Path ($packageBashFileName)) {Remove-Item $packageBashFileName -force}
+  $path = $path.ToLower().Replace($nugetPath.ToLower(), "..\").Replace("\\","\")
+
+  $ShimGenArgs = "-o $packageShimFileName -p $path"
+  if ($command -ne $null -and $command -ne '') {
+    $ShimGenArgs +=" -c $command"
+  }
+  if ($useStart) {
+    $ShimGenArgs +=" -gui"
+  }
+
+  Write-Debug "Calling $ShimGen $ShimGenArgs"
+
+  if (Test-Path ("$ShimGen")) {
+    #Start-Process "$ShimGen" -ArgumentList "$ShimGenArgs" -Wait -WindowStyle Hidden
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = new-object System.Diagnostics.ProcessStartInfo($ShimGen, $ShimGenArgs)
+    $process.StartInfo.RedirectStandardOutput = $true
+    $process.StartInfo.RedirectStandardError = $true
+    $process.StartInfo.UseShellExecute = $false
+    $process.StartInfo.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Hidden
+
+    $process.Start() | Out-Null
+    $process.WaitForExit()
+  }
+
+  if (Test-Path ($packageShimFileName)) {
+    Write-Host "Added $packageShimFileName shim pointed to `'$path`'." -ForegroundColor $Note
+  } else {
+    Write-Warning "An error occurred generating shim, using old method."
+
+    $path = "%DIR%$($path)"
+    $pathBash = $path.Replace("%DIR%..\","`$DIR/../").Replace("\","/")
+    Write-Host "Adding $packageBatchFileName and pointing to `'$path`'." -ForegroundColor $Note
+    Write-Host "Adding $packageBashFileName and pointing to `'$path`'." -ForegroundColor $Note
+    if ($useStart) {
+      Write-Host "Setting up $name as a non-command line application."  -ForegroundColor $Note
 "@echo off
 SET DIR=%~dp0%
 start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII
@@ -22,7 +56,9 @@ start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII
 "#!/bin/sh
 DIR=`${0%/*}
 ""$pathBash"" ""`$*"" &" | Out-File $packageBashFileName -encoding ASCII
+
     } else {
+
 "@echo off
 SET DIR=%~dp0%
 cmd /c ""$path %*""
@@ -32,7 +68,7 @@ exit /b %ERRORLEVEL%" | Out-File $packageBatchFileName -encoding ASCII
 DIR=`${0%/*}
 ""$pathBash"" ""`$*""
 exit `$?" | Out-File $packageBashFileName -encoding ASCII
-  }
 
+    }
   }
 }

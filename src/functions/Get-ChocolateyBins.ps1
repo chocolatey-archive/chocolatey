@@ -15,6 +15,7 @@ Adding batch files for any executables found to a location on PATH. In other wor
     $batchCreated = $false
     try {
       $files = get-childitem $packageFolder -include *.exe -recurse
+      if ($files -ne $null) { Write-Debug "Found $($files.Count) exe files to possibly generate." }
       foreach ($file in $files) {
         Write-Debug "Found '$file' for batch redirect"
         if (!(test-path($file.FullName + '.ignore'))) {
