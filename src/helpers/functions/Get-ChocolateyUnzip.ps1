@@ -63,12 +63,12 @@ param(
   }
 
   if ($zipExtractLogFullPath) {
-    $unzipOps = "Start-Process `"$7zip`" -ArgumentList `"x -o`"`"$destination`"`" -y `"`"$fileFullPath`"`"`" -Wait"
+    $unzipOps = "Start-Process `"$7zip`" -ArgumentList `"x -o`"`"$destination`"`" -y `"`"$fileFullPath`"`"`" -Wait -Windowstyle Hidden"
     $scriptBlock = [scriptblock]::create($unzipOps)
 
     Write-FileUpdateLog $zipExtractLogFullPath $destination $scriptBlock
   } else {
-    Start-Process "$7zip" -ArgumentList "x -o`"$destination`" -y `"$fileFullPath`"" -Wait
+    Start-Process "$7zip" -ArgumentList "x -o`"$destination`" -y `"$fileFullPath`"" -Wait -WindowStyle Hidden
   }
 
   return $destination
