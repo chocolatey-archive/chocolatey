@@ -6,8 +6,14 @@ param(
   Write-Debug "Running 'Chocolatey-List' with selector: `'$selector`', source:`'$source`'";
 
   if ($source -like 'webpi') {
+    $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWebPIList.log';
     $webpiArgs ="/c webpicmd /List /ListOption:All"
-    & cmd.exe $webpiArgs 
+    Start-ChocolateyProcessAsAdmin "cmd.exe $webpiArgs | Tee-Object -FilePath `'$chocoInstallLog`';" -nosleep
+    Create-InstallLogIfNotExists $chocoInstallLog
+    $installOutput = Get-Content $chocoInstallLog -Encoding Ascii
+    foreach ($line in $installOutput) {
+      Write-Host $line
+    }
   } elseif ($source -like 'windowsfeatures') {
     $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWindowsFeaturesInstall.log';
     Append-Log $chocoInstallLog
