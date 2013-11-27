@@ -1,7 +1,7 @@
 ﻿function Chocolatey-List {
 param(
-  [string] $selector='', 
-  [string] $source='' 
+  [string] $selector='',
+  [string] $source=''
 )
   Write-Debug "Running 'Chocolatey-List' with selector: `'$selector`', source:`'$source`'";
 
@@ -18,29 +18,28 @@ param(
     foreach ($line in $installOutput) {
       Write-Host $line
     }
-  } else {  
-  
-  	$srcArgs = Get-SourceArguments $source
+  } else {
+    $srcArgs = Get-SourceArguments $source
 
     if ($localonly) {
       $srcArgs = "-Source $nugetLibPath"
     }
-    
+
     $parameters = "list"
     if ($selector -ne '') {
       $parameters = "$parameters ""$selector"""
     }
-    
+
     if ($allVersions -eq $true) {
       Write-Debug "Showing all versions of packages"
       $parameters = "$parameters -all"
     }
-    
+
     if ($prerelease -eq $true) {
       Write-Debug "Showing prerelease versions of packages"
       $parameters = "$parameters -Prerelease";
     }
-    
+
     if ($verbosity -eq $true) {
       $parameters = "$parameters -verbosity detailed";
     }
@@ -48,6 +47,6 @@ param(
     Write-Debug "Calling nuget with `'$parameters $srcArgs`'"
     $parameters = "$parameters $srcArgs -NonInteractive"
 
-    Start-Process $nugetExe -ArgumentList $parameters -NoNewWindow -Wait 
+    Start-Process $nugetExe -ArgumentList $parameters -NoNewWindow -Wait
   }
 }

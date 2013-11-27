@@ -38,7 +38,7 @@ There is no error handling built into this method.
 Install-ChocolateyPackage
 #>
 param(
-  [string] $packageName, 
+  [string] $packageName,
   [string] $fileType = 'exe',
   [string] $silentArgs = '',
   [string] $file,
@@ -47,23 +47,23 @@ param(
   Write-Debug "Running 'Install-ChocolateyInstallPackage' for $packageName with file:`'$file`', args: `'$silentArgs`' ";
   $installMessage = "Installing $packageName..."
   write-host $installMessage
-  
+
   $ignoreFile = $file + '.ignore'
   '' | out-file $ignoreFile
 
   $additionalInstallArgs = $env:chocolateyInstallArguments;
   if ($additionalInstallArgs -eq $null) { $additionalInstallArgs = ''; }
   $overrideArguments = $env:chocolateyInstallOverride;
-    
+
   if ($fileType -like 'msi') {
-    $msiArgs = "/i `"$file`"" 
-    if ($overrideArguments) { 
+    $msiArgs = "/i `"$file`""
+    if ($overrideArguments) {
       $msiArgs = "$msiArgs $additionalInstallArgs";
       write-host "Overriding package arguments with `'$additionalInstallArgs`'";
     } else {
       $msiArgs = "$msiArgs $silentArgs $additionalInstallArgs";
     }
-    
+
     Start-ChocolateyProcessAsAdmin "$msiArgs" 'msiexec' -validExitCodes $validExitCodes
     #Start-Process -FilePath msiexec -ArgumentList $msiArgs -Wait
   }
