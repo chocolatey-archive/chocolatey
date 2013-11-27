@@ -49,7 +49,11 @@ param(
   write-host $installMessage
 
   $ignoreFile = $file + '.ignore'
-  '' | out-file $ignoreFile
+  try {
+    '' | out-file $ignoreFile
+  } catch {
+    Write-Warning "Unable to generate `'$ignoreFile`'"
+  }
 
   $additionalInstallArgs = $env:chocolateyInstallArguments;
   if ($additionalInstallArgs -eq $null) { $additionalInstallArgs = ''; }
