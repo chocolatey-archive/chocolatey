@@ -9,27 +9,27 @@ param(
     write-host 'Source must be specified and cannot be nuget.org/chocolatey.org'
     return
   }
-  
+
   if ($source.StartsWith('http')) {
     $webClient = New-Object System.Net.WebClient
-    
+
     if (!$source.EndsWith('/')) { $source = $source + '/' }
-    $feedUrl = $source + 'Packages/' 
+    $feedUrl = $source + 'Packages/'
     write-host "Installing all packages from $feedUrl"
-    
-    $feed = [xml]$webClient.DownloadString($feedUrl) 
-    $entries = $feed | select -ExpandProperty feed | select -ExpandProperty entry  
+
+    $feed = [xml]$webClient.DownloadString($feedUrl)
+    $entries = $feed | select -ExpandProperty feed | select -ExpandProperty entry
     foreach ($entry in $entries) {
       if ($entry.properties.id -ne $null) {
         Invoke-ChocolateyFunction "Chocolatey-Nuget" @("$entry.properties.id","-version $entry.properties.version","-source $source") 
 
       }
-    } 
+    }
   } else {
     $files = get-childitem $source -include *.nupkg -recurse
     foreach ($file in $files) {
       $packageName = $file.Name -replace "(\.\d{1,})+.nupkg"
-      Invoke-ChocolateyFunction "Chocolatey-Nuget" @($packageName," -source $source") 
+      Invoke-ChocolateyFunction "Chocolatey-Nuget" @($packageName," -source $source")
     }
   }
 }
