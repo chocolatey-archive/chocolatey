@@ -21,8 +21,9 @@ param(
     $entries = $feed | select -ExpandProperty feed | select -ExpandProperty entry
     foreach ($entry in $entries) {
       if ($entry.properties.id -ne $null) {
-        Invoke-ChocolateyFunction "Chocolatey-Nuget" @("$entry.properties.id","-version $entry.properties.version","-source $source") 
-
+        $pkgId = $entry.properties.id
+        $pkgVersion = $entry.properties.version
+        Invoke-ChocolateyFunction "Chocolatey-Nuget" @("$pkgId","-version $pkgVersion","-source $source")
       }
     }
   } else {
