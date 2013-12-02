@@ -33,7 +33,6 @@ param(
   $nugetOutput = $process.StandardOutput.ReadToEnd()
   $errors = $process.StandardError.ReadToEnd()
 
-
   $nugetOutput | Out-File $logFile
   $errors | Out-File $errorLogFile
 

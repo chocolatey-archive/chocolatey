@@ -6,7 +6,7 @@ param(
   $chocTempDir = Join-Path $env:TEMP "chocolatey"
   $tempDir = Join-Path $chocTempDir "$packageName"
   if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
-  
+
   $errorLog = Join-Path $tempDir 'failure.log'
   try {
     if ([System.IO.File]::Exists($errorLog)) {
@@ -18,7 +18,7 @@ param(
   } catch {
     Write-Error "Could not rename `'$errorLog`' to `'$($errorLog).old`': $($_.Exception.Message)"
   }
-  
+
   $logFile = Join-Path $tempDir 'success.log'
   #Write-Host "Writing to $logFile"
 

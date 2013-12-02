@@ -18,14 +18,14 @@ param(
   } catch {
     Write-Error "Could not rename `'$successLog`' to `'$($successLog).old`': $($_.Exception.Message)"
   }
-	
+
   $logFile = Join-Path $tempDir 'failure.log'
   #Write-Host "Writing to $logFile"
-	
-	$errorMessage = "$packageName did not finish successfully. Boo to the chocolatey gods!
+
+  $errorMessage = "$packageName did not finish successfully. Boo to the chocolatey gods!
 -----------------------
 [ERROR] $failureMessage
------------------------" 
-	$errorMessage | Out-File -FilePath $logFile -Force -Append
-	Write-Error $errorMessage
+-----------------------"
+  $errorMessage | Out-File -FilePath $logFile -Force -Append
+  Write-Error $errorMessage
 }

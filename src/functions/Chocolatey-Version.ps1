@@ -15,7 +15,6 @@ param(
   }
 
   $srcArgs = Get-SourceArguments $source
-
   Write-Debug "based on: `'$srcArgs`' feed"
 
   $versionsObj = New-Object –typename PSObject
@@ -74,9 +73,7 @@ param(
       $versions = @{name=$package; latest = $versionLatest; found = $versionFound; latestCompare = $versionLatestCompare; foundCompare = $versionFoundCompare; verMessage = $verMessage}
       $versionsObj = New-Object –typename PSObject -Property $versions
       $versionsObj
-    }
-
-    else {
+    } else {
       $versions = @{name=$package; found = $versionFound}
       $versionsObj = New-Object –typename PSObject -Property $versions
       $versionsObj

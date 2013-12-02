@@ -10,11 +10,11 @@ param(
       Write-Debug "Using $($latestPackageVersion.Value) as the latest version (from multiple found versions)"
       $latestVersion = $latestPackageVersion.Value
     }
-	else {
+  else {
     Write-Debug "Using $($packageversions.value) as the latest version"
-		$latestversion=$packageversions.value
-	}
+    $latestversion=$packageversions.value
   }
- 
+  }
+
   return $latestVersion
 }
