@@ -9,16 +9,24 @@ param(
   
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWindowsFeaturesInstall.log';
   Append-Log $chocoInstallLog
-  
+
+  # On a 64-bit OS, the 32-bit version of DISM can be called if the powershell host is 32-bit and results in an error...
+  # To fix this, we need to use a not-well know feature of 32-bit shells running on 64-bit OS, the "sysnative" directory.
+  if (Test-Path "$env:WinDir\sysnative\dism.exe") { 
+    $dism = "$env:WinDir\sysnative\dism.exe"
+  } else {
+    $dism = "$env:WinDir\System32\dism.exe"
+  }
+
   $checkStatement=@"
-`$dismInfo=(DISM /Online /Get-FeatureInfo /FeatureName:$packageName)
+`$dismInfo=(cmd /c `"$dism /Online /Get-FeatureInfo /FeatureName:$packageName`")
 if(`$dismInfo -contains 'State : Enabled') {return}
 if(`$dismInfo -contains 'State : Enable Pending') {return}
 "@
 
   $osVersion = (Get-WmiObject -class Win32_OperatingSystem).Version
  
-  $packageArgs = "/c DISM /Online /NoRestart /Enable-Feature"
+  $packageArgs = "/c $dism /Online /NoRestart /Enable-Feature"
   if($osVersion -ge 6.2) {
     $packageArgs += " /all"
   }
