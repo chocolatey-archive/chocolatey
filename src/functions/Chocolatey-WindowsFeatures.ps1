@@ -33,7 +33,7 @@ if(`$dismInfo -contains 'State : Enable Pending') {return}
   $packageArgs += " /FeatureName:$packageName"
   
   Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..." -ForegroundColor $Warning -BackgroundColor Black
-  $statements = $checkStatement + "cmd.exe $packageArgs | Tee-Object -FilePath `'$chocoInstallLog`';"
+  $statements = $checkStatement + "`ncmd.exe $packageArgs | Tee-Object -FilePath `'$chocoInstallLog`';"
   Start-ChocolateyProcessAsAdmin "$statements" -minimized -nosleep -validExitCodes @(0,1)
 
   Create-InstallLogIfNotExists $chocoInstallLog
