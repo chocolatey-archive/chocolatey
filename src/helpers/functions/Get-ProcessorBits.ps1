@@ -17,17 +17,26 @@ param(
 )
   Write-Debug "Running 'System-GetBits'"
 
-  #TODO: This is trivial at the moment, but Get-WmiObject Win32_Processor IS SLOW.
-  #      Can we cache this?
+	# Get address width for the Operating System (not the Processor)
+	$os		= Get-WmiObject Win32_OperatingSystem
+	$osArch = $os.OSArchitecture
 
-  # Get the address width
-    $proc = Get-WmiObject Win32_Processor
-    $procCount = (Get-WmiObject Win32_ComputerSystem).NumberofProcessors
-    if ($procCount -eq '1') {
-        $bits = $proc.AddressWidth
-    } else {
-        $bits = $proc[0].AddressWidth
-    }
+	# Detection for older systems
+	if (-Not $osArch) {
+		if ([System.IntPtr]::Size -eq 4) { 
+			$osArch = "32-bit"
+		} else {
+			$osArch = "64-bit"
+		}
+	}
+
+	# Integer
+	if ($osArch -eq '64-bit') {
+		$bits = 64
+	} else {
+		$bits = 32
+	}
+
 
   # Return bool|int
   if ("$compare" -ne '' -and $compare -eq $bits) {
