@@ -1,7 +1,11 @@
 Chocolatey NuGet (like apt-get, but for Windows)
 =======
-![Chocolatey Logo](https://github.com/chocolatey/chocolatey/raw/master/docs/logo/chocolateyicon.gif "Chocolatey")  
-  
+[![Chocolatey Logo](https://github.com/chocolatey/chocolatey/raw/master/docs/logo/chocolateyicon.gif "Chocolatey")](http://chocolatey.org/)
+
+# WEBSITE
+
+[Chocolatey.org](http://chocolatey.org/)
+
 # LICENSE
 Apache 2.0 - see docs/legal (just LEGAL in the zip folder)
   
