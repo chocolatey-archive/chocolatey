@@ -15,7 +15,7 @@ param(
   if (Test-Path ($packageBashFileName)) {Remove-Item $packageBashFileName -force}
   $path = $path.ToLower().Replace($nugetPath.ToLower(), "..\").Replace("\\","\")
 
-  $ShimGenArgs = "-o $packageShimFileName -p $path"
+  $ShimGenArgs = "-o `"$packageShimFileName`" -p `"$path`""
   if ($command -ne $null -and $command -ne '') {
     $ShimGenArgs +=" -c $command"
   }
