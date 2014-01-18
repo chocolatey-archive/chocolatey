@@ -7,7 +7,7 @@
   [alias("ia","installArgs")][string] $installArguments = '',
   [alias("o","override","overrideArguments","notSilent")]
   [switch] $overrideArgs = $false,
-  [switch] $force = $false,
+  [alias("f")][switch] $force = $false,
   [alias("pre")][switch] $prerelease = $false,
   [alias("lo")][switch] $localonly = $false,
   [switch] $verbosity = $false,
