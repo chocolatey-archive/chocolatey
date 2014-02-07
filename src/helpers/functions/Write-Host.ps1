@@ -12,7 +12,7 @@ param(
   "$(get-date -format 'yyyyMMdd-HH:mm:ss') [CHOCO] $Object"| Out-File -FilePath $chocoInstallLog -Force -Append
   
   $oc = Get-Command 'Write-Host' -Module 'Microsoft.PowerShell.Utility'
-  if($env:ChocolateyEnvironmentLogOutput -eq 'false') {
+  if($env:ChocolateyEnvironmentQuiet -eq 'true') {
     $oc = {}
   }
   

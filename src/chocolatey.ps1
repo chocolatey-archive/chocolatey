@@ -18,7 +18,7 @@
   [alias("params")][alias("parameters")][alias("pkgParams")][string]$packageParameters = '',
   [parameter(Position=1, ValueFromRemainingArguments=$true)]
   [string[]]$packageNames=@(''),
-  [switch] $logout = $true
+  [switch] $quiet = $false
 )
 
 [switch] $debug = $false
@@ -60,7 +60,7 @@ $h2 = '-------------------------'
 $globalConfig = ''
 $userConfig = ''
 $env:ChocolateyEnvironmentDebug = 'false'
-$env:ChocolateyEnvironmentLogOutput = 'true'
+$env:ChocolateyEnvironmentQuiet = 'false'
 $RunNote = "DarkCyan"
 $Warning = "Magenta"
 $ErrorColor = "Red"
@@ -73,8 +73,8 @@ if ($debug) {
   $env:ChocolateyEnvironmentDebug = 'true'
 }
 
-if ($logout -eq $false) {
-  $env:ChocolateyEnvironmentLogOutput = 'false'
+if ($quiet) {
+  $env:ChocolateyEnvironmentQuiet = 'true'
 }
 
 $installModule = Join-Path $nugetChocolateyPath (Join-Path 'helpers' 'chocolateyInstaller.psm1')
@@ -127,7 +127,7 @@ $packageParameters = $packageParameters.Replace("'","""")
 #main entry point
 Append-Log
 
-Write-Debug "Arguments: `$command = '$command'|`$packageNames='$packageNames'|`$source='$source'|`$version='$version'|`$allVersions=$allVersions|`$InstallArguments='$installArguments'|`$overrideArguments=$overrideArgs|`$force=$force|`$prerelease=$prerelease|`$localonly=$localonly|`$verbosity=$verbosity|`$debug=$debug|`$logout=$logout|`$name='$name'|`$ignoreDependencies=$ignoreDependencies|`$forceX86=$forceX86|`$packageParameters='$packageParameters'|PowerShellVersion=$($host.version)"
+Write-Debug "Arguments: `$command = '$command'|`$packageNames='$packageNames'|`$source='$source'|`$version='$version'|`$allVersions=$allVersions|`$InstallArguments='$installArguments'|`$overrideArguments=$overrideArgs|`$force=$force|`$prerelease=$prerelease|`$localonly=$localonly|`$verbosity=$verbosity|`$debug=$debug|`$quiet=$quiet|`$name='$name'|`$ignoreDependencies=$ignoreDependencies|`$forceX86=$forceX86|`$packageParameters='$packageParameters'|PowerShellVersion=$($host.version)"
 
 # run level environment variables
 
