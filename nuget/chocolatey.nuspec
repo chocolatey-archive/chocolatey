@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.23</version>
+    <version>0.9.8.24-alpha1</version>
     <authors>Rob Reynolds</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -33,14 +33,11 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
 
 </description>
     <releaseNotes>
-See all - https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes
+See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
-v0.9.8.23:
+v0.9.8.24:
 
-BUG FIXES:
-
- * Fix - Chocolatey 0.9.8.22 incorrectly reports version as alpha1 [#368](https://github.com/chocolatey/chocolatey/issues/368)
- * Fix - Some chocolatey commands with no arguments error [#369](https://github.com/chocolatey/chocolatey/issues/369)
+  Will be listed later, for now see source code
 
     </releaseNotes>
     <projectUrl>http://chocolatey.org</projectUrl>
