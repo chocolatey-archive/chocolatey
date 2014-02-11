@@ -4,11 +4,13 @@
     <id>chocolatey</id>
     <title>Chocolatey</title>
     <version>0.9.8.24-alpha1</version>
-    <authors>Rob Reynolds</authors>
+    <authors>Rob Reynolds, The Chocolatey Team</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
     <description>
 Chocolatey is a package manager for Windows (like apt-get but for Windows). It was designed to be a decentralized framework for quickly installing applications and tools that you need. It is built on the NuGet infrastructure currently using PowerShell as its focus for delivering packages from the distros to your door, err computer.
+
+Chocolatey is brought to you by the work and inspiration of the community, the work and thankless nights of the Chocolatey Team (https://github.com/orgs/chocolatey/members), and Rob heading up the direction.
 
 You can host your own sources and add them to chocolatey, you can extend chocolatey's capabilities, and folks, it's only going to get better.
 
@@ -43,6 +45,7 @@ v0.9.8.24:
     <projectUrl>http://chocolatey.org</projectUrl>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <copyright>RealDimensions Software, LLC - 2011-Present</copyright>
     <tags>nuget apt-get machine repository chocolatey</tags>
     <iconUrl>https://github.com/chocolatey/chocolatey/raw/master/docs/logo/chocolateyicon.gif</iconUrl>
   </metadata>
