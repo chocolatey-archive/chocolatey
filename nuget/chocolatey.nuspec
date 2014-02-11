@@ -7,20 +7,30 @@
     <authors>Rob Reynolds</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
-    <description>Chocolatey - think executables/application packages (like apt-get for Windows), not library packages. This is what the Chocolatey NuGet goodness is for.
-Chocolatey allows you to install application nuggets and run executables from anywhere.
-======= Executable Nuggets =======
-For example, say you have an executable in the tools folder of your package named bob.exe. Then you can type
-'chocolatey install yourPackageName [-source source] [-version version]' OR 'cinst yourPackageName [-source source] [-version version]'
-and when it finishes you can type
-'bob'
-and it will run your application executable.
-======= Application Nuggets =======
-Full on double rainbow. For example, say you type
-'chocolatey install 7zip [-source source] [-version version]' OR 'cinst 7zip [-source source] [-version version]'
-- when it finishes you will have installed 7zip on your machine (in your add/remove programs).
-======= More? =======
-Check out the WIKI in the project URL for all the details of what you can do with chocolatey!
+    <description>
+Chocolatey is a package manager for Windows (like apt-get but for Windows). It was designed to be a decentralized framework for quickly installing applications and tools that you need. It is built on the NuGet infrastructure currently using PowerShell as its focus for delivering packages from the distros to your door, err computer.
+
+You can host your own sources and add them to chocolatey, you can extend chocolatey's capabilities, and folks, it's only going to get better.
+
+== Commands ==
+There are quite a few commands you can call - you should check out the command reference at: https://github.com/chocolatey/chocolatey/wiki/CommandsReference
+
+    Search - choco search something
+    List - choco list -lo
+    Install - choco install baretail
+    Update - choco update baretail
+    Uninstall - choco uninstall baretail
+
+More advanced commands and switches listed on the command reference, including how you can force a package to install the x86 version of a package.
+
+== Create Packages? ==
+We have some great guidance on how to do that. Where? I'll give you a hint, it rhymes with sticky! https://github.com/chocolatey/chocolatey/wiki/CreatePackages
+
+In that mess there is a link to the Helper Reference - https://github.com/chocolatey/chocolatey/wiki/HelpersReference
+
+== Chocolatey gods? ==
+Humor related to playing off of tiki gods. We like humor. Don't take life so seriously, you will never get out alive.
+
 </description>
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/wiki/ReleaseNotes
