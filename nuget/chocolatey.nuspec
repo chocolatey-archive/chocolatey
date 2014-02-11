@@ -17,11 +17,11 @@ You can host your own sources and add them to chocolatey, you can extend chocola
 == Commands ==
 There are quite a few commands you can call - you should check out the command reference at: https://github.com/chocolatey/chocolatey/wiki/CommandsReference
 
-    Search - choco search something
-    List - choco list -lo
-    Install - choco install baretail
-    Update - choco update baretail
-    Uninstall - choco uninstall baretail
+ * Search - choco search something
+ * List - choco list -lo
+ * Install - choco install baretail
+ * Update - choco update baretail
+ * Uninstall - choco uninstall baretail
 
 More advanced commands and switches listed on the command reference, including how you can force a package to install the x86 version of a package.
 
