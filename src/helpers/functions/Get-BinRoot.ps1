@@ -14,7 +14,7 @@ function Get-BinRoot {
   # For now, check old var first
   if ($env:ChocolateyBinRoot -eq $null) { # If no value
     if ($env:chocolatey_bin_root -eq $null) { # Try old var
-      $binRoot = join-path $env:systemdrive 'tools'
+      $env:ChocolateyBinRoot = join-path $env:systemdrive 'tools'
     }
     else {
       $env:ChocolateyBinRoot = $env:chocolatey_bin_root
