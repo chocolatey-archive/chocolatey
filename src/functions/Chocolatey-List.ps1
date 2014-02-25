@@ -25,10 +25,12 @@ param(
       Write-Host $line
     }
   } else {
-    $srcArgs = Get-SourceArguments $source
-
+  
+    $srcArgs = ""
     if ($localonly) {
       $srcArgs = "-Source $nugetLibPath"
+    } else {
+		$srcArgs = Get-SourceArguments $source
     }
 
     $parameters = "list"
