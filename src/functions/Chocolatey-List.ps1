@@ -1,7 +1,8 @@
 ﻿function Chocolatey-List {
 param(
   [string] $selector='',
-  [string] $source=''
+  [string] $source='',
+  [switch] $returnOutput = $false
 )
   Write-Debug "Running 'Chocolatey-List' with selector: `'$selector`', source:`'$source`'";
 
@@ -25,36 +26,81 @@ param(
       Write-Host $line
     }
   } else {
-  
-    $srcArgs = ""
-    if ($localonly) {
-      $srcArgs = "-Source $nugetLibPath"
-    } else {
-		$srcArgs = Get-SourceArguments $source
-    }
-
+    $params = @()
+    $params += 'list'
     $parameters = "list"
     if ($selector -ne '') {
-      $parameters = "$parameters ""$selector"""
+      $params += "`"$selector`""
     }
 
     if ($allVersions -eq $true) {
       Write-Debug "Showing all versions of packages"
-      $parameters = "$parameters -all"
+      $params += '-all'
     }
 
-    if ($prerelease -eq $true) {
+    if ($prerelease -eq $true -or $localonly) {
       Write-Debug "Showing prerelease versions of packages"
-      $parameters = "$parameters -Prerelease";
+      $params += '-Prerelease'
     }
 
     if ($verbosity -eq $true) {
-      $parameters = "$parameters -verbosity detailed";
+      $params += '-verbosity', 'detailed'
+    }
+    $params += '-NonInteractive'
+
+    if ($localonly) {
+      $source = $nugetLibPath
     }
 
-    Write-Debug "Calling nuget with `'$parameters $srcArgs`'"
-    $parameters = "$parameters $srcArgs -NonInteractive"
+    if ($source -ne '') {
+      $params += '-Source', "`"$source`""
+    } else {
+      $srcArgs = Get-SourceArguments $source
+      if ($srcArgs -ne '') {
+        $srcArgs = $srcArgs.Replace('-Source ','')
+        $params += '-Source', "$srcArgs" #already quoted from Get-SourceArguments
+      }
+    }
 
-    Start-Process $nugetExe -ArgumentList $parameters -NoNewWindow -Wait
+    Write-Debug "Executing command [`"$nugetExe`" $params]"
+    $global:packageList = @{}
+    $LogAction = {
+      # we know this is one line of data otherwise we would need to split lines
+      foreach ($line in $EventArgs.Data) {
+        Write-Host "$line"
+        if (!$line.IsNullOrEmpty) {
+          $package = $line.Split(" ")
+          $global:packageList.Add("$($package[0])","$($package[1])")
+        }
+      }
+    }
+    $writeOutput = $LogAction
+    $writeError = $LogAction
+    #(Start-Process $nugetExe -ArgumentList $params -NoNewWindow -Wait) | Tee-Object -Variable listOutput
+    $process = New-Object System.Diagnostics.Process
+    $process.StartInfo = New-Object System.Diagnostics.ProcessStartInfo($nugetExe, $params)
+    $process.EnableRaisingEvents = $true
+    Register-ObjectEvent  -InputObject $process -EventName OutputDataReceived -Action $writeOutput | Out-Null
+    Register-ObjectEvent -InputObject $process -EventName ErrorDataReceived -Action  $writeError | Out-Null
+
+    if ($returnOutput) {
+      # Redirecting output slows things down a bit. In
+      # the interest of performance, only use redirection
+      # if we are returning a PS-Object at the end
+      $process.StartInfo.RedirectStandardOutput = $true
+      $process.StartInfo.RedirectStandardError = $true
+    }
+    $process.StartInfo.UseShellExecute = $false
+
+    $process.Start() | Out-Null
+    if ($process.StartInfo.RedirectStandardOutput) { $process.BeginOutputReadLine() }
+    if ($process.StartInfo.RedirectStandardError) { $process.BeginErrorReadLine() }
+    $process.WaitForExit()
+
+    Write-Debug "Command [`"$nugetExe`" $params] exited with `'$($process.ExitCode)`'."
+
+    if ($returnOutput) {
+      return $packageList
+    }
   }
 }
