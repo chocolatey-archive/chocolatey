@@ -79,4 +79,7 @@ param(
   Start-Sleep 2 #give it a sec or two to finish up copying
 
   Get-CheckSumValid -file $fileFullPath -checkSum $checkSum
+
+  # $url is already set properly to the used location.
+  Get-VirusCheckValid -location $url -checkSum $checkSum
 }
