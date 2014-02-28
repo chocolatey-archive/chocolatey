@@ -1,5 +1,7 @@
 function Get-BinRoot {
 
+  Write-Debug "Running 'Get-BinRoot'";
+
   # Since CamelCase was decided upon when $env:ChocolateyInstall was first invented, whe should stick to this convention and use $env:ChocolateyBinRoot.
   # I propose:
   #    1) all occurances of $env:chocolatey_bin_root be replaced with $env:ChocolateyBinRoot;

@@ -11,7 +11,6 @@ function Get-Sources
   else
   {
     Write-Debug "Combining global and user config sources"
-
     $allSources = $userSources.selectNodes("//source") + $globalSources.selectNodes("//source")
 
     # filter out all the disabled sources

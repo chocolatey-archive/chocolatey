@@ -4,17 +4,17 @@ function Install-ChocolateyVsixPackage {
 Downloads and installs a VSIX package for Visual Studio
 
 .PARAMETER PackageName
-The name of the package we want to download - this is 
-arbitrary, call it whatever you want. It's recommended 
+The name of the package we want to download - this is
+arbitrary, call it whatever you want. It's recommended
 you call it the same as your nuget package id.
 
 .PARAMETER VsixUrl
 The URL of the package to be installed
 
 .PARAMETER VsVersion
-The Major version number of Visual Studio where the 
-package should be installed. This is optional. If not 
-specified, the most recent Visual Studio installation 
+The Major version number of Visual Studio where the
+package should be installed. This is optional. If not
+specified, the most recent Visual Studio installation
 will be targetted.
 
 .EXAMPLE
@@ -25,14 +25,14 @@ This downloads the AutoWrockTestable VSIX from the Visual Studio Gallery and ins
 .EXAMPLE
 Install-ChocolateyVsixPackage "MyPackage" http://visualstudiogallery.msdn.microsoft.com/ea3a37c9-1c76-4628-803e-b10a109e7943/file/73131/1/AutoWrockTestable.vsix 11
 
-This downloads the AutoWrockTestable VSIX from the Visual Studio Gallery and installs it to Visual Studio 2012 (v11.0). 
+This downloads the AutoWrockTestable VSIX from the Visual Studio Gallery and installs it to Visual Studio 2012 (v11.0).
 
 .NOTES
-VSIX packages are Extensions for the Visual Studio IDE. 
-The Visual Sudio Gallery at 
-http://visualstudiogallery.msdn.microsoft.com/ is the 
-public extension feed and hosts thousands of extensions. 
-You can locate a VSIX Url by finding the download link 
+VSIX packages are Extensions for the Visual Studio IDE.
+The Visual Sudio Gallery at
+http://visualstudiogallery.msdn.microsoft.com/ is the
+public extension feed and hosts thousands of extensions.
+You can locate a VSIX Url by finding the download link
 of Visual Studio extensions on the Visual Studio Gallery.
 
 #>
@@ -59,7 +59,7 @@ param(
             Write-ChocolateyFailure $packageName "This installed VS version, $vnum, does not support installing VSIX packages. Version 10 is the minimum acceptable version."
             return
         }
-        $dir=(get-itemProperty $version.PSPath "InstallDir").InstallDir 
+        $dir=(get-itemProperty $version.PSPath "InstallDir").InstallDir
         $installer = Join-Path $dir "VsixInstaller.exe"
     }
     if($installer) {
