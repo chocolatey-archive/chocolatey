@@ -38,9 +38,11 @@ param(
   [string] $url,
   [string] $unzipLocation,
   [string] $url64bit = $url,
-  [string] $specificFolder =""
+  [string] $specificFolder ="",
+  [string] $checkSum = ''
 )
-  Write-Debug "Running 'Install-ChocolateyZipPackage' for $packageName with url:`'$url`', unzipLocation: `'$unzipLocation`', url64bit: `'$url64bit`' ";
+  Write-Debug "Running 'Install-ChocolateyZipPackage' for $packageName with url:`'$url`', unzipLocation: `'$unzipLocation`', url64bit: `'$url64bit`', specificFolder: `'$specificFolder`', checkSum: `'$checkSum`' ";
+
   try {
     $fileType = 'zip'
 
@@ -48,7 +50,8 @@ param(
     $tempDir = Join-Path $chocTempDir "$packageName"
     if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
     $file = Join-Path $tempDir "$($packageName)Install.$fileType"
-    Get-ChocolateyWebFile $packageName $file $url $url64bit
+
+    Get-ChocolateyWebFile $packageName $file $url $url64bit -checkSum $checkSum
     Get-ChocolateyUnzip "$file" $unzipLocation $specificFolder $packageName
 
     Write-ChocolateySuccess $packageName

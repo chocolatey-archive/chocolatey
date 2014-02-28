@@ -20,6 +20,9 @@ This is the url to download the file from.
 .PARAMETER Url64bit
 OPTIONAL - If there is an x64 installer to download, please include it here. If not, delete this parameter
 
+.PARAMETER CheckSum
+OPTIONAL (Right now) - This allows a checksum to be validated for files that are not local
+
 .EXAMPLE
 Get-ChocolateyWebFile '__NAME__' 'C:\somepath\somename.exe' 'URL' '64BIT_URL_DELETE_IF_NO_64BIT'
 
@@ -34,9 +37,10 @@ param(
   [string] $packageName,
   [string] $fileFullPath,
   [string] $url,
-  [string] $url64bit = ''
+  [string] $url64bit = '',
+  [string] $checkSum = ''
 )
-  Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`',and url64bit:`'$url64bit`'";
+  Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`', url64bit:`'$url64bit`', checkSum: `'$checkSum`'";
 
   $url32bit = $url;
   $bitWidth = 32
@@ -72,5 +76,7 @@ param(
     Copy-Item $url -Destination $fileFullPath -Force
   }
 
-  Start-Sleep 2 #give it a sec or two to finish up
+  Start-Sleep 2 #give it a sec or two to finish up copying
+
+  Get-CheckSumValid -file $fileFullPath -checkSum $checkSum
 }

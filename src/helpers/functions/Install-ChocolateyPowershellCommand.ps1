@@ -3,13 +3,15 @@ param(
   [string] $packageName,
   [string] $psFileFullPath,
   [string] $url ='',
-  [string] $url64bit = $url
+  [string] $url64bit = '',
+  [string] $checkSum = ''
 )
-  Write-Debug "Running 'Install-ChocolateyPowershellCommand' for $packageName with psFileFullPath:`'$psFileFullPath`', url: `'$url`', url64bit:`'$url64bit`' ";
+  Write-Debug "Running 'Install-ChocolateyPowershellCommand' for $packageName with psFileFullPath:`'$psFileFullPath`', url: `'$url`', url64bit:`'$url64bit`', checkSum: `'$checkSum`' ";
+
   try {
 
     if ($url -ne '') {
-      Get-ChocolateyWebFile $packageName $psFileFullPath $url $url64bit
+      Get-ChocolateyWebFile $packageName $psFileFullPath $url $url64bit -checkSum $checkSum
     }
 
     $nugetPath = $(Split-Path -parent $(Split-Path -parent $helpersPath))

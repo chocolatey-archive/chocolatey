@@ -39,7 +39,8 @@ of Visual Studio extensions on the Visual Studio Gallery.
 param(
     [string]$packageName,
     [string]$vsixUrl,
-    [int]$vsVersion=0
+    [int]$vsVersion=0,
+    [string] $checkSum = ''
 )
     Write-Debug "Running 'Install-ChocolateyVsixPackage' for $packageName with url:`'$vsixUrl`', version: $vsVersion ";
     if($vsVersion -eq 0) {
@@ -65,7 +66,7 @@ param(
     if($installer) {
         $download="$env:temp\$($packageName.Replace(' ','')).vsix"
         try{
-            Get-ChocolateyWebFile $packageName $download $vsixUrl
+            Get-ChocolateyWebFile $packageName $download $vsixUrl -checkSum $checkSum
         }
         catch {
             Write-ChocolateyFailure $packageName "There were errors attempting to retrieve the vsix from $vsixUrl. The error message was '$_'."
