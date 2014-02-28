@@ -10,7 +10,7 @@
   [alias("f")][switch] $force = $false,
   [alias("pre")][switch] $prerelease = $false,
   [alias("lo")][switch] $localonly = $false,
-  [switch] $verbosity = $false,
+  [alias("v")][switch] $verbosity = $false,
   #[switch] $debug,
   [string] $name,
   [switch] $ignoreDependencies = $false,
