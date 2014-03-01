@@ -39,9 +39,11 @@ param(
   [string] $url,
   [string] $url64bit = '',
   [string] $checksum = '',
-  [string] $checksumType = ''
+  [string] $checksumType = '',
+  [string] $checksum64 = '',
+  [string] $checksumType64 = $checksumType
 )
-  Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`', url64bit:`'$url64bit`', checksum: `'$checksum`', checksumType: `'$checksumType`'";
+  Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`', url64bit:`'$url64bit`', checksum: `'$checksum`', checksumType: `'$checksumType`', checksum64: `'$checksum64`', checksumType64: `'$checksumType64`'";
 
   $url32bit = $url;
   $bitWidth = 32
@@ -55,6 +57,12 @@ param(
     Write-Debug "Setting url to '$url64bit' and bitPackage to $bitWidth"
     $bitPackage = $bitWidth
     $url = $url64bit;
+    # only set if urls are different
+    if ($url32bit -ne $url64bit) {
+      $checksum = $checksum64
+    }
+
+    $checksumType = $checksumType64
   }
 
   $forceX86 = $env:chocolateyForceX86;
