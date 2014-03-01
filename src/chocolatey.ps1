@@ -54,7 +54,7 @@ $chocInstallVariableName = "ChocolateyInstall"
 $nugetExe = Join-Path $nugetChocolateyPath 'nuget.exe'
 $7zip = Join-Path $nugetChocolateyPath 'tools\7za.exe'
 $ShimGen = Join-Path $nugetChocolateyPath 'tools\shimgen.exe'
-$md5 = Join-Path $nugetChocolateyPath 'tools\md5.exe'
+$checksumExe = Join-Path $nugetChocolateyPath 'tools\checksum.exe'
 $h1 = '====================================================='
 $h2 = '-------------------------'
 $globalConfig = ''

@@ -38,9 +38,10 @@ param(
   [string] $fileFullPath,
   [string] $url,
   [string] $url64bit = '',
-  [string] $checkSum = ''
+  [string] $checksum = '',
+  [string] $checksumType = ''
 )
-  Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`', url64bit:`'$url64bit`', checkSum: `'$checkSum`'";
+  Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`', url64bit:`'$url64bit`', checksum: `'$checksum`', checksumType: `'$checksumType`'";
 
   $url32bit = $url;
   $bitWidth = 32
@@ -78,7 +79,7 @@ param(
 
   Start-Sleep 2 #give it a sec or two to finish up copying
 
-  Get-CheckSumValid -file $fileFullPath -checkSum $checkSum
+  Get-CheckSumValid -file $fileFullPath -checkSum $checksum -checksumType $checksumType
 
   # $url is already set properly to the used location.
   Get-VirusCheckValid -location $url -checkSum $checkSum

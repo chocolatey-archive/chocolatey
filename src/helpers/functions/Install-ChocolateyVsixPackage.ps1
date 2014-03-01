@@ -37,12 +37,13 @@ of Visual Studio extensions on the Visual Studio Gallery.
 
 #>
 param(
-    [string]$packageName,
-    [string]$vsixUrl,
-    [int]$vsVersion=0,
-    [string] $checkSum = ''
+  [string]$packageName,
+  [string]$vsixUrl,
+  [int]$vsVersion=0,
+  [string] $checksum = '',
+  [string] $checksumType = ''
 )
-    Write-Debug "Running 'Install-ChocolateyVsixPackage' for $packageName with url:`'$vsixUrl`', version: $vsVersion ";
+    Write-Debug "Running 'Install-ChocolateyVsixPackage' for $packageName with vsixUrl:`'$vsixUrl`', vsVersion: `'$vsVersion`', checksum: `'$checksum`', checksumType: `'$checksumType`' ";
     if($vsVersion -eq 0) {
         $versions=(get-ChildItem HKLM:SOFTWARE\Wow6432Node\Microsoft\VisualStudio -ErrorAction SilentlyContinue | ? { ($_.PSChildName -match "^[0-9\.]+$") } | ? {$_.property -contains "InstallDir"} | sort {[int]($_.PSChildName)} -descending)
         if($versions -and $versions.Length){
@@ -66,7 +67,7 @@ param(
     if($installer) {
         $download="$env:temp\$($packageName.Replace(' ','')).vsix"
         try{
-            Get-ChocolateyWebFile $packageName $download $vsixUrl -checkSum $checkSum
+            Get-ChocolateyWebFile $packageName $download $vsixUrl -checksum $checksum -checksumType $checksumType
         }
         catch {
             Write-ChocolateyFailure $packageName "There were errors attempting to retrieve the vsix from $vsixUrl. The error message was '$_'."

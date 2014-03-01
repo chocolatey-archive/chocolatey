@@ -48,18 +48,19 @@ param(
   [string] $url,
   [string] $url64bit = '',
   $validExitCodes = @(0),
-  [string] $checkSum = ''
+  [string] $checksum = '',
+  [string] $checksumType = ''
 )
 
   try {
-    Write-Debug "Running 'Install-ChocolateyPackage' for $packageName with url:`'$url`', args: `'$silentArgs`' ";
+    Write-Debug "Running 'Install-ChocolateyPackage' for $packageName with url:`'$url`', args: `'$silentArgs`', fileType: `'$fileType`', url64bit: `'$url64bit`', checksum: `'$checksum`', checksumType: `'$checksumType`', validExitCodes: `'$validExitCodes`' ";
 
     $chocTempDir = Join-Path $env:TEMP "chocolatey"
     $tempDir = Join-Path $chocTempDir "$packageName"
     if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir) | Out-Null}
     $file = Join-Path $tempDir "$($packageName)Install.$fileType"
 
-    Get-ChocolateyWebFile $packageName $file $url $url64bit -checkSum $checkSum
+    Get-ChocolateyWebFile $packageName $file $url $url64bit -checksum $checksum -checksumType $checksumType
     Install-ChocolateyInstallPackage $packageName $fileType $silentArgs $file -validExitCodes $validExitCodes
     Write-ChocolateySuccess $packageName
   } catch {
