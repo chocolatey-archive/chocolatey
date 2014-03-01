@@ -44,7 +44,7 @@ param(
   [string] $file,
   $validExitCodes = @(0)
 )
-  Write-Debug "Running 'Install-ChocolateyInstallPackage' for $packageName with file:`'$file`', args: `'$silentArgs`' ";
+  Write-Debug "Running 'Install-ChocolateyInstallPackage' for $packageName with file:`'$file`', args: `'$silentArgs`', fileType: `'$fileType`', validExitCodes: `'$validExitCodes`' ";
   $installMessage = "Installing $packageName..."
   write-host $installMessage
 

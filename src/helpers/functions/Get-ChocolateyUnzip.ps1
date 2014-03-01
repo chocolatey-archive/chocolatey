@@ -41,7 +41,7 @@ param(
     $fileFullPath=join-path $fileFullPath $specificFolder
   }
 
-  Write-Debug "Running 'Get-ChocolateyUnzip' with fileFullPath:`'$fileFullPath`'', destination:$destination";
+  Write-Debug "Running 'Get-ChocolateyUnzip' with fileFullPath:`'$fileFullPath`'', destination: `'$destination`', specificFolder: `'$specificFolder``, packageName: `'$packageName`'";
 
   if ($packageName) {
     $packagelibPath=$env:chocolateyPackageFolder

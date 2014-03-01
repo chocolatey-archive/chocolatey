@@ -41,7 +41,7 @@ param(
     $proxy.credentials = $creds
     $req.proxy = $proxy
   }
- 
+
   #http://stackoverflow.com/questions/518181/too-many-automatic-redirections-were-attempted-error-message-when-using-a-httpw
   $req.CookieContainer = New-Object System.Net.CookieContainer
   if ($userAgent -ne $null) {
@@ -94,14 +94,14 @@ param(
        } elseif(!$quiet) {
           $total += $count
           if($goal -gt 0 -and ++$iterLoop%10 -eq 0) {
-             Write-Progress "Downloading $url to $fileName" "Saving $total of $goal" -id 0 -percentComplete (($total/$goal)*100) 
+             Write-Progress "Downloading $url to $fileName" "Saving $total of $goal" -id 0 -percentComplete (($total/$goal)*100)
           }
           if ($total -eq $goal) {
-            Write-Progress "Completed download of $url." "Completed a total of $total bytes of $fileName" -id 0 -Completed 
+            Write-Progress "Completed download of $url." "Completed a total of $total bytes of $fileName" -id 0 -Completed
           }
        }
     } while ($count -gt 0)
-   
+
     $reader.Close()
     if($fileName) {
        $writer.Flush()
@@ -113,3 +113,5 @@ param(
   }
   $res.Close();
 }
+
+# this could be cleaned up with http://learn-powershell.net/2013/02/08/powershell-and-events-object-events/

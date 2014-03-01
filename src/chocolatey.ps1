@@ -10,7 +10,7 @@
   [alias("f")][switch] $force = $false,
   [alias("pre")][switch] $prerelease = $false,
   [alias("lo")][switch] $localonly = $false,
-  [switch] $verbosity = $false,
+  [alias("v")][switch] $verbosity = $false,
   #[switch] $debug,
   [string] $name,
   [switch] $ignoreDependencies = $false,
@@ -54,6 +54,7 @@ $chocInstallVariableName = "ChocolateyInstall"
 $nugetExe = Join-Path $nugetChocolateyPath 'nuget.exe'
 $7zip = Join-Path $nugetChocolateyPath 'tools\7za.exe'
 $ShimGen = Join-Path $nugetChocolateyPath 'tools\shimgen.exe'
+$checksumExe = Join-Path $nugetChocolateyPath 'tools\checksum.exe'
 $h1 = '====================================================='
 $h2 = '-------------------------'
 $globalConfig = ''
