@@ -72,16 +72,20 @@ param(
     $url = $url32bit
   }
 
-  Write-Host "Downloading $packageName $bitPackage bit ($url) to $fileFullPath"
   #$downloader = new-object System.Net.WebClient
   #$downloader.DownloadFile($url, $fileFullPath)
   if ($url.StartsWith('http')) {
-    Get-WebFile $url $fileFullPath
+      Write-Host "Downloading $packageName $bitPackage bit
+  from `'$url`'"
+      Get-WebFile $url $fileFullPath
   } elseif ($url.StartsWith('ftp')) {
+    Write-Host "Ftp-ing $packageName
+  from `'$url`'"
     Get-FtpFile $url $fileFullPath
   } else {
     if ($url.StartsWith('file:')) { $url = ([uri] $url).LocalPath }
-    Write-Debug "We are attempting to copy the local item `'$url`' to `'$fileFullPath`'"
+    Write-Host "Copying $packageName
+  from `'$url`'"
     Copy-Item $url -Destination $fileFullPath -Force
   }
 
