@@ -64,28 +64,29 @@ param(
 
     Write-Debug "Executing command [`"$nugetExe`" $params]"
     $global:packageList = @{}
-    $LogAction = {
-      # we know this is one line of data otherwise we would need to split lines
-      foreach ($line in $EventArgs.Data) {
-        Write-Host "$line"
-        if (!$line.IsNullOrEmpty) {
-          $package = $line.Split(" ")
-          $global:packageList.Add("$($package[0])","$($package[1])")
-        }
-      }
-    }
-    $writeOutput = $LogAction
-    $writeError = $LogAction
-    #(Start-Process $nugetExe -ArgumentList $params -NoNewWindow -Wait) | Tee-Object -Variable listOutput
+
     $process = New-Object System.Diagnostics.Process
     $process.StartInfo = New-Object System.Diagnostics.ProcessStartInfo($nugetExe, $params)
-    $process.EnableRaisingEvents = $true
-    Register-ObjectEvent  -InputObject $process -EventName OutputDataReceived -Action $writeOutput | Out-Null
-    Register-ObjectEvent -InputObject $process -EventName ErrorDataReceived -Action  $writeError | Out-Null
-
     if ($returnOutput) {
-      # Redirecting output slows things down a bit. In
-      # the interest of performance, only use redirection
+      $LogAction = {
+        # we know this is one line of data otherwise we would need to split lines
+        foreach ($line in $EventArgs.Data) {
+         # Write-Host "$line" #this line really slows things down
+          if (!$line.IsNullOrEmpty) {
+            $package = $line.Split(" ")
+            $global:packageList.Add("$($package[0])","$($package[1])")
+          }
+        }
+      }
+      $writeOutput = $LogAction
+      $writeError = $LogAction
+
+      $process.EnableRaisingEvents = $true
+      Register-ObjectEvent  -InputObject $process -EventName OutputDataReceived -Action $writeOutput | Out-Null
+      Register-ObjectEvent -InputObject $process -EventName ErrorDataReceived -Action  $writeError | Out-Null
+
+      # Redirecting output slows things down a bit. In
+      # the interest of performance, only use redirection
       # if we are returning a PS-Object at the end
       $process.StartInfo.RedirectStandardOutput = $true
       $process.StartInfo.RedirectStandardError = $true
