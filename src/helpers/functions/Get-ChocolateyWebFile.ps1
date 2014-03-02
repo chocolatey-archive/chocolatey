@@ -78,9 +78,22 @@ param(
   if ($url.StartsWith('http')) {
     $headers = Get-WebHeaders $url
 
+    $needsDownload = $true
+    if ($headers.Count -ne 0 -and $headers.ContainsKey("Content-Length")) {
+      $fi = new-object System.IO.FileInfo($fileFullPath)
+      # if the file already exists there is no reason to download it again.
+      if ($fi.Exists -and $fi.Length -eq $headers["Content-Length"]) {
+        Write-Debug "$($packageName)'s requested file has already been downloaded. Using cached copy at
+  `'$fileFullPath`'."
+        $needsDownload = $false
+      }
+    }
+
+    if ($needsDownload) {
       Write-Host "Downloading $packageName $bitPackage bit
   from `'$url`'"
       Get-WebFile $url $fileFullPath
+    }
   } elseif ($url.StartsWith('ftp')) {
     Write-Host "Ftp-ing $packageName
   from `'$url`'"
