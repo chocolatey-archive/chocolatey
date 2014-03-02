@@ -107,7 +107,14 @@ param(
 
   Start-Sleep 2 #give it a sec or two to finish up copying
 
+  $fi = new-object System.IO.FileInfo($fileFullPath)
+  # validate file exists
+  if (!($fi.Exists)) { throw "Chocolatey expected a file to be downloaded to `'$fileFullPath`' but nothing exists at that location." }
   if ($headers.Count -ne 0) {
+    # validate length is what we expected
+    Write-Debug "Checking that `'$fileFullPath`' is the size we expect it to be."
+    if ($fi.Length -ne $headers["Content-Length"])  { throw "Chocolatey expected a file at `'$fileFullPath`' to be of length `'$($headers["Content-Length"])`' but the length was `'$($fi.Length)`'." }
+
     if ($headers.ContainsKey("X-Checksum-Sha1")) {
       $remoteChecksum = $headers["X-Checksum-Sha1"]
       Write-Debug "Verifying remote checksum of `'$remoteChecksum`' for `'$fileFullPath`'."
