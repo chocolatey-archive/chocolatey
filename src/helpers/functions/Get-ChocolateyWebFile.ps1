@@ -106,5 +106,6 @@ param(
   Get-CheckSumValid -file $fileFullPath -checkSum $checksum -checksumType $checksumType
 
   # $url is already set properly to the used location.
-  Get-VirusCheckValid -location $url -checkSum $checkSum
+  Write-Debug "Verifying downloaded file is not known to contain viruses. FilePath: `'$fileFullPath`'."
+  Get-VirusCheckValid -location $url -file $fileFullPath
 }
