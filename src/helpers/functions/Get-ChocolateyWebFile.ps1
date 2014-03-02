@@ -74,7 +74,10 @@ param(
 
   #$downloader = new-object System.Net.WebClient
   #$downloader.DownloadFile($url, $fileFullPath)
+  $headers = @{}
   if ($url.StartsWith('http')) {
+    $headers = Get-WebHeaders $url
+
       Write-Host "Downloading $packageName $bitPackage bit
   from `'$url`'"
       Get-WebFile $url $fileFullPath
@@ -91,6 +94,15 @@ param(
 
   Start-Sleep 2 #give it a sec or two to finish up copying
 
+  if ($headers.Count -ne 0) {
+    if ($headers.ContainsKey("X-Checksum-Sha1")) {
+      $remoteChecksum = $headers["X-Checksum-Sha1"]
+      Write-Debug "Verifying remote checksum of `'$remoteChecksum`' for `'$fileFullPath`'."
+      Get-CheckSumValid -file $fileFullPath -checkSum $remoteChecksum -checksumType 'sha1'
+    }
+  }
+
+  Write-Debug "Verifying package provided checksum of `'$checksum`' for `'$fileFullPath`'."
   Get-CheckSumValid -file $fileFullPath -checkSum $checksum -checksumType $checksumType
 
   # $url is already set properly to the used location.
