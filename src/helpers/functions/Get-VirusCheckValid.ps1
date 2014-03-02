@@ -1,9 +1,9 @@
 function Get-VirusCheckValid {
 param(
   [string] $location,
-  [string] $checkSum = ''
+  [string] $file = ''
 )
-  Write-Debug "Running 'Get-VirusCheckValid' with location:`'$location`', checkSum: `'$checkSum`'";
+  Write-Debug "Running 'Get-VirusCheckValid' with location:`'$location`', file: `'$file`'";
 
   #if ($settings:virusCheck) {
 

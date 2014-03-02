@@ -72,23 +72,60 @@ param(
     $url = $url32bit
   }
 
-  Write-Host "Downloading $packageName $bitPackage bit ($url) to $fileFullPath"
   #$downloader = new-object System.Net.WebClient
   #$downloader.DownloadFile($url, $fileFullPath)
+  $headers = @{}
   if ($url.StartsWith('http')) {
-    Get-WebFile $url $fileFullPath
+    $headers = Get-WebHeaders $url
+
+    $needsDownload = $true
+    if ($headers.Count -ne 0 -and $headers.ContainsKey("Content-Length")) {
+      $fi = new-object System.IO.FileInfo($fileFullPath)
+      # if the file already exists there is no reason to download it again.
+      if ($fi.Exists -and $fi.Length -eq $headers["Content-Length"]) {
+        Write-Debug "$($packageName)'s requested file has already been downloaded. Using cached copy at
+  `'$fileFullPath`'."
+        $needsDownload = $false
+      }
+    }
+
+    if ($needsDownload) {
+      Write-Host "Downloading $packageName $bitPackage bit
+  from `'$url`'"
+      Get-WebFile $url $fileFullPath
+    }
   } elseif ($url.StartsWith('ftp')) {
+    Write-Host "Ftp-ing $packageName
+  from `'$url`'"
     Get-FtpFile $url $fileFullPath
   } else {
     if ($url.StartsWith('file:')) { $url = ([uri] $url).LocalPath }
-    Write-Debug "We are attempting to copy the local item `'$url`' to `'$fileFullPath`'"
+    Write-Host "Copying $packageName
+  from `'$url`'"
     Copy-Item $url -Destination $fileFullPath -Force
   }
 
   Start-Sleep 2 #give it a sec or two to finish up copying
 
+  $fi = new-object System.IO.FileInfo($fileFullPath)
+  # validate file exists
+  if (!($fi.Exists)) { throw "Chocolatey expected a file to be downloaded to `'$fileFullPath`' but nothing exists at that location." }
+  if ($headers.Count -ne 0) {
+    # validate length is what we expected
+    Write-Debug "Checking that `'$fileFullPath`' is the size we expect it to be."
+    if ($fi.Length -ne $headers["Content-Length"])  { throw "Chocolatey expected a file at `'$fileFullPath`' to be of length `'$($headers["Content-Length"])`' but the length was `'$($fi.Length)`'." }
+
+    if ($headers.ContainsKey("X-Checksum-Sha1")) {
+      $remoteChecksum = $headers["X-Checksum-Sha1"]
+      Write-Debug "Verifying remote checksum of `'$remoteChecksum`' for `'$fileFullPath`'."
+      Get-CheckSumValid -file $fileFullPath -checkSum $remoteChecksum -checksumType 'sha1'
+    }
+  }
+
+  Write-Debug "Verifying package provided checksum of `'$checksum`' for `'$fileFullPath`'."
   Get-CheckSumValid -file $fileFullPath -checkSum $checksum -checksumType $checksumType
 
   # $url is already set properly to the used location.
-  Get-VirusCheckValid -location $url -checkSum $checkSum
+  Write-Debug "Verifying downloaded file is not known to contain viruses. FilePath: `'$fileFullPath`'."
+  Get-VirusCheckValid -location $url -file $fileFullPath
 }
