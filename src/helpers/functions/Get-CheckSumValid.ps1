@@ -7,7 +7,7 @@ param(
   Write-Debug "Running 'Get-CheckSumValid' with file:`'$file`', checksum: `'$checksum`', checksumType: `'$checksumType`'";
   if ($checksum -eq '' -or $checksum -eq $null) { return }
 
-  if(!([System.IO.File]::Exists($file))) { Write-Host "Unable to checksum a file that doesn't exist - Could not find file `'$file`'"; return }
+  if(!([System.IO.File]::Exists($file))) { throw "Unable to checksum a file that doesn't exist - Could not find file `'$file`'" }
 
   # On first install, env:ChocolateyInstall might be null still - join-path has issues
   $checksumExe =  Join-Path "$env:SystemDrive" 'chocolatey\chocolateyinstall\tools\checksum.exe'
