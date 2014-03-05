@@ -5,7 +5,7 @@ param(
   [switch] $elevated
 )
 
-  Write-Host "Running $file $arguments. This may take awhile and permissions may need to be elevated, depending on the package.";
+  Write-Host "Running $file $arguments. This may take a while and permissions may need to be elevated, depending on the package.";
   $psi = new-object System.Diagnostics.ProcessStartInfo $file;
   $psi.Arguments = $arguments;
   #$psi.Verb = "runas";

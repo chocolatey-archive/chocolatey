@@ -20,7 +20,7 @@ param(
     }
   }
 @"
-Elevating Permissions and running $exeToRun $wrappedStatements. This may take awhile, depending on the statements.
+Elevating Permissions and running $exeToRun $wrappedStatements. This may take a while, depending on the statements.
 "@ | Write-Host
 
   $psi = new-object System.Diagnostics.ProcessStartInfo;
