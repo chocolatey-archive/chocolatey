@@ -47,7 +47,7 @@ example: chocolatey install packages.config
 example: chocolatey installmissing nunit
 example: chocolatey update nunit -source http://somelocalfeed.com/nuget/
 example: chocolatey help
-example: chocolatey list (might take awhile)
+example: chocolatey list (might take a while)
 example: chocolatey list nunit
 example: chocolatey version
 example: chocolatey version nunit
