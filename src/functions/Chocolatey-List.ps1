@@ -38,7 +38,7 @@ param(
       $params += '-all'
     }
 
-    if ($prerelease -eq $true -or $localonly) {
+    if ($prerelease -eq $true -or $localonly -eq $true -or $source -eq $nugetLibPath) {
       Write-Debug "Showing prerelease versions of packages"
       $params += '-Prerelease'
     }
