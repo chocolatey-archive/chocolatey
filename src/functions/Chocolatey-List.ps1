@@ -106,9 +106,10 @@ param(
       #Wait-Job "LogErrors_ChocolateyList" -Timeout 10
       #Remove-Job "LogErrors_ChocolateyList"
     }
+    $exitCode = $process.ExitCode
     $process.Dispose()
 
-    Write-Debug "Command [`"$nugetExe`" $params] exited with `'$($process.ExitCode)`'."
+    Write-Debug "Command [`"$nugetExe`" $params] exited with `'$exitCode`'."
 
     if ($returnOutput) {
       # not a bug
