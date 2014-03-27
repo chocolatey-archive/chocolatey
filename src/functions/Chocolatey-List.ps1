@@ -111,7 +111,8 @@ param(
     Write-Debug "Command [`"$nugetExe`" $params] exited with `'$($process.ExitCode)`'."
 
     if ($returnOutput) {
-      return $packageList
+      # not a bug
+      return ,$packageList
     }
   }
 }
