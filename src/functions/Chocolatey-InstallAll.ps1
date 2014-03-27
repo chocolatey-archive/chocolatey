@@ -23,14 +23,14 @@ param(
       if ($entry.properties.id -ne $null) {
         $pkgId = $entry.properties.id
         $pkgVersion = $entry.properties.version
-        Invoke-ChocolateyFunction "Chocolatey-Nuget" @("$pkgId","-version $pkgVersion","-source $source")
+        Chocolatey-Nuget "$pkgId" -version $pkgVersion -source $source
       }
     }
   } else {
     $files = get-childitem $source -include *.nupkg -recurse
     foreach ($file in $files) {
       $packageName = $file.Name -replace "(\.\d{1,})+.nupkg"
-      Invoke-ChocolateyFunction "Chocolatey-Nuget" @($packageName," -source $source")
+      Chocolatey-Nuget $packageName -source $source
     }
   }
 }
