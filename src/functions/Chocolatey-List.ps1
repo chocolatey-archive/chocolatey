@@ -82,8 +82,8 @@ param(
       $writeError = $LogAction
 
       $process.EnableRaisingEvents = $true
-      Register-ObjectEvent  -InputObject $process -EventName OutputDataReceived -Action $writeOutput | Out-Null
-      Register-ObjectEvent -InputObject $process -EventName ErrorDataReceived -Action  $writeError | Out-Null
+      Register-ObjectEvent  -InputObject $process -SourceIdentifier "LogOutput_ChocolateyList" -EventName OutputDataReceived -Action $writeOutput | Out-Null
+      Register-ObjectEvent -InputObject $process -SourceIdentifier "LogErrors_ChocolateyList" -EventName ErrorDataReceived -Action  $writeError | Out-Null
 
       # Redirecting output slows things down a bit. In
       # the interest of performance, only use redirection
@@ -97,6 +97,16 @@ param(
     if ($process.StartInfo.RedirectStandardOutput) { $process.BeginOutputReadLine() }
     if ($process.StartInfo.RedirectStandardError) { $process.BeginErrorReadLine() }
     $process.WaitForExit()
+
+    if ($returnOutput) {
+      Unregister-Event -SourceIdentifier "LogOutput_ChocolateyList"
+      #Wait-Job "LogOutput_ChocolateyList" -Timeout 10
+      #Remove-Job "LogOutput_ChocolateyList" #-Force
+      Unregister-Event -SourceIdentifier "LogErrors_ChocolateyList"
+      #Wait-Job "LogErrors_ChocolateyList" -Timeout 10
+      #Remove-Job "LogErrors_ChocolateyList"
+    }
+    $process.Dispose()
 
     Write-Debug "Command [`"$nugetExe`" $params] exited with `'$($process.ExitCode)`'."
 
