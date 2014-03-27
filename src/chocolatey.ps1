@@ -80,7 +80,6 @@ Resolve-Path $nugetChocolateyPath\functions\*.ps1 |
     ? { -not ($_.ProviderPath.Contains(".Tests.")) } |
     % { . $_.ProviderPath }
 
-
 # load extensions if they exist
 if(Test-Path($extensionsPath)) {
   Write-Debug 'Loading community extensions'
@@ -140,22 +139,22 @@ $badPackages = ''
 foreach ($packageName in $packageNames) {
   try {
     switch -wildcard ($command) {
-      "install"         {Invoke-ChocolateyFunction "Chocolatey-Install" @($packageName,$source,$version,$installArguments)}
-      "installmissing"  {Invoke-ChocolateyFunction "Chocolatey-InstallIfMissing" @($packageName,$source,$version)}
-      "update"          {Invoke-ChocolateyFunction "Chocolatey-Update" @($packageName,$source)}
-      "uninstall"       {Invoke-ChocolateyFunction "Chocolatey-Uninstall" @($packageName,$version,$installArguments)}
-      "search"          {Invoke-ChocolateyFunction "Chocolatey-List" @($packageName,$source)}
-      "list"            {Invoke-ChocolateyFunction "Chocolatey-List" @($packageName,$source)}
-      "version"         {Invoke-ChocolateyFunction "Chocolatey-Version" @($packageName,$source)}
-      "webpi"           {Invoke-ChocolateyFunction "Chocolatey-WebPI" @($packageName,$installArguments)}
-      "windowsfeatures" {Invoke-ChocolateyFunction "Chocolatey-WindowsFeatures" @($packageName)}
-      "cygwin"          {Invoke-ChocolateyFunction "Chocolatey-Cygwin" @($packageName,$installArguments)}
-      "python"          {Invoke-ChocolateyFunction "Chocolatey-Python" @($packageName,$version,$installArguments)}
-      "gem"             {Invoke-ChocolateyFunction "Chocolatey-RubyGem" @($packageName,$version,$installArguments)}
-      "pack"            {Invoke-ChocolateyFunction "Chocolatey-Pack" @($packageName)}
-      "push"            {Invoke-ChocolateyFunction "Chocolatey-Push" @($packageName,$source)}
-      "help"            {Invoke-ChocolateyFunction "Chocolatey-Help"}
-      "sources"         {Invoke-ChocolateyFunction "Chocolatey-Sources" @($packageName,$name,$source)}
+      "install"         { Chocolatey-Install $packageName $source $version $installArguments }
+      "installmissing"  { Chocolatey-InstallIfMissing $packageName $source $version }
+      "update"          { Chocolatey-Update $packageName $source }
+      "uninstall"       { Chocolatey-Uninstall $packageName $version $installArguments }
+      "search"          { Chocolatey-List $packageName $source }
+      "list"            { Chocolatey-List $packageName $source }
+      "version"         { Chocolatey-Version $packageName $source }
+      "webpi"           { Chocolatey-WebPI $packageName $installArguments }
+      "windowsfeatures" { Chocolatey-WindowsFeatures $packageName }
+      "cygwin"          { Chocolatey-Cygwin $packageName $installArguments }
+      "python"          { Chocolatey-Python $packageName $version $installArguments }
+      "gem"             { Chocolatey-RubyGem $packageName $version $installArguments }
+      "pack"            { Chocolatey-Pack $packageName }
+      "push"            { Chocolatey-Push $packageName $source }
+      "help"            { Chocolatey-Help}
+      "sources"         { Chocolatey-Sources $packageName $name $source }
       default           {Write-Host "Please run chocolatey /? or chocolatey help - chocolatey v$chocVer";}
     }
   }

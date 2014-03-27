@@ -38,7 +38,7 @@ param(
       $params += '-all'
     }
 
-    if ($prerelease -eq $true -or $localonly) {
+    if ($prerelease -eq $true -or $localonly -eq $true -or $source -eq $nugetLibPath) {
       Write-Debug "Showing prerelease versions of packages"
       $params += '-Prerelease'
     }
@@ -71,7 +71,7 @@ param(
       $LogAction = {
         # we know this is one line of data otherwise we would need to split lines
         foreach ($line in $EventArgs.Data) {
-         # Write-Host "$line" #this line really slows things down
+         #Write-Host "$line" #this line really slows things down
           if (!$line.IsNullOrEmpty) {
             $package = $line.Split(" ")
             $global:packageList.Add("$($package[0])","$($package[1])")
@@ -82,8 +82,8 @@ param(
       $writeError = $LogAction
 
       $process.EnableRaisingEvents = $true
-      Register-ObjectEvent  -InputObject $process -EventName OutputDataReceived -Action $writeOutput | Out-Null
-      Register-ObjectEvent -InputObject $process -EventName ErrorDataReceived -Action  $writeError | Out-Null
+      Register-ObjectEvent  -InputObject $process -SourceIdentifier "LogOutput_ChocolateyList" -EventName OutputDataReceived -Action $writeOutput | Out-Null
+      Register-ObjectEvent -InputObject $process -SourceIdentifier "LogErrors_ChocolateyList" -EventName ErrorDataReceived -Action  $writeError | Out-Null
 
       # Redirecting output slows things down a bit. In
       # the interest of performance, only use redirection
@@ -98,10 +98,22 @@ param(
     if ($process.StartInfo.RedirectStandardError) { $process.BeginErrorReadLine() }
     $process.WaitForExit()
 
-    Write-Debug "Command [`"$nugetExe`" $params] exited with `'$($process.ExitCode)`'."
+    if ($returnOutput) {
+      Unregister-Event -SourceIdentifier "LogOutput_ChocolateyList"
+      #Wait-Job "LogOutput_ChocolateyList" -Timeout 10
+      #Remove-Job "LogOutput_ChocolateyList" #-Force
+      Unregister-Event -SourceIdentifier "LogErrors_ChocolateyList"
+      #Wait-Job "LogErrors_ChocolateyList" -Timeout 10
+      #Remove-Job "LogErrors_ChocolateyList"
+    }
+    $exitCode = $process.ExitCode
+    $process.Dispose()
+
+    Write-Debug "Command [`"$nugetExe`" $params] exited with `'$exitCode`'."
 
     if ($returnOutput) {
-      return $packageList
+      # not a bug
+      return ,$packageList
     }
   }
 }
