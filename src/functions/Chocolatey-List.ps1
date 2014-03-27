@@ -71,7 +71,7 @@ param(
       $LogAction = {
         # we know this is one line of data otherwise we would need to split lines
         foreach ($line in $EventArgs.Data) {
-         # Write-Host "$line" #this line really slows things down
+         #Write-Host "$line" #this line really slows things down
           if (!$line.IsNullOrEmpty) {
             $package = $line.Split(" ")
             $global:packageList.Add("$($package[0])","$($package[1])")

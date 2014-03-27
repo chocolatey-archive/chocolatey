@@ -17,7 +17,7 @@ param(
     if ($versions -ne $null -and $versions.'foundCompare' -lt $versions.'latestCompare') {
         Chocolatey-NuGet $package $source
     } elseif ($versions -ne $null -and $force -and $versions.'foundCompare' -eq $versions.'latestCompare') {
-        Invoke-ChocolateyFunction "Chocolatey-Nuget" @($package,$source)
+        Chocolatey-Nuget $package $source
     } else {
       Write-Debug "$packageName - you have either a newer version or the same version already available"
     }

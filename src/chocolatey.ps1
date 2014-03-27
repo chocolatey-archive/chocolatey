@@ -80,7 +80,6 @@ Resolve-Path $nugetChocolateyPath\functions\*.ps1 |
     ? { -not ($_.ProviderPath.Contains(".Tests.")) } |
     % { . $_.ProviderPath }
 
-
 # load extensions if they exist
 if(Test-Path($extensionsPath)) {
   Write-Debug 'Loading community extensions'
