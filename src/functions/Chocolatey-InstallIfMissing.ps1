@@ -1,10 +1,10 @@
 ﻿function Chocolatey-InstallIfMissing {
 param(
-  [string] $packageName, 
+  [string] $packageName,
   [string] $source = '',
   [string] $version = ''
 )
-  
+
   Write-Debug "Running 'Chocolatey-InstallIfMissing' for $packageName with source:`'$source`', version: `'$version`'";
 
   if($version -eq '')  {
