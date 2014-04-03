@@ -77,10 +77,9 @@ Creating Chocolatey NuGet folders if they do not already exist.
 
 @"
 Chocolatey is now ready.
-You can call chocolatey from anywhere, command line or powershell by typing chocolatey.
-Run chocolatey /? for a list of functions.
+You can call chocolatey from anywhere, command line or powershell by typing choco.
+Run choco /? for a list of functions.
 You may need to shut down and restart powershell and/or consoles first prior to using chocolatey.
-If you are upgrading chocolatey from an older version (prior to 0.9.8.15) and don't use a custom chocolatey path, please find and delete the C:\NuGet folder after verifying that C:\Chocolatey has the same contents (minus chocolateyinstall of course).
 "@ | write-host
 }
 
