@@ -104,7 +104,7 @@ function Get-ChocolateyInstallFolder(){
 }
 
 function Create-DirectoryIfNotExists($folderName){
-  if (![System.IO.Directory]::Exists($folderName)) {[System.IO.Directory]::CreateDirectory($folderName)}
+  if (![System.IO.Directory]::Exists($folderName)) {[System.IO.Directory]::CreateDirectory($folderName) | Out-Null}
 }
 
 function Install-ChocolateyBinFiles {
