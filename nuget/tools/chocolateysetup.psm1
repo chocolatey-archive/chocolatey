@@ -123,18 +123,6 @@ If you are upgrading chocolatey from an older version (prior to 0.9.8.15) and do
 "@ | write-host
 }
 
-function Install-DotNet4IfMissing {
-param(
-  [string]$chocolateyInstallPath
-)
-  if([IntPtr]::Size -eq 8) {$fx="framework64"} else {$fx="framework"}
-
-  if(!(test-path "$env:windir\Microsoft.Net\$fx\v4.0.30319")) {
-    $NetFx4ClientUrl = 'http://download.microsoft.com/download/5/6/2/562A10F9-C9F4-4313-A044-9C94E0A8FAC8/dotNetFx40_Client_x86_x64.exe'
-    Install-ChocolateyPackage "NetFx4.0" 'exe' -silentArgs "/q /norestart /repair /log `'$env:Temp\NetFx4Install.log`'" -url "$NetFx4ClientUrl" -validExitCodes = @(0, 3010)
-  }
-}
-
 function Install-ChocolateyFiles {
 param(
   [string]$chocolateyPath = "$sysDrive\Chocolatey"
@@ -217,4 +205,17 @@ param(
   }
 }
 
-export-modulemember -function Initialize-Chocolatey;
+function Install-DotNet4IfMissing {
+param(
+  [string]$chocolateyInstallPath
+)
+  if([IntPtr]::Size -eq 8) {$fx="framework64"} else {$fx="framework"}
+
+  if(!(test-path "$env:windir\Microsoft.Net\$fx\v4.0.30319")) {
+    $NetFx4ClientUrl = 'http://download.microsoft.com/download/5/6/2/562A10F9-C9F4-4313-A044-9C94E0A8FAC8/dotNetFx40_Client_x86_x64.exe'
+    Install-ChocolateyPackage "NetFx4.0" 'exe' -silentArgs "/q /norestart /repair /log `'$env:Temp\NetFx4Install.log`'" -url "$NetFx4ClientUrl" -validExitCodes = @(0, 3010)
+  }
+}
+
+
+Export-ModuleMember -function Initialize-Chocolatey;
