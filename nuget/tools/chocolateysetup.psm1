@@ -2,8 +2,6 @@ $thisScriptFolder = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $chocInstallVariableName = "ChocolateyInstall"
 $sysDrive = $env:SystemDrive
 
-$installModule = Join-Path $thisScriptFolder 'chocolateyInstall\helpers\chocolateyInstaller.psm1'
-Import-Module $installModule
 function Initialize-Chocolatey {
 <#
   .DESCRIPTION
@@ -30,8 +28,12 @@ param(
   [Parameter(Mandatory=$false)][string]$chocolateyPath = ''
 )
 
+  $installModule = Join-Path $thisScriptFolder 'chocolateyInstall\helpers\chocolateyInstaller.psm1'
+  Import-Module $installModule
+
   if ($chocolateyPath -eq '') {
-    $chocolateyPath = Join-Path [Environment]::GetFolderPath("CommonApplicationData") 'chocolatey'
+    $programData = [Environment]::GetFolderPath("CommonApplicationData")
+    $chocolateyPath = Join-Path "$programData" 'chocolatey'
   }
 
   #if we have an already environment variable path, use it.

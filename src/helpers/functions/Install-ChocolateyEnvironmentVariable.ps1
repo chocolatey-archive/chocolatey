@@ -41,8 +41,14 @@ param(
   Write-Debug "Running 'Install-ChocolateyEnvironmentVariable' with variableName:`'$variableName`' and variableValue:`'$variableValue`'";
 
   if ($variableType -eq [System.EnvironmentVariableTarget]::Machine) {
-    $psArgs = "[Environment]::SetEnvironmentVariable(`'$variableName`',`'$variableValue`', `'$variableType`')"
-    Start-ChocolateyProcessAsAdmin "$psArgs"
+    $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+    $UACEnabled = Get-UACEnabled
+    if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -and !$UACEnabled) {
+      [Environment]::SetEnvironmentVariable($variableName, $variableValue, $variableType)
+    } else {
+      $psArgs = "[Environment]::SetEnvironmentVariable(`'$variableName`',`'$variableValue`', `'$variableType`')"
+      Start-ChocolateyProcessAsAdmin "$psArgs"
+    }
   } else {
     [Environment]::SetEnvironmentVariable($variableName, $variableValue, $variableType)
   }
