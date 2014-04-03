@@ -4,7 +4,7 @@ param(
   [System.EnvironmentVariableTarget] $pathType = [System.EnvironmentVariableTarget]::User
 )
   Write-Debug "Running 'Install-ChocolateyPath' with pathToInstall:`'$pathToInstall`'";
-  
+
   #get the PATH variable
   $envPath = $env:PATH
   #$envPath = [Environment]::GetEnvironmentVariable('Path', $pathType)
@@ -26,8 +26,8 @@ param(
       Start-ChocolateyProcessAsAdmin "$psArgs"
     } else {
       [Environment]::SetEnvironmentVariable('Path', $actualPath, $pathType)
-    }    
-    
+    }
+
     #add it to the local path as well so users will be off and running
     $envPSPath = $env:PATH
     $env:Path = $envPSPath + $statementTerminator + $pathToInstall
