@@ -4,56 +4,6 @@ $sysDrive = $env:SystemDrive
 
 $installModule = Join-Path $thisScriptFolder 'chocolateyInstall\helpers\chocolateyInstaller.psm1'
 Import-Module $installModule
-
-function Set-ChocolateyInstallFolder {
-param(
-  [string]$folder
-)
-  $environmentTarget = [System.EnvironmentVariableTarget]::User
-  $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
-  $UACEnabled = Get-UACEnabled
-  if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -and !$UACEnabled) {
-    Write-Host "Administrator installing with UAC disabled so using Machine environment variable target instead of User."
-    $environmentTarget = [System.EnvironmentVariableTarget]::Machine
-  }
-    Write-Host "Creating $chocInstallVariableName as an Environment variable (targeting `'$environmentTarget`') and setting it to `'$folder`'"
-    Install-ChocolateyEnvironmentVariable -variableName "$chocInstallVariableName" -variableValue "$folder" -variableType $environmentTarget
-}
-
-function Get-ChocolateyInstallFolder(){
-  [Environment]::GetEnvironmentVariable($chocInstallVariableName)
-}
-
-function Create-DirectoryIfNotExists($folderName){
-  if (![System.IO.Directory]::Exists($folderName)) {[System.IO.Directory]::CreateDirectory($folderName)}
-}
-
-function Install-ChocolateyBinFiles {
-param(
-  [string] $chocolateyInstallPath,
-  [string] $chocolateyExePath
-)
-
-  $redirectsPath = Join-Path $chocolateyInstallPath 'redirects'
-  $exeFiles = Get-ChildItem "$redirectsPath" -filter *.exe
-  foreach ($exeFile in $exeFiles) {
-    $exeFilePath = $exeFile.FullName
-    $exeFileName = [System.IO.Path]::GetFileName("$exeFilePath")
-    $binFilePath = Join-Path $chocolateyExePath $exeFileName
-    $binFilePathRename = $binFilePath + '.old'
-    $batchFilePath = $binFilePath.Replace(".exe",".bat")
-    $bashFilePath = $binFilePath.Replace(".exe","")
-    if (Test-Path ($batchFilePath)) {Remove-Item $batchFilePath -force}
-    if (Test-Path ($bashFilePath)) {Remove-Item $bashFilePath -force}
-    if (Test-Path ($binFilePathRename)) {Remove-Item $binFilePathRename -force}
-    if (Test-Path ($binFilePath)) {Move-Item -path $binFilePath -destination $binFilePathRename -force}
-
-    Copy-Item -path $exeFilePath -destination $binFilePath -force
-    $commandShortcut = [System.IO.Path]::GetFileNameWithoutExtension("$exeFilePath")
-    Write-Host "Added command $commandShortcut"
-  }
-}
-
 function Initialize-Chocolatey {
 <#
   .DESCRIPTION
@@ -132,6 +82,55 @@ If you are upgrading chocolatey from an older version (prior to 0.9.8.15) and do
 "@ | write-host
 }
 
+function Set-ChocolateyInstallFolder {
+param(
+  [string]$folder
+)
+  $environmentTarget = [System.EnvironmentVariableTarget]::User
+  $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+  $UACEnabled = Get-UACEnabled
+  if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -and !$UACEnabled) {
+    Write-Debug "Administrator installing with UAC disabled so using Machine environment variable target instead of User."
+    $environmentTarget = [System.EnvironmentVariableTarget]::Machine
+  }
+    Write-Host "Creating $chocInstallVariableName as an Environment variable (targeting `'$environmentTarget`') and setting it to `'$folder`'"
+    Install-ChocolateyEnvironmentVariable -variableName "$chocInstallVariableName" -variableValue "$folder" -variableType $environmentTarget
+}
+
+function Get-ChocolateyInstallFolder(){
+  [Environment]::GetEnvironmentVariable($chocInstallVariableName)
+}
+
+function Create-DirectoryIfNotExists($folderName){
+  if (![System.IO.Directory]::Exists($folderName)) {[System.IO.Directory]::CreateDirectory($folderName)}
+}
+
+function Install-ChocolateyBinFiles {
+param(
+  [string] $chocolateyInstallPath,
+  [string] $chocolateyExePath
+)
+
+  $redirectsPath = Join-Path $chocolateyInstallPath 'redirects'
+  $exeFiles = Get-ChildItem "$redirectsPath" -filter *.exe
+  foreach ($exeFile in $exeFiles) {
+    $exeFilePath = $exeFile.FullName
+    $exeFileName = [System.IO.Path]::GetFileName("$exeFilePath")
+    $binFilePath = Join-Path $chocolateyExePath $exeFileName
+    $binFilePathRename = $binFilePath + '.old'
+    $batchFilePath = $binFilePath.Replace(".exe",".bat")
+    $bashFilePath = $binFilePath.Replace(".exe","")
+    if (Test-Path ($batchFilePath)) {Remove-Item $batchFilePath -force}
+    if (Test-Path ($bashFilePath)) {Remove-Item $bashFilePath -force}
+    if (Test-Path ($binFilePathRename)) {Remove-Item $binFilePathRename -force}
+    if (Test-Path ($binFilePath)) {Move-Item -path $binFilePath -destination $binFilePathRename -force}
+
+    Copy-Item -path $exeFilePath -destination $binFilePath -force
+    $commandShortcut = [System.IO.Path]::GetFileNameWithoutExtension("$exeFilePath")
+    Write-Host "Added command $commandShortcut"
+  }
+}
+
 function Install-ChocolateyFiles {
 param(
   [string]$chocolateyPath
@@ -158,7 +157,7 @@ param(
   $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
   $UACEnabled = Get-UACEnabled
   if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -and !$UACEnabled) {
-    Write-Host "Administrator installing with UAC disabled so using Machine environment variable target instead of User."
+    Write-Debug "Administrator installing with UAC disabled so using Machine environment variable target instead of User."
     $environmentTarget = [System.EnvironmentVariableTarget]::Machine
   }
 
