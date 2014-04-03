@@ -48,6 +48,8 @@ param(
     Write-Host "Added command $commandShortcut"
   }
 }
+$installModule = Join-Path $thisScriptFolder 'chocolateyInstall\helpers\chocolateyInstaller.psm1'
+Import-Module $installModule
 
 function Initialize-Chocolatey {
 <#
@@ -131,17 +133,15 @@ If you are upgrading chocolatey from an older version (prior to 0.9.8.15) and do
 "@ | write-host
 }
 
-# not a fan of using webpi here as it isn't always awesome.
 function Install-DotNet4IfMissing {
 param(
   [string]$chocolateyInstallPath
 )
   if([IntPtr]::Size -eq 8) {$fx="framework64"} else {$fx="framework"}
+
   if(!(test-path "$env:windir\Microsoft.Net\$fx\v4.0.30319")) {
-      "Downloading and installing .NET 4.0 Framework" | Write-Host
-      $env:chocolateyPackageFolder="$env:temp\chocolatey\webcmd"
-      Install-ChocolateyZipPackage 'webcmd' 'http://www.iis.net/community/files/webpi/webpicmdline_anycpu.zip' $env:temp
-      Start-ChocolateyProcessAsAdmin ".'$env:temp\WebpiCmdLine.exe' /products: NetFramework4 /SuppressReboot /accepteula"
+    $NetFx4ClientUrl = 'http://download.microsoft.com/download/5/6/2/562A10F9-C9F4-4313-A044-9C94E0A8FAC8/dotNetFx40_Client_x86_x64.exe'
+    Install-ChocolateyPackage "NetFx4.0" 'exe' -silentArgs "/q /norestart /repair /log `'$env:Temp\NetFx4Install.log`'" -url "$NetFx4ClientUrl" -validExitCodes = @(0, 3010)
   }
 }
 
