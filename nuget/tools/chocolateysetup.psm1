@@ -1,8 +1,6 @@
 $thisScriptFolder = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $chocInstallVariableName = "ChocolateyInstall"
 $sysDrive = $env:SystemDrive
-#$defaultNugetPath = "$sysDrive\Chocolatey"
-$defaultChocolateyPathOld = "$sysDrive\NuGet"
 
 function Set-ChocolateyInstallFolder($folder){
   #if(test-path $folder){
@@ -79,16 +77,13 @@ param(
 
   #if we have an already environment variable path, use it.
   $alreadyInitializedNugetPath = Get-ChocolateyInstallFolder
-  if($alreadyInitializedNugetPath -and $alreadyInitializedNugetPath -ne $chocolateyPath -and $alreadyInitializedNugetPath -ne $defaultChocolateyPathOld){
+  if($alreadyInitializedNugetPath -and $alreadyInitializedNugetPath -ne $chocolateyPath){
     $chocolateyPath = $alreadyInitializedNugetPath
   }
   else {
     Set-ChocolateyInstallFolder $chocolateyPath
   }
-
-  if(!(test-path $chocolateyPath)){
-    mkdir $chocolateyPath | out-null
-  }
+  Create-DirectoryIfNotExists $chocolateyPath
 
   #set up variables to add
   $chocolateyExePath = Join-Path $chocolateyPath 'bin'
@@ -110,12 +105,7 @@ Creating Chocolatey NuGet folders if they do not already exist.
   Create-DirectoryIfNotExists $chocolateyExePath
   Create-DirectoryIfNotExists $chocolateyLibPath
   Create-DirectoryIfNotExists $chocolateyInstallPath
-
-  Upgrade-OldNuGetDirectory $defaultChocolateyPathOld $chocolateyPath
-
   Install-ChocolateyFiles $chocolateyPath
-
-  Import-Module "$chocolateyInstallPath\helpers\chocolateyInstaller.psm1"
 
   $chocolateyExePathVariable = $chocolateyExePath.ToLower().Replace($chocolateyPath.ToLower(), "%DIR%..\").Replace("\\","\")
   Install-ChocolateyBinFiles $chocolateyInstallPath $chocolateyExePath
@@ -142,39 +132,6 @@ param(
   if(!(test-path "$env:windir\Microsoft.Net\$fx\v4.0.30319")) {
     $NetFx4ClientUrl = 'http://download.microsoft.com/download/5/6/2/562A10F9-C9F4-4313-A044-9C94E0A8FAC8/dotNetFx40_Client_x86_x64.exe'
     Install-ChocolateyPackage "NetFx4.0" 'exe' -silentArgs "/q /norestart /repair /log `'$env:Temp\NetFx4Install.log`'" -url "$NetFx4ClientUrl" -validExitCodes = @(0, 3010)
-  }
-}
-
-function Upgrade-OldNuGetDirectory {
-param(
-  [string]$chocolateyPathOld = "$sysDrive\NuGet",
-  [string]$chocolateyPath = "$sysDrive\NuGet"
-)
-
-  if((test-path $defaultChocolateyPathOld)){
-    Write-Host "Upgrading `'$chocolateyPathOld`' to `'$chocolateyPath`'."
-
-    Write-Host "Copying the contents of `'$chocolateyPathOld`' to `'$chocolateyPath`'. This step may fail if you have anything in this folder running or locked."
-    Write-Host 'If it fails, just manually copy the rest of the items out and then delete the folder.'
-    Copy-Item "$($chocolateyPathOld)\*" "$chocolateyPath" -force -recurse
-    #write-host "Attempting to remove `'$chocolateyPathOld`'. This may fail if something in the folder is being used or locked. If it fails, same idea as above."
-    #Remove-Item "$($chocolateyPathOld)" -force -recurse
-
-    $chocolateyExePathOld = Join-Path $chocolateyPathOld 'bin'
-    $statementTerminator = ";"
-    #get the PATH variable
-    $envPath = $env:PATH
-    #remove the old environment variable
-    if ($envPath.Contains($chocolateyExePathOld)) {
-      Write-Host "Attempting to remove older `'$chocolateyExePathOld`' from the PATH."
-      $userPath = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)
-      if ($userPath.Contains($chocolateyExePathOld)) {
-        $userPath = $userPath.Replace("$chocolateyExePathOld","").Replace("$chocolateyExePathOld);","")
-        [Environment]::SetEnvironmentVariable('Path', $userPath, [System.EnvironmentVariableTarget]::User)
-      } else {
-        Write-Host "Chocolatey was not able to remove `'$chocolateyExePathOld`' automatically. It's likely in the system's path instead of the user path, but it could be due to other factors (including casing). Please manually find and remove it from either the user PATH or the machine PATH."
-      }
-    }
   }
 }
 
