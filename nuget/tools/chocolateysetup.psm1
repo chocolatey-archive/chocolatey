@@ -77,8 +77,12 @@ function Initialize-Chocolatey {
 
 #>
 param(
-  [Parameter(Mandatory=$false)][string]$chocolateyPath = "$sysDrive\Chocolatey"
+  [Parameter(Mandatory=$false)][string]$chocolateyPath = ''
 )
+
+  if ($chocolateyPath -eq '') {
+    $chocolateyPath = Join-Path [Environment]::GetFolderPath("CommonApplicationData") 'chocolatey'
+  }
 
   #if we have an already environment variable path, use it.
   $alreadyInitializedNugetPath = Get-ChocolateyInstallFolder
@@ -130,11 +134,8 @@ If you are upgrading chocolatey from an older version (prior to 0.9.8.15) and do
 
 function Install-ChocolateyFiles {
 param(
-  [string]$chocolateyPath = "$sysDrive\Chocolatey"
+  [string]$chocolateyPath
 )
-  #$chocInstallFolder = Get-ChildItem .\ -Recurse | ?{$_.name -match  "chocolateyInstall*"} | sort name -Descending | select -First 1
-  #$thisScript = (Get-Variable MyInvocation -Scope 1).Value
-  #$thisScriptFolder = Split-Path $thisScript.MyCommand.Path
 
   $chocInstallFolder = Join-Path $thisScriptFolder "chocolateyInstall"
   Write-Host "Copying the contents of `'$chocInstallFolder`' to `'$chocolateyPath`'."
