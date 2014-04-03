@@ -2,19 +2,26 @@ $thisScriptFolder = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $chocInstallVariableName = "ChocolateyInstall"
 $sysDrive = $env:SystemDrive
 
-function Set-ChocolateyInstallFolder($folder){
-  #if(test-path $folder){
-    write-host "Creating $chocInstallVariableName as a User Environment variable and setting it to `'$folder`'"
-    [Environment]::SetEnvironmentVariable($chocInstallVariableName, $folder, [System.EnvironmentVariableTarget]::User)
-    Set-Content "env:\$chocInstallVariableName" -value $folder -force
-  #}
-  #else{
-  #  throw "Cannot set the chocolatey install folder. Folder not found [$folder]"
-  #}
+$installModule = Join-Path $thisScriptFolder 'chocolateyInstall\helpers\chocolateyInstaller.psm1'
+Import-Module $installModule
+
+function Set-ChocolateyInstallFolder {
+param(
+  [string]$folder
+)
+  $environmentTarget = [System.EnvironmentVariableTarget]::User
+  $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+  $UACEnabled = Get-UACEnabled
+  if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -and !$UACEnabled) {
+    Write-Host "Administrator installing with UAC disabled so using Machine environment variable target instead of User."
+    $environmentTarget = [System.EnvironmentVariableTarget]::Machine
+  }
+    Write-Host "Creating $chocInstallVariableName as an Environment variable (targeting `'$environmentTarget`') and setting it to `'$folder`'"
+    Install-ChocolateyEnvironmentVariable -variableName "$chocInstallVariableName" -variableValue "$folder" -variableType $environmentTarget
 }
 
 function Get-ChocolateyInstallFolder(){
-  [Environment]::GetEnvironmentVariable($chocInstallVariableName, [System.EnvironmentVariableTarget]::User)
+  [Environment]::GetEnvironmentVariable($chocInstallVariableName)
 }
 
 function Create-DirectoryIfNotExists($folderName){
@@ -46,8 +53,6 @@ param(
     Write-Host "Added command $commandShortcut"
   }
 }
-$installModule = Join-Path $thisScriptFolder 'chocolateyInstall\helpers\chocolateyInstaller.psm1'
-Import-Module $installModule
 
 function Initialize-Chocolatey {
 <#
@@ -148,34 +153,15 @@ param(
   [string]$chocolateyExePathVariable = "%$($chocInstallVariableName)%\bin"
 )
 
-  $statementTerminator = ";"
-  #get the PATH variable
-  $envPath = $env:PATH
-
-  #if you do not find $chocolateyPath\bin, add it
-  if (!$envPath.ToLower().Contains($chocolateyExePath.ToLower())) # -and !$envPath.ToLower().Contains($chocolateyExePathVariable))
-  {
-    Write-Host ''
-    #now we update the path
-    Write-Host "PATH environment variable does not have `'$chocolateyExePath`' in it. Adding."
-    #Write-Host 'PATH environment variable does not have ' $chocolateyExePathVariable ' in it. Adding.'
-    $userPath = [Environment]::GetEnvironmentVariable('Path', [System.EnvironmentVariableTarget]::User)
-
-    #does the path end in ';'?
-    $hasStatementTerminator = $userPath -ne $null -and $userPath.EndsWith($statementTerminator)
-    # if the last digit is not ;, then we are adding it
-    If (!$hasStatementTerminator -and $userPath -ne $null) {$chocolateyExePath = $statementTerminator + $chocolateyExePath}
-    $userPath = $userPath + $chocolateyExePath + $statementTerminator
-
-    [Environment]::SetEnvironmentVariable('Path', $userPath, [System.EnvironmentVariableTarget]::User)
-
-    #add it to the local path as well so users will be off and running
-    $envPSPath = $env:PATH
-    $env:Path = $envPSPath + $statementTerminator + $chocolateyExePath + $statementTerminator
-    #$env:ChocolateyInstall = $chocolateyExePath
-  } else {
-    write-host "User PATH already contains either `'$chocolateyExePath`' or `'$chocolateyExePathVariable`'"
+  $environmentTarget = [System.EnvironmentVariableTarget]::User
+  $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
+  $UACEnabled = Get-UACEnabled
+  if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -and !$UACEnabled) {
+    Write-Host "Administrator installing with UAC disabled so using Machine environment variable target instead of User."
+    $environmentTarget = [System.EnvironmentVariableTarget]::Machine
   }
+
+  Install-ChocolateyPath -pathToInstall "$chocolateyExePath" -pathType $environmentTarget
 }
 
 function Process-ChocolateyBinFiles {
