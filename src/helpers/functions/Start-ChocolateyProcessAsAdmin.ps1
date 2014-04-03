@@ -1,13 +1,13 @@
 ﻿function Start-ChocolateyProcessAsAdmin {
 param(
-  [string] $statements, 
+  [string] $statements,
   [string] $exeToRun = 'powershell',
   [switch] $minimized,
   [switch] $noSleep,
   $validExitCodes = @(0)
 )
   Write-Debug "Running 'Start-ChocolateyProcessAsAdmin' with exeToRun:`'$exeToRun`', statements: `'$statements`' ";
-  
+
   $wrappedStatements = $statements;
   if ($exeToRun -eq 'powershell') {
     $exeToRun = "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe"
@@ -38,7 +38,7 @@ Elevating Permissions and running $exeToRun $wrappedStatements. This may take aw
   if ($minimized) {
     $psi.WindowStyle = [System.Diagnostics.ProcessWindowStyle]::Minimized;
   }
- 
+
   $s = [System.Diagnostics.Process]::Start($psi);
   $s.WaitForExit();
   if ($validExitCodes -notcontains $s.ExitCode) {
