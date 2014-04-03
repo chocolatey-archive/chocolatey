@@ -21,7 +21,7 @@ param(
   }
 @"
 Elevating Permissions and running $exeToRun $wrappedStatements. This may take awhile, depending on the statements.
-"@ | Write-Host
+"@ | Write-Debug
 
   $psi = new-object System.Diagnostics.ProcessStartInfo;
   $psi.FileName = $exeToRun;

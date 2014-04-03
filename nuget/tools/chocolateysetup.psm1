@@ -129,7 +129,7 @@ param(
 
     Copy-Item -path $exeFilePath -destination $binFilePath -force
     $commandShortcut = [System.IO.Path]::GetFileNameWithoutExtension("$exeFilePath")
-    Write-Host "Added command $commandShortcut"
+    Write-Debug "Added command $commandShortcut"
   }
 }
 
