@@ -24,7 +24,7 @@
   <Target Name="PrepareNuGetFiles">
    <ItemGroup>
       <NuGetFiles Include="$(NuGetDirectory)\**\*" />
-      <NuGetFilesToPack Include="$(NuGetFilesDirectory)\**\*" />
+      <NuGetFilesToPack Include="$(NuGetFilesDirectory)\**\*" Exclude="$(NuGetFilesDirectory)\**\*.log" />
     </ItemGroup>
     <Copy SourceFiles="@(NuGetFiles)"
       DestinationFiles="@(NuGetFiles->'$(BuildPath)\nuget\%(RecursiveDir)%(Filename)%(Extension)')"

@@ -15,6 +15,7 @@ Export-ModuleMember -Function `
 	Get-ChocolateyWebFile,`
 	Get-ChocolateyUnzip,`
 	Get-ProcessorBits,`
+	Get-UACEnabled,`
 	Install-ChocolateyInstallPackage,`
 	Install-ChocolateyPackage,`
 	Install-ChocolateyZipPackage,`
