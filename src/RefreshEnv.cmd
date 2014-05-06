@@ -1,6 +1,6 @@
 @echo off
 ::
-:: setenv.bat
+:: RefreshEnv.cmd
 ::
 :: Batch file to read environment variables from registry and
 :: set session variables to these values.
@@ -32,29 +32,29 @@ goto main
     goto :EOF
 
 :main
-    echo/@echo off >"%TEMP%\_env.bat"
+    echo/@echo off >"%TEMP%\_env.cmd"
 
     :: Slowly generating final file
-    call :GetRegEnv "HKLM\System\CurrentControlSet\Control\Session Manager\Environment" >> "%TEMP%\_env.bat"
-    call :GetRegEnv "HKCU\Environment">>"%TEMP%\_env.bat" >> "%TEMP%\_env.bat"
+    call :GetRegEnv "HKLM\System\CurrentControlSet\Control\Session Manager\Environment" >> "%TEMP%\_env.cmd"
+    call :GetRegEnv "HKCU\Environment">>"%TEMP%\_env.cmd" >> "%TEMP%\_env.cmd"
 
     :: Special handling for PATH - mix both User and System
-    call :SetFromReg "HKLM\System\CurrentControlSet\Control\Session Manager\Environment" Path Path_HKLM >> "%TEMP%\_env.bat"
-    call :SetFromReg "HKCU\Environment" Path Path_HKCU >> "%TEMP%\_env.bat"
+    call :SetFromReg "HKLM\System\CurrentControlSet\Control\Session Manager\Environment" Path Path_HKLM >> "%TEMP%\_env.cmd"
+    call :SetFromReg "HKCU\Environment" Path Path_HKCU >> "%TEMP%\_env.cmd"
 
     :: Caution: do not insert space-chars before >> redirection sign
-    echo/set "Path=%%Path_HKLM%%;%%Path_HKCU%%" >> "%TEMP%\_env.bat"
+    echo/set "Path=%%Path_HKLM%%;%%Path_HKCU%%" >> "%TEMP%\_env.cmd"
 
     :: In final file: remove temp variables
-    echo/set "Path_HKLM=" >> "%TEMP%\_env.bat"
-    echo/set "Path_HKCU=" >> "%TEMP%\_env.bat"
+    echo/set "Path_HKLM=" >> "%TEMP%\_env.cmd"
+    echo/set "Path_HKCU=" >> "%TEMP%\_env.cmd"
 
     :: Cleanup
     del /f /q "%TEMP%\_envset.tmp" 2>nul
     del /f /q "%TEMP%\_envget.tmp" 2>nul
 
     :: Set these variables
-    call "%TEMP%\_env.bat"
+    call "%TEMP%\_env.cmd"
 
     :: Finish
   ::  echo | set /p dummy="Done"
