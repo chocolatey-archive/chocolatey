@@ -27,7 +27,7 @@ Returns the passed in $destination.
 
 .NOTES
 This helper reduces the number of lines one would have to write to unzip a file to 1 line.
-There is no error handling built into this method.
+If extraction fails, an exception is thrown.
 
 #>
 param(
@@ -62,13 +62,30 @@ param(
     $7zip = Join-Path "$env:ChocolateyInstall" 'chocolateyinstall\tools\7za.exe'
   }
 
-  if ($zipExtractLogFullPath) {
-    $unzipOps = "Start-Process `"$7zip`" -ArgumentList `"x -o`"`"$destination`"`" -y `"`"$fileFullPath`"`"`" -Wait -Windowstyle Hidden"
-    $scriptBlock = [scriptblock]::create($unzipOps)
+  $exitCode = -1
+  $unzipOps = {
+    param($7zip, $destination, $fileFullPath, [ref]$exitCodeRef)
+    $p = Start-Process $7zip -ArgumentList "x -o`"$destination`" -y `"$fileFullPath`"" -Wait -WindowStyle Hidden -PassThru
+    $exitCodeRef.Value = $p.ExitCode
+  }
 
-    Write-FileUpdateLog $zipExtractLogFullPath $destination $scriptBlock
+  if ($zipExtractLogFullPath) {
+    Write-Debug "wrapping 7za invocation with Write-FileUpdateLog"
+    Write-FileUpdateLog -logFilePath $zipExtractLogFullPath -locationToMonitor $destination -scriptToRun $unzipOps -argumentList $7zip,$destination,$fileFullPath,([ref]$exitCode)
   } else {
-    Start-Process "$7zip" -ArgumentList "x -o`"$destination`" -y `"$fileFullPath`"" -Wait -WindowStyle Hidden
+    Write-Debug "calling 7za directly"
+    Invoke-Command $unzipOps -ArgumentList $7zip,$destination,$fileFullPath,([ref]$exitCode)
+  }
+
+  Write-Debug "7za exit code: $exitCode"
+  switch ($exitCode) {
+    0 { break }
+    1 { throw 'Some files could not be extracted' } # this one is returned e.g. for access denied errors
+    2 { throw '7-Zip encountered a fatal error while extracting the files' }
+    7 { throw '7-Zip command line error' }
+    8 { throw '7-Zip out of memory' }
+    255 { throw 'Extraction cancelled by the user' }
+    default { throw "7-Zip signalled an unknown error (code $exitCode)" }
   }
 
   return $destination
