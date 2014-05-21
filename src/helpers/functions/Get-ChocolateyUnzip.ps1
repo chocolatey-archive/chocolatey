@@ -1,16 +1,18 @@
 function Get-ChocolateyUnzip {
 <#
 .SYNOPSIS
-Unzips a .zip file and returns the location for further processing.
+Unzips an archive file and returns the location for further processing.
 
 .DESCRIPTION
-This unzips files using the native windows unzipper.
+This unzips files using the 7-zip standalone command line tool 7za.exe.
+Supported archive formats are: 7z, lzma, cab, zip, gzip, bzip2, Z and tar.
 
 .PARAMETER FileFullPath
 This is the full path to your zip file.
 
 .PARAMETER Destination
 This is a directory where you would like the unzipped files to end up.
+If it does not exist, it will be created.
 
 .PARAMETER SpecificFolder
 OPTIONAL - This is a specific directory within zip file to extract.
