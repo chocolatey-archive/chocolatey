@@ -64,6 +64,17 @@ param(
     $7zip = Join-Path "$env:ChocolateyInstall" 'chocolateyinstall\tools\7za.exe'
   }
 
+  # 32-bit 7za.exe would not find C:\Windows\System32\config\systemprofile\AppData\Local\Temp,
+  # because it gets translated to C:\Windows\SysWOW64\... by the WOW redirection layer.
+  # Replace System32 with sysnative, which does not get redirected.
+  if ([IntPtr]::Size -ne 4) {
+    $fileFullPath32 = $fileFullPath -ireplace ([regex]::Escape([Environment]::GetFolderPath('System'))),(Join-Path $Env:SystemRoot sysnative)
+    $destination32 = $destination -ireplace ([regex]::Escape([Environment]::GetFolderPath('System'))),(Join-Path $Env:SystemRoot sysnative)
+  } else {
+    $fileFullPath32 = $fileFullPath
+    $destination32 = $destination
+  }
+
   $exitCode = -1
   $unzipOps = {
     param($7zip, $destination, $fileFullPath, [ref]$exitCodeRef)
@@ -73,10 +84,10 @@ param(
 
   if ($zipExtractLogFullPath) {
     Write-Debug "wrapping 7za invocation with Write-FileUpdateLog"
-    Write-FileUpdateLog -logFilePath $zipExtractLogFullPath -locationToMonitor $destination -scriptToRun $unzipOps -argumentList $7zip,$destination,$fileFullPath,([ref]$exitCode)
+    Write-FileUpdateLog -logFilePath $zipExtractLogFullPath -locationToMonitor $destination -scriptToRun $unzipOps -argumentList $7zip,$destination32,$fileFullPath32,([ref]$exitCode)
   } else {
     Write-Debug "calling 7za directly"
-    Invoke-Command $unzipOps -ArgumentList $7zip,$destination,$fileFullPath,([ref]$exitCode)
+    Invoke-Command $unzipOps -ArgumentList $7zip,$destination32,$fileFullPath32,([ref]$exitCode)
   }
 
   Write-Debug "7za exit code: $exitCode"
