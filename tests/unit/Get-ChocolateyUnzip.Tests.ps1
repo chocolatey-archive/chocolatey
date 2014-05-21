@@ -140,4 +140,82 @@ Describe "Get-ChocolateyUnzip" {
     }
   }
 
+  Context "When the archive is under System32" {
+    if ([IntPtr]::Size -eq 4) {
+      Write-Warning 'This test is not conclusive on a 32-bit system/process. It should be executed using 64-bit Powershell on a 64-bit OS in order to verify immunity to WOW redirection.'
+    }
+
+    $testFilePath = Setup-TestFile
+    # this is the value of TEMP when running as SYSTEM
+    $systemTempPath = Join-Path $Env:SystemRoot System32\config\systemprofile\AppData\Local\Temp
+    New-Item -Type Directory $systemTempPath -Force | Out-Null
+    $zipPathOnTestDrive = Join-Path $TestDrive (Setup-TestZipFile $testFilePath)
+    Copy-Item $zipPathOnTestDrive $systemTempPath -Force
+    $zipPath = Join-Path $systemTempPath (Split-Path -Leaf $zipPathOnTestDrive)
+    try
+    {
+      $destPath = Join-Path $TestDrive (Setup-DestinationDirectory)
+      $error = $null
+
+      try {
+        Get-ChocolateyUnzip -fileFullPath $zipPath -destination $destPath
+      } catch {
+        Write-Host "$_"
+        $error = $_
+      }
+
+      It "should not return an error" {
+        $error | Should Be $null
+      }
+
+      $extractedFile = Join-Path $destPath (Split-Path -Leaf $testFilePath)
+
+      It "should extract files from the archive" {
+        $extractedFile | Should Exist
+      }
+    }
+    finally
+    {
+      Remove-Item $zipPath -Recurse -Force -ErrorAction SilentlyContinue
+    }
+  }
+
+  Context "When the destination path is inside System32" {
+    if ([IntPtr]::Size -eq 4) {
+      Write-Warning 'This test is not conclusive on a 32-bit system/process. It should be executed using 64-bit Powershell on a 64-bit OS in order to verify immunity to WOW redirection.'
+    }
+
+    $testFilePath = Setup-TestFile
+    $zipPath = Join-Path $TestDrive (Setup-TestZipFile $testFilePath)
+    # this is the value of TEMP when running as SYSTEM
+    $systemTempPath = Join-Path $Env:SystemRoot System32\config\systemprofile\AppData\Local\Temp
+    New-Item -Type Directory $systemTempPath -Force | Out-Null
+    $destPath = Join-Path $systemTempPath chocolatey-test
+    $error = $null
+
+    try
+    {
+      try {
+        Get-ChocolateyUnzip -fileFullPath $zipPath -destination $destPath
+      } catch {
+        Write-Host "$_"
+        $error = $_
+      }
+
+      It "should not return an error" {
+        $error | Should Be $null
+      }
+
+      $extractedFile = Join-Path $destPath (Split-Path -Leaf $testFilePath)
+
+      It "should extract files from the archive" {
+        $extractedFile | Should Exist
+      }
+    }
+    finally
+    {
+      Remove-Item $destPath -Recurse -Force -ErrorAction SilentlyContinue
+    }
+  }
+
 }
