@@ -41,8 +41,7 @@ param(
   Write-Debug "Running 'Install-ChocolateyEnvironmentVariable' with variableName:`'$variableName`' and variableValue:`'$variableValue`'";
 
   if ($variableType -eq [System.EnvironmentVariableTarget]::Machine) {
-    $UACEnabled = Get-UACEnabled
-    if ((Test-AdminRights) -and !$UACEnabled) {
+    if (Test-AdminRights) {
       [Environment]::SetEnvironmentVariable($variableName, $variableValue, $variableType)
     } else {
       $psArgs = "[Environment]::SetEnvironmentVariable(`'$variableName`',`'$variableValue`', `'$variableType`')"

@@ -89,9 +89,8 @@ param(
   [string]$folder
 )
   $environmentTarget = [System.EnvironmentVariableTarget]::User
-  $UACEnabled = Get-UACEnabled
-  if ((Test-AdminRights) -and !$UACEnabled) {
-    Write-Debug "Administrator installing with UAC disabled so using Machine environment variable target instead of User."
+  if (Test-AdminRights) {
+    Write-Debug "Administrator installing so using Machine environment variable target instead of User."
     $environmentTarget = [System.EnvironmentVariableTarget]::Machine
   }
     Write-Host "Creating $chocInstallVariableName as an Environment variable (targeting `'$environmentTarget`') and setting it to `'$folder`'"
@@ -155,9 +154,8 @@ param(
 )
 
   $environmentTarget = [System.EnvironmentVariableTarget]::User
-  $UACEnabled = Get-UACEnabled
-  if ((Test-AdminRights) -and !$UACEnabled) {
-    Write-Debug "Administrator installing with UAC disabled so using Machine environment variable target instead of User."
+  if (Test-AdminRights) {
+    Write-Debug "Administrator installing so using Machine environment variable target instead of User."
     $environmentTarget = [System.EnvironmentVariableTarget]::Machine
   }
 
