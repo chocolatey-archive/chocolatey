@@ -1,5 +1,5 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Definition
-$common = Join-Path $here '_Common.ps1'
+$common = Join-Path (Split-Path -Parent $here)  '_Common.ps1'
 . $common
 
 Describe "Chocolatey-NuGet" {
