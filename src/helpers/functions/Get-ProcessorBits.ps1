@@ -17,10 +17,8 @@ param(
 )
   Write-Debug "Running 'Get-ProcessorBits'"
 
-  $osArch = "64-bit"
   $bits = 64
   if ([System.IntPtr]::Size -eq 4) {
-    $osArch = "32-bit"
     $bits = 32
   }
 
