@@ -15,34 +15,20 @@ When your installation script has to know what architecture it is run on, this s
 param(
   $compare # You can optionally pass a value to compare the system architecture and receive $True or $False in stead of 32|64|nn
 )
-  Write-Debug "Running 'System-GetBits'"
+  Write-Debug "Running 'Get-ProcessorBits'"
 
-	# Get address width for the Operating System (not the Processor)
-	$os		= Get-WmiObject Win32_OperatingSystem
-	$osArch = $os.OSArchitecture
-
-	# Detection for older systems
-	if (-Not $osArch) {
-		if ([System.IntPtr]::Size -eq 4) { 
-			$osArch = "32-bit"
-		} else {
-			$osArch = "64-bit"
-		}
-	}
-
-	# Integer
-	if ($osArch -eq '64-bit') {
-		$bits = 64
-	} else {
-		$bits = 32
-	}
-
+  $osArch = "64-bit"
+  $bits = 64
+  if ([System.IntPtr]::Size -eq 4) {
+    $osArch = "32-bit"
+    $bits = 32
+  }
 
   # Return bool|int
   if ("$compare" -ne '' -and $compare -eq $bits) {
-    return $True
+    return $true
   } elseif ("$compare" -ne '') {
-    return $False
+    return $false
   } else {
     return $bits
   }
