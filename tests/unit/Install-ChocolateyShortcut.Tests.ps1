@@ -38,7 +38,7 @@ Describe "Install-ChocolateyShortcut" {
 	Context "When a Working Directory is provided, and this parth doesn't exist" {
 		Mock Write-ChocolateyFailure
 		
-		Install-ChocolateyShortcut -shortcutFilePath "TestShortcutFilePath" -targetPath "C:\Chocolatey\chocolateyinstall\LICENSE.txt" -workingDirectory "C:\TestWorkingDiectory" -arguments "TestArguments" -description "TestDescription"
+		Install-ChocolateyShortcut -shortcutFilePath "TestShortcutFilePath" -targetPath "$Env:ChocolateyInstall\chocolateyinstall\LICENSE.txt" -workingDirectory "C:\TestWorkingDiectory" -arguments "TestArguments" -description "TestDescription"
 		
 		It "should return an error" {
 			Assert-MockCalled Write-ChocolateyFailure -parameterFilter {$failureMessage -eq "WorkingDirectory does not exist, so can't create shortcut."}
@@ -48,7 +48,7 @@ Describe "Install-ChocolateyShortcut" {
 	Context "When an IconLocation is provided, and the path doesn't exist" {
 		Mock Write-ChocolateyFailure
 		
-		Install-ChocolateyShortcut -shortcutFilePath "TestShortcutFilePath" -targetPath "C:\Chocolatey\chocolateyinstall\LICENSE.txt" -arguments "TestArguments" -iconLocation "c:\iconlocation.ico" -description "TestDescription"
+		Install-ChocolateyShortcut -shortcutFilePath "TestShortcutFilePath" -targetPath "$Env:ChocolateyInstall\chocolateyinstall\LICENSE.txt" -arguments "TestArguments" -iconLocation "c:\iconlocation.ico" -description "TestDescription"
 		
 		It "should return an error" {
 			Assert-MockCalled Write-ChocolateyFailure -parameterFilter {$failureMessage -eq "IconLocation does not exist, so can't create shortcut."}
