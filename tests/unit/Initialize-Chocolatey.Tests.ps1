@@ -1,6 +1,7 @@
 $here = Split-Path -Parent $MyInvocation.MyCommand.Definition
-$base = Split-Path -Parent (Split-Path -Parent $here)
-. (Join-Path (Split-Path -Parent $here) '_TestHelpers.ps1')
+$testsDir = Split-Path -Parent $here
+$baseDir = Split-Path -Parent $testsDir
+. (Join-Path $testsDir '_TestHelpers.ps1')
 
 function Execute-WithMockingUAC([string]$status, $scriptBlock)
 {
@@ -100,14 +101,20 @@ function Assert-ChocolateyInstallIsNull($scope)
     "$([Environment]::GetEnvironmentVariable('ChocolateyInstall', $scope))" | Should BeNullOrEmpty
 }
 
-function Setup-ChocolateyInstallationPackage
+function Setup-ChocolateyInstallationPackage([switch] $SimulateStandardUser)
 {
     Setup -Dir 'chocotmp'
     Setup -Dir 'chocotmp\chocolateyInstall'
     $script:tmpDir = 'TestDrive:\chocotmp'
 
-    Get-ChildItem "$base\nuget\tools" | Copy-Item -Destination $script:tmpDir -Recurse -Force
-    Get-ChildItem "$base\src" | Copy-Item -Destination "$script:tmpDir\chocolateyInstall" -Recurse -Force
+    Get-ChildItem "$baseDir\nuget\tools" | Copy-Item -Destination $script:tmpDir -Recurse -Force
+    Get-ChildItem "$baseDir\src" | Copy-Item -Destination "$script:tmpDir\chocolateyInstall" -Recurse -Force
+
+    if ($SimulateStandardUser) {
+        'function Test-AdminRights() { return $false }' | Set-Content (Join-Path $script:tmpDir chocolateyInstall\helpers\functions\Test-AdminRights.ps1)
+    } else {
+        'function Test-AdminRights() { return $true }' | Set-Content (Join-Path $script:tmpDir chocolateyInstall\helpers\functions\Test-AdminRights.ps1)
+    }
 
     $script:installDir = Join-Path (Resolve-Path 'TestDrive:\').ProviderPath chocoinstall
 
@@ -142,8 +149,7 @@ function Execute-ChocolateyInstallationInDefaultDir($scriptBlock)
 }
 
 Describe "Initialize-Chocolatey" {
-    # note: the specs below are correct when installing with administrative permissions
-    # the test suite is always run elevated, so no easy way to test limited user install for now
+    # note: the correctness of the specs below is dependent upon all code using Test-AdminRights
 
     Context "When installing as admin, without UAC, with `$Env:ChocolateyInstall not set and no arguments" {
         Setup-ChocolateyInstallationPackage
