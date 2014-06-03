@@ -22,9 +22,8 @@ param(
     $actualPath = $actualPath + $pathToInstall
 
     if ($pathType -eq [System.EnvironmentVariableTarget]::Machine) {
-      $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent())
       $UACEnabled = Get-UACEnabled
-      if ($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator) -and !$UACEnabled) {
+      if ((Test-AdminRights) -and !$UACEnabled) {
         [Environment]::SetEnvironmentVariable('Path', $actualPath, $pathType)
       } else {
         $psArgs = "[Environment]::SetEnvironmentVariable('Path',`'$actualPath`', `'$pathType`')"
