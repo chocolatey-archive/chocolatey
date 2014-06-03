@@ -11,7 +11,7 @@ The process for contributions is roughly as follows:
     * No reformatting
     * No changing files that are not specific to the feature
  * Test your changes and please help us out by updating and implementing some automated tests. If you are not familiar with [Pester](https://github.com/pester/Pester), I would suggest just spend some time looking over the tests in the source code. You can't go wrong emulating one of the existing tests and then changing it specific to the behavior you are testing.  You can install Pester with Chocolatey by ```cinst pester```.
- * Once you feel it is ready, submit the pull request to the chocolatey/chocolatey repository ([more information on this can be found here](https://help.github.com/articles/creating-a-pull-request)).
+ * Once you feel it is ready, submit the pull request to the chocolatey/chocolatey repository against the ````master```` branch ([more information on this can be found here](https://help.github.com/articles/creating-a-pull-request)).
  * In the pull request, outline what you did and point to specific conversations (as in URL's) and issues that you are are resolving. This is a tremendous help for us in evaluation and acceptance.
  * Once the pull request is in, please do not delete the branch or close the pull request (unless something is wrong with it).
  * One of the members will evaluate it within a reasonable time period (which is to say usually within 2-4 weeks). Some things get evaluated faster or fast tracked. We are human and we have active lives outside of open source so don't fret if you haven't seen any activity on your pull request within a month or two. We don't have a Service Level Agreement (SLA) for pull requests. Just know that we will evaluate your pull request.
