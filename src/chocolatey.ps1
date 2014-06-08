@@ -43,7 +43,7 @@ $currentThread.CurrentCulture = $culture;
 $currentThread.CurrentUICulture = $culture;
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.24-beta1'
+$chocVer = '0.9.8.24-beta2'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
