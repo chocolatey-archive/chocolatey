@@ -39,7 +39,43 @@ See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
 v0.9.8.24:
 
-  Will be listed later, for now see source code
+BREAKING CHANGES:
+
+ * Enhancement - Default install to C:\ProgramData - https://github.com/chocolatey/chocolatey/issues/452
+ * Don't allow $binroot to be set to c:\ - https://github.com/chocolatey/chocolatey/issues/434 - this is meant to be temporary while other pieces are fixed.
+
+FEATURES:
+
+ * Checksum downloaded files - https://github.com/chocolatey/chocolatey/issues/427
+ * Replace Batch Redirector with Shims - https://github.com/chocolatey/chocolatey/issues/372
+ * New Helper - Get-UACEnabled - https://github.com/chocolatey/chocolatey/issues/451
+ * Enhancement - Install to Machine environment variable - https://github.com/chocolatey/chocolatey/issues/453
+ * Enhancement - Install the .NET Framework 4.0 requirement - https://github.com/chocolatey/chocolatey/issues/255
+
+BUG FIXES:
+
+ * Fix - Cannot bind argument to parameter 'Path' because it is an empty string - https://github.com/chocolatey/chocolatey/issues/371
+ * Fix - clist -source webpi doesn't prompt for admin access - https://github.com/chocolatey/chocolatey/issues/293
+ * Fix - Get-ChocolateyUnzip silently fails due to incorrect usage of System32 (File System Redirector Issues) - https://github.com/chocolatey/chocolatey/pull/476 and https://github.com/chocolatey/chocolatey/issues/455
+ * Fix - 7za.exe is subject to UAC file virtualization - https://github.com/chocolatey/chocolatey/issues/454
+ * Fix - "You cannot call a method on a null-valued expression" introduced somewhere. - https://github.com/chocolatey/chocolatey/issues/430
+ * Fix - Get-BinRoot defaulted to "C:\" instead of "C:\tools" - https://github.com/chocolatey/chocolatey/pull/421
+ * Fix - Get-ProcessorBits doesn't return the bitness of the OperatingSystem - https://github.com/chocolatey/chocolatey/pull/396
+ * Fix - Fix Invoke for Install All from a Feed (DEPRECATED by #446 - in improvements below) - https://github.com/chocolatey/chocolatey/issues/381
+
+IMPROVEMENTS:
+
+ * Do not download if file already cached - https://github.com/chocolatey/chocolatey/issues/428 and https://github.com/chocolatey/chocolatey/pull/109
+ * If *.ignore file failes to create, do not fail the process - https://github.com/chocolatey/chocolatey/issues/380
+ * Validate downloaded file is the right size - https://github.com/chocolatey/chocolatey/issues/429
+ * Add perf to Chocolatey-List and allow to return as object - https://github.com/chocolatey/chocolatey/issues/426
+ * Chocolatey-List LocalOnly performance improvements - https://github.com/chocolatey/chocolatey/pull/425
+ * Chocolatey-Version Improvements - https://github.com/chocolatey/chocolatey/issues/445
+ * Remove Invoke-Chocolatey Function to improve handling - https://github.com/chocolatey/chocolatey/issues/446
+ * Don't create a window during Run-Nuget.ps1 - https://github.com/chocolatey/chocolatey/pull/450
+ * Generate _env.cmd file instead of bat file for consistency - https://github.com/chocolatey/chocolatey/pull/469
+ * Remove-BinFile removes shim.exes when installing a package - https://github.com/chocolatey/chocolatey/pull/449
+ * Remove annoying "Reading environment variables from registry. Please wait..." - https://github.com/chocolatey/chocolatey/pull/440
 
     </releaseNotes>
     <projectUrl>http://chocolatey.org</projectUrl>
