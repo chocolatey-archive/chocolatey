@@ -59,9 +59,61 @@ function Setup-ChocolateyInstallationPackage
     Import-Module "$tmpDir\chocolateysetup.psm1"
 }
 
+function Get-DefaultChocolateyInstallDir
+{
+    $programData = [Environment]::GetFolderPath([Environment+SpecialFolder]::CommonApplicationData)
+    $chocolateyPath = Join-Path $programData chocolatey
+    return $chocolateyPath
+}
+
+function Execute-ChocolateyInstallationInDefaultDir($scriptBlock)
+{
+    $defaultDir = Get-DefaultChocolateyInstallDir
+    if (Test-Path $defaultDir) {
+        Write-Warning "Skipping default installation test because the default installation directory already exists ($defaultDir)"
+        return
+    }
+    $script:installDir = $defaultDir
+    try
+    {
+        & $scriptBlock
+    }
+    finally
+    {
+        Write-Debug "Removing default installation directory if exists ($defaultDir)"
+        Get-Item $defaultDir | Remove-Item -Recurse -Force
+    }
+}
+
 Describe "Initialize-Chocolatey" {
     # note: the specs below are correct when installing with administrative permissions with UAC enabled
     # the test suite is always run elevated, so no easy way to test limited user install for now
+
+    Context "When installing with `$Env:ChocolateyInstall not set and no arguments" {
+        Setup-ChocolateyInstallationPackage
+
+        Execute-WithEnvironmentBackup {
+            Setup-ChocolateyInstall $null
+
+            Execute-ChocolateyInstallationInDefaultDir {
+                Initialize-Chocolatey
+
+                Verify-ExpectedContentInstalled $installDir
+
+                It "should create ChocolateyInstall at Process scope" {
+                    Assert-ChocolateyInstallIs $installDir 'Process'
+                }
+
+                It "should create ChocolateyInstall at User scope" {
+                    Assert-ChocolateyInstallIs $installDir 'User'
+                }
+
+                It "should not create ChocolateyInstall at Machine scope" {
+                    Assert-ChocolateyInstallIsNull 'Machine'
+                }
+            }
+        }
+    }
 
     Context "When installing with `$Env:ChocolateyInstall not set, with explicit chocolateyPath" {
         Setup-ChocolateyInstallationPackage
