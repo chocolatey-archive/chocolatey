@@ -37,12 +37,12 @@ function Verify-ExpectedContentInstalled($installDir)
 
 function Assert-ChocolateyInstallIs($value, $scope)
 {
-    "$([Environment]::GetEnvironmentVariable('ChocolateyInstall', $scope))" | Should Be $value
+    "$(Get-EnvironmentVariable -Name 'ChocolateyInstall' -Scope $scope)" | Should Be $value
 }
 
 function Assert-ChocolateyInstallIsNull($scope)
 {
-    "$([Environment]::GetEnvironmentVariable('ChocolateyInstall', $scope))" | Should BeNullOrEmpty
+    "$(Get-EnvironmentVariable -Name 'ChocolateyInstall' -Scope $scope)" | Should BeNullOrEmpty
 }
 
 function Setup-ChocolateyInstallationPackage([switch] $SimulateStandardUser)
@@ -53,6 +53,7 @@ function Setup-ChocolateyInstallationPackage([switch] $SimulateStandardUser)
 
     Get-ChildItem "$baseDir\nuget\tools" | Copy-Item -Destination $script:tmpDir -Recurse -Force
     Get-ChildItem "$baseDir\src" | Copy-Item -Destination "$script:tmpDir\chocolateyInstall" -Recurse -Force
+    Get-ChildItem "$testsDir\mocks" | Copy-Item -Destination "$script:tmpDir\chocolateyInstall" -Recurse -Force
 
     if ($SimulateStandardUser) {
         'function Test-ProcessAdminRights() { return $false }' | Set-Content (Join-Path $script:tmpDir chocolateyInstall\helpers\functions\Test-ProcessAdminRights.ps1)
@@ -98,7 +99,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin, with `$Env:ChocolateyInstall not set and no arguments" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $null
 
             Execute-ChocolateyInstallationInDefaultDir {
@@ -124,7 +125,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin, with `$Env:ChocolateyInstall not set, with explicit chocolateyPath" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $null
 
             Initialize-Chocolatey -chocolateyPath $installDir
@@ -148,7 +149,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin, with `$Env:ChocolateyInstall set at Process scope, with same explicit chocolateyPath" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Process'
 
             Initialize-Chocolatey -chocolateyPath $installDir
@@ -173,7 +174,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin, with `$Env:ChocolateyInstall set at Process scope, with different explicit chocolateyPath" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Process'
 
             Initialize-Chocolatey -chocolateyPath 'X:\nonexistent'
@@ -198,7 +199,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with `$Env:ChocolateyInstall set at Machine scope" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Machine'
 
             Initialize-Chocolatey
@@ -222,7 +223,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with `$Env:ChocolateyInstall set at User scope" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'User'
 
             Initialize-Chocolatey
@@ -246,7 +247,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with `$Env:ChocolateyInstall set at Process scope" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Process'
 
             Initialize-Chocolatey
@@ -270,7 +271,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with `$Env:ChocolateyInstall set at Machine scope and same at User scope" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Machine'
             Add-ChocolateyInstall $installDir 'User'
 
@@ -295,7 +296,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with `$Env:ChocolateyInstall set at Machine scope and different at User scope" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall 'X:\nonexistent' 'Machine'
             Add-ChocolateyInstall $installDir 'User'
 
@@ -320,7 +321,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with `$Env:ChocolateyInstall set at Machine scope and different at Process scope" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall 'X:\nonexistent' 'Machine'
             Add-ChocolateyInstall $installDir 'Process'
 
@@ -345,7 +346,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with `$Env:ChocolateyInstall set at User scope and different at Process scope" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall 'X:\nonexistent' 'User'
             Add-ChocolateyInstall $installDir 'Process'
 
@@ -370,7 +371,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with bin directory not on PATH" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'User'
             Remove-DirectoryFromPath "$installDir\bin"
 
@@ -395,7 +396,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with bin directory on PATH at Machine scope" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'User'
             Remove-DirectoryFromPath "$installDir\bin"
             Add-DirectoryToPath "$installDir\bin" 'Machine'
@@ -421,7 +422,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as admin with bin directory on PATH at User scope" {
         Setup-ChocolateyInstallationPackage
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'User'
             Remove-DirectoryFromPath "$installDir\bin"
             Add-DirectoryToPath "$installDir\bin" 'User'
@@ -447,7 +448,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user, with `$Env:ChocolateyInstall not set and no arguments" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $null
 
             Execute-ChocolateyInstallationInDefaultDir {
@@ -473,7 +474,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user, with `$Env:ChocolateyInstall not set, with explicit chocolateyPath" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $null
 
             Initialize-Chocolatey -chocolateyPath $installDir
@@ -497,7 +498,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user, with `$Env:ChocolateyInstall set at Process scope, with same explicit chocolateyPath" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Process'
 
             Initialize-Chocolatey -chocolateyPath $installDir
@@ -522,7 +523,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user, with `$Env:ChocolateyInstall set at Process scope, with different explicit chocolateyPath" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Process'
 
             Initialize-Chocolatey -chocolateyPath 'X:\nonexistent'
@@ -547,7 +548,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with `$Env:ChocolateyInstall set at Machine scope" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Machine'
 
             Initialize-Chocolatey
@@ -571,7 +572,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with `$Env:ChocolateyInstall set at User scope" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'User'
 
             Initialize-Chocolatey
@@ -595,7 +596,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with `$Env:ChocolateyInstall set at Process scope" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Process'
 
             Initialize-Chocolatey
@@ -619,7 +620,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with `$Env:ChocolateyInstall set at Machine scope and same at User scope" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'Machine'
             Add-ChocolateyInstall $installDir 'User'
 
@@ -644,7 +645,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with `$Env:ChocolateyInstall set at Machine scope and different at User scope" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall 'X:\nonexistent' 'Machine'
             Add-ChocolateyInstall $installDir 'User'
 
@@ -669,7 +670,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with `$Env:ChocolateyInstall set at Machine scope and different at Process scope" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall 'X:\nonexistent' 'Machine'
             Add-ChocolateyInstall $installDir 'Process'
 
@@ -694,7 +695,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with `$Env:ChocolateyInstall set at User scope and different at Process scope" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall 'X:\nonexistent' 'User'
             Add-ChocolateyInstall $installDir 'Process'
 
@@ -719,7 +720,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with bin directory not on PATH" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'User'
             Remove-DirectoryFromPath "$installDir\bin"
 
@@ -744,7 +745,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with bin directory on PATH at Machine scope" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'User'
             Remove-DirectoryFromPath "$installDir\bin"
             Add-DirectoryToPath "$installDir\bin" 'Machine'
@@ -770,7 +771,7 @@ Describe "Initialize-Chocolatey" {
     Context "When installing as simulated standard user with bin directory on PATH at User scope" {
         Setup-ChocolateyInstallationPackage -SimulateStandardUser
 
-        Execute-WithEnvironmentBackup {
+        Execute-WithEnvironmentProtection {
             Setup-ChocolateyInstall $installDir 'User'
             Remove-DirectoryFromPath "$installDir\bin"
             Add-DirectoryToPath "$installDir\bin" 'User'
