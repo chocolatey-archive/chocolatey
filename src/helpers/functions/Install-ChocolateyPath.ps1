@@ -4,14 +4,14 @@ param(
   [System.EnvironmentVariableTarget] $pathType = [System.EnvironmentVariableTarget]::User
 )
   Write-Debug "Running 'Install-ChocolateyPath' with pathToInstall:`'$pathToInstall`'";
+  $originalPathToInstall = $pathToInstall
 
   #get the PATH variable
   $envPath = $env:PATH
-  #$envPath = [Environment]::GetEnvironmentVariable('Path', $pathType)
   if (!$envPath.ToLower().Contains($pathToInstall.ToLower()))
   {
     Write-Host "PATH environment variable does not have $pathToInstall in it. Adding..."
-    $actualPath = [Environment]::GetEnvironmentVariable('Path', $pathType)
+    $actualPath = Get-EnvironmentVariable -Name 'Path' -Scope $pathType
 
     $statementTerminator = ";"
     #does the path end in ';'?
@@ -23,13 +23,13 @@ param(
 
     if ($pathType -eq [System.EnvironmentVariableTarget]::Machine) {
       if (Test-ProcessAdminRights) {
-        [Environment]::SetEnvironmentVariable('Path', $actualPath, $pathType)
+        Set-EnvironmentVariable -Name 'Path' -Value $actualPath -Scope $pathType
       } else {
-        $psArgs = "[Environment]::SetEnvironmentVariable('Path',`'$actualPath`', `'$pathType`')"
+        $psArgs = "Install-ChocolateyPath -pathToInstall `'$originalPathToInstall`' -pathType `'$pathType`'"
         Start-ChocolateyProcessAsAdmin "$psArgs"
       }
     } else {
-      [Environment]::SetEnvironmentVariable('Path', $actualPath, $pathType)
+      Set-EnvironmentVariable -Name 'Path' -Value $actualPath -Scope $pathType
     }
 
     #add it to the local path as well so users will be off and running

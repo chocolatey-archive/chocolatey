@@ -18,29 +18,21 @@ powershell session with all environment settings possibly performed by
 chocolatey package installs.
 
 #>
-  $user = 'HKCU:\Environment'
-  $machine ='HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'
   #ordering is important here, $user comes after so we can override $machine
-  $machine, $user |
-    Get-Item |
+  'Machine', 'User' |
     % {
-      $regPath = $_.PSPath
-      $_ |
-        Select -ExpandProperty Property |
+      $scope = $_
+      Get-EnvironmentVariableNames -Scope $scope |
         % {
-          Set-Item "Env:$($_)" -Value (Get-ItemProperty $regPath -Name $_).$_
+          Set-Item "Env:$($_)" -Value (Get-EnvironmentVariable -Scope $scope -Name $_)
         }
     }
 
   #Path gets special treatment b/c it munges the two together
   $paths = 'Machine', 'User' |
     % {
-      (Get-EnvironmentVar 'PATH' $_) -split ';'
+      (Get-EnvironmentVariable -Name 'PATH' -Scope $_) -split ';'
     } |
     Select -Unique
   $Env:PATH = $paths -join ';'
-}
-
-function Get-EnvironmentVar($key, $scope) {
-  [Environment]::GetEnvironmentVariable($key, $scope)
 }

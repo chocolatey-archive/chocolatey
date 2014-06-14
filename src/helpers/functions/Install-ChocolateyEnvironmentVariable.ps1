@@ -42,13 +42,13 @@ param(
 
   if ($variableType -eq [System.EnvironmentVariableTarget]::Machine) {
     if (Test-ProcessAdminRights) {
-      [Environment]::SetEnvironmentVariable($variableName, $variableValue, $variableType)
+      Set-EnvironmentVariable -Name $variableName -Value $variableValue -Scope $variableType
     } else {
-      $psArgs = "[Environment]::SetEnvironmentVariable(`'$variableName`',`'$variableValue`', `'$variableType`')"
+      $psArgs = "Install-ChocolateyEnvironmentVariable -variableName `'$variableName`' -variableValue `'$variableValue`' -variableType `'$variableType`'"
       Start-ChocolateyProcessAsAdmin "$psArgs"
     }
   } else {
-    [Environment]::SetEnvironmentVariable($variableName, $variableValue, $variableType)
+    Set-EnvironmentVariable -Name $variableName -Value $variableValue -Scope $variableType
   }
 
   Set-Content env:\$variableName $variableValue
