@@ -73,7 +73,6 @@ Creating Chocolatey NuGet folders if they do not already exist.
   Initialize-ChocolateyPath $chocolateyExePath $chocolateyExePathVariable
   Process-ChocolateyBinFiles $chocolateyExePath $chocolateyExePathVariable
   Install-DotNet4IfMissing $chocolateyInstallPath
-  Remove-Module ChocolateyInstaller
 
 @"
 Chocolatey is now ready.
