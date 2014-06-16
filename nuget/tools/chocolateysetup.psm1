@@ -29,7 +29,7 @@ param(
 )
 
   $installModule = Join-Path $thisScriptFolder 'chocolateyInstall\helpers\chocolateyInstaller.psm1'
-  Import-Module $installModule
+  Import-Module $installModule -Force
 
   if ($chocolateyPath -eq '') {
     $programData = [Environment]::GetFolderPath("CommonApplicationData")
@@ -73,7 +73,8 @@ Creating Chocolatey NuGet folders if they do not already exist.
   Initialize-ChocolateyPath $chocolateyExePath $chocolateyExePathVariable
   Process-ChocolateyBinFiles $chocolateyExePath $chocolateyExePathVariable
   Install-DotNet4IfMissing $chocolateyInstallPath
-  Remove-Module ChocolateyInstaller
+  $realModule = Join-Path $chocolateyInstallPath "helpers\chocolateyInstaller.psm1"
+  Import-Module "$realModule" -Force
 
 @"
 Chocolatey is now ready.
@@ -113,7 +114,7 @@ param(
 )
 
   $redirectsPath = Join-Path $chocolateyInstallPath 'redirects'
-  $exeFiles = Get-ChildItem "$redirectsPath" -filter *.exe
+  $exeFiles = Get-ChildItem "$redirectsPath" -include @("*.exe","*.cmd") -recurse
   foreach ($exeFile in $exeFiles) {
     $exeFilePath = $exeFile.FullName
     $exeFileName = [System.IO.Path]::GetFileName("$exeFilePath")
