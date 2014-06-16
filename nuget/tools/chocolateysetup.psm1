@@ -113,7 +113,7 @@ param(
 )
 
   $redirectsPath = Join-Path $chocolateyInstallPath 'redirects'
-  $exeFiles = Get-ChildItem "$redirectsPath" -filter *.exe
+  $exeFiles = Get-ChildItem "$redirectsPath" -include @("*.exe","*.cmd") -recurse
   foreach ($exeFile in $exeFiles) {
     $exeFilePath = $exeFile.FullName
     $exeFileName = [System.IO.Path]::GetFileName("$exeFilePath")

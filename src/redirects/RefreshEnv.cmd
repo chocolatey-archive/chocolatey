@@ -7,17 +7,16 @@
 ::
 :: With this batch file, there should be no need to reload command
 :: environment every time you want environment changes to propagate
-::
 
-:: A strange trick to print without newline
-:: echo | set /p dummy="Reading environment variables from registry. Please wait... "
+echo | set /p dummy="Reading environment variables from registry. Please wait... "
+
 goto main
 
 :: Set one environment variable from registry key
 :SetFromReg
     "%WinDir%\System32\Reg" QUERY "%~1" /v "%~2" > "%TEMP%\_envset.tmp" 2>NUL
     for /f "usebackq skip=2 tokens=2,*" %%A IN ("%TEMP%\_envset.tmp") do (
-        echo/set "%~3=%%B"
+        echo/set %~3=%%B
     )
     goto :EOF
 
@@ -43,11 +42,7 @@ goto main
     call :SetFromReg "HKCU\Environment" Path Path_HKCU >> "%TEMP%\_env.cmd"
 
     :: Caution: do not insert space-chars before >> redirection sign
-    echo/set "Path=%%Path_HKLM%%;%%Path_HKCU%%" >> "%TEMP%\_env.cmd"
-
-    :: In final file: remove temp variables
-    echo/set "Path_HKLM=" >> "%TEMP%\_env.cmd"
-    echo/set "Path_HKCU=" >> "%TEMP%\_env.cmd"
+    echo/set Path=%%Path_HKLM%%;%%Path_HKCU%% >> "%TEMP%\_env.cmd"
 
     :: Cleanup
     del /f /q "%TEMP%\_envset.tmp" 2>nul
@@ -56,9 +51,5 @@ goto main
     :: Set these variables
     call "%TEMP%\_env.cmd"
 
-    :: Finish
-  ::  echo | set /p dummy="Done"
-    ::echo .
-
-
-exit /b %ERRORLEVEL%
+    echo | set /p dummy="Done"
+    echo .
