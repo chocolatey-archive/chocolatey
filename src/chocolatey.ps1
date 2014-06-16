@@ -71,6 +71,8 @@ if ($debug) {
   $DebugPreference = "Continue";
   $env:ChocolateyEnvironmentDebug = 'true'
 }
+# ensure module loading preference is on
+$PSModuleAutoLoadingPreference = "All";
 
 $installModule = Join-Path $nugetChocolateyPath (Join-Path 'helpers' 'chocolateyInstaller.psm1')
 Import-Module $installModule
