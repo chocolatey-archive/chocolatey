@@ -55,6 +55,7 @@ FEATURES:
  * New Helper - Get-UACEnabled - https://github.com/chocolatey/chocolatey/issues/451
  * Enhancement - Install to Machine environment variable - https://github.com/chocolatey/chocolatey/issues/453
  * Enhancement - Install the .NET Framework 4.0 requirement - https://github.com/chocolatey/chocolatey/issues/255
+ * Update environment using command (RefreshEnv) - https://github.com/chocolatey/chocolatey/issues/134
 
 BUG FIXES:
 
@@ -66,6 +67,9 @@ BUG FIXES:
  * Fix - Get-BinRoot defaulted to "C:\" instead of "C:\tools" - https://github.com/chocolatey/chocolatey/pull/421
  * Fix - Get-ProcessorBits doesn't return the bitness of the OperatingSystem - https://github.com/chocolatey/chocolatey/pull/396
  * Fix - Fix Invoke for Install All from a Feed (DEPRECATED by #446 - in improvements below) - https://github.com/chocolatey/chocolatey/issues/381
+ * Fix - Upgrade to 0.9.8.24 produces cannot find Update-SessionEnvironment when using cmd.exe - https://github.com/chocolatey/chocolatey/issues/459
+ * Fix - Package depending on newer chocolatey version is installed using existing version of chocolatey - https://github.com/chocolatey/chocolatey/issues/460
+ * Fix - Bash improvements - https://github.com/chocolatey/chocolatey/pull/383
 
 IMPROVEMENTS:
 
@@ -80,6 +84,8 @@ IMPROVEMENTS:
  * Generate _env.cmd file instead of bat file for consistency - https://github.com/chocolatey/chocolatey/pull/469
  * Remove-BinFile removes shim.exes when installing a package - https://github.com/chocolatey/chocolatey/pull/449
  * Remove annoying "Reading environment variables from registry. Please wait..." - https://github.com/chocolatey/chocolatey/pull/440
+ * Replace ascii cue to visual cue for "installing package" - https://github.com/chocolatey/chocolatey/pull/376
+ * Clean up the verbosity of chocolatey - https://github.com/chocolatey/chocolatey/issues/374
 
     </releaseNotes>
     <projectUrl>http://chocolatey.org</projectUrl>
