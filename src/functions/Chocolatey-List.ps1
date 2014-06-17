@@ -15,9 +15,14 @@ param(
       Write-Host $line
     }
   } elseif ($source -like 'windowsfeatures') {
+    $dism = "$env:WinDir\System32\dism.exe"
+    if (Test-Path "$env:WinDir\sysnative\dism.exe") {
+      $dism = "$env:WinDir\sysnative\dism.exe"
+    }
+
     $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyWindowsFeaturesInstall.log';
     Append-Log $chocoInstallLog
-    $windowsFeaturesArgs ="/c dism /online /get-features /format:table | Tee-Object -FilePath `'$chocoInstallLog`';"
+    $windowsFeaturesArgs ="/c $dism /online /get-features /format:table | Tee-Object -FilePath `'$chocoInstallLog`';"
     Start-ChocolateyProcessAsAdmin "cmd.exe $windowsFeaturesArgs" -nosleep
     Create-InstallLogIfNotExists $chocoInstallLog
     $installOutput = Get-Content $chocoInstallLog -Encoding Ascii
