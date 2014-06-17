@@ -53,10 +53,10 @@ param(
 SET DIR=%~dp0%
 start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII
 
-"#!/bin/sh
-DIR=`${0%/*}
-""$pathBash"" ""`$*"" &" | Out-File $packageBashFileName -encoding ASCII
-
+      $sw = New-Object IO.StreamWriter "$packageBashFileName"
+      $sw.Write("#!/bin/sh`nDIR=`${0%/*}`n""$pathBash"" ""`$@"" &`n")
+      $sw.Close()
+      $sw.Dispose()
     } else {
 
 "@echo off
@@ -64,10 +64,10 @@ SET DIR=%~dp0%
 cmd /c ""$path %*""
 exit /b %ERRORLEVEL%" | Out-File $packageBatchFileName -encoding ASCII
 
-"#!/bin/sh
-DIR=`${0%/*}
-""$pathBash"" ""`$*""
-exit `$?" | Out-File $packageBashFileName -encoding ASCII
+      $sw = New-Object IO.StreamWriter "$packageBashFileName"
+      $sw.Write("#!/bin/sh`nDIR=`${0%/*}`n""$pathBash"" ""`$@""`nexit `$?`n")
+      $sw.Close()
+      $sw.Dispose()
 
     }
   }
