@@ -22,7 +22,7 @@ param(
     $actualPath = $actualPath + $pathToInstall
 
     if ($pathType -eq [System.EnvironmentVariableTarget]::Machine) {
-      if (Test-AdminRights) {
+      if (Test-ProcessAdminRights) {
         [Environment]::SetEnvironmentVariable('Path', $actualPath, $pathType)
       } else {
         $psArgs = "[Environment]::SetEnvironmentVariable('Path',`'$actualPath`', `'$pathType`')"

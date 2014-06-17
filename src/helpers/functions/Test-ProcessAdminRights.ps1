@@ -1,4 +1,4 @@
-function Test-AdminRights {
+function Test-ProcessAdminRights {
 <#
 .SYNOPSIS
 Tests whether the current process is running with administrative rights.
@@ -20,6 +20,6 @@ System.Boolean
 
   $currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent([Security.Principal.TokenAccessLevels]'Query,Duplicate'))
   $isAdmin = $currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
-  Write-Debug "Test-AdminRights: returning $isAdmin"
+  Write-Debug "Test-ProcessAdminRights: returning $isAdmin"
   return $isAdmin
 }

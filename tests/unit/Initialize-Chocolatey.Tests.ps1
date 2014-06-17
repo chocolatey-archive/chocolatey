@@ -55,9 +55,9 @@ function Setup-ChocolateyInstallationPackage([switch] $SimulateStandardUser)
     Get-ChildItem "$baseDir\src" | Copy-Item -Destination "$script:tmpDir\chocolateyInstall" -Recurse -Force
 
     if ($SimulateStandardUser) {
-        'function Test-AdminRights() { return $false }' | Set-Content (Join-Path $script:tmpDir chocolateyInstall\helpers\functions\Test-AdminRights.ps1)
+        'function Test-ProcessAdminRights() { return $false }' | Set-Content (Join-Path $script:tmpDir chocolateyInstall\helpers\functions\Test-ProcessAdminRights.ps1)
     } else {
-        'function Test-AdminRights() { return $true }' | Set-Content (Join-Path $script:tmpDir chocolateyInstall\helpers\functions\Test-AdminRights.ps1)
+        'function Test-ProcessAdminRights() { return $true }' | Set-Content (Join-Path $script:tmpDir chocolateyInstall\helpers\functions\Test-ProcessAdminRights.ps1)
     }
 
     $script:installDir = Join-Path (Resolve-Path 'TestDrive:\').ProviderPath chocoinstall
@@ -93,7 +93,7 @@ function Execute-ChocolateyInstallationInDefaultDir($scriptBlock)
 }
 
 Describe "Initialize-Chocolatey" {
-    # note: the correctness of the specs below is dependent upon all code using Test-AdminRights
+    # note: the correctness of the specs below is dependent upon all code using Test-ProcessAdminRights
 
     Context "When installing as admin, with `$Env:ChocolateyInstall not set and no arguments" {
         Setup-ChocolateyInstallationPackage
