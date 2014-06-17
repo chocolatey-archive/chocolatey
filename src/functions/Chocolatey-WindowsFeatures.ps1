@@ -11,11 +11,11 @@ param(
   Append-Log $chocoInstallLog
 
   # On a 64-bit OS, the 32-bit version of DISM can be called if the powershell host is 32-bit and results in an error...
-  # To fix this, we need to use a not-well know feature of 32-bit shells running on 64-bit OS, the "sysnative" directory.
-  if (Test-Path "$env:WinDir\sysnative\dism.exe") { 
+  # This is due to the file system redirector. To fix this we just need to use the "sysnative" directory to force 32 bit processes
+  #  to fetch items in the real system32 directory and not in SysWOW64.
+  $dism = "$env:WinDir\System32\dism.exe"
+  if (Test-Path "$env:WinDir\sysnative\dism.exe") {
     $dism = "$env:WinDir\sysnative\dism.exe"
-  } else {
-    $dism = "$env:WinDir\System32\dism.exe"
   }
 
   $checkStatement=@"
