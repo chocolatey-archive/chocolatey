@@ -16,9 +16,9 @@
   [switch] $ignoreDependencies = $false,
   [alias("x86")][switch] $forceX86 = $false,
   [alias("params")][alias("parameters")][alias("pkgParams")][string]$packageParameters = '',
+  [alias("q")][switch] $quiet = $false,
   [parameter(Position=1, ValueFromRemainingArguments=$true)]
-  [string[]]$packageNames=@(''),
-  [switch] $quiet = $false
+  [string[]]$packageNames=@('')
 )
 
 [switch] $debug = $false
