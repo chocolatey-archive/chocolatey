@@ -72,6 +72,10 @@ param(
 
     $process = New-Object System.Diagnostics.Process
     $process.StartInfo = New-Object System.Diagnostics.ProcessStartInfo($nugetExe, $params)
+
+    # Redirecting output slows things down a bit. In
+    # the interest of performance, only use redirection
+    # if we are returning a PS-Object at the end
     if ($returnOutput) {
       $LogAction = {
         # we know this is one line of data otherwise we would need to split lines
@@ -84,15 +88,19 @@ param(
         }
       }
       $writeOutput = $LogAction
-      $writeError = $LogAction
+      $writeError = {
+        foreach ($line in $EventArgs.Data) {
+          if (!$line.IsNullOrEmpty) {
+            # do not stop execution, but pass the output back to the user.
+            Write-Host "[ERROR] $line" -ForegroundColor $ErrorColor -BackgroundColor Black
+          }
+        }
+      }
 
       $process.EnableRaisingEvents = $true
       Register-ObjectEvent  -InputObject $process -SourceIdentifier "LogOutput_ChocolateyList" -EventName OutputDataReceived -Action $writeOutput | Out-Null
       Register-ObjectEvent -InputObject $process -SourceIdentifier "LogErrors_ChocolateyList" -EventName ErrorDataReceived -Action  $writeError | Out-Null
 
-      # Redirecting output slows things down a bit. In
-      # the interest of performance, only use redirection
-      # if we are returning a PS-Object at the end
       $process.StartInfo.RedirectStandardOutput = $true
       $process.StartInfo.RedirectStandardError = $true
     }
@@ -104,9 +112,12 @@ param(
     $process.WaitForExit()
 
     if ($returnOutput) {
+      # For some reason this forces the jobs to finish and waits for
+      # them to do so. Without this it never finishes.
       Unregister-Event -SourceIdentifier "LogOutput_ChocolateyList"
       #Wait-Job "LogOutput_ChocolateyList" -Timeout 10
-      #Remove-Job "LogOutput_ChocolateyList" #-Force
+      #Remove-Job "LogOutput_ChocolateyList" #-Force
+
       Unregister-Event -SourceIdentifier "LogErrors_ChocolateyList"
       #Wait-Job "LogErrors_ChocolateyList" -Timeout 10
       #Remove-Job "LogErrors_ChocolateyList"
