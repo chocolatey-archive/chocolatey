@@ -3,7 +3,7 @@ Contributors
 
 The process for contributions is roughly as follows:
 
- * Through GitHub, or through the mailing list (preferred), you talk about a feature you would like to see (or a bug), and why it should be in choco.
+ * Through GitHub, or through the [mailing list](https://groups.google.com/forum/#!forum/chocolatey) (preferred), you talk about a feature you would like to see (or a bug), and why it should be in choco.
  * Once you get a nod from one of the Chocolatey team folks (https://github.com/chocolatey?tab=members), you can start on the feature.
  * You create, or update, a fork of Chocolatey under your GitHub account.
  * From there you create a branch named specific to the feature.
