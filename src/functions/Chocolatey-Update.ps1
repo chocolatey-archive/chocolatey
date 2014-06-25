@@ -3,23 +3,25 @@ param(
   [string] $packageName ='',
   [string] $source = ''
 )
-  if ($packageName -eq '') {$packageName = 'chocolatey';}
-  Write-Debug "Running 'Chocolatey-Update' for $packageName with source:`'$source`'.";
+  Write-Debug "Running 'Chocolatey-Update' for '$packageName' with source:`'$source`'.";
 
-  $packages = $packageName
   if ($packageName -eq 'all') {
-    $packageFolders = Get-ChildItem $nugetLibPath | sort name
-    $packages = $packageFolders -replace "(\.\d{1,})+"|gu 
+    Write-Host "Chocolatey is going to determine all packages available for an update. You may not see any output for awhile..."
   }
 
-  foreach ($package in $packages) {
-    $versions = Chocolatey-Version $package $source
-    if ($versions -ne $null -and $versions.'foundCompare' -lt $versions.'latestCompare') {
-        Chocolatey-NuGet $package $source
-    } elseif ($versions -ne $null -and $force -and $versions.'foundCompare' -eq $versions.'latestCompare') {
-        Chocolatey-Nuget $package $source
+  $updated = $false
+  $versions = Chocolatey-Version $packageName $source
+  foreach ($version in $versions) {
+    if ($version -ne $null -and (($version.'foundCompare' -lt $version.'latestCompare') -or ($force -and $versions.'foundCompare' -eq $versions.'latestCompare'))) {
+        Write-Host "Updating $($version.name) from $($version.found) to $($version.latest)"
+        Chocolatey-NuGet $version.name $source
+        $updated = $true
     } else {
-      Write-Debug "$packageName - you have either a newer version or the same version already available"
+      Write-Debug "$($version.name) - you have either a newer version or the same version already available"
     }
+  }
+
+  if (! $updated) {
+    Write-Host "Nothing to update."
   }
 }
