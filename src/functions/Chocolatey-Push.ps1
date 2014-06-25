@@ -10,8 +10,8 @@ param(
     $srcArgs = '-source http://chocolatey.org/'
     Write-Debug "Setting source to `'$srcArgs`'"
   }
-  
-  $packageArgs = "push $packageName $srcArgs"
+
+  $packageArgs = "push $packageName $srcArgs -NonInteractive"
   $logFile = Join-Path $nugetChocolateyPath 'push.log'
   $errorLogFile = Join-Path $nugetChocolateyPath 'error.log'
 

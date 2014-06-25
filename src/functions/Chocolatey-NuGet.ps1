@@ -35,7 +35,7 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
       Write-Host "If you want to reinstall the current version of an existing package, please use the -force command." -ForegroundColor $Warning -BackgroundColor Black
       Write-Host ""
     }
-    if ($line -notlike "*not installed*" -and ($line -notlike "*already installed*" -or $force -eq $true) -and $line -notlike "Attempting to resolve dependency*") {
+    if ($line -notlike "*not installed*" -and $line -notlike "Installing *" -and ($line -notlike "*already installed*" -or $force -eq $true) -and $line -notlike "Attempting to resolve dependency*") {
       $installedPackageName = ''
       $installedPackageVersion = ''
 
@@ -73,7 +73,7 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
           if ($ignoreDependencies -and $installedPackageName -ne $packageName) {
             Remove-Item $packageFolder -force -recurse
           } else {
-
+            Write-Host " "
             Write-Host "$installedPackageName v$installedPackageVersion" -ForegroundColor $Note -BackgroundColor Black
 
             if ([System.IO.Directory]::Exists($packageFolder)) {
