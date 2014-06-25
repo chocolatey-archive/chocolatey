@@ -6,6 +6,7 @@ param(
 )
 
   Write-Debug "Running 'Chocolatey-InstallIfMissing' for $packageName with source:`'$source`', version: `'$version`'";
+  Write-Warning "installmissing command is deprecated and will be removed. Install provides the same functionality now."
 
   if($version -eq '')  {
     $packageFolder = (Get-PackageFoldersForPackage $packageName)
