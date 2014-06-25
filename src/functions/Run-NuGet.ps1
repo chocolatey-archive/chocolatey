@@ -9,7 +9,7 @@ param(
 
   $srcArgs = Get-SourceArguments $source
 
-  $packageArgs = "install $packageName -Outputdirectory `"$nugetLibPath`" $srcArgs -NonInteractive -NoCache"
+  $packageArgs = "install $packageName -OutputDirectory `"$nugetLibPath`" $srcArgs -NonInteractive -NoCache"
   if ($version -notlike '') {
     $packageArgs = $packageArgs + " -Version $version";
   }
@@ -26,7 +26,7 @@ param(
   $process.StartInfo.RedirectStandardOutput = $true
   $process.StartInfo.RedirectStandardError = $true
   $process.StartInfo.UseShellExecute = $false
-  $process.StartInfo.CreateNoWindow = $true  
+  $process.StartInfo.CreateNoWindow = $true
 
   $process.Start() | Out-Null
   $process.WaitForExit()

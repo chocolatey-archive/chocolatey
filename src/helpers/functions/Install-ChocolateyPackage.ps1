@@ -59,7 +59,8 @@ param(
 
     $chocTempDir = Join-Path $env:TEMP "chocolatey"
     $tempDir = Join-Path $chocTempDir "$packageName"
-    if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir) | Out-Null}
+
+    if (![System.IO.Directory]::Exists($tempDir)) { [System.IO.Directory]::CreateDirectory($tempDir) | Out-Null }
     $file = Join-Path $tempDir "$($packageName)Install.$fileType"
 
     Get-ChocolateyWebFile $packageName $file $url $url64bit -checksum $checksum -checksumType $checksumType -checksum64 $checksum64 -checksumType64 $checksumType64
