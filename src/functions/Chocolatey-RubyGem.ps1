@@ -9,7 +9,7 @@ param(
   Chocolatey-InstallIfMissing 'ruby'
 
   if ($($env:Path).ToLower().Contains("ruby") -eq $false) {
-    $env:Path = [Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Machine);
+    $env:Path = Get-EnvironmentVariable -Name 'Path' -Scope Machine
   }
   
 

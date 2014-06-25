@@ -5,47 +5,26 @@ $base = Split-Path -parent (Split-Path -Parent $here)
 . "$base\src\helpers\functions\Update-SessionEnvironment.ps1"
 
 Describe "Update-SessionEnvironment" {
-  Add-Type -language CSharp @'
-public class FakeRegKey
-{
-    public string PSPath;
-    public string[] Property;
-
-    public FakeRegKey(string PSPath,string[] Property){
-        this.PSPath = PSPath;
-        this.Property = Property;
-    }
-}
-'@
 
   Context "under normal circumstances" {
-    $originalEnv = @{}
+
     $mkey = 'choc' + [Guid]::NewGuid().ToString('n')
     $mvalue = [Guid]::NewGuid().ToString('n')
     $ukey = 'choc' + [Guid]::NewGuid().ToString('n')
     $uvalue = [Guid]::NewGuid().ToString('n')
-    gci env: | % {$originalEnv.($_.Name)=$_.Value}
-    try {
-      #Mock Get-Item {write-host "path: $path"}
-      Mock Get-Item {
-        if($_ -eq 'HKCU:\Environment'){
-          return New-Object FakeRegKey("user",@($ukey,"Path"))
-        }
-        if($_ -eq 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'){
-          return New-Object FakeRegKey("machine",@($ukey,$mkey,"Path"))
-        }
-      }
-      #Mock Get-Item {New-Object FakeRegKey("path2",@($ukey,$mkey,"Path"))} -ParameterFilter {$path -eq 'HKLM:\SYSTEM\CurrentControlSet\Control\Session Manager\Environment'}
-      Mock Get-ItemProperty {@{$ukey="someval"}} -ParameterFilter {$path -eq "machine" -and $Name -eq $ukey}
-      Mock Get-ItemProperty {@{Path="someval1"}} -ParameterFilter {$path -eq "user" -and $Name -eq "Path"}
-      Mock Get-ItemProperty {@{Path="someval2"}} -ParameterFilter {$path -eq "machine" -and $Name -eq "Path"}
-      Mock Get-ItemProperty {@{$ukey=$uvalue}} -ParameterFilter {$path -eq "user" -and $Name -eq $ukey}
-      Mock Get-ItemProperty {@{$mkey=$mvalue}} -ParameterFilter {$path -eq "machine" -and $Name -eq $mkey}
-      Mock Get-EnvironmentVar {"someval2"} -ParameterFilter {$key -eq "PATH" -and $scope -eq "Machine"}
-      Mock Get-EnvironmentVar {"someval1"} -ParameterFilter {$key -eq "PATH" -and $scope -eq "User"}
-      Remove-Item "Env:$($ukey)" -ErrorAction SilentlyContinue
-      Remove-Item "Env:$($mkey)" -ErrorAction SilentlyContinue
-      Remove-Item "Env:$('Path')" -ErrorAction SilentlyContinue
+
+    Execute-WithEnvironmentProtection {
+
+      Get-EnvironmentVariableNames Machine | % { Set-EnvironmentVariable $_ $null Machine }
+      Get-EnvironmentVariableNames User | % { Set-EnvironmentVariable $_ $null User }
+      Set-EnvironmentVariable $mkey $mvalue Machine
+      Set-EnvironmentVariable $ukey 'someval' Machine
+      Set-EnvironmentVariable 'PATH' 'someval2' Machine
+      Set-EnvironmentVariable $ukey $uvalue User
+      Set-EnvironmentVariable 'PATH' 'someval1' User
+      Set-EnvironmentVariable $mkey $null Process
+      Set-EnvironmentVariable $ukey $null Process
+      Set-EnvironmentVariable 'PATH' $null Process
 
       Update-SessionEnvironment
 
@@ -54,17 +33,14 @@ public class FakeRegKey
       $plocalSession = Get-ChildItem "Env:$('Path')"
 
       It "should properly refresh MACHINE variables set outside this session" {
-          $mlocalSession.Value  | should Be $mvalue
+        $mlocalSession.Value | should Be $mvalue
       }
       It "should properly refresh USER variables set outside this session overriding Machine vars with same key" {
-          $ulocalSession.Value  | should Be $uvalue
+        $ulocalSession.Value | should Be $uvalue
       }
-      It "should properly refresh the PATH variable aconcatenating MACHINE and USER" {
-        $plocalSession.Value  | should Be 'someval2;someval1'
+      It "should properly refresh the PATH variable concatenating MACHINE and USER" {
+        $plocalSession.Value | should Be 'someval2;someval1'
       }
-    }
-    finally {
-      $originalEnv.keys | % { Set-Item "Env:$($_)" -Value $originalEnv.$($_) }
     }
   }
 }

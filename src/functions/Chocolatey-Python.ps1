@@ -10,7 +10,7 @@ param(
   Chocolatey-InstallIfMissing 'python'
 
   if ($($env:Path).ToLower().Contains("python") -eq $false) {
-    $env:Path = [Environment]::GetEnvironmentVariable('Path',[System.EnvironmentVariableTarget]::Machine);
+    $env:Path = Get-EnvironmentVariable -Name 'Path' -Scope Machine
   }
 
   Chocolatey-InstallIfMissing 'easy.install'
