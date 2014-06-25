@@ -38,7 +38,7 @@ function Get-BinRoot {
 
   # Now that we figured out the binRoot, let's store it as per proposal #3 line #7
   if (-not($env:ChocolateyBinRoot -eq $binRoot)) {
-    [Environment]::SetEnvironmentVariable("ChocolateyBinRoot", "$binRoot", "User")
+    Set-EnvironmentVariable -Name "ChocolateyBinRoot" -Value $binRoot -Scope User
     # Note that user variables pose a problem when there are two admins on one computer. But this is what was decided upon.
   }
 
