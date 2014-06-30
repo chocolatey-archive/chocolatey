@@ -95,6 +95,19 @@ if(Test-Path($extensionsPath)) {
   Get-ChildItem $extensionsPath -recurse -filter "*.psm1" | Select -ExpandProperty FullName | % { Write-Debug "Importing `'$_`'"; Import-Module $_; }
 }
 
+# issue deprecation Warning
+if ($nugetPath -eq (Join-Path $env:SystemDrive 'chocolatey')) {
+  $programData = [Environment]::GetFolderPath("CommonApplicationData")
+  $newChocoPath = Join-Path "$programData" 'chocolatey'
+@"
+The default install location has been changed to '$newChocoPath'.
+  This install will be updated to that location in the next version. It
+  is strongly suggested you move this installation to the new location
+  as soon as possible to limit write access from all users. Do not forget
+  to update PATH & $chocInstallVariableName environment variables.
+"@ | Write-Host  -ForegroundColor $Warning -BackgroundColor Black
+}
+
 # Win2003/XP do not support SNI
 if ([Environment]::OSVersion.Version -lt (new-object 'Version' 6,0)){
   $originalSource = $source
