@@ -31,7 +31,7 @@ if ($PSBoundParameters['Verbose']) {
 }
 
 # chocolatey
-# Copyright (c) 2011-Present Rob Reynolds
+# Copyright (c) 2011-Present Rob Reynolds & RealDimensions Software, LLC
 # Committers and Contributors: Rob Reynolds, Rich Siegel, Matt Wrock, Anthony Mastrean, Alan Stevens, Gary Ewan Park
 # Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1, AnthonyMastrean, Rich Siegel, Matt Wrock and other contributors from the community.
 # Big thanks to Keith Dahlby for all the powershell help!
