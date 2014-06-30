@@ -31,7 +31,7 @@ if ($PSBoundParameters['Verbose']) {
 }
 
 # chocolatey
-# Copyright (c) 2011-Present Rob Reynolds
+# Copyright (c) 2011-Present Rob Reynolds & RealDimensions Software, LLC
 # Committers and Contributors: Rob Reynolds, Rich Siegel, Matt Wrock, Anthony Mastrean, Alan Stevens, Gary Ewan Park
 # Crediting contributions by Chris Ortman, Nekresh, Staxmanade, Chrissie1, AnthonyMastrean, Rich Siegel, Matt Wrock and other contributors from the community.
 # Big thanks to Keith Dahlby for all the powershell help!
@@ -44,7 +44,7 @@ $currentThread.CurrentCulture = $culture;
 $currentThread.CurrentUICulture = $culture;
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.24-rc1'
+$chocVer = '0.9.8.24-rc2'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -93,6 +93,19 @@ if(Test-Path($extensionsPath)) {
   Write-Debug 'Loading community extensions'
   #Resolve-Path $extensionsPath\**\*\*.psm1 | % { Write-Debug "Importing `'$_`'"; Import-Module $_.ProviderPath }
   Get-ChildItem $extensionsPath -recurse -filter "*.psm1" | Select -ExpandProperty FullName | % { Write-Debug "Importing `'$_`'"; Import-Module $_; }
+}
+
+# issue deprecation Warning
+if ($nugetPath -eq (Join-Path $env:SystemDrive 'chocolatey')) {
+  $programData = [Environment]::GetFolderPath("CommonApplicationData")
+  $newChocoPath = Join-Path "$programData" 'chocolatey'
+@"
+The default install location has been changed to '$newChocoPath'.
+  This install will be updated to that location in the next version. It
+  is strongly suggested you move this installation to the new location
+  as soon as possible to limit write access from all users. Do not forget
+  to update PATH & $chocInstallVariableName environment variables.
+"@ | Write-Host  -ForegroundColor $Warning -BackgroundColor Black
 }
 
 # Win2003/XP do not support SNI
