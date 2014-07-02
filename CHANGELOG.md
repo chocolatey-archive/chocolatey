@@ -2,7 +2,7 @@
 
 BREAKING CHANGES:
 
- * Enhancement - Default install to C:\ProgramData - [#452](https://github.com/chocolatey/chocolatey/issues/452)
+ * Enhancement - Default install to C:\ProgramData\chocolatey - [#452](https://github.com/chocolatey/chocolatey/issues/452) & [#494](https://github.com/chocolatey/chocolatey/issues/494)
  * Don't allow $binroot to be set to c:\ - [#434](https://github.com/chocolatey/chocolatey/issues/434) - this is meant to be temporary while other pieces are fixed.
 
 FEATURES:
@@ -12,7 +12,9 @@ FEATURES:
  * New Helper - Get-UACEnabled - [#451](https://github.com/chocolatey/chocolatey/issues/451)
  * Enhancement - Install to Machine environment variable - [#453](https://github.com/chocolatey/chocolatey/issues/453)
  * Enhancement - Install the .NET framework 4.0 requirement - [#255](https://github.com/chocolatey/chocolatey/issues/255)
-* Update environment using command (RefreshEnv) - [#134](https://github.com/chocolatey/chocolatey/issues/134)
+ * Update environment using command (RefreshEnv) - [#134](https://github.com/chocolatey/chocolatey/issues/134)
+ * `-quiet` parameter that silences almost all output / allow shutting off real write-host - [#416](https://github.com/chocolatey/chocolatey/pull/416) & [#411](https://github.com/chocolatey/chocolatey/issues/411)
+ * New Helpers - Test-ProcessAdminRights, Get-EnvironmentVariableNames, Get-EnvironmentVariable, Set-EnvironmentVariable - [#486](https://github.com/chocolatey/chocolatey/pull/486)
 
 BUG FIXES:
 
@@ -27,6 +29,8 @@ BUG FIXES:
  * Fix - Upgrade to 0.9.8.24 produces cannot find Update-SessionEnvironment when using cmd.exe - [#459](https://github.com/chocolatey/chocolatey/issues/459)
  * Fix - Package depending on newer chocolatey version is installed using existing version of chocolatey - [#460](https://github.com/chocolatey/chocolatey/issues/460)
  * Fix - Bash improvements - [#383](https://github.com/chocolatey/chocolatey/pull/383)
+ * Fix - Resolve issue with DISM "missing" or with the 32-bit DISM being called on a 64-bit system - [#393](https://github.com/chocolatey/chocolatey/pull/393)
+ * Fix - Do NOT throw if missing a chocolateyuninstall.ps1 - [#499](https://github.com/chocolatey/chocolatey/issues/499)
 
 IMPROVEMENTS:
 
@@ -43,7 +47,9 @@ IMPROVEMENTS:
  * Remove annoying "Reading environment variables from registry. Please wait..." - [#440](https://github.com/chocolatey/chocolatey/pull/440)
  * Replace ascii cue to visual cue for "installing package" - [#376](https://github.com/chocolatey/chocolatey/pull/376)
  * Clean up the verbosity of chocolatey - [#374](https://github.com/chocolatey/chocolatey/issues/374)
-
+ * Improve chocolatey setup as administrator [#486](https://github.com/chocolatey/chocolatey/pull/486)
+ * Simplify Chocolatey-Update [#493](https://github.com/chocolatey/chocolatey/issues/493)
+ * Update to Nuget.exe 2.8.2 [#379](https://github.com/chocolatey/chocolatey/issues/379)
 
 ##[0.9.8.23](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.23&page=1&state=closed) (November 11, 2013)
 
