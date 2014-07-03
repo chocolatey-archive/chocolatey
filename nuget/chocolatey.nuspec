@@ -41,64 +41,13 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
-v0.9.8.24:
-
-
-BREAKING CHANGES:
+## v0.9.8.24:
+### BREAKING CHANGES:
 
  * Enhancement - Default install to C:\ProgramData - https://github.com/chocolatey/chocolatey/issues/452 and https://github.com/chocolatey/chocolatey/issues/494
  * Don't allow $binroot to be set to c:\ - https://github.com/chocolatey/chocolatey/issues/434 - this is meant to be temporary while other pieces are fixed.
 
-FEATURES:
-
- * Checksum downloaded files - [#427](https://github.com/chocolatey/chocolatey/issues/427)
- * Replace Batch Redirector with Shims - [#372](https://github.com/chocolatey/chocolatey/issues/372)
- * New Helper - Get-UACEnabled - [#451](https://github.com/chocolatey/chocolatey/issues/451)
- * Enhancement - Install to Machine environment variable - [#453](https://github.com/chocolatey/chocolatey/issues/453)
- * Enhancement - Install the .NET framework 4.0 requirement - [#255](https://github.com/chocolatey/chocolatey/issues/255)
- * Update environment using command (RefreshEnv) - [#134](https://github.com/chocolatey/chocolatey/issues/134)
- * `-quiet` parameter that silences almost all output / allow shutting off real write-host - [#416](https://github.com/chocolatey/chocolatey/pull/416) and [#411](https://github.com/chocolatey/chocolatey/issues/411)
- * New Helpers - Test-ProcessAdminRights, Get-EnvironmentVariableNames, Get-EnvironmentVariable, Set-EnvironmentVariable - [#486](https://github.com/chocolatey/chocolatey/pull/486)
-
-BUG FIXES:
-
- * Fix - Cannot bind argument to parameter 'Path' because it is an empty string - [#371](https://github.com/chocolatey/chocolatey/issues/371)
- * Fix - clist -source webpi doesn't prompt for admin access - [#293](https://github.com/chocolatey/chocolatey/issues/293)
- * Fix - Get-ChocolateyUnzip silently fails due to incorrect usage of System32 (File System Redirector Issues) - [#476](https://github.com/chocolatey/chocolatey/pull/476) and [#455](https://github.com/chocolatey/chocolatey/issues/455)
- * Fix - 7za.exe is subject to UAC file virtualization - [#454](https://github.com/chocolatey/chocolatey/issues/454)
- * Fix - "You cannot call a method on a null-valued expression" introduced somewhere. - [#430](https://github.com/chocolatey/chocolatey/issues/430)
- * Fix - Get-BinRoot defaulted to "C:\" instead of "C:\tools" - [#421](https://github.com/chocolatey/chocolatey/pull/421)
- * Fix - Get-ProcessorBits doesn't return the bitness of the OperatingSystem - [#396](https://github.com/chocolatey/chocolatey/pull/396)
- * Fix - Fix Invoke for Install All from a Feed (DEPRECATED by #446 - in improvements below) - [#381](https://github.com/chocolatey/chocolatey/issues/381)
- * Fix - Upgrade to 0.9.8.24 produces cannot find Update-SessionEnvironment when using cmd.exe - [#459](https://github.com/chocolatey/chocolatey/issues/459)
- * Fix - Package depending on newer chocolatey version is installed using existing version of chocolatey - [#460](https://github.com/chocolatey/chocolatey/issues/460)
- * Fix - Bash improvements - [#383](https://github.com/chocolatey/chocolatey/pull/383)
- * Fix - Resolve issue with DISM "missing" or with the 32-bit DISM being called on a 64-bit system - [#393](https://github.com/chocolatey/chocolatey/pull/393)
- * Fix - Do NOT throw if missing a chocolateyuninstall.ps1 - [#499](https://github.com/chocolatey/chocolatey/issues/499)
-
-IMPROVEMENTS:
-
- * Do not download if file already cached - [#428](https://github.com/chocolatey/chocolatey/issues/428) and [#109](https://github.com/chocolatey/chocolatey/pull/109)
- * If *.ignore file failes to create, do not fail the process - [#380](https://github.com/chocolatey/chocolatey/issues/380)
- * Validate downloaded file is the right size - [#429](https://github.com/chocolatey/chocolatey/issues/429)
- * Add perf to Chocolatey-List and allow to return as object - [#426](https://github.com/chocolatey/chocolatey/issues/426)
- * Chocolatey-List LocalOnly performance improvements - [#425](https://github.com/chocolatey/chocolatey/pull/425)
- * Chocolatey-Version Improvements - [#445](https://github.com/chocolatey/chocolatey/issues/445)
- * Remove Invoke-Chocolatey Function to improve handling - [#446](https://github.com/chocolatey/chocolatey/issues/446)
- * Don't create a window during Run-Nuget.ps1 - [#450](https://github.com/chocolatey/chocolatey/pull/450)
- * Generate _env.cmd file instead of bat file for consistency - [#469](https://github.com/chocolatey/chocolatey/pull/469)
- * Remove-BinFile removes shim.exes when installing a package - [#449](https://github.com/chocolatey/chocolatey/pull/449)
- * Remove annoying "Reading environment variables from registry. Please wait..." - [#440](https://github.com/chocolatey/chocolatey/pull/440)
- * Replace ascii cue to visual cue for "installing package" - [#376](https://github.com/chocolatey/chocolatey/pull/376)
- * Clean up the verbosity of chocolatey - [#374](https://github.com/chocolatey/chocolatey/issues/374)
- * Improve chocolatey setup as administrator [#486](https://github.com/chocolatey/chocolatey/pull/486)
- * Simplify Chocolatey-Update [#493](https://github.com/chocolatey/chocolatey/issues/493)
- * Update to Nuget.exe 2.8.2 [#379](https://github.com/chocolatey/chocolatey/issues/379)
-
-
-
-
-FEATURES:
+### FEATURES:
 
  * Checksum downloaded files - https://github.com/chocolatey/chocolatey/issues/427
  * Replace Batch Redirector with Shims - https://github.com/chocolatey/chocolatey/issues/372
@@ -106,8 +55,10 @@ FEATURES:
  * Enhancement - Install to Machine environment variable - https://github.com/chocolatey/chocolatey/issues/453
  * Enhancement - Install the .NET Framework 4.0 requirement - https://github.com/chocolatey/chocolatey/issues/255
  * Update environment using command (RefreshEnv) - https://github.com/chocolatey/chocolatey/issues/134
+ * `-quiet` parameter that silences almost all output / allow shutting off real write-host - https://github.com/chocolatey/chocolatey/pull/416 and https://github.com/chocolatey/chocolatey/issues/411
+ * New Helpers - Test-ProcessAdminRights, Get-EnvironmentVariableNames, Get-EnvironmentVariable, Set-EnvironmentVariable - https://github.com/chocolatey/chocolatey/pull/486
 
-BUG FIXES:
+### BUG FIXES:
 
  * Fix - Cannot bind argument to parameter 'Path' because it is an empty string - https://github.com/chocolatey/chocolatey/issues/371
  * Fix - clist -source webpi doesn't prompt for admin access - https://github.com/chocolatey/chocolatey/issues/293
@@ -120,8 +71,10 @@ BUG FIXES:
  * Fix - Upgrade to 0.9.8.24 produces cannot find Update-SessionEnvironment when using cmd.exe - https://github.com/chocolatey/chocolatey/issues/459
  * Fix - Package depending on newer chocolatey version is installed using existing version of chocolatey - https://github.com/chocolatey/chocolatey/issues/460
  * Fix - Bash improvements - https://github.com/chocolatey/chocolatey/pull/383
+ * Fix - Resolve issue with DISM "missing" or with the 32-bit DISM being called on a 64-bit system - https://github.com/chocolatey/chocolatey/pull/393
+ * Fix - Do NOT throw if missing a chocolateyuninstall.ps1 - https://github.com/chocolatey/chocolatey/issues/499
 
-IMPROVEMENTS:
+### IMPROVEMENTS:
 
  * Do not download if file already cached - https://github.com/chocolatey/chocolatey/issues/428 and https://github.com/chocolatey/chocolatey/pull/109
  * If *.ignore file failes to create, do not fail the process - https://github.com/chocolatey/chocolatey/issues/380
@@ -136,6 +89,9 @@ IMPROVEMENTS:
  * Remove annoying "Reading environment variables from registry. Please wait..." - https://github.com/chocolatey/chocolatey/pull/440
  * Replace ascii cue to visual cue for "installing package" - https://github.com/chocolatey/chocolatey/pull/376
  * Clean up the verbosity of chocolatey - https://github.com/chocolatey/chocolatey/issues/374
+ * Improve chocolatey setup as administrator - https://github.com/chocolatey/chocolatey/pull/486
+ * Simplify Chocolatey-Update - https://github.com/chocolatey/chocolatey/issues/493
+ * Update to Nuget.exe 2.8.2 - https://github.com/chocolatey/chocolatey/issues/379
 
     </releaseNotes>
     <projectUrl>http://chocolatey.org</projectUrl>

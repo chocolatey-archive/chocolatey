@@ -1,4 +1,4 @@
-##[0.9.8.24](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.24&page=1&state=closed) (unreleased)
+##[0.9.8.24](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.24&page=1&state=closed) (July 3, 2014)
 
 BREAKING CHANGES:
 
@@ -47,9 +47,9 @@ IMPROVEMENTS:
  * Remove annoying "Reading environment variables from registry. Please wait..." - [#440](https://github.com/chocolatey/chocolatey/pull/440)
  * Replace ascii cue to visual cue for "installing package" - [#376](https://github.com/chocolatey/chocolatey/pull/376)
  * Clean up the verbosity of chocolatey - [#374](https://github.com/chocolatey/chocolatey/issues/374)
- * Improve chocolatey setup as administrator [#486](https://github.com/chocolatey/chocolatey/pull/486)
- * Simplify Chocolatey-Update [#493](https://github.com/chocolatey/chocolatey/issues/493)
- * Update to Nuget.exe 2.8.2 [#379](https://github.com/chocolatey/chocolatey/issues/379)
+ * Improve chocolatey setup as administrator - [#486](https://github.com/chocolatey/chocolatey/pull/486)
+ * Simplify Chocolatey-Update - [#493](https://github.com/chocolatey/chocolatey/issues/493)
+ * Update to Nuget.exe 2.8.2 - [#379](https://github.com/chocolatey/chocolatey/issues/379)
 
 ##[0.9.8.23](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.23&page=1&state=closed) (November 11, 2013)
 
