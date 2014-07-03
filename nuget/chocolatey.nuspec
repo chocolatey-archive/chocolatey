@@ -14,7 +14,7 @@ Chocolatey is brought to you by the work and inspiration of the community, the w
 
 You can host your own sources and add them to chocolatey, you can extend chocolatey's capabilities, and folks, it's only going to get better.
 
-== Commands ==
+### Commands
 There are quite a few commands you can call - you should check out the command reference at: https://github.com/chocolatey/chocolatey/wiki/CommandsReference
 
  * Search - choco search something
@@ -29,12 +29,12 @@ There are quite a few commands you can call - you should check out the command r
 
 More advanced commands and switches listed on the command reference, including how you can force a package to install the x86 version of a package.
 
-== Create Packages? ==
+### Create Packages?
 We have some great guidance on how to do that. Where? I'll give you a hint, it rhymes with sticky! https://github.com/chocolatey/chocolatey/wiki/CreatePackages
 
 In that mess there is a link to the Helper Reference - https://github.com/chocolatey/chocolatey/wiki/HelpersReference
 
-== Chocolatey gods? ==
+### Chocolatey gods?
 Humor related to playing off of tiki gods. We like humor. Don't take life so seriously, you will never get out alive.
 
 </description>
