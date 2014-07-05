@@ -113,7 +113,7 @@ param(
   if ($headers.Count -ne 0) {
     # validate length is what we expected
     Write-Debug "Checking that `'$fileFullPath`' is the size we expect it to be."
-    if ($fi.Length -ne $headers["Content-Length"])  { throw "Chocolatey expected a file at `'$fileFullPath`' to be of length `'$($headers["Content-Length"])`' but the length was `'$($fi.Length)`'." }
+    if ($headers.ContainsKey("Content-Length") -and ($fi.Length -ne $headers["Content-Length"]))  { throw "Chocolatey expected a file at `'$fileFullPath`' to be of length `'$($headers["Content-Length"])`' but the length was `'$($fi.Length)`'." }
 
     if ($headers.ContainsKey("X-Checksum-Sha1")) {
       $remoteChecksum = $headers["X-Checksum-Sha1"]
