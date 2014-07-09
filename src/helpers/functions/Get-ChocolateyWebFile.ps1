@@ -125,7 +125,8 @@ param(
   Write-Debug "Verifying package provided checksum of `'$checksum`' for `'$fileFullPath`'."
   Get-CheckSumValid -file $fileFullPath -checkSum $checksum -checksumType $checksumType
 
+  # Virus check is not able to be performed, must note that.
   # $url is already set properly to the used location.
-  Write-Debug "Verifying downloaded file is not known to contain viruses. FilePath: `'$fileFullPath`'."
-  Get-VirusCheckValid -location $url -file $fileFullPath
+  #Write-Debug "Verifying downloaded file is not known to contain viruses. FilePath: `'$fileFullPath`'."
+  #Get-VirusCheckValid -location $url -file $fileFullPath
 }
