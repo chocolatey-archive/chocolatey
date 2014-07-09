@@ -58,8 +58,9 @@ param(
   Write-Host "Extracting $fileFullPath to $destination..."
   if (![System.IO.Directory]::Exists($destination)) {[System.IO.Directory]::CreateDirectory($destination)}
 
+  Update-SessionEnvironment
   # On first install, env:ChocolateyInstall might be null still - join-path has issues
-  $7zip = Join-Path "$env:SystemDrive" 'chocolatey\chocolateyinstall\tools\7za.exe'
+  $7zip = Join-Path "$env:ALLUSERSPROFILE" 'chocolatey\chocolateyinstall\tools\7za.exe'
   if ($env:ChocolateyInstall){
     $7zip = Join-Path "$env:ChocolateyInstall" 'chocolateyinstall\tools\7za.exe'
   }

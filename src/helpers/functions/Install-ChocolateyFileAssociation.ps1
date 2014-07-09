@@ -18,7 +18,7 @@ The file extension to be associated.
 The path to the application's executable to be associated.
 
 .EXAMPLE
-C:\PS>$sublimeDir = (Get-ChildItem $env:systemdrive\chocolatey\lib\sublimetext* | select $_.last)
+C:\PS>$sublimeDir = (Get-ChildItem $env:ALLUSERSPROFILE\chocolatey\lib\sublimetext* | select $_.last)
 C:\PS>$sublimeExe = "$sublimeDir\tools\sublime_text.exe"
 C:\PS>Install-ChocolateyFileAssociation ".txt" $sublimeExe
 

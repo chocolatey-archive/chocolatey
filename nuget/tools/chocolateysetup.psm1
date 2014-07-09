@@ -164,7 +164,7 @@ param(
 
 function Process-ChocolateyBinFiles {
 param(
-  [string]$chocolateyExePath = "$($env:SystemDrive)\Chocolatey\bin",
+  [string]$chocolateyExePath = "$($env:ALLUSERSPROFILE)\Chocolatey\bin",
   [string]$chocolateyExePathVariable = "%$($chocInstallVariableName)%\bin"
 )
   $processedMarkerFile = Join-Path $chocolateyExePath '_processed.txt'
