@@ -4,12 +4,12 @@ function Install-ChocolateyExplorerMenuItem {
 Creates a windows explorer context menu item that can be associated with a command
 
 .DESCRIPTION
-Install-ChocolateyExplorerMenuItem can add an entry in the context menu of 
-Windows Explorer. The menu item is given a text label and a command. The command 
-can be any command accepted on the windows command line. The menu item can be 
+Install-ChocolateyExplorerMenuItem can add an entry in the context menu of
+Windows Explorer. The menu item is given a text label and a command. The command
+can be any command accepted on the windows command line. The menu item can be
 applied to either folder items or file items.
 
-Because this command accesses and edits the root class registry node, it will be 
+Because this command accesses and edits the root class registry node, it will be
 elevated to admin.
 
 .PARAMETER MenuKey
@@ -41,9 +41,9 @@ This will create a context menu item in Windows Explorer when any folder is righ
 Chocolatey will automatically add the path of the file or folder clicked to the command. This is done simply by appending a %1 to the end of the command.
 #>
 param(
-  [string]$menuKey, 
-  [string]$menuLabel, 
-  [string]$command, 
+  [string]$menuKey,
+  [string]$menuLabel,
+  [string]$command,
   [ValidateSet('file','directory')]
   [string]$type = "file"
 )
@@ -60,7 +60,7 @@ try {
 
   Start-ChocolateyProcessAsAdmin $elevated
   Write-Host "'$menuKey' explorer menu item has been created"
-} 
+}
 catch {
     $errorMessage = "'$menuKey' explorer menu item was not created $($_.Exception.Message)"
     Write-Error $errorMessage

@@ -4,9 +4,9 @@ function Install-ChocolateyFileAssociation {
 Creates an association between a file extension and a executable
 
 .DESCRIPTION
-Install-ChocolateyFileAssociation can associate a file extension 
-with a downloaded application. Once this command has created an 
-association, all invocations of files with the specified extension 
+Install-ChocolateyFileAssociation can associate a file extension
+with a downloaded application. Once this command has created an
+association, all invocations of files with the specified extension
 will be opened via the executable specified.
 
 This command will run with elevated privileges.
