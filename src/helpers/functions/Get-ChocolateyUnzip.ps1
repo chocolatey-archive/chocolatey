@@ -80,6 +80,7 @@ param(
   $unzipOps = {
     param($7zip, $destination, $fileFullPath, [ref]$exitCodeRef)
     $p = Start-Process $7zip -ArgumentList "x -o`"$destination`" -y `"$fileFullPath`"" -Wait -WindowStyle Hidden -PassThru
+    Wait-Process -InputObject $p
     $exitCodeRef.Value = $p.ExitCode
   }
 
