@@ -41,6 +41,16 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
+## 0.9.8.26:
+### BUG FIXES:
+
+ * Fix - Default path has changed, causing running without closing shell to have issues again - https://github.com/chocolatey/chocolatey/issues/510
+ * Fix - Working directory of shimgen generated files points to path target executable is in (GUI apps only) - https://github.com/chocolatey/chocolatey/issues/508
+
+### IMPROVEMENTS:
+
+ * Allow to pass shimgen specific parameters - https://github.com/chocolatey/chocolatey/issues/509
+
 ## 0.9.8.25:
 ### BUG FIXES:
 
