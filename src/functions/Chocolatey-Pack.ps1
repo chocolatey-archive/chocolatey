@@ -18,8 +18,7 @@ param(
     Write-Host $line
   }
   $errors = Get-Content $errorLogFile
-  if ($errors -ne '') {
-    Write-Host $errors -BackgroundColor Red -ForegroundColor White
-    #throw $errors
+  if ($process.ExitCode -ne 0) {
+    throw $errors
   }
 }
