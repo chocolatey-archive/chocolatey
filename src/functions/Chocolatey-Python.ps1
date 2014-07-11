@@ -1,7 +1,7 @@
 ﻿function Chocolatey-Python {
 param(
-  [string] $packageName,  
-  [string] $version ='', 
+  [string] $packageName,
+  [string] $version ='',
   [string] $installerArguments =''
 )
 
@@ -14,19 +14,19 @@ param(
   }
 
   Chocolatey-InstallIfMissing 'easy.install'
-  
+
   Write-Host "Chocolatey (v$chocVer) is installing $packageName and dependencies (using Python). By installing you accept the license for $packageName and each dependency you are installing." -ForegroundColor $RunNote -BackgroundColor Black
-  
+
 
   $chocoInstallLog = Join-Path $nugetChocolateyPath 'chocolateyPythonInstall.log';
   Append-Log $chocoInstallLog
- 
+
   $packageArgs = "/c easy_install $packageName"
   if ($version -notlike '') {
     Write-Debug "Adding version arguments `'$version`'"
     $packageArgs = "/c easy_install $packageName==$version";
   }
-  
+
   if ($installerArguments -ne '') {
     Write-Debug "Adding installerArguments `'$installerArguments`'"
     $packageArgs = "$packageArgs $installerArguments";
@@ -44,6 +44,6 @@ param(
   foreach ($line in $installOutput) {
     Write-Host $line
   }
-  
+
   Write-Host "Finished installing `'$packageName`' and dependencies - if errors not shown in console, none detected. Check log for errors if unsure." -ForegroundColor $RunNote -BackgroundColor Black
 }
