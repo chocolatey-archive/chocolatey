@@ -36,8 +36,9 @@ param(
   #& cmd.exe $packagesArgs | Tee-Object -FilePath $chocoInstallLog
 
   Write-Host "Opening minimized PowerShell window and calling `'cmd.exe $packageArgs`'. If progress is taking a long time, please check that window. It also may not be 100% silent..." -ForegroundColor $Warning -BackgroundColor Black
-  Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $packageArgs | Tee-Object -FilePath `'$chocoInstallLog`'`"" -Wait -WindowStyle Minimized
-  
+  $process = Start-Process -FilePath "$($env:windir)\System32\WindowsPowerShell\v1.0\powershell.exe" -ArgumentList "-NoProfile -ExecutionPolicy unrestricted -Command `"cmd.exe $packageArgs | Tee-Object -FilePath `'$chocoInstallLog`'`"" -Wait -WindowStyle Minimized -PassThru
+  if ($host.Version.Major -ge 3) { Wait-Process -InputObject $process }
+
   Create-InstallLogIfNotExists $chocoInstallLog
   $installOutput = Get-Content $chocoInstallLog -Encoding Ascii
   foreach ($line in $installOutput) {

@@ -20,6 +20,7 @@ param(
 
   Write-Debug "Calling command [`'$checksumExe`' -c$checksum `"$file`"] to retrieve checksum"
   $process = Start-Process "$checksumExe" -ArgumentList " -c=`"$checksum`" -t=`"$checksumType`" -f=`"$file`"" -Wait -WindowStyle Hidden -PassThru
+  if ($host.Version.Major -ge 3) { Wait-Process -InputObject $process }
 
   Write-Debug "`'$checksumExe`' exited with $($process.ExitCode)"
 
