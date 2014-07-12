@@ -80,6 +80,20 @@ if ($quiet) {
   $env:ChocolateyEnvironmentQuiet = 'true'
 }
 
+# check permission of process and issue warning - we can't use
+# Test-ProcessAdminRights b/c it would use overridden Write-Debug/Write-Host
+# which may log into a folder the user doesn't have access to write to.
+$currentPrincipal = New-Object Security.Principal.WindowsPrincipal([Security.Principal.WindowsIdentity]::GetCurrent([Security.Principal.TokenAccessLevels]'Query,Duplicate'))
+if (!($currentPrincipal.IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator))) {
+@"
+Chocolatey detected you are not running from an elevated command shell
+  (cmd/powershell). You may experience errors - many functions/packages
+  require admin rights. Only advanced users should run choco w/out an
+  elevated shell (and very advanced users as non-admin). When you open
+  the command shell, you should ensure "Run as Administrator".
+"@ | Write-Host  -ForegroundColor $Warning -BackgroundColor Black
+}
+
 $installModule = Join-Path $nugetChocolateyPath (Join-Path 'helpers' 'chocolateyInstaller.psm1')
 Import-Module $installModule
 
