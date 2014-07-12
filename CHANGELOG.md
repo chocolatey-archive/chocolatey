@@ -1,13 +1,18 @@
-##[0.9.8.26](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.26&page=1&state=closed) (unreleased)
+##[0.9.8.26](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.26&page=1&state=closed) (July 12, 2014)
 
 BUG FIXES:
 
+ * Fix - Allow spaces in arguments to chocolatey again - Regenerate chocolatey included shims to take advantage of shimgen fixes - [#507](https://github.com/chocolatey/chocolatey/issues/507)
  * Fix - Default path has changed, causing running without closing shell to have issues again - [#510](https://github.com/chocolatey/chocolatey/issues/510)
  * Fix - Working directory of shimgen generated files points to path target executable is in (GUI apps only) - [#508](https://github.com/chocolatey/chocolatey/issues/508)
+ * Fix - cpack/cpush returns zero exit code even when error occurs - [#256](https://github.com/chocolatey/chocolatey/issues/256) & [#384](https://github.com/chocolatey/chocolatey/issues/384)
+ * Fix - Install error throws another error due to true instead of $true - [#514](https://github.com/chocolatey/chocolatey/pull/514)
+ * Fix - Posh v3+ Ignores -Wait when run from cmd.exe - [#516](https://github.com/chocolatey/chocolatey/pull/516)
 
 IMPROVEMENTS:
 
  * Allow to pass shimgen specific parameters - [#509](https://github.com/chocolatey/chocolatey/issues/509)
+ * Issue warning if user is not running an elevated shell - [#519](https://github.com/chocolatey/chocolatey/issues/519)
 
 ##[0.9.8.25](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.25&page=1&state=closed) (July 7, 2014)
 
