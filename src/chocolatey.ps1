@@ -156,10 +156,17 @@ $packageParameters = $packageParameters.Replace("'","""")
 #main entry point
 Append-Log
 
-Write-Debug "Arguments: `$command = '$command'|`$packageNames='$packageNames'|`$source='$source'|`$version='$version'|`$allVersions=$allVersions|`$InstallArguments='$installArguments'|`$overrideArguments=$overrideArgs|`$force=$force|`$prerelease=$prerelease|`$localonly=$localonly|`$verbosity=$verbosity|`$debug=$debug|`$quiet=$quiet|`$name='$name'|`$ignoreDependencies=$ignoreDependencies|`$forceX86=$forceX86|`$packageParameters='$packageParameters'|PowerShellVersion=$($host.version)"
+Write-Debug "Arguments: `$command = '$command'|`$force=$force`
+|`$prerelease=$prerelease|`$packageNames='$packageNames'`
+|`$source='$source'`
+|`$version='$version'|`$allVersions=$allVersions`
+|`$overrideArguments=$overrideArgs|`$InstallArguments='$installArguments'`
+|`$localonly=$localonly|`$verbosity=$verbosity|`$debug=$debug|`$quiet=$quiet`
+|`$name='$name'|`$ignoreDependencies=$ignoreDependencies|`$forceX86=$forceX86`
+|`$packageParameters='$packageParameters'`
+|PowerShellVersion=$($host.version)|OSVersion=$([System.Environment]::OSVersion.Version.ToString())"
 
 # run level environment variables
-
 $env:chocolateyForceX86 = $null
 if ($forceX86) {
   $env:chocolateyForceX86 = $true
