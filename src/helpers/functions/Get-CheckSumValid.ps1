@@ -20,7 +20,8 @@ param(
 
   Write-Debug "Calling command [`'$checksumExe`' -c$checksum `"$file`"] to retrieve checksum"
   $process = Start-Process "$checksumExe" -ArgumentList " -c=`"$checksum`" -t=`"$checksumType`" -f=`"$file`"" -Wait -WindowStyle Hidden -PassThru
-  if ($host.Version.Major -ge 3) { Wait-Process -InputObject $process }
+  # this is here for specific cases in Posh v3 where -Wait is not honored
+  try { if (!($process.HasExited)) { Wait-Process $process } } catch { }
 
   Write-Debug "`'$checksumExe`' exited with $($process.ExitCode)"
 

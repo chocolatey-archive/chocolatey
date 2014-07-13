@@ -79,9 +79,11 @@ param(
   $exitCode = -1
   $unzipOps = {
     param($7zip, $destination, $fileFullPath, [ref]$exitCodeRef)
-    $p = Start-Process $7zip -ArgumentList "x -o`"$destination`" -y `"$fileFullPath`"" -Wait -WindowStyle Hidden -PassThru
-    if ($host.Version.Major -ge 3) { Wait-Process -InputObject $p }
-    $exitCodeRef.Value = $p.ExitCode
+    $process = Start-Process $7zip -ArgumentList "x -o`"$destination`" -y `"$fileFullPath`"" -Wait -WindowStyle Hidden -PassThru
+    # this is here for specific cases in Posh v3 where -Wait is not honored
+    try { if (!($process.HasExited)) { Wait-Process $process } } catch { }
+
+    $exitCodeRef.Value = $process.ExitCode
   }
 
   if ($zipExtractLogFullPath) {
