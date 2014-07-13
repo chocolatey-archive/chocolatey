@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.26</version>
+    <version>0.9.8.27-beta1</version>
     <authors>Rob Reynolds, The Chocolatey Team</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -41,7 +41,12 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
-## 0.9.8.26:
+## 0.9.8.27:
+### BUG FIXES:
+
+ * Fix - Posh v3+ Ignores -Wait when run from cmd.exe - https://github.com/chocolatey/chocolatey/pull/516
+
+## 0.9.8.26:
 ### BUG FIXES:
 
  * Fix - Allow spaces in arguments to chocolatey again - Regenerate chocolatey included shims to take advantage of shimgen fixes - https://github.com/chocolatey/chocolatey/issues/507
