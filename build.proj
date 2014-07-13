@@ -44,7 +44,7 @@
       <FilesToDelete Exclude="$(BuildPath)\**\*.nupkg" Include="$(BuildPath)\**\*" />
       <DirectoriesToDelete Include="$(BuildPath)\nuget" />
     </ItemGroup>
-    <Exec Command="FOR /F &quot;delims=|&quot; %%I IN ('DIR %systemdrive%\chocolatey\lib\nuget.commandline.* /B /O:D') DO %systemdrive%\chocolatey\lib\%%I\tools\nuget pack &quot;%(NuspecFiles.FullPath)&quot; -NoPackageAnalysis" WorkingDirectory="$(BuildPath)" />
+    <Exec Command="FOR /F &quot;delims=|&quot; %%I IN ('DIR %allusersprofile%\chocolatey\lib\nuget.commandline.* /B /O:D') DO %allusersprofile%\chocolatey\lib\%%I\tools\nuget pack &quot;%(NuspecFiles.FullPath)&quot; -NoPackageAnalysis" WorkingDirectory="$(BuildPath)" />
     <Delete Files="@(FilesToDelete)" />
     <RemoveDir Directories="@(DirectoriesToDelete)" />
   </Target>
