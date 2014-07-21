@@ -1,4 +1,4 @@
-Chocolatey NuGet (like apt-get, but for Windows)
+Chocolatey NuGet (like apt-get, but for Windows) [![](http://img.shields.io/gittip/Chocolatey.svg)](https://www.gittip.com/Chocolatey/)
 =======
 ![Chocolatey Logo](https://github.com/chocolatey/chocolatey/raw/master/docs/logo/chocolateyicon.gif "Chocolatey")  
   
