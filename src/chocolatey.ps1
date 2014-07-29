@@ -166,6 +166,13 @@ Write-Debug "Arguments: `$command = '$command'|`$force=$force`
 |`$packageParameters='$packageParameters'`
 |PowerShellVersion=$($host.version)|OSVersion=$([System.Environment]::OSVersion.Version.ToString())"
 
+$currentProtocol = [System.Net.ServicePointManager]::SecurityProtocol
+Write-Debug "Current Security Protocol - $currentProtocol"
+if ($host.Version -lt (new-object 'Version' 3,0)) {
+  Write-Debug "Converting Security Protocol to SSL3 only for Powershell v2"
+  [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Ssl3
+}
+
 # run level environment variables
 $env:chocolateyForceX86 = $null
 if ($forceX86) {
@@ -205,6 +212,10 @@ foreach ($packageName in $packageNames) {
     Write-Host "$($_.Exception.Message)" -BackgroundColor $ErrorColor -ForegroundColor White ;
     if ($badPackages -ne '') { $badPackages += ', '}
     $badPackages += "$packageName"
+  }
+  finally {
+    # ensure protocol is set appropriately
+    [System.Net.ServicePointManager]::SecurityProtocol = $currentProtocol
   }
 }
 
