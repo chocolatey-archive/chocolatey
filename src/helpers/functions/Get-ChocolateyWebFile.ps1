@@ -72,11 +72,20 @@ param(
     $url = $url32bit
   }
 
-  #$downloader = new-object System.Net.WebClient
-  #$downloader.DownloadFile($url, $fileFullPath)
   $headers = @{}
   if ($url.StartsWith('http')) {
-    $headers = Get-WebHeaders $url
+    try {
+      $headers = Get-WebHeaders $url
+    } catch {
+      if ($host.Version -lt (new-object 'Version' 3,0)) {
+        Write-Debug "Converting Security Protocol to SSL3 only for Powershell v2"
+        # this should last for the entire duration
+        [System.Net.ServicePointManager]::SecurityProtocol = [System.Net.SecurityProtocolType]::Ssl3
+        $headers = Get-WebHeaders $url
+      } else {
+        Write-Host "Attempt to get headers for $url failed.`n  $($_.Exception.Message)"
+      }
+    }
 
     $needsDownload = $true
     if ($headers.Count -ne 0 -and $headers.ContainsKey("Content-Length")) {

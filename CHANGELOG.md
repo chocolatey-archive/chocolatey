@@ -1,3 +1,9 @@
+##[0.9.8.28](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.28&page=1&state=closed) (unreleased)
+
+BUG FIXES:
+
+ * Fix - Powershell v2 fails to download SSLv3 files - [#531](https://github.com/chocolatey/chocolatey/issues/531)
+
 ##[0.9.8.27](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.27&page=1&state=closed) (July 13, 2014)
 
 BUG FIXES:

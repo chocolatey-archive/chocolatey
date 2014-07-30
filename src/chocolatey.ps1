@@ -44,7 +44,7 @@ $currentThread.CurrentCulture = $culture;
 $currentThread.CurrentUICulture = $culture;
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.27'
+$chocVer = '0.9.8.28-alpha1'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -166,6 +166,9 @@ Write-Debug "Arguments: `$command = '$command'|`$force=$force`
 |`$packageParameters='$packageParameters'`
 |PowerShellVersion=$($host.version)|OSVersion=$([System.Environment]::OSVersion.Version.ToString())"
 
+$currentProtocol = [System.Net.ServicePointManager]::SecurityProtocol
+Write-Debug "Current Security Protocol - $currentProtocol"
+
 # run level environment variables
 $env:chocolateyForceX86 = $null
 if ($forceX86) {
@@ -205,6 +208,10 @@ foreach ($packageName in $packageNames) {
     Write-Host "$($_.Exception.Message)" -BackgroundColor $ErrorColor -ForegroundColor White ;
     if ($badPackages -ne '') { $badPackages += ', '}
     $badPackages += "$packageName"
+  }
+  finally {
+    # ensure protocol is reset appropriately
+    [System.Net.ServicePointManager]::SecurityProtocol = $currentProtocol
   }
 }
 
