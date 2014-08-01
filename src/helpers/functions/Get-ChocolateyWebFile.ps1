@@ -46,6 +46,8 @@ param(
   Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`', url64bit:`'$url64bit`', checksum: `'$checksum`', checksumType: `'$checksumType`', checksum64: `'$checksum64`', checksumType64: `'$checksumType64`'";
 
   $url32bit = $url;
+  $checksum32 = $checksum
+  $checksumType32 = $checksumType
   $bitWidth = 32
   if (Get-ProcessorBits 64) {
     $bitWidth = 64
@@ -70,6 +72,8 @@ param(
     Write-Debug "User specified -x86 so forcing 32 bit"
     $bitPackage = 32
     $url = $url32bit
+    $checksum =  $checksum32
+    $checksumType = $checksumType32
   }
 
   $headers = @{}
