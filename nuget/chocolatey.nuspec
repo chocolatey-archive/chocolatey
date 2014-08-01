@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.28-alpha1</version>
+    <version>0.9.8.28-alpha2</version>
     <authors>Rob Reynolds, The Chocolatey Team</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -41,9 +41,11 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
-## 0.9.8.28:
-### BUG FIXES:
+## 0.9.8.28:
 
+### BUG FIXES:
+
+ * Fix - Forcing x86 does not use 32bit checksum - https://github.com/chocolatey/chocolatey/issues/535
  * Fix - Powershell v2 fails to download SSLv3 files - https://github.com/chocolatey/chocolatey/issues/531
 
 ## 0.9.8.27:
