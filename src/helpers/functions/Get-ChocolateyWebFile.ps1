@@ -20,8 +20,17 @@ This is the url to download the file from.
 .PARAMETER Url64bit
 OPTIONAL - If there is an x64 installer to download, please include it here. If not, delete this parameter
 
-.PARAMETER CheckSum
+.PARAMETER Checksum
 OPTIONAL (Right now) - This allows a checksum to be validated for files that are not local
+
+.PARAMETER Checksum64
+OPTIONAL (Right now) - This allows a checksum to be validated for files that are not local
+
+.PARAMETER ChecksumType
+OPTIONAL (Right now) - 'md5' or 'sha1' - defaults to 'md5'
+
+.PARAMETER ChecksumType64
+OPTIONAL (Right now) - 'md5' or 'sha1' - defaults to ChecksumType
 
 .EXAMPLE
 Get-ChocolateyWebFile '__NAME__' 'C:\somepath\somename.exe' 'URL' '64BIT_URL_DELETE_IF_NO_64BIT'
@@ -46,6 +55,8 @@ param(
   Write-Debug "Running 'Get-ChocolateyWebFile' for $packageName with url:`'$url`', fileFullPath:`'$fileFullPath`', url64bit:`'$url64bit`', checksum: `'$checksum`', checksumType: `'$checksumType`', checksum64: `'$checksum64`', checksumType64: `'$checksumType64`'";
 
   $url32bit = $url;
+  $checksum32 = $checksum
+  $checksumType32 = $checksumType
   $bitWidth = 32
   if (Get-ProcessorBits 64) {
     $bitWidth = 64
@@ -70,6 +81,8 @@ param(
     Write-Debug "User specified -x86 so forcing 32 bit"
     $bitPackage = 32
     $url = $url32bit
+    $checksum =  $checksum32
+    $checksumType = $checksumType32
   }
 
   $headers = @{}
