@@ -4,8 +4,9 @@ $principal = New-Object System.Security.Principal.WindowsPrincipal( $identity )
 $isAdmin = $principal.IsInRole( [System.Security.Principal.WindowsBuiltInRole]::Administrator )
 $chocoDir = $env:ChocolateyInstall
 if(!$chocoDir){$chocoDir="$env:SystemDrive\chocolatey"}
-$pesterDir = (dir $chocoDir\lib\Pester*)
-if($pesterDir.length -gt 0) {$pesterDir = $pesterDir[-1]}
+$pesterVersion = '2.0.2'
+cinst pester -version $pesterVersion
+$pesterDir = "$chocoDir\lib\Pester.$pesterVersion"
 
 if(-not $isAdmin){
     $psi = New-Object System.Diagnostics.ProcessStartInfo
