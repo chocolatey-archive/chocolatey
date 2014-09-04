@@ -7,6 +7,7 @@ $chocoDir = $env:ChocolateyInstall
 if(!$chocoDir){$chocoDir="$env:AllUsersProfile\chocolatey"}
 if(!(Test-Path($chocoDir))){$chocoDir="$env:SystemDrive\chocolatey"}
 $env:Path +=";$chocoDir\bin;"
+Write-Host "Path is $($env:Path)"
 
 $pesterVersion = '2.0.2'
 cinst pester -version $pesterVersion
