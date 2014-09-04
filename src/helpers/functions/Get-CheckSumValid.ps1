@@ -1,10 +1,10 @@
-function Get-CheckSumValid {
+function Get-ChecksumValid {
 param(
   [string] $file,
   [string] $checksum = '',
   [string] $checksumType = 'md5'
 )
-  Write-Debug "Running 'Get-CheckSumValid' with file:`'$file`', checksum: `'$checksum`', checksumType: `'$checksumType`'";
+  Write-Debug "Running 'Get-ChecksumValid' with file:`'$file`', checksum: `'$checksum`', checksumType: `'$checksumType`'";
   if ($checksum -eq '' -or $checksum -eq $null) { return }
 
   if(!([System.IO.File]::Exists($file))) { throw "Unable to checksum a file that doesn't exist - Could not find file `'$file`'" }

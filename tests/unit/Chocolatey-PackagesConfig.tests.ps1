@@ -21,7 +21,7 @@ Describe "Chocolatey-PackagesConfig" {
     }
 
     It "should not call Chocolatey-NuGet" {
-      Assert-mockCalled Chocolatey-Nuget 0
+      Assert-MockCalled Chocolatey-Nuget 0
     }
   }
 
@@ -155,23 +155,23 @@ Describe "Chocolatey-PackagesConfig" {
 
   Context "When calling Chocolatey-PackagesConfig with a packages.config manifest that has installArguments" {
     Mock Chocolatey-Install {} -Verifiable {$packageName -eq 'chocolateytestpackage' -and $version -eq '0.1' -and $installerArguments -eq '/test /install /arguments'}
-    Mock Chocolatey-NuGet {} 
-  
+    Mock Chocolatey-NuGet {}
+
     Setup -File 'packages.config' @"
 <?xml version="1.0" encoding="utf-8"?>
 <packages>
   <package id="chocolateytestpackage" version="0.1" installArguments="/test /install /arguments" />
-</packages>  
+</packages>
 "@
-  
+
     Chocolatey-PackagesConfig "TestDrive:\packages.config"
-  
+
     It "should execute the contents of the packages.config" {}
 
     It "should call Chocolatey-Install" {
       Assert-VerifiableMocks
     }
-    
+
     It "should not call Chocolatey-Nuget" {
       Assert-mockCalled Chocolatey-Nuget 0
     }
@@ -179,23 +179,23 @@ Describe "Chocolatey-PackagesConfig" {
 
   Context "When calling Chocolatey-PackagesConfig with a packages.config manifest that has no installArguments attribute" {
     Mock Chocolatey-Install {} -Verifiable {$packageName -eq 'chocolateytestpackage' -and $version -eq '0.1' -and $installerArguments -eq ''}
-    Mock Chocolatey-NuGet {} 
-  
+    Mock Chocolatey-NuGet {}
+
     Setup -File 'packages.config' @"
 <?xml version="1.0" encoding="utf-8"?>
 <packages>
   <package id="chocolateytestpackage" version="0.1" />
-</packages>  
+</packages>
 "@
-  
+
     Chocolatey-PackagesConfig "TestDrive:\packages.config"
-  
+
     It "should execute the contents of the packages.config" {}
 
     It "should call Chocolatey-Install" {
       Assert-VerifiableMocks
     }
-    
+
     It "should not call Chocolatey-Nuget" {
       Assert-mockCalled Chocolatey-Nuget 0
     }
