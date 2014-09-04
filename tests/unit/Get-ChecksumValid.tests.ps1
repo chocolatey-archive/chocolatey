@@ -34,7 +34,7 @@ Describe "Get-ChecksumValid" {
     # The above is never going to work inside of a module without pester v3.
 
     $script:error_message = ""
-    $filePath = 'some\file.txt'
+    $filePath = setup-testfile
     try {
       Get-ChecksumValid -file "$filePath" -checksum '0FBD35FFD7EC40CB99D13DB2E759BEAE88512C4C' -checksumType 'sha1'
     } catch {
@@ -43,10 +43,6 @@ Describe "Get-ChecksumValid" {
 
     It "should not return an error" {
       $script:error_message | should BeNullOrEmpty
-    }
-
-    It "should call Update-SessionEnvironment" {
-      Assert-MockCalled Update-SessionEnvironment
     }
   }
 
