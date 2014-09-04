@@ -180,3 +180,21 @@ function Assert-NotOnPath($directory, $pathScope)
     $dirInPath = $path -split ';' | Where-Object { $_ -eq $directory }
     "$dirInPath" | Should BeNullOrEmpty
 }
+
+function Set-ChocolateyInstallToSrcFolder {
+param(
+  [string] $currentLocation
+)
+  Write-Debug "currentlocation $currentLocation"
+  if (!$currentLocation.ToLower().Contains("chocolatey")) {
+    throw 'Current path must be inside chocolatey source somewhere.'
+  }
+
+  Write-Debug "Current location - `'$currentLocation`'"
+  $srcPath = $currentLocation.Substring(0,$currentLocation.IndexOf("chocolatey") + 10)
+  $srcPath +="\src"
+
+  Write-Debug "Setting `$env:ChocolateyInstall to $srcPath"
+  $env:ChocolateyInstall = $srcPath
+  Write-Host "`$env:ChocolateyInstall is now `'$($env:ChocolateyInstall)`'"
+}
