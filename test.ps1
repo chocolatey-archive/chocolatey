@@ -6,6 +6,7 @@ $isAdmin = $principal.IsInRole( [System.Security.Principal.WindowsBuiltInRole]::
 $chocoDir = $env:ChocolateyInstall
 if(!$chocoDir){$chocoDir="$env:AllUsersProfile\chocolatey"}
 if(!(Test-Path($chocoDir))){$chocoDir="$env:SystemDrive\chocolatey"}
+$chocoDir = $chocoDir.Replace("\bin","")
 $env:Path +=";$chocoDir\bin;"
 Write-Host "Path is $($env:Path)"
 
