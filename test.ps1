@@ -2,9 +2,12 @@ $scriptPath = (Split-Path -parent $MyInvocation.MyCommand.path)
 $identity  = [System.Security.Principal.WindowsIdentity]::GetCurrent()
 $principal = New-Object System.Security.Principal.WindowsPrincipal( $identity )
 $isAdmin = $principal.IsInRole( [System.Security.Principal.WindowsBuiltInRole]::Administrator )
+
 $chocoDir = $env:ChocolateyInstall
-if(!$chocoDir){$chocoDir="$env:SystemDrive\chocolatey"}
-if(! Test-Path($chocoDir)){$chocoDir="$env:AllUsersProfile\chocolatey"}
+if(!$chocoDir){$chocoDir="$env:AllUsersProfile\chocolatey"}
+if(!(Test-Path($chocoDir))){$chocoDir="$env:SystemDrive\chocolatey"}
+$env:Path +=";$chocoDir\bin;"
+
 $pesterVersion = '2.0.2'
 cinst pester -version $pesterVersion
 $pesterDir = "$chocoDir\lib\Pester.$pesterVersion"
