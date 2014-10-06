@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.28-alpha2</version>
+    <version>0.9.8.28-alpha3</version>
     <authors>Rob Reynolds, The Chocolatey Team</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -45,6 +45,7 @@ See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
 ### BUG FIXES:
 
+ * Fix - Shim argument parsing needs fixed for quoting - https://github.com/chocolatey/shimgen/issues/1
  * Fix - Forcing x86 does not use 32bit checksum - https://github.com/chocolatey/chocolatey/issues/535
  * Fix - Powershell v2 fails to download SSLv3 files - https://github.com/chocolatey/chocolatey/issues/531
 
