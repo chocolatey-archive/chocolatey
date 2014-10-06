@@ -45,6 +45,7 @@ See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
 ### BUG FIXES:
 
+ * Fix - Shim argument parsing needs fixed for quoting - https://github.com/chocolatey/shimgen/issues/1
  * Fix - Forcing x86 does not use 32bit checksum - https://github.com/chocolatey/chocolatey/issues/535
  * Fix - Powershell v2 fails to download SSLv3 files - https://github.com/chocolatey/chocolatey/issues/531
 
