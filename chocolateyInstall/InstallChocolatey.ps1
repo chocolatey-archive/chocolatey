@@ -1,6 +1,6 @@
 # ==============================================================================
 #
-# Fervent Coder Copyright � 2011 - Released under the Apache 2.0 License
+# Fervent Coder Copyright 2011 - Present - Released under the Apache 2.0 License
 #
 # Copyright 2007-2008 The Apache Software Foundation.
 #
@@ -17,9 +17,9 @@
 # ==============================================================================
 
 # variables
-#$url = "http://chocolatey.org/packages/chocolatey/DownloadPackage"
-$url = "http://chocolatey.org/api/v2/package/chocolatey/"
-#$url = "http://chocolatey.org/api/v1/package/chocolatey"
+#$url = "https://chocolatey.org/packages/chocolatey/DownloadPackage"
+$url = "https://chocolatey.org/api/v2/package/chocolatey/"
+#$url = "https://chocolatey.org/api/v1/package/chocolatey"
 $chocTempDir = Join-Path $env:TEMP "chocolatey"
 $tempDir = Join-Path $chocTempDir "chocInstall"
 if (![System.IO.Directory]::Exists($tempDir)) {[System.IO.Directory]::CreateDirectory($tempDir)}
@@ -47,7 +47,7 @@ $chocInstallPS1 = Join-Path $toolsFolder "chocolateyInstall.ps1"
 write-host 'Ensuring chocolatey commands are on the path'
 $chocInstallVariableName = "ChocolateyInstall"
 $nuGetPath = [Environment]::GetEnvironmentVariable($chocInstallVariableName, [System.EnvironmentVariableTarget]::User)
-$nugetExePath = 'C:\NuGet\bin'
+$nugetExePath = 'C:\ProgramData\Chocolatey\bin'
 if ($nuGetPath -ne $null) {
   $nugetExePath = Join-Path $nuGetPath 'bin'
 }

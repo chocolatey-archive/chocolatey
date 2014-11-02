@@ -128,7 +128,7 @@ See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
  * Update to Nuget.exe 2.8.2 - https://github.com/chocolatey/chocolatey/issues/379
 
     </releaseNotes>
-    <projectUrl>http://chocolatey.org</projectUrl>
+    <projectUrl>https://chocolatey.org</projectUrl>
     <licenseUrl>http://www.apache.org/licenses/LICENSE-2.0</licenseUrl>
     <requireLicenseAcceptance>false</requireLicenseAcceptance>
     <copyright>RealDimensions Software, LLC - 2011-Present</copyright>

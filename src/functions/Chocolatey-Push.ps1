@@ -1,13 +1,13 @@
 ﻿function Chocolatey-Push {
 param(
   [string] $packageName,
-  [string] $source = 'http://chocolatey.org/'
+  [string] $source = 'https://chocolatey.org/'
 )
   Write-Debug "Running 'Chocolatey-Push' for $packageName with source:`'$source`'";
 
   $srcArgs = "-source $source"
   if ($source -like '') {
-    $srcArgs = '-source http://chocolatey.org/'
+    $srcArgs = '-source https://chocolatey.org/'
     Write-Debug "Setting source to `'$srcArgs`'"
   }
 

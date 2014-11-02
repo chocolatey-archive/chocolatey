@@ -122,36 +122,9 @@ The default install location has been changed to '$newChocoPath'.
 "@ | Write-Host  -ForegroundColor $Warning -BackgroundColor Black
 }
 
-# Win2003/XP do not support SNI
-if ([Environment]::OSVersion.Version -lt (new-object 'Version' 6,0)){
-  $originalSource = $source
-  Write-Debug 'This version of Windows does not support SNI, so configuring chocolatey to use Http automatically'
-  $chocoHttpExists = $false
-  $chocoHttpId = 'chocolateyHttp'
-  $sources = Chocolatey-Sources 'list'
-  Write-Debug 'Checking sources to see if chocolatey http is configured'
-  foreach ($sourceConfig in $sources) {
-    if ($sourceConfig.ID -eq "$chocoHttpId") {
-      Write-Debug 'ChocolateyHttp found'
-      $chocoHttpExists = $true
-      break
-    }
-  }
-
-  if (!$chocoHttpExists) {
-    Write-Debug 'Removing https version of chocolatey and re-adding as http'
-    Chocolatey-Sources 'disable' 'chocolatey'
-    Chocolatey-Sources 'add' "$chocoHttpId" 'http://chocolatey.org/api/v2/'
-  }
-
-  #this command fixes a small change somewhere that messes up the original source specified
-  $source = $originalSource
-}
-
 # bump installarguments back to quotes
 $installArguments = $installArguments.Replace("'","""")
 $packageParameters = $packageParameters.Replace("'","""")
-
 
 #main entry point
 Append-Log
