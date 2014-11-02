@@ -5,13 +5,17 @@ param(
 
   Write-Debug "Running 'Chocolatey-InstallAll' with source:`'$source`'";
 
-  if ($source -eq '' -or $source -eq 'https://go.microsoft.com/fwlink/?LinkID=230477' -or $source -eq 'http://chocolatey.org/api/v2/') {
+  if ($source -eq '' -or $source -eq 'https://go.microsoft.com/fwlink/?LinkID=230477' -or $source -eq 'https://chocolatey.org/api/v2/') {
     write-host 'Source must be specified and cannot be nuget.org/chocolatey.org'
     return
   }
 
   if ($source.StartsWith('http')) {
     $webClient = New-Object System.Net.WebClient
+    $defaultCreds = [System.Net.CredentialCache]::DefaultCredentials
+    if ($defaultCreds -ne $null) {
+      $webClient.Credentials = $defaultCreds
+    }
 
     if (!$source.EndsWith('/')) { $source = $source + '/' }
     $feedUrl = $source + 'Packages/'

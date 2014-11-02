@@ -61,7 +61,7 @@ start """" ""$path"" %*" | Out-File $packageBatchFileName -encoding ASCII
 
 "@echo off
 SET DIR=%~dp0%
-cmd /c ""$path %*""
+cmd /c """"$path"" %*""
 exit /b %ERRORLEVEL%" | Out-File $packageBatchFileName -encoding ASCII
 
       $sw = New-Object IO.StreamWriter "$packageBashFileName"
