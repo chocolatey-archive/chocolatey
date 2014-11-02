@@ -41,7 +41,11 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
-## 0.9.8.28:
+## 0.9.8.28:
+### BREAKING CHANGES:
+
+ * You may need to update your saved API key for chocolatey, due to [#599](https://github.com/chocolatey/chocolatey/issues/599) we have switched push to ensure https.
+
 ### BUG FIXES:
 
  * Fix - Shim argument parsing needs fixed for quoting - https://github.com/chocolatey/shimgen/issues/1
