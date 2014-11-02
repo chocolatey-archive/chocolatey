@@ -1,5 +1,9 @@
 ##[0.9.8.28](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.28&page=1&state=closed) (unreleased)
 
+BREAKING CHANGES:
+
+ * You may need to update your saved API key for chocolatey, due to [#599](https://github.com/chocolatey/chocolatey/issues/599) we have switched push to ensure https.
+
 BUG FIXES:
 
  * Fix - Shim argument parsing needs fixed for quoting - [ShimGen #1](https://github.com/chocolatey/shimgen/issues/1)
