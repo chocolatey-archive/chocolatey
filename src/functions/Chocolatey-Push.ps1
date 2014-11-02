@@ -19,7 +19,7 @@ param(
 
   $process = Start-Process $nugetExe -ArgumentList $packageArgs -NoNewWindow -Wait -RedirectStandardOutput $logFile -RedirectStandardError $errorLogFile -PassThru
   # this is here for specific cases in Posh v3 where -Wait is not honored
-  try { if (!($process.HasExited)) { Wait-Process $process } } catch { }
+  try { if (!($process.HasExited)) { Wait-Process -Id $process.Id } } catch { }
 
   $nugetOutput = Get-Content $logFile -Encoding Ascii
   foreach ($line in $nugetOutput) {
