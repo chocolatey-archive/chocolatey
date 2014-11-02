@@ -5,6 +5,14 @@ BUG FIXES:
  * Fix - Shim argument parsing needs fixed for quoting - [ShimGen #1](https://github.com/chocolatey/shimgen/issues/1)
  * Fix - Forcing x86 does not use 32bit checksum - [#535](https://github.com/chocolatey/chocolatey/issues/535)
  * Fix - Powershell v2 fails to download SSLv3 files - [#531](https://github.com/chocolatey/chocolatey/issues/531)
+ * Get-ChocolateyUnzip fails due to Wait-Process exception - [#571](https://github.com/chocolatey/chocolatey/issues/571)
+
+IMPROVEMENTS:
+
+ * Use default credentials for internet if available - [#577](https://github.com/chocolatey/chocolatey/issues/577)
+ * Add moderation message on push - [#600](https://github.com/chocolatey/chocolatey/issues/600)
+ * Restrict all calls to chocolatey.org to HTTPS - [#599](https://github.com/chocolatey/chocolatey/issues/599)
+ * Batch fallback should quote path for spaces - [#558](https://github.com/chocolatey/chocolatey/issues/558)
 
 ##[0.9.8.27](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.27&page=1&state=closed) (July 13, 2014)
 

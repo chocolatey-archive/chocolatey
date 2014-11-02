@@ -42,12 +42,19 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
 ## 0.9.8.28:
-
 ### BUG FIXES:
 
  * Fix - Shim argument parsing needs fixed for quoting - https://github.com/chocolatey/shimgen/issues/1
  * Fix - Forcing x86 does not use 32bit checksum - https://github.com/chocolatey/chocolatey/issues/535
  * Fix - Powershell v2 fails to download SSLv3 files - https://github.com/chocolatey/chocolatey/issues/531
+ * Get-ChocolateyUnzip fails due to Wait-Process exception - https://github.com/chocolatey/chocolatey/issues/571
+
+### IMPROVEMENTS:
+
+ * Use default credentials for internet if available - https://github.com/chocolatey/chocolatey/issues/577
+ * Add moderation message on push - https://github.com/chocolatey/chocolatey/issues/600
+ * Restrict all calls to chocolatey.org to HTTPS - https://github.com/chocolatey/chocolatey/issues/599
+ * Batch fallback should quote path for spaces - https://github.com/chocolatey/chocolatey/issues/558
 
 ## 0.9.8.27:
 ### BUG FIXES:
