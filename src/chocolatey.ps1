@@ -192,6 +192,20 @@ if ($badPackages -ne '') {
  Write-Host "Command `'$command`' failed (sometimes this indicates a partial failure). Additional info/packages: $badpackages" -BackgroundColor $ErrorColor -ForegroundColor White
 }
 
+if ((Get-ConfigValue 'ksMessage') -ne 'false') {
+@"
+
+Did you know we are rewriting Chocolatey? The new
+version is much more stable and secure.
+
+Find out more and support the future of Chocolatey
+at https://bit.ly/chocolateykickstarter
+
+Disable this message by changing ksMessage to false in chocolatey.config.
+"@ | Write-Host  -ForegroundColor $Warning -BackgroundColor Black
+
+}
+
 if ($chocolateyErrored) {
   Write-Debug "Exiting with non-zero exit code."
   exit 1
