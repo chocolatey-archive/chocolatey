@@ -12,6 +12,10 @@ param(
 
   if ($source.StartsWith('http')) {
     $webClient = New-Object System.Net.WebClient
+    $defaultCreds = [System.Net.CredentialCache]::DefaultCredentials
+    if ($defaultCreds -ne $null) {
+      $webClient.Credentials = $defaultCreds
+    }
 
     if (!$source.EndsWith('/')) { $source = $source + '/' }
     $feedUrl = $source + 'Packages/'
