@@ -6,7 +6,7 @@ param(
   Write-Debug "Running 'Chocolatey-Update' for '$packageName' with source:`'$source`'.";
 
   if ($packageName -eq 'all') {
-    Write-Host "Chocolatey is going to determine all packages available for an update. You may not see any output for awhile..."
+    Write-Host "Chocolatey is going to determine all packages available for an update. You may not see any output for a while..."
   }
 
   $updated = $false
