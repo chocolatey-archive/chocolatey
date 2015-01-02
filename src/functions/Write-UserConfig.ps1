@@ -1,5 +1,10 @@
 ﻿function Write-UserConfig ($writeOperation)
 {
+  if ($env:USERPROFILE -eq $null) {
+    Write-Warning "`$env:UserProfile is not set. Unable to write config value."
+    return
+  }
+
   $userConfigFile = Join-Path $env:USERPROFILE chocolatey.config
 
   # check to see if there is a user config file
