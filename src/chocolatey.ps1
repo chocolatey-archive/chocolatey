@@ -122,6 +122,22 @@ The default install location has been changed to '$newChocoPath'.
 "@ | Write-Host  -ForegroundColor $Warning -BackgroundColor Black
 }
 
+$cacheLocation = Get-ConfigValue 'cacheLocation'
+if ($cacheLocation -ne '' -or $env:Temp -eq $null) {
+  if ($cacheLocation -eq '') { $cacheLocation = "$nugetPath\temp"}
+
+  if ($env:Temp -eq $null) {
+    Write-Warning "`$env:Temp was not set, setting to '$cacheLocation'"
+  } else {
+    Write-Debug "Switching `$env:Temp to '$cacheLocation'"
+  }
+  $env:Temp = $cacheLocation
+
+  if (![System.IO.Directory]::Exists($cacheLocation)) {
+    [System.IO.Directory]::CreateDirectory($cacheLocation) | out-null
+  }
+}
+
 # bump installarguments back to quotes
 $installArguments = $installArguments.Replace("'","""")
 $packageParameters = $packageParameters.Replace("'","""")
