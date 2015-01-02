@@ -41,14 +41,16 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
-## 0.9.8.29:
+## 0.9.8.29:
 
 ### FEATURES:
 
  * Use icon of the executable with generated shim - https://github.com/chocolatey/chocolatey/issues/579
+ * Allow setting custom temp download location - https://github.com/chocolatey/chocolatey/issues/307
 
 ### IMPROVEMENTS:
 
+ * Don't assume $env:TEMP or $env:UserProfile are set - https://github.com/chocolatey/chocolatey/issues/647
  * Remove Kickstarter message.
 
 ## 0.9.8.28:
