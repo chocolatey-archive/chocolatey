@@ -3,7 +3,7 @@
   <metadata>
     <id>chocolatey</id>
     <title>Chocolatey</title>
-    <version>0.9.8.28</version>
+    <version>0.9.8.29-alpha1</version>
     <authors>Rob Reynolds, The Chocolatey Team</authors>
     <owners>Rob Reynolds</owners>
     <summary>Chocolatey is your machine level NuGet repository. Think apt-get for Windows (executables/application packages), not library packages.</summary>
@@ -41,7 +41,18 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
-## 0.9.8.28:
+## 0.9.8.29:
+
+### FEATURES:
+
+ * Use icon of the executable with generated shim - https://github.com/chocolatey/chocolatey/issues/579
+
+### IMPROVEMENTS:
+
+ * Remove Kickstarter message.
+
+## 0.9.8.28:
+
 ### BREAKING CHANGES:
 
  * You may need to update your saved API key for chocolatey, due to https://github.com/chocolatey/chocolatey/issues/599 we have switched push to ensure https.
