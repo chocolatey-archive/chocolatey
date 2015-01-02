@@ -1,3 +1,13 @@
+##[0.9.8.29](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.29&page=1&state=closed) (unreleased)
+
+FEATURES:
+
+ * Use icon of the executable with generated shim - [#579](https://github.com/chocolatey/chocolatey/issues/579) & [ShimGen #2](https://github.com/chocolatey/shimgen/issues/2)
+
+IMPROVEMENTS:
+
+ * Remove Kickstarter message.
+
 ##[0.9.8.28](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.28&page=1&state=closed) (November 4, 2014)
 
 BREAKING CHANGES:
