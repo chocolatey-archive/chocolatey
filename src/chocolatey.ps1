@@ -44,7 +44,7 @@ $currentThread.CurrentCulture = $culture;
 $currentThread.CurrentUICulture = $culture;
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.29-alpha1'
+$chocVer = '0.9.8.29-beta1'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -120,6 +120,22 @@ The default install location has been changed to '$newChocoPath'.
   as soon as possible to limit write access from all users. Do not forget
   to update PATH & $chocInstallVariableName environment variables.
 "@ | Write-Host  -ForegroundColor $Warning -BackgroundColor Black
+}
+
+$cacheLocation = Get-ConfigValue 'cacheLocation'
+if ($cacheLocation -ne '' -or $env:Temp -eq $null) {
+  if ($cacheLocation -eq '') { $cacheLocation = "$nugetPath\temp"}
+
+  if ($env:Temp -eq $null) {
+    Write-Warning "`$env:Temp was not set, setting to '$cacheLocation'"
+  } else {
+    Write-Debug "Switching `$env:Temp to '$cacheLocation'"
+  }
+  $env:Temp = $cacheLocation
+
+  if (![System.IO.Directory]::Exists($cacheLocation)) {
+    [System.IO.Directory]::CreateDirectory($cacheLocation) | out-null
+  }
 }
 
 # bump installarguments back to quotes

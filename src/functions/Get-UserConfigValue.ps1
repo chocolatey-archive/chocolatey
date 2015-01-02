@@ -6,18 +6,22 @@ param(
 )
   Write-Debug "Running 'Get-UserConfigValue' with configValue:`'$configValue`'";
 
-    if ($userConfig -eq $null -or $userConfig -eq '') {
-        #$env:USERPROFILE or $env:HOME
-        $userConfigFile = Join-Path $env:USERPROFILE chocolatey.config
-
-        if (-not(Test-Path($userConfigFile))) {
+  if ($userConfig -eq $null -or $userConfig -eq '') {
+    #$env:USERPROFILE or $env:HOME
+    if ($env:USERPROFILE -eq $null) {
+      Write-Warning "`$env:UserProfile is not set. Unable to get config value."
       return $null
-        }
-        $userConfig = [xml] (Get-Content $userConfigFile)
     }
+    $userConfigFile = Join-Path $env:USERPROFILE chocolatey.config
 
-    # append chocolatey
-    $configValue = "chocolatey.$configValue"
+    if (-not(Test-Path($userConfigFile))) {
+      return $null
+    }
+    $userConfig = [xml] (Get-Content $userConfigFile)
+  }
 
-    iex "`$userConfig.$configValue"
+  # append chocolatey
+  $configValue = "chocolatey.$configValue"
+
+  iex "`$userConfig.$configValue"
 }

@@ -3,9 +3,11 @@
 FEATURES:
 
  * Use icon of the executable with generated shim - [#579](https://github.com/chocolatey/chocolatey/issues/579) & [ShimGen #2](https://github.com/chocolatey/shimgen/issues/2)
+ * Allow setting custom temp download location - [#307](https://github.com/chocolatey/chocolatey/issues/307)
 
 IMPROVEMENTS:
 
+ * Don't assume $env:TEMP or $env:UserProfile are set - [#647](https://github.com/chocolatey/chocolatey/issues/647)
  * Remove Kickstarter message.
 
 ##[0.9.8.28](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.28&page=1&state=closed) (November 4, 2014)
