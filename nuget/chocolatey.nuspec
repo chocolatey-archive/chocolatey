@@ -41,6 +41,12 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
+##0.9.8.31
+
+### BUG FIXES:
+
+ * Fix - Shim doesn't always shift off the first argument - https://github.com/chocolatey/chocolatey/issues/655 and https://github.com/chocolatey/shimgen/issues/7
+
 ##0.9.8.30
 
 ### FEATURES:
