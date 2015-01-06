@@ -20,8 +20,13 @@ param(
   if ($command -ne $null -and $command -ne '') {
     $ShimGenArgs +=" -c $command"
   }
+
   if ($useStart) {
     $ShimGenArgs +=" -gui"
+  }
+
+  if ($debug) {
+    $ShimGenArgs +=" -debug"
   }
 
   Write-Debug "Calling $ShimGen $ShimGenArgs"
