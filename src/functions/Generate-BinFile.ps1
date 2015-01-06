@@ -13,14 +13,20 @@ param(
 
   if (Test-Path ($packageBatchFileName)) {Remove-Item $packageBatchFileName -force}
   if (Test-Path ($packageBashFileName)) {Remove-Item $packageBashFileName -force}
+  $originalPath = $path
   $path = $path.ToLower().Replace($nugetPath.ToLower(), "..\").Replace("\\","\")
 
-  $ShimGenArgs = "-o `"$packageShimFileName`" -p `"$path`""
+  $ShimGenArgs = "-o `"$packageShimFileName`" -p `"$path`" -i `"$originalPath`""
   if ($command -ne $null -and $command -ne '') {
     $ShimGenArgs +=" -c $command"
   }
+
   if ($useStart) {
     $ShimGenArgs +=" -gui"
+  }
+
+  if ($debug) {
+    $ShimGenArgs +=" -debug"
   }
 
   Write-Debug "Calling $ShimGen $ShimGenArgs"
