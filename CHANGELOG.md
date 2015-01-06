@@ -1,3 +1,13 @@
+##[0.9.8.30](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.30&page=1&state=closed) (unreleased)
+
+FEATURES:
+
+ * Use icon of the executable with generated shim - [#579](https://github.com/chocolatey/chocolatey/issues/579) & [ShimGen #2](https://github.com/chocolatey/shimgen/issues/2)
+
+BUG FIXES:
+
+ * Fix - Shims don't correctly handle spaces in path to shim - [#654](https://github.com/chocolatey/chocolatey/issues/654) & [ShimGen #5](https://github.com/chocolatey/shimgen/issues/5)
+
 ##[0.9.8.29](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.29&page=1&state=closed) (January 2, 2015)
 
 FEATURES:

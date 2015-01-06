@@ -41,6 +41,16 @@ Humor related to playing off of tiki gods. We like humor. Don't take life so ser
     <releaseNotes>
 See all - https://github.com/chocolatey/chocolatey/blob/master/CHANGELOG.md
 
+##0.9.8.30
+
+### FEATURES:
+
+ * Use icon of the executable with generated shim - https://github.com/chocolatey/chocolatey/issues/579 and https://github.com/chocolatey/shimgen/issues/2
+
+### BUG FIXES:
+
+ * Fix - Shims don't correctly handle spaces in path to shim - https://github.com/chocolatey/chocolatey/issues/654 and https://github.com/chocolatey/shimgen/issues/5
+
 ## 0.9.8.29:
 
 ### FEATURES:
