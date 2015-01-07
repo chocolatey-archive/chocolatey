@@ -1,4 +1,4 @@
-##[0.9.8.31](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.31&page=1&state=closed) (unreleased)
+##[0.9.8.31](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.31&page=1&state=closed) (January 7, 2015)
 
 BUG FIXES:
 
