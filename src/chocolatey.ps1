@@ -166,7 +166,7 @@ if ($forceX86) {
 
 $env:chocolateyPackageParameters = $packageParameters
 
-$chocolateyErrored = $false
+$script:chocolateyErrored = $false
 $badPackages = ''
 
 #todo: This does not catch package names that come later
@@ -193,7 +193,7 @@ foreach ($packageName in $packageNames) {
     }
   }
   catch {
-    $chocolateyErrored = $true
+    $script:chocolateyErrored = $true
     Write-Host "$($_.Exception.Message)" -BackgroundColor $ErrorColor -ForegroundColor White ;
     if ($badPackages -ne '') { $badPackages += ', '}
     $badPackages += "$packageName"
@@ -208,7 +208,7 @@ if ($badPackages -ne '') {
  Write-Host "Command `'$command`' failed (sometimes this indicates a partial failure). Additional info/packages: $badpackages" -BackgroundColor $ErrorColor -ForegroundColor White
 }
 
-if ($chocolateyErrored) {
+if ($script:chocolateyErrored) {
   Write-Debug "Exiting with non-zero exit code."
   exit 1
 }
