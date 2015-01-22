@@ -76,7 +76,7 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
             Write-Host " "
             Write-Host "$installedPackageName v$installedPackageVersion" -ForegroundColor $Note -BackgroundColor Black
 
-            if ([System.IO.Directory]::Exists($packageFolder)) {
+            if (Test-Path $packageFolder) {
               try {
                 Delete-ExistingErrorLog $installedPackageName
                 Run-ChocolateyPS1 $packageFolder $installedPackageName "install" $installerArguments
@@ -90,7 +90,7 @@ Write-Debug "Installing packages to `"$nugetLibPath`"."
                 Write-Error "Package `'$installedPackageName v$installedPackageVersion`' did not install successfully: $($_.Exception.Message)"
                 if ($badPackages -ne '') { $badPackages += ', '}
                 $badPackages += "$packageName"
-                $chocolateyErrored = $true
+                $script:chocolateyErrored = $true
               }
             }
           }
