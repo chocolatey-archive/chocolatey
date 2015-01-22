@@ -28,4 +28,5 @@ param(
 -----------------------"
   $errorMessage | Out-File -FilePath $logFile -Force -Append
   Write-Error $errorMessage
+  $error | %{ $_.Exception | fl * | Out-String }
 }
