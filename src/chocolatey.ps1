@@ -17,6 +17,7 @@
   [alias("x86")][switch] $forceX86 = $false,
   [alias("params")][alias("parameters")][alias("pkgParams")][string]$packageParameters = '',
   [alias("q")][switch] $quiet = $false,
+  [alias("y")][switch] $yes = $false,
   [parameter(Position=1, ValueFromRemainingArguments=$true)]
   [string[]]$packageNames=@('')
 )
@@ -44,7 +45,7 @@ $currentThread.CurrentCulture = $culture;
 $currentThread.CurrentUICulture = $culture;
 
 #Let's get Chocolatey!
-$chocVer = '0.9.8.32'
+$chocVer = '0.9.8.33'
 $nugetChocolateyPath = (Split-Path -parent $MyInvocation.MyCommand.Definition)
 $nugetPath = (Split-Path -Parent $nugetChocolateyPath)
 $nugetExePath = Join-Path $nuGetPath 'bin'
@@ -92,6 +93,24 @@ Chocolatey detected you are not running from an elevated command shell
   elevated shell (and very advanced users as non-admin). When you open
   the command shell, you should ensure "Run as Administrator".
 "@ | Write-Host  -ForegroundColor $Warning -BackgroundColor Black
+}
+
+if (!($yes)) {
+   switch -wildcard ($command) {
+    "search", "list", "version", "pack", "push", "help", "sources" {
+      # nothing to see here, move along now
+    }
+    default {
+@"
+!!ATTENTION!!
+The next version of Chocolatey (v0.9.9) will require -y to perform
+  behaviors that change state without prompting for confirmation. Start
+  using it now in your automated scripts.
+
+  For details on the all new Chocolatey, visit http://bit.ly/new_choco
+"@ | Write-Host -ForegroundColor $ErrorColor -BackgroundColor Black
+    }
+  }
 }
 
 $installModule = Join-Path $nugetChocolateyPath (Join-Path 'helpers' 'chocolateyInstaller.psm1')
