@@ -97,9 +97,13 @@ Chocolatey detected you are not running from an elevated command shell
 
 if (!($yes)) {
    switch -wildcard ($command) {
-    "search", "list", "version", "pack", "push", "help", "sources" {
-      # nothing to see here, move along now
-    }
+    "search"  {}
+    "list"    {}
+    "version" {}
+    "pack"    {}
+    "push"    {}
+    "help"    {}
+    "sources" {}
     default {
 @"
 !!ATTENTION!!
