@@ -6,7 +6,7 @@ FEATURES:
 
 IMPROVEMENTS:
 
- * Accept -y as a parameter, Add warning about -y for 0.9.9.
+ * Accept `-y` as a parameter, Add warning about -y for 0.9.9.
  * Company name misspelled in shims - [#673](https://github.com/chocolatey/chocolatey/issues/673) and [shimgen #9](https://github.com/chocolatey/shimgen/issues/9)
 
 ##[0.9.8.32](https://github.com/chocolatey/chocolatey/issues?labels=v0.9.8.32&page=1&state=closed) (January 22, 2015)
